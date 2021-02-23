@@ -11,7 +11,7 @@
 <script>
 import {webSocketMixin} from '../mixins/webSocket'
 export default {
-  name: 'Home',
+  name: 'ChatRoom',
   data(){
     return {
       inputText: '',
