@@ -9,7 +9,7 @@
 
       <el-row type="flex" justify="center">
     <!-- justify 对齐方式 -->
-          <el-col :xs="{span:23,offset:0}" :sm="{span:16,offset:4}" :md="{span:12,offset:4}" :lg="{span:12,offset:6}">
+          <el-col :xs="{span:22,offset:1}" :sm="{span:16,offset:4}" :md="{span:12,offset:4}" :lg="{span:12,offset:6}">
               <el-card shadow="always" >
                 <h1 style="text-align: center;">欢迎登陆</h1>
                 <el-divider></el-divider>
@@ -40,8 +40,8 @@
                
                   <!-- 按钮 -->
                   <el-form-item>
-                      <el-button type="primary" @click="submitForm('nameValidateForm')">登录</el-button>
-                      <el-button @click="resetForm('nameValidateForm')">重置</el-button>
+                      <el-button type="primary" @click="submitForm(nameValidateForm)">登录</el-button>
+                      <el-button @click="goToRgister()">注册</el-button>
                   </el-form-item>
                 </el-form>
 
@@ -73,7 +73,18 @@ export default {
             password: '',
         },
       }
+  },
+
+  methods:{
+    submitForm: function(data){
+       console.log(data)
+       this.$router.push({name: 'ChatRoom'})
+    },
+
+    goToRgister: function(){
+       this.$router.push({name: 'Register'})
     }
+  }
 }
 </script>
 
@@ -92,7 +103,7 @@ export default {
 
         .el-card{
           border-radius:30px;
-          width: 380px;
+          width: 350px;
         }
         .grid-content {
           border-radius: 4px;
@@ -102,7 +113,7 @@ export default {
           margin-bottom: 20px;
         }
         .el-form-item{
-        width: 300px;  
+        width: 280px;  
         }
 
 </style>
