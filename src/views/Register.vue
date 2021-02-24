@@ -2,6 +2,11 @@
 <div id="login_root">
     <el-row type="flex" justify="center">
       <!-- justify 对齐方式 -->
+      <el-col :xs="{span:10,offset:9}" :sm="{span:10,offset:10}" :md="{span:10,offset:10}" :lg="{span:6,offset:10}">
+        <el-image
+        :src="require('@/assets/images/head_icon.png')"
+        :fit="fit"></el-image>
+      </el-col>
       <el-col :span="6">
         <div class="grid-content"></div>
       </el-col>
