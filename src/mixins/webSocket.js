@@ -24,7 +24,7 @@ export var webSocketMixin = {
                 if( jsonData.text !== 'pong'){
                     self.chatText.push(jsonData)
                 }
-                self.reset() 
+                
             };
                 
             this.ws.onclose = function(){ 
@@ -57,8 +57,14 @@ export var webSocketMixin = {
             if(this.lockReconnect) return;
             this.lockReconnect = true;
             setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
-                self.createWebSocket(self.wsUrl);
-                self.lockReconnect = false;
+                if(self.$route.path.indexOf('chatroom') !== -1){//离开页面后则不再刷新心跳
+                    self.createWebSocket(self.wsUrl);
+                    self.lockReconnect = false;
+                }
+                else{
+                    clearTimeout(self.timeoutObj);
+                    clearTimeout(self.serverTimeoutObj);
+                }
             }, self.wsDelay);
         },
     },
