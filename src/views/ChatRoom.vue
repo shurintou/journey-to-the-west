@@ -1,10 +1,10 @@
 <template>
 <div >
   <el-container :style="{backgroundImage: 'url(' + url + ')'}" style="background-size: 100% 100%">
-    <el-aside width="200px">Aside</el-aside>
+    <el-aside :width="asideWidth" v-if="asideWidth !== '0px'">Aside</el-aside>
     <el-container>
       <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
+      <el-footer :height="footHeight">Footer</el-footer>
     </el-container>
   </el-container>
 </div>
@@ -21,11 +21,22 @@ export default {
   name: 'ChatRoom',
   data(){
     return {
+      asideWidth: '',
+      footHeight: '',
       inputText: '',
       chatText: [],
       fit: 'fill',
       url: require("@/assets/images/chatroom_background.png")
     }
+  },
+
+  mounted:function(){
+    this.resizeLogic()
+    window.addEventListener("resize",this.resizeLogic,false);
+  },
+
+  beforeDestroy:function(){
+    window.removeEventListener("resize",this.resizeLogic)
   },
 
   mixins:[webSocketMixin],
@@ -35,6 +46,32 @@ export default {
       this.ws.send(JSON.stringify({'text': this.inputText}))
       this.inputText = ""
     },
+
+    resizeLogic: function(){
+        var screen_width = document.body.clientWidth
+        if(screen_width < 800){
+          if(screen_width === 796){
+            this.asideWidth = '180px'
+            this.footHeight = '120px'
+          }
+          else{
+            this.asideWidth = '0px'
+            this.footHeight = '180px'
+          }
+        }
+        else if(screen_width < 1024){
+            this.asideWidth = '220px'
+            this.footHeight = '180px'
+        }
+        else if(screen_width < 1280){
+            this.asideWidth = '250px'
+            this.footHeight = '200px'
+        }
+        else{
+            this.asideWidth = '300px'
+            this.footHeight = '220px'
+        }
+    }
   },
   
 }
