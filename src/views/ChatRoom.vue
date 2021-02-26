@@ -2,30 +2,20 @@
   <el-container>
     <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
       <div class="player-list-box">
-        <el-table
-            :data="playerList"
-            style="width: 100%"
-            :row-class-name="tableRowClassName"
-            >
-            <el-table-column
-            prop="avatar"
-            label="头像"
-            min-width="40">
+        <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName">
+            <el-table-column prop="avatar" label="头像" min-width="40">
               <template slot-scope="scope">
                 <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar)"></el-avatar>
               </template>
             </el-table-column>
-            <el-table-column
-              prop="nickname"
-              label="昵称"
-              min-width="40">
+            <el-table-column prop="nickname" label="昵称" min-width="40">
             </el-table-column>
-            <el-table-column
-              prop="status"
-              label="状态"
-              min-width="40">
+            <el-table-column prop="status" label="状态" min-width="40">
+               <template slot-scope="scope">
+                <span>{{ getStatus(scope.row.status) }}</span>
+               </template>
             </el-table-column>
-          </el-table>
+        </el-table>
       </div>
     </el-aside>
     <el-container>
@@ -89,6 +79,18 @@ export default {
 
     getAvatarUrl:function(avatarId){
       return require("@/assets/images/avatar_" + avatarId + "-min.png")
+    },
+
+    getStatus:function(status){
+      if(status === 'playing'){
+        return '游戏中'
+      }
+      else if(status === 'waiting'){
+        return '已进房'
+      }
+      else if(status === 'free'){
+        return '空闲'
+      }
     },
 
     enterSendText: function(e){
