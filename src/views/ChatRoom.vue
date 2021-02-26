@@ -1,6 +1,33 @@
 <template>
   <el-container>
-    <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">Aside</el-aside>
+    <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
+      <div class="player-list-box">
+        <el-table
+            :data="playerList"
+            style="width: 100%"
+            :row-class-name="tableRowClassName"
+            >
+            <el-table-column
+            prop="avatar"
+            label="头像"
+            min-width="40">
+              <template slot-scope="scope">
+                <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar)"></el-avatar>
+              </template>
+            </el-table-column>
+            <el-table-column
+              prop="nickname"
+              label="昵称"
+              min-width="40">
+            </el-table-column>
+            <el-table-column
+              prop="status"
+              label="状态"
+              min-width="40">
+            </el-table-column>
+          </el-table>
+      </div>
+    </el-aside>
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">Header</el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
@@ -34,9 +61,10 @@ export default {
       footHeight: '',
       inputSize: '',
       inputText: '',
+      avatarSize: '',
       chatText: [],
-      fit: 'fill',
       user:{id: 0, name: 'zlt', nickname: 'hyf'},
+      playerList:[{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'asd', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
       mainImg: require("@/assets/images/chatroom_main_image.png"),
       horizontalBackground: require("@/assets/images/horizontal_background.png"),
       verticalBackground: require("@/assets/images/vertical_background.png"),
@@ -55,11 +83,20 @@ export default {
   mixins:[webSocketMixin],
  
   methods:{
+    tableRowClassName: function({row}) {
+      return row.status + '-row'
+    },
+
+    getAvatarUrl:function(avatarId){
+      return require("@/assets/images/avatar_" + avatarId + "-min.png")
+    },
+
     enterSendText: function(e){
       if(e.keyCode === 13 && this.inputText.length>0)this.sendTextToServe()
     },
 
     sendTextToServe: function(){
+      // alert(document.body.clientWidth)
       this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': this.inputText}))
       this.inputText = ""
     },
@@ -71,24 +108,40 @@ export default {
             this.footHeight = '180px'
             this.subAsideWidth = '120px'
             this.inputSize = 'mini'
+            this.avatarSize = 'mini'
         }
         else if(screen_width < 800){
             this.asideWidth = '160px'
             this.footHeight = '120px'
             this.subAsideWidth = '150px'
             this.inputSize = 'mini'
+            this.avatarSize = 'mini'
+
+        }
+        /* iphoneX plus横屏880 */
+        else if(screen_width < 900){
+            this.asideWidth = '160px'
+            this.footHeight = '110px'
+            this.subAsideWidth = '150px'
+            this.inputSize = 'mini'
+            this.avatarSize = 'mini'
+
         }
         else if(screen_width < 1024){
             this.asideWidth = '200px'
             this.footHeight = '180px'
             this.subAsideWidth = '200px'
             this.inputSize = 'small'
+            this.avatarSize = 'small'
+
         }
         else if(screen_width < 1280){
             this.asideWidth = '250px'
             this.footHeight = '200px'
             this.subAsideWidth = '200px'
             this.inputSize = 'medium'
+            this.avatarSize = 'medium'
+
         }
         /* 电脑 */
         else{
@@ -96,6 +149,8 @@ export default {
             this.footHeight = '220px'
             this.subAsideWidth = '200px'
             this.inputSize = 'medium'
+            this.avatarSize = 'medium'
+
         }
     }
   },
@@ -104,7 +159,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
   #input-button {
     background-color: #409eff; 
     color: #fff
@@ -135,10 +190,35 @@ export default {
     height: 100vh;
   }
 
+  .el-avatar {
+    background: none
+  }
+
+  .el-table .waiting-row {
+    background: #f3efcb;
+  }
+
+  .el-table .free-row {
+    background: #d5f8ca;
+  }
+
+  .el-table .playing-row {
+    background: #f0caca;
+  }
+
+  .player-list-box{
+    width: 90%;
+    height: 70%;
+    margin-left: 5%;
+    margin-top: 10%;
+    background-color: #edf0f5;
+    border-radius: 4px;
+  }
+
   .chat-box{
     width: 100%;
     height: 80%;
-    background-color: #fff;
+    background-color: #edf0f5;
     float:left;
     overflow-y: auto;
     border-radius: 4px;
