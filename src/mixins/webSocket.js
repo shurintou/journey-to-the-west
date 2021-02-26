@@ -11,6 +11,7 @@ export var webSocketMixin = {
             serverTimeoutObj: null,
             wsDelay : 2000,
             timeout : 2000,
+            chatTextId : 0,
         }
     },
 
@@ -19,16 +20,17 @@ export var webSocketMixin = {
             var self = this
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
-                self.start() 
+                self.start()
+                self.sendMessageToChatRoom({ 'id' : 'success', name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
             this.ws.onmessage = function (data){ 
                 let jsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if( jsonData.text !== 'pong'){
-                    self.chatText.push(jsonData)
+                    self.sendMessageToChatRoom({ 'id' : 'info', name : jsonData.name, type : 'info', 'text' : jsonData.text})
                 }
-                
+                self.reset()
             };
                 
             this.ws.onclose = function(){ 
@@ -63,16 +65,29 @@ export var webSocketMixin = {
             setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
                 if(self.$route.path.indexOf('chatroom') !== -1 && self.reconnectTimes < 15){//离开页面后则不再刷新心跳
                     self.reconnectTimes = self.reconnectTimes + 1
+                    self.sendMessageToChatRoom({ 'id' : 'warning', name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
                     self.createWebSocket(self.wsUrl);
                     self.lockReconnect = false;
                 }
                 else{
-                    self.$message.error('尝试重连失败，已与服务器断开连接');
+                    self.$message.error('已与游戏大厅断开连接');
+                    self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                 }
             }, self.wsDelay);
         },
+
+
+        sendMessageToChatRoom: function(message){
+            this.chatTextId = this.chatTextId + 1
+            message.id = this.chatTextId
+            this.chatText.push(message);
+            this.$nextTick(function(){
+                var e = this.$refs.chatBox
+                e.scrollTop = e.scrollHeight
+            })
+        }
     },
 
     created: function(){

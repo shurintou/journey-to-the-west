@@ -1,30 +1,26 @@
 <template>
-<div>
-  <el-container :style="{backgroundImage: 'url(' + url + ')'}" style="background-size: 100% 100%">
-    <el-aside :width="asideWidth" v-if="asideWidth !== '0px'">Aside</el-aside>
+  <el-container>
+    <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">Aside</el-aside>
     <el-container>
-      <el-header v-if="asideWidth === '0px'">Header</el-header>
-      <el-main>Main</el-main>
-      <el-footer :height="footHeight" style="padding: 0px;" >
-        <el-container style="height: 100%; background: rgba(243,243,243,0)">
-          <el-main style="overflow-y: hidden">
-            <div style="height:100%; width:100%;">
-              <el-input placeholder="请输入聊天内容" v-model="form.text" :size="inputSize">
-                  <el-button slot="append" icon="el-icon-check" type="primary" style="background-color: #409eff; color: #fff" @click="sendText()" :size="inputSize">发送</el-button>
-              </el-input>
+      <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">Header</el-header>
+      <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
+      <el-footer :height="footHeight">
+        <el-container class="fill-height">
+          <el-main class="hide-scroll-bar" :style="{backgroundImage: 'url(' + horizontalBackground + ')'}">
+            <div class="chat-box" ref="chatBox">
+              <el-alert class="chat-text" v-for="item in chatText" :key="item.id" :title="item.name + '：' + item.text" :type="item.type" :closable="false" show-icon></el-alert>
             </div>
+            <el-input class="fill-width input-box" placeholder="请输入聊天内容" v-model="inputText" @keypress.native="enterSendText($event)" :size="inputSize">
+              <el-button id="input-button" slot="append" icon="el-icon-check" type="primary" @click="sendTextToServe()" :size="inputSize">发送</el-button>
+            </el-input>
           </el-main>
-          <el-aside :width="subAsideWidth" style="background: rgba(243,243,243,0); overflow-y: hidden">subAside</el-aside>
+          <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
+            subAside
+          </el-aside>
         </el-container>
       </el-footer>
     </el-container>
   </el-container>
-</div>
-    <!-- <div>
-      <p v-for="item in chatText" :key="item.id">{{item.text}}</p>
-    </div>
-    <input type="text" v-model="inputText" placeholder="请输入聊天信息">
-    <button type="button" v-on:click="sendText()">发送</button> -->
 </template>
 
 <script>
@@ -40,8 +36,10 @@ export default {
       inputText: '',
       chatText: [],
       fit: 'fill',
-      form:{name: '', text: '',},
-      url: require("@/assets/images/chatroom_background.png")
+      user:{id: 0, name: 'zlt', nickname: 'hyf'},
+      mainImg: require("@/assets/images/chatroom_main_image.png"),
+      horizontalBackground: require("@/assets/images/horizontal_background.png"),
+      verticalBackground: require("@/assets/images/vertical_background.png"),
     }
   },
 
@@ -57,29 +55,31 @@ export default {
   mixins:[webSocketMixin],
  
   methods:{
-    sendText: function(){
-      this.ws.send(JSON.stringify({'text': this.inputText}))
+    enterSendText: function(e){
+      if(e.keyCode === 13 && this.inputText.length>0)this.sendTextToServe()
+    },
+
+    sendTextToServe: function(){
+      this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': this.inputText}))
       this.inputText = ""
     },
 
     resizeLogic: function(){
         var screen_width = document.body.clientWidth
-        if(screen_width < 800){
-          if(screen_width === 796){
-            this.asideWidth = '180px'
-            this.footHeight = '120px'
-            this.subAsideWidth = '150px'
-            this.inputSize = 'mini'
-          }
-          else{
+        if(screen_width < 400){
             this.asideWidth = '0px'
             this.footHeight = '180px'
             this.subAsideWidth = '120px'
             this.inputSize = 'mini'
-          }
+        }
+        else if(screen_width < 800){
+            this.asideWidth = '160px'
+            this.footHeight = '120px'
+            this.subAsideWidth = '150px'
+            this.inputSize = 'mini'
         }
         else if(screen_width < 1024){
-            this.asideWidth = '220px'
+            this.asideWidth = '200px'
             this.footHeight = '180px'
             this.subAsideWidth = '200px'
             this.inputSize = 'small'
@@ -105,47 +105,63 @@ export default {
 
 
 <style scoped>
+  #input-button {
+    background-color: #409eff; 
+    color: #fff
+  }
+
   .el-header, .el-footer {
-    /* background-color: #B3C0D1; */
+    background-color: #B3C0D1;
     color: #333;
-    text-align: center;
-    line-height: 60px;
-    /* opacity: 0.9; */
-    /* background: rgba(243,243,243,0.8) */
+    background-size: 100% 100%;
+    padding: 0px; 
   }
   
   .el-aside {
-    /* background-color: #D3DCE6; */
+    background-color: #D3DCE6;
     color: #333;
-    text-align: center;
-    line-height: 200px;
-    /* opacity: 0.9; */
-    background: rgba(243,243,243,0.5)
+    background-size: 100% 100%;
   }
   
   .el-main {
-    /* background-color: #E9EEF3; */
+    background-color: #D3DCE6;
     color: #333;
-    text-align: center;
-    line-height: 160px;
-    /* opacity: 0.9; */
-    /* background: rgba(243,243,243,0.8) */
+    background-size: 100% 100%;
   }
   
   .el-container {
     padding: 0px;
     margin: 0px;
     height: 100vh;
-    /* opacity: 0.9; */
-    background: rgba(243,243,243,0.5)
   }
-  
-  .el-container:nth-child(5) .el-aside,
-  .el-container:nth-child(6) .el-aside {
-    line-height: 260px;
+
+  .chat-box{
+    width: 100%;
+    height: 80%;
+    background-color: #fff;
+    float:left;
+    overflow-y: auto;
+    border-radius: 4px;
   }
-  
-  .el-container:nth-child(7) .el-aside {
-    line-height: 320px;
+
+  .chat-text{
+    margin: 0;
+    padding: 0px;
+  }
+
+  .input-box{
+    float: left;
+  }
+
+  .hide-scroll-bar {
+    overflow-y: hidden;
+  }
+
+  .fill-width {
+    width: 100%;
+  }
+
+  .fill-height {
+    height: 100%;
   }
 </style>
