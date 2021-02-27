@@ -1,4 +1,4 @@
-export var webSocketMixin = {
+export var chatRoomWebSocket = {
     data: function(){
         return {
             wsUrl : 'ws://192.168.11.11:8081',

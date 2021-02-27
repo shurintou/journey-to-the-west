@@ -2,20 +2,7 @@
   <el-container>
     <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
       <div class="player-list-box">
-        <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName">
-            <el-table-column prop="avatar" label="头像" min-width="40">
-              <template slot-scope="scope">
-                <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar)"></el-avatar>
-              </template>
-            </el-table-column>
-            <el-table-column prop="nickname" label="昵称" min-width="40">
-            </el-table-column>
-            <el-table-column prop="status" label="状态" min-width="40">
-               <template slot-scope="scope">
-                <span>{{ getStatus(scope.row.status) }}</span>
-               </template>
-            </el-table-column>
-        </el-table>
+        <PlayerListModule :playerList = "playerList"></PlayerListModule>
       </div>
     </el-aside>
     <el-container>
@@ -41,58 +28,23 @@
 </template>
 
 <script>
-import {webSocketMixin} from '../mixins/webSocket'
+import { chatRoomWebSocket } from '../mixins/chatRoomWebSocket'
+import { chatRoomResize } from '../mixins/chatRoomResize'
+import PlayerListModule from '../components/ChatRoomPlayerListModule'
+
 export default {
   name: 'ChatRoom',
   data(){
     return {
-      asideWidth: '',
-      subAsideWidth: '',
-      footHeight: '',
-      inputSize: '',
-      inputText: '',
-      avatarSize: '',
       chatText: [],
       user:{id: 0, name: 'zlt', nickname: 'hyf'},
       playerList:[{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'asd', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
-      mainImg: require("@/assets/images/chatroom_main_image.png"),
-      horizontalBackground: require("@/assets/images/horizontal_background.png"),
-      verticalBackground: require("@/assets/images/vertical_background.png"),
     }
   },
 
-  mounted:function(){
-    this.resizeLogic()
-    window.addEventListener("resize",this.resizeLogic,false);
-  },
-
-  beforeDestroy:function(){
-    window.removeEventListener("resize",this.resizeLogic)
-  },
-
-  mixins:[webSocketMixin],
+  mixins:[chatRoomWebSocket, chatRoomResize],
  
   methods:{
-    tableRowClassName: function({row}) {
-      return row.status + '-row'
-    },
-
-    getAvatarUrl:function(avatarId){
-      return require("@/assets/images/avatar_" + avatarId + "-min.png")
-    },
-
-    getStatus:function(status){
-      if(status === 'playing'){
-        return '游戏中'
-      }
-      else if(status === 'waiting'){
-        return '已进房'
-      }
-      else if(status === 'free'){
-        return '空闲'
-      }
-    },
-
     enterSendText: function(e){
       if(e.keyCode === 13 && this.inputText.length>0)this.sendTextToServe()
     },
@@ -102,61 +54,11 @@ export default {
       this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': this.inputText}))
       this.inputText = ""
     },
-
-    resizeLogic: function(){
-        var screen_width = document.body.clientWidth
-        if(screen_width < 400){
-            this.asideWidth = '0px'
-            this.footHeight = '180px'
-            this.subAsideWidth = '120px'
-            this.inputSize = 'mini'
-            this.avatarSize = 'mini'
-        }
-        else if(screen_width < 800){
-            this.asideWidth = '160px'
-            this.footHeight = '120px'
-            this.subAsideWidth = '150px'
-            this.inputSize = 'mini'
-            this.avatarSize = 'mini'
-
-        }
-        /* iphoneX plus横屏880 */
-        else if(screen_width < 900){
-            this.asideWidth = '160px'
-            this.footHeight = '110px'
-            this.subAsideWidth = '150px'
-            this.inputSize = 'mini'
-            this.avatarSize = 'mini'
-
-        }
-        else if(screen_width < 1024){
-            this.asideWidth = '200px'
-            this.footHeight = '180px'
-            this.subAsideWidth = '200px'
-            this.inputSize = 'small'
-            this.avatarSize = 'small'
-
-        }
-        else if(screen_width < 1280){
-            this.asideWidth = '250px'
-            this.footHeight = '200px'
-            this.subAsideWidth = '200px'
-            this.inputSize = 'medium'
-            this.avatarSize = 'medium'
-
-        }
-        /* 电脑 */
-        else{
-            this.asideWidth = '300px'
-            this.footHeight = '220px'
-            this.subAsideWidth = '200px'
-            this.inputSize = 'medium'
-            this.avatarSize = 'medium'
-
-        }
-    }
   },
-  
+
+  components:{
+    PlayerListModule
+  },
 }
 </script>
 
@@ -194,18 +96,6 @@ export default {
 
   .el-avatar {
     background: none
-  }
-
-  .el-table .waiting-row {
-    background: #f3efcb;
-  }
-
-  .el-table .free-row {
-    background: #d5f8ca;
-  }
-
-  .el-table .playing-row {
-    background: #f0caca;
   }
 
   .player-list-box{
