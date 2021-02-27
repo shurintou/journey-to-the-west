@@ -90,8 +90,10 @@ export var chatRoomResize = {
     },
 
     mounted:function(){
-        this.resizeLogic()
         window.addEventListener("resize",this.resizeLogic,false);
+        this.$nextTick(function(){
+            this.resizeLogic()
+        })
     },
 
     beforeDestroy:function(){

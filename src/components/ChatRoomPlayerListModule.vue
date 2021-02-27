@@ -8,14 +8,13 @@
         <el-table-column prop="nickname" label="玩家" min-width="80">
             <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top" popper-class="chat-popover" :width="popupWidth">
-                    <p>玩家信息</p>
-                    <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar)" :fit="'fill'"></el-image>
-                    <p>昵称: {{ scope.row.nickname }}</p>
-                    <p>状态: 
-                       <el-tag :type="getType(scope.row.status)" effect="dark" :style="rowStyle" :size="tagSize">
+                    <p>玩家信息
+                        <el-tag :type="getType(scope.row.status)" effect="dark" :style="rowStyle" size="small" style="float:right">
                             {{ getStatus(scope.row.status) }}
                         </el-tag>
                     </p>
+                    <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar)" :fit="'fill'"></el-image>
+                    <p>昵称: {{ scope.row.nickname }}</p>
                     <p>胜局数: {{ scope.row.wins }}</p>
                     <!-- 其他数据之后再加 -->
                     <div slot="reference" class="name-wrapper">
@@ -104,7 +103,7 @@ export default {
         background-size: 100% 100%;
         background-image: url('../assets/images/popupBackground.png');
         color: #D3DCE6;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
 
     }
