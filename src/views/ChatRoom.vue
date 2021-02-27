@@ -2,7 +2,7 @@
   <el-container>
     <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
       <div class="player-list-box">
-        <PlayerListModule :playerList = "playerList"></PlayerListModule>
+        <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
       </div>
     </el-aside>
     <el-container>
@@ -38,7 +38,7 @@ export default {
     return {
       chatText: [],
       user:{id: 0, name: 'zlt', nickname: 'hyf'},
-      playerList:[{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'asd', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
+      playerList:[{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'啊啊啊啊啊', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
     }
   },
 
