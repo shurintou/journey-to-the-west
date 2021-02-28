@@ -1,16 +1,10 @@
 <template>
 <div id="login_root">
   <el-row type="flex" justify="center">
-      <el-col :xs="{span:10,offset:9}" :sm="{span:10,offset:10}" :md="{span:10,offset:10}" :lg="{span:6,offset:10}">
         <el-image :src="require('@/assets/images/head_icon.png')" :fit="fit"></el-image>
-    </el-col>
-    <el-col :span="6">
-      <div class="grid-content"></div>
-    </el-col>
   </el-row>
 
   <el-row type="flex" justify="center">
-        <el-col :xs="{span:22,offset:1}" :sm="{span:16,offset:4}" :md="{span:12,offset:4}" :lg="{span:12,offset:6}">
             <el-card shadow="always" >
               <h1 style="text-align: center;">欢迎登陆</h1>
               <el-divider></el-divider>
@@ -26,16 +20,19 @@
                 <el-button type="primary" @click="submitForm(nameValidateForm)" class="two-button-margin">登录</el-button>
                 <el-button @click="goToRgister()">注册</el-button>
               </el-form>
-
             </el-card>
-        </el-col>
   </el-row>
 
   <el-row type="flex" justify="center">
-    <el-col :xs="{span:23,offset:0}" :sm="{span:16,offset:0}" :md="{span:12,offset:1}" :lg="{span:12,offset:0}">
         <el-image :src="require('@/assets/images/master_and_disciples.gif')" :fit="fit"></el-image>
-    </el-col>
   </el-row>
+
+  <el-row type="flex" justify="center">
+      <el-link type="info">关于本站</el-link>
+      <el-link type="info">用户须知</el-link>
+      <el-link type="info">联系作者</el-link>
+  </el-row>
+
 </div>
 </template>
 
@@ -94,6 +91,10 @@ export default {
 
         .el-form-item{
           width: 280px;  
+        }
+
+        .el-link{
+          margin-right: 2%;
         }
 
         .two-button-margin{
