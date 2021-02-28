@@ -15,6 +15,13 @@ export var chatRoomWebSocket = {
         }
     },
 
+    computed:{
+        /* 判断是否离开了游戏大厅 */
+       isLeave: function(){
+         return this.$route.path.indexOf('chatroom') === -1
+       },
+    },
+
     methods:{
         createWebSocket:function(url){
             var self = this
@@ -33,11 +40,13 @@ export var chatRoomWebSocket = {
                 self.reset()
             };
                 
-            this.ws.onclose = function(){ 
+            this.ws.onclose = function(){
+                if(self.isLeave === false) 
                 self.reconnect(self.wsUrl);
             };
 
             this.ws.onerror = function(){
+                if(self.isLeave === false) 
                 self.reconnect(self.wsUrl);
             };
         },
@@ -63,15 +72,21 @@ export var chatRoomWebSocket = {
             if(this.lockReconnect) return;
             this.lockReconnect = true;
             setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
-                if(self.$route.path.indexOf('chatroom') !== -1 && self.reconnectTimes < 15){//离开页面后则不再刷新心跳
-                    self.reconnectTimes = self.reconnectTimes + 1
-                    self.sendMessageToChatRoom({ 'id' : 'warning', name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
-                    self.createWebSocket(self.wsUrl);
-                    self.lockReconnect = false;
+                if(self.isLeave === false){
+                    if(self.reconnectTimes < 15){//离开页面后则不再刷新心跳
+                        self.reconnectTimes = self.reconnectTimes + 1
+                        self.sendMessageToChatRoom({ 'id' : 'warning', name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
+                        self.createWebSocket(self.wsUrl);
+                        self.lockReconnect = false;
+                    }
+                    else{
+                        self.$message.error('已与游戏大厅断开连接');
+                        self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
+                        clearTimeout(self.timeoutObj);
+                        clearTimeout(self.serverTimeoutObj);
+                    }
                 }
                 else{
-                    self.$message.error('已与游戏大厅断开连接');
-                    self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                 }
@@ -80,13 +95,15 @@ export var chatRoomWebSocket = {
 
 
         sendMessageToChatRoom: function(message){
-            this.chatTextId = this.chatTextId + 1
-            message.id = this.chatTextId
-            this.chatText.push(message);
-            this.$nextTick(function(){
-                var e = this.$refs.chatBox
-                e.scrollTop = e.scrollHeight
-            })
+            if(this.isLeave === false){
+                this.chatTextId = this.chatTextId + 1
+                message.id = this.chatTextId
+                this.chatText.push(message);
+                this.$nextTick(function(){
+                    var e = this.$refs.chatBox
+                    e.scrollTop = e.scrollHeight
+                })
+            }
         }
     },
 

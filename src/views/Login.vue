@@ -44,10 +44,8 @@
 
                
                   <!-- 按钮 -->
-                  <el-form-item>
-                      <el-button type="primary" @click="submitForm(nameValidateForm)">登录</el-button>
-                      <el-button @click="goToRgister()">注册</el-button>
-                  </el-form-item>
+                  <el-button type="primary" @click="submitForm(nameValidateForm)" class="two-button-margin">登录</el-button>
+                  <el-button @click="goToRgister()">注册</el-button>
                 </el-form>
 
               </el-card>
@@ -95,30 +93,38 @@ export default {
 
 <style scoped>
         .el-container{
-            padding: 0px;
-            margin: 0px;
-            height: 100vh;
+          padding: 0px;
+          margin: 0px;
+          height: 100vh;
         }
 
         .el-main {
-            color: #333;
-            text-align: center;
-            line-height: 160px;
+          color: #333;
+          text-align: center;
+          line-height: 160px;
         }
 
         .el-card{
           border-radius:30px;
           width: 350px;
         }
+        
         .grid-content {
           border-radius: 4px;
           min-height: 80px;
         }
+
         .el-row {
           margin-bottom: 20px;
         }
+
         .el-form-item{
-        width: 280px;  
+          width: 280px;  
+        }
+
+        .two-button-margin{
+          margin-left: 20%;
+          margin-right: 10%;
         }
 
 </style>

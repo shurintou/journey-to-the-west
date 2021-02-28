@@ -43,13 +43,10 @@
                   >
                       <el-input placeholder="请输入邀请码" type="text" v-model="ruleForm.inviteCode" autocomplete="off"></el-input>
                   </el-form-item>
-
                
                   <!-- 按钮 -->
-                  <el-form-item>
-                      <el-button type="primary" @click="submitForm(ruleForm)">注册</el-button>
-                      <el-button @click="cancelDialogVisible = true">取消</el-button>
-                  </el-form-item>
+                  <el-button type="primary" @click.stop.prevent="submitForm(ruleForm)" class="two-button-margin">注册</el-button>
+                  <el-button @click="cancelDialogVisible = true">取消</el-button>
                 </el-form>
 
               </el-card>
@@ -73,7 +70,7 @@
         <i class="el-icon-question"></i>
         <span style="text-align:center">确定放弃本次注册？</span>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="cancelDialogVisible = false">取 消</el-button>
+            <el-button @click="cancelDialogVisible = false" style="margin-right:10%">取 消</el-button>
             <el-button type="primary" @click="cancelRegister()">确 定</el-button>
         </span>
     </el-dialog>   
@@ -187,16 +184,24 @@ export default {
           border-radius:30px;
           width: 350px;
         }
+
         .grid-content {
           border-radius: 4px;
           min-height: 80px;
         }
+
         .el-row {
           margin-bottom: 20px;
           overflow-x: hidden;
         }
+
         .el-form-item{
-        width: 280px;  
+          width: 280px;  
+        }
+
+        .two-button-margin{
+          margin-left: 20%;
+          margin-right: 10%;
         }
 
 </style>
