@@ -7,7 +7,7 @@
         </el-table-column>
         <el-table-column prop="nickname" label="玩家" min-width="80">
             <template slot-scope="scope">
-                <el-popover trigger="hover" placement="top" popper-class="chat-popover" :width="popupWidth">
+                <el-popover trigger="hover" placement="right" popper-class="chat-popover" :width="popupWidth">
                     <p>玩家信息
                         <el-tag :type="getType(scope.row.status)" effect="dark" :style="rowStyle" size="small" style="float:right">
                             {{ getStatus(scope.row.status) }}

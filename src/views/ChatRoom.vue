@@ -6,12 +6,19 @@
         <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
       </div>
       <div class="button-box">
-        <el-button type="success" class="chat-room-button" icon="el-icon-circle-plus" :style="{'font-size': buttonFontSize}" :size="buttonSize">创建房间</el-button>
-        <el-button type="danger" class="chat-room-button" icon="el-icon-d-arrow-left" :style="{'font-size': buttonFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
+        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': buttonFontSize}" :size="buttonSize">创建房间</el-button>
+        <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': buttonFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
       </div>
     </el-aside>
     <el-container>
-      <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">Header</el-header>
+      <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
+        <el-popover placement="bottom" :width="popupWidth" trigger="click">
+          <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
+          <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
+        </el-popover>
+        <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
+        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>创建房间</el-button>
+      </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
@@ -38,8 +45,8 @@
         <i class="el-icon-question"></i>
         <span style="text-align:center">确定要登出并离开游戏大厅吗？</span>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="cancelLeaveDialogVisible = false" style="margin-right:10%">取 消</el-button>
-            <el-button type="primary" @click="logOut()">确 定</el-button>
+            <el-button @click="cancelLeaveDialogVisible = false" style="margin-right:10%">取消</el-button>
+            <el-button type="primary" @click="logOut()">确定</el-button>
         </span>
     </el-dialog>   
 </div>
@@ -144,10 +151,29 @@ export default {
     border-radius: 4px;
   }
 
-  .chat-room-button{
+  .chat-room-aside-button{
      width: 100%;
      height: 40%;
      margin-bottom: 5%;
+  }
+
+  .chat-room-header-button{
+     float: right;
+     width: 20%;
+     margin-top: 2%;
+     height: 80%;
+  }
+
+  .chat-room-header-button:first-of-type{
+     margin-right: 5%;
+  }
+
+  .chat-room-header-button-player-list{
+     float: left;
+     width: 20%;
+     margin-top: 2%;
+     margin-left: 5%;
+     height: 80%;
   }
 
   .chat-box{
