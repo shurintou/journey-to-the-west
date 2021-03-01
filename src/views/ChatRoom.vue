@@ -30,9 +30,7 @@
               <el-button id="input-button" slot="append" icon="el-icon-check" type="primary" @click="sendTextToServe()" :size="buttonSize">发送</el-button>
             </el-input>
           </el-main>
-          <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
-            subAside
-          </el-aside>
+            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground"></PlayerInfoModule>
         </el-container>
       </el-footer>
     </el-container>
@@ -52,6 +50,7 @@
 import { chatRoomWebSocket } from '../mixins/chatRoomWebSocket'
 import { chatRoomResize } from '../mixins/chatRoomResize'
 import PlayerListModule from '../components/PlayerListModule'
+import PlayerInfoModule from '../components/PlayerInfoModule'
 
 export default {
   name: 'ChatRoom',
@@ -88,7 +87,8 @@ export default {
   },
 
   components:{
-    PlayerListModule
+    PlayerListModule,
+    PlayerInfoModule,
   },
 }
 </script>
