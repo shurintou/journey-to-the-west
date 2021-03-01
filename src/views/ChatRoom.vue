@@ -40,11 +40,11 @@
 </template>
 
 <script>
-import { chatRoomWebSocket } from '../mixins/chatRoomWebSocket'
-import { chatRoomResize } from '../mixins/chatRoomResize'
-import PlayerListModule from '../components/PlayerListModule'
-import PlayerInfoModule from '../components/PlayerInfoModule'
-import ChatModule from '../components/ChatModule'
+import { chatRoomWebSocket } from '../mixins/chatRoom/chatRoomWebSocket'
+import { chatRoomResize } from '../mixins/chatRoom/chatRoomResize'
+import PlayerListModule from '../components/chatRoom/PlayerListModule'
+import PlayerInfoModule from '../components/chatRoom/PlayerInfoModule'
+import ChatModule from '../components/chatRoom/ChatModule'
 
 export default {
   name: 'ChatRoom',
@@ -52,8 +52,8 @@ export default {
     return {
       chatText: [],
       cancelLeaveDialogVisible: false,
-      user:{id: 0, name: 'zlt', nickname: 'hyf'},
-      playerList:[{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'啊啊啊啊啊', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
+      user: {id: 0, name: 'zlt', nickname: 'hyf'},
+      playerList: [{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'啊啊啊啊啊', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
     }
   },
 
