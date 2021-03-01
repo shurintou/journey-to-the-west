@@ -8,16 +8,35 @@
       <el-card shadow="always" >
         <h1 style="text-align: center;">欢迎登陆</h1>
         <el-divider></el-divider>
-        <el-form  :model="nameValidateForm" ref="nameValidateForm" label-width="100px">
+        <el-form  :model="validateForm" label-width="100px">
           <el-form-item label="用户名" prop="name" :rules="[{ required: true, message: '用户名不能为空'},]">
-              <el-input placeholder="请输入用户名" type="text" v-model="nameValidateForm.name" autocomplete="off"></el-input>
+              <el-input placeholder="请输入用户名" type="text" v-model="validateForm.name" autocomplete="off"></el-input>
           </el-form-item>
 
           <el-form-item label="密码" prop="password" :rules="[{ required: true, message: '密码不能为空'},]">
-              <el-input placeholder="请输入密码" v-model="nameValidateForm.password" show-password></el-input>
+              <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
+          </el-form-item>
+
+           <el-form-item class="shortMargin" label="验证码" prop="vertificationCode" :rules="[{required: true, trigger: 'blur', validator: vertificationCode}]">
+               <el-input v-model="validateForm.vertificationCode" type="text" placeholder="请输入验证码" autocomplete="off"></el-input>
+           </el-form-item>
+
+           <el-form-item class="shortMargin">
+              <el-collapse-transition>
+                <div v-show="vertificationCodeCorrect">
+                  <el-alert class="transition-box" title="验证成功" type="success" center show-icon :closable="false"></el-alert>
+                </div>
+              </el-collapse-transition>
+           </el-form-item>
+
+          <el-form-item class="shortMargin">
+            <div class="shortHeight">
+              <VerificationCodeModule :identifyCode="identifyCode"></VerificationCodeModule>
+              <el-button @click="refreshCode" type='text'>看不清，换一张</el-button>
+            </div>
           </el-form-item>
         
-          <el-button type="primary" @click="submitForm(nameValidateForm)" class="two-button-margin">登录</el-button>
+          <el-button type="primary" @click="submitForm(validateForm)" class="two-button-margin">登录</el-button>
           <el-button @click="goToRgister()">注册</el-button>
         </el-form>
       </el-card>
@@ -49,7 +68,7 @@
 
   <el-row type="flex" justify="center">
       <el-dialog title="联系作者" :visible.sync="mailDialogVisible" center width="50%">
-          <span>请发送邮箱至</span><i class="el-icon-s-promotion"></i>
+          <span>请发送邮件至</span><i class="el-icon-s-promotion"></i>
           <el-link type="info" href="mailto:shurintou@gmail.com?subject = Hello">shurintou@gmail.com</el-link>
       </el-dialog>
   </el-row>
@@ -58,14 +77,18 @@
 </template>
 
 <script>
+import VerificationCodeModule from '../components/VerificationCode'
+import { verificationLogic } from '../mixins/verificationLogic'
+
 export default {
   name: 'Login',
   data() {
       return {
         fit: 'fill',
-        nameValidateForm: {
+        validateForm: {
             name: '',
             password: '',
+            vertificationCode: ''
         },
         qrDialogVisible: false,
         mailDialogVisible: false,
@@ -97,7 +120,13 @@ export default {
         this.qrCodeUrl = require('@/assets/images/line-qr-code-min.png')
       }
     }
-  }
+  },
+
+  components:{
+      VerificationCodeModule
+  },
+
+  mixins:[ verificationLogic ]
 }
 </script>
 
@@ -161,4 +190,11 @@ export default {
           margin-left: 30%;
         }
 
+        .shortMargin{
+          margin-bottom: 6px;
+        }
+
+        .shortHeight{
+          line-height : 0px
+        }
 </style>
