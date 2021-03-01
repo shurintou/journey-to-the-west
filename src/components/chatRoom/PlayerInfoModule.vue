@@ -25,7 +25,7 @@ export default {
     border-radius: 50%;
     background-color: #F4EEE0;
     background-size: 100% 100%;
-    background-image: url('../assets/images/icon-background-min.png');
+    background-image: url('../../assets/images/icon-background-min.png');
   }
 
   .aside-icon{
