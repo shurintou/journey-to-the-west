@@ -13,10 +13,6 @@ export default {
         subAsideWidth: {type: String, default: ''},
         verticalBackground: {type: String, default: ''},
     },
-
-    mounted: function(){
-        console.log(this.ws)
-    }
 }
 </script>
 

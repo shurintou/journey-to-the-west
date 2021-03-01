@@ -100,11 +100,15 @@ export var chatRoomWebSocket = {
                 message.id = this.chatTextId
                 this.chatText.push(message);
                 this.$nextTick(function(){
-                    var e = this.$refs.chatBox
-                    e.scrollTop = e.scrollHeight
+                    /* 通过ref层层深入访问到子组件的聊天框，调节其滚动条高度 */
+                    this.$refs.chatModule.modifyScrollHeight()
                 })
             }
-        }
+        },
+
+        sendTextToServe: function(text){
+            this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': text}))
+        },
     },
 
     created: function(){

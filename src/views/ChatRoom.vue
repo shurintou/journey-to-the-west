@@ -22,14 +22,7 @@
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
-          <el-main class="hide-scroll-bar" :style="{backgroundImage: 'url(' + horizontalBackground + ')'}">
-            <div class="chat-box" ref="chatBox">
-              <el-alert class="chat-text" v-for="item in chatText" :key="item.id" :title="item.name + '：' + item.text" :type="item.type" :closable="false" show-icon></el-alert>
-            </div>
-            <el-input class="fill-width input-box" placeholder="请输入聊天内容" v-model="inputText" @keypress.native="enterSendText($event)" :size="buttonSize">
-              <el-button id="input-button" slot="append" icon="el-icon-check" type="primary" @click="sendTextToServe()" :size="buttonSize">发送</el-button>
-            </el-input>
-          </el-main>
+            <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" @getSentText="sendTextToServe" ref="chatModule"></ChatModule>
             <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground"></PlayerInfoModule>
         </el-container>
       </el-footer>
@@ -51,6 +44,7 @@ import { chatRoomWebSocket } from '../mixins/chatRoomWebSocket'
 import { chatRoomResize } from '../mixins/chatRoomResize'
 import PlayerListModule from '../components/PlayerListModule'
 import PlayerInfoModule from '../components/PlayerInfoModule'
+import ChatModule from '../components/ChatModule'
 
 export default {
   name: 'ChatRoom',
@@ -66,16 +60,6 @@ export default {
   mixins:[chatRoomWebSocket, chatRoomResize],
  
   methods:{
-    enterSendText: function(e){
-      if(e.keyCode === 13 && this.inputText.length>0)this.sendTextToServe()
-    },
-
-    sendTextToServe: function(){
-      // alert(document.body.clientWidth)
-      this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': this.inputText}))
-      this.inputText = ""
-    },
-
     logOut: function(){
       this.$message({
         message: '已登出，回到登录页面',
@@ -89,6 +73,7 @@ export default {
   components:{
     PlayerListModule,
     PlayerInfoModule,
+    ChatModule,
   },
 }
 </script>

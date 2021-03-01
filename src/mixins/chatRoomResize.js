@@ -5,7 +5,6 @@ export var chatRoomResize = {
             subAsideWidth: '',
             footHeight: '',
             buttonSize: '',
-            inputText: '',
             avatarSize: 0,
             fontSize: '',
             tagSize: '',
