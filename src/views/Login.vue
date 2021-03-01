@@ -70,6 +70,7 @@
       <el-dialog title="联系作者" :visible.sync="mailDialogVisible" center width="50%">
           <span>请发送邮件至</span><i class="el-icon-s-promotion"></i>
           <el-link type="info" href="mailto:shurintou@gmail.com?subject = Hello">shurintou@gmail.com</el-link>
+          <el-image :src="require('@/assets/images/mail-background.png')" :fit="fit"></el-image>
       </el-dialog>
   </el-row>
 
@@ -112,7 +113,6 @@ export default {
 
     openDialog: function(which){
       this.qrDialogVisible = true
-      // this.qrCodeUrl = "require('@/assets/images/" + which + "-qr-code-min.png')"
       if(which === 'wechat'){
         this.qrCodeUrl = require('@/assets/images/wechat-qr-code-min.png')
       }
@@ -191,7 +191,7 @@ export default {
         }
 
         .shortMargin{
-          margin-bottom: 6px;
+          margin-bottom: 9px;
         }
 
         .shortHeight{

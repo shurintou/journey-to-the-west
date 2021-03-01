@@ -23,6 +23,25 @@
                 <el-form-item label="邀请码" prop="inviteCode" :rules="[{ required: true, message: '邀请码不能为空'},]">
                     <el-input placeholder="请输入邀请码" type="text" v-model="ruleForm.inviteCode" autocomplete="off"></el-input>
                 </el-form-item>
+
+                 <el-form-item class="shortMargin" label="验证码" prop="vertificationCode" :rules="[{required: true, trigger: 'blur', validator: vertificationCode}]">
+                  <el-input v-model="ruleForm.vertificationCode" type="text" placeholder="请输入验证码" autocomplete="off"></el-input>
+                 </el-form-item>
+
+                  <el-form-item class="shortMargin">
+                      <el-collapse-transition>
+                        <div v-show="vertificationCodeCorrect">
+                          <el-alert class="transition-box" title="验证成功" type="success" center show-icon :closable="false"></el-alert>
+                        </div>
+                      </el-collapse-transition>
+                  </el-form-item>
+
+                  <el-form-item class="shortMargin">
+                    <div class="shortHeight">
+                      <VerificationCodeModule :identifyCode="identifyCode"></VerificationCodeModule>
+                      <el-button @click="refreshCode" type='text'>看不清，换一张</el-button>
+                    </div>
+                  </el-form-item>
               
                 <el-button type="primary" @click.stop.prevent="submitForm(ruleForm)" class="two-button-margin">注册</el-button>
                 <el-button @click="cancelDialogVisible = true">取消</el-button>
@@ -46,6 +65,9 @@
 </template>
 
 <script>
+import VerificationCodeModule from '../components/VerificationCode'
+import { verificationLogic } from '../mixins/verificationLogic'
+
 export default {
   name: 'Register',
   data() {
@@ -91,6 +113,7 @@ export default {
           pass: '',
           checkPass: '',
           inviteCode: '',
+          vertificationCode: ''
         },
         rules: {
           name: [
@@ -143,7 +166,14 @@ export default {
        this.$router.push({name: 'Login'})
        this.cancelDialogVisible = false
     },
-  }
+  },
+
+  components:{
+      VerificationCodeModule
+  },
+
+  mixins:[ verificationLogic ]
+
 }
 </script>
 
@@ -170,6 +200,14 @@ export default {
         .two-button-margin{
           margin-left: 20%;
           margin-right: 10%;
+        }
+
+        .shortMargin{
+          margin-bottom: 9px;
+        }
+
+        .shortHeight{
+          line-height : 0px
         }
 
 </style>
