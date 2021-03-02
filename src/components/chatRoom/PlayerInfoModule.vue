@@ -1,8 +1,8 @@
 <template>
     <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-tooltip :disabled="false" effect="light" content="点击以设置头像" placement="top">
-          <div class="player-icon-box" @click="iconDialogVisible = true">
-            <el-image class="aside-icon" :src="require('@/assets/images/avatar_15-min.png')"></el-image>
+          <div class="player-icon-box" @click="openIconSelectDialog">
+            <el-image class="aside-icon" :src="getIconUrl(temIconId)"></el-image>
           </div>
         </el-tooltip>
         <div class="player-nickname-box" :style="{'font-size': fontSize}">
@@ -16,10 +16,14 @@
         <el-dialog title="设置头像" :visible.sync="iconDialogVisible" center="true" :width="dialogWidth">
           <el-divider></el-divider>
           <div class="icon-select-box">
-            <div class="icon-block" v-for="n in iconNum" :key="n">
+            <div class="icon-block" :class="{'icon-is-selected': temIconId === n}" v-for="n in iconNum" :key="n" @click="selectIcon(n)">
               <el-image :src="getIconUrl(n)" :fit="'fill'"></el-image>
             </div>
           </div>
+          <span slot="footer">
+            <el-button @click="iconDialogVisible = false" style="margin-right:10%">取消</el-button>
+            <el-button type="primary" @click="submitNewIcon()">确定</el-button>
+          </span>
         </el-dialog>
     </el-aside>
 </template>
@@ -31,7 +35,9 @@ export default {
       return {
         iconDialogVisible: false,
         /* 头像数量 */
-        iconNum: 32,
+        iconNum: 35,
+        /* 暂时选择的头像Id */
+        temIconId: 0,
       }
     },
 
@@ -43,9 +49,23 @@ export default {
     },
 
     methods:{
-        getIconUrl: function(i){
-          return require("@/assets/images/avatar_" + i + "-min.png")
-        }
+        getIconUrl: function(n){
+          return require("@/assets/images/avatar_" + n + "-min.png")
+        },
+
+        openIconSelectDialog: function(){
+          this.iconDialogVisible = true
+          /* Vuex存的头像Id */
+          // this.temIconId = 
+        },
+
+        selectIcon: function(n){
+          this.temIconId = n
+        },
+
+        submitNewIcon: function(){
+          /* 向服务器提交新头像 */
+        },
     },
 }
 </script>
@@ -117,10 +137,19 @@ export default {
     background-size: 100% 100%;
   }
 
+  .icon-is-selected{
+    background-image: url('../../assets/images/icon-select-circle.png');
+    background-size: 100% 100%;
+  }
+
   .icon-block{
     margin: 2%;
     padding:2% 0;
     width: 15%;
     display: inline-block;
+  }
+
+  .icon-block{
+    cursor: pointer;
   }
 </style>

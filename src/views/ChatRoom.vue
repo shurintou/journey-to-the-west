@@ -31,7 +31,7 @@
   <el-dialog title="提示" :visible.sync="cancelLeaveDialogVisible" :width="dialogWidth" center>
         <i class="el-icon-question"></i>
         <span style="text-align:center">确定要登出并离开游戏大厅吗？</span>
-        <span slot="footer" class="dialog-footer">
+        <span slot="footer">
             <el-button @click="cancelLeaveDialogVisible = false" style="margin-right:10%">取消</el-button>
             <el-button type="danger" @click="logOut()">确定</el-button>
         </span>

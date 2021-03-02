@@ -56,7 +56,7 @@
   <el-dialog title="提示" :visible.sync="cancelDialogVisible" :width="dialogWidth" center>
       <i class="el-icon-question"></i>
       <span style="text-align:center">确定放弃本次注册？</span>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer">
           <el-button @click="cancelDialogVisible = false" style="margin-right:10%">取消</el-button>
           <el-button type="danger" @click="cancelRegister()">确定</el-button>
       </span>
