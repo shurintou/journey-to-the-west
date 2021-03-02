@@ -6,24 +6,24 @@
         <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
       </div>
       <div class="button-box">
-        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': buttonFontSize}" :size="buttonSize">创建房间</el-button>
-        <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': buttonFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
+        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize}" :size="buttonSize">创建房间</el-button>
+        <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
       </div>
     </el-aside>
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-popover placement="bottom" :width="popupWidth" trigger="click">
           <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
-          <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
+          <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
-        <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
-        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': buttonFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>创建房间</el-button>
+        <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
+        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>创建房间</el-button>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
             <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" @getSentText="sendTextToServe" ref="chatModule"></ChatModule>
-            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground"></PlayerInfoModule>
+            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth"></PlayerInfoModule>
         </el-container>
       </el-footer>
     </el-container>

@@ -8,7 +8,7 @@ export var chatRoomResize = {
             avatarSize: 0,
             fontSize: '',
             tagSize: '',
-            buttonFontSize: '',
+            largeFontSize: '',
             popupWidth: 160,
             dialogWidth: '50%',
             mainImg: require("@/assets/images/chatroom_main_image.png"),
@@ -29,7 +29,7 @@ export var chatRoomResize = {
                 this.fontSize = '7px'
                 this.tagSize = 'mini'
                 this.popupWidth = 160
-                this.buttonFontSize = '10px'
+                this.largeFontSize = '10px'
                 this.dialogWidth = '60%'
             }
             else if(screen_width < 800){
@@ -41,7 +41,7 @@ export var chatRoomResize = {
                 this.fontSize = '8px'
                 this.tagSize = 'mini'
                 this.popupWidth = 160
-                this.buttonFontSize = '11px'
+                this.largeFontSize = '11px'
                 this.dialogWidth = '50%'
 
             }
@@ -55,7 +55,7 @@ export var chatRoomResize = {
                 this.fontSize = '9px'
                 this.tagSize = 'mini'
                 this.popupWidth = 170
-                this.buttonFontSize = '12px'
+                this.largeFontSize = '12px'
                 this.dialogWidth = '40%'
 
             }
@@ -68,7 +68,7 @@ export var chatRoomResize = {
                 this.fontSize = '10px'
                 this.tagSize = 'small'
                 this.popupWidth = 180
-                this.buttonFontSize = '13px'
+                this.largeFontSize = '13px'
                 this.dialogWidth = '30%'
 
             }
@@ -81,7 +81,7 @@ export var chatRoomResize = {
                 this.fontSize = '11px'
                 this.tagSize = 'medium'
                 this.popupWidth = 190
-                this.buttonFontSize = '14px'
+                this.largeFontSize = '14px'
                 this.dialogWidth = '30%'
 
             }
@@ -95,7 +95,7 @@ export var chatRoomResize = {
                 this.fontSize = '12px'
                 this.tagSize = 'medium'
                 this.popupWidth = 200
-                this.buttonFontSize = '15px'
+                this.largeFontSize = '15px'
                 this.dialogWidth = '30%'
 
             }

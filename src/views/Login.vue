@@ -70,6 +70,7 @@
       <el-dialog title="联系作者" :visible.sync="mailDialogVisible" center width="50%">
           <span>请发送邮件至</span><i class="el-icon-s-promotion"></i>
           <el-link type="info" href="mailto:shurintou@gmail.com?subject = Hello">shurintou@gmail.com</el-link>
+          <el-divider></el-divider>
           <el-image :src="require('@/assets/images/mail-background.png')" :fit="fit"></el-image>
       </el-dialog>
   </el-row>
