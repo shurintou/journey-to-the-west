@@ -1,6 +1,7 @@
 export var verificationLogic = {
      data: function(){
         var vertificationCodeRule = (rule, value, callback) => {
+            value = value.toUpperCase()
             if (value === '') {
               this.vertificationCodeCorrect = false
               callback(new Error('请输入验证码'))
