@@ -3,7 +3,7 @@ import { Message } from 'element-ui'
 // import router from '../router/index'
 
 const request = axios.create({
-    baseURL: 'http://localhost:3000/rest/v1',
+    baseURL: 'http://192.168.11.11:3000/rest/v1',
     timeout: 15000
 })
 

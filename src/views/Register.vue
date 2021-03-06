@@ -9,19 +9,19 @@
               <h1 style="text-align: center;">注册信息</h1>
               <el-divider></el-divider>
               <el-form  :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" validate="">
-                <el-form-item label="用户名" prop="name">
-                    <el-input placeholder="请输入用户名" type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
+                <el-form-item label="用户名" prop="username">
+                    <el-input placeholder="请输入用户名" type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="密码" prop="pass">
-                      <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+                <el-form-item label="密码" prop="password">
+                      <el-input placeholder="请输入密码" type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="确认密码" prop="checkPass">
-                      <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+                <el-form-item label="确认密码" prop="checkPassword">
+                      <el-input type="password" v-model="ruleForm.checkPassword" autocomplete="off"></el-input>
                 </el-form-item>
 
-                <el-form-item label="邀请码" prop="inviteCode" :rules="[{ required: true, message: '邀请码不能为空'},]">
-                    <el-input placeholder="请输入邀请码" type="text" v-model="ruleForm.inviteCode" autocomplete="off"></el-input>
+                <el-form-item label="邀请码" prop="invitationCode" :rules="[{ required: true, message: '邀请码不能为空'},]">
+                    <el-input placeholder="请输入邀请码" type="text" v-model="ruleForm.invitationCode" autocomplete="off"></el-input>
                 </el-form-item>
 
                  <el-form-item class="shortMargin" label="验证码" prop="vertificationCode" :rules="[{required: true, trigger: 'blur', validator: vertificationCode}]">
@@ -43,7 +43,7 @@
                     </div>
                   </el-form-item>
               
-                <el-button type="primary" @click.stop.prevent="submitForm(ruleForm)" class="two-button-margin">注册</el-button>
+                <el-button type="primary" @click.stop.prevent="submitForm" class="two-button-margin">注册</el-button>
                 <el-button @click="cancelDialogVisible = true">取消</el-button>
               </el-form>
             </el-card>
@@ -91,8 +91,8 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
+          if (this.ruleForm.checkPassword !== '') {
+            this.$refs.ruleForm.validateField('checkPassword');
           }
           callback();
         }
@@ -100,7 +100,7 @@ export default {
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.pass) {
+        } else if (value !== this.ruleForm.password) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -110,21 +110,21 @@ export default {
         fit: 'fill',
         cancelDialogVisible: false,
         ruleForm: {
-          name: '',
-          pass: '',
-          checkPass: '',
-          inviteCode: '',
+          username: '',
+          password: '',
+          checkPassword: '',
+          invitationCode: '',
           vertificationCode: ''
         },
         rules: {
-          name: [
+          username: [
             { required: true, validator: checkName, trigger: 'blur' }
           ],
-          pass: [
+          password: [
             { required: true, validator: validatePass, trigger: 'blur' },
             { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
           ],
-          checkPass: [
+          checkPassword: [
             { required: true, validator: validatePass2, trigger: 'blur' }
           ],
         }
@@ -150,11 +150,11 @@ export default {
   },
 
   methods:{
-    submitForm: function(data){
-       console.log(data)
+    submitForm: function(){
        this.$refs.ruleForm.validate(valid => {
          if(valid){
-           register(this.ruleForm).then( () => {
+           register({username: this.ruleForm.username, password: this.ruleForm.password, invitationCode: this.ruleForm.invitationCode})
+           .then( () => {
               this.$message({ message: '注册成功，请登录', type: 'success' });
               this.$router.push({name: 'Login'})
            })
