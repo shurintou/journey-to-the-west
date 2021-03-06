@@ -8,7 +8,7 @@
             <el-card shadow="always">
               <h1 style="text-align: center;">注册信息</h1>
               <el-divider></el-divider>
-              <el-form  :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px">
+              <el-form  :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" validate="">
                 <el-form-item label="用户名" prop="name">
                     <el-input placeholder="请输入用户名" type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
                 </el-form-item>
@@ -67,6 +67,7 @@
 <script>
 import VerificationCodeModule from '../components/VerificationCode'
 import { verificationLogic } from '../mixins/verificationLogic'
+import { register } from '../api/register'
 
 export default {
   name: 'Register',
@@ -120,7 +121,8 @@ export default {
             { required: true, validator: checkName, trigger: 'blur' }
           ],
           pass: [
-            { required: true, validator: validatePass, trigger: 'blur' }
+            { required: true, validator: validatePass, trigger: 'blur' },
+            { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
           ],
           checkPass: [
             { required: true, validator: validatePass2, trigger: 'blur' }
@@ -150,12 +152,19 @@ export default {
   methods:{
     submitForm: function(data){
        console.log(data)
-       this.$message({
-          message: '注册成功，请登录',
-          type: 'success'
-        });
-       this.$router.push({name: 'Login'})
-        // this.$message.error('邀请码不正确或已被使用');
+       this.$refs.ruleForm.validate(valid => {
+         if(valid){
+           register(this.ruleForm).then( () => {
+              this.$message({ message: '注册成功，请登录', type: 'success' });
+              this.$router.push({name: 'Login'})
+           })
+           .catch( () => {})
+         }
+         else{
+            this.$message.error('请正确填写表单');
+         }
+       })
+       this.refreshCode()
     },
 
     cancelRegister: function(){
