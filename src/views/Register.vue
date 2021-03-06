@@ -8,24 +8,24 @@
             <el-card shadow="always">
               <h1 style="text-align: center;">注册信息</h1>
               <el-divider></el-divider>
-              <el-form  :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" validate="">
+              <el-form  :model="validateForm" status-icon :rules="rules" ref="validateForm" label-width="100px">
                 <el-form-item label="用户名" prop="username">
-                    <el-input placeholder="请输入用户名" type="text" v-model="ruleForm.username" autocomplete="off"></el-input>
+                    <el-input placeholder="请输入用户名" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
                 </el-form-item>
 
                 <el-form-item label="密码" prop="password">
-                      <el-input placeholder="请输入密码" type="password" v-model="ruleForm.password" autocomplete="off"></el-input>
+                      <el-input placeholder="请输入密码" type="password" v-model="validateForm.password" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="checkPassword">
-                      <el-input type="password" v-model="ruleForm.checkPassword" autocomplete="off"></el-input>
+                      <el-input type="password" v-model="validateForm.checkPassword" autocomplete="off"></el-input>
                 </el-form-item>
 
                 <el-form-item label="邀请码" prop="invitationCode" :rules="[{ required: true, message: '邀请码不能为空'},]">
-                    <el-input placeholder="请输入邀请码" type="text" v-model="ruleForm.invitationCode" autocomplete="off"></el-input>
+                    <el-input placeholder="请输入邀请码" type="text" v-model="validateForm.invitationCode" autocomplete="off"></el-input>
                 </el-form-item>
 
                  <el-form-item class="shortMargin" label="验证码" prop="vertificationCode" :rules="[{required: true, trigger: 'blur', validator: vertificationCode}]">
-                  <el-input v-model="ruleForm.vertificationCode" type="text" placeholder="请输入验证码" autocomplete="off"></el-input>
+                  <el-input v-model="validateForm.vertificationCode" type="text" placeholder="请输入验证码" autocomplete="off"></el-input>
                  </el-form-item>
 
                   <el-form-item class="shortMargin">
@@ -91,8 +91,8 @@ export default {
         if (value === '') {
           callback(new Error('请输入密码'));
         } else {
-          if (this.ruleForm.checkPassword !== '') {
-            this.$refs.ruleForm.validateField('checkPassword');
+          if (this.validateForm.checkPassword !== '') {
+            this.$refs.validateForm.validateField('checkPassword');
           }
           callback();
         }
@@ -100,7 +100,7 @@ export default {
       var validatePass2 = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.password) {
+        } else if (value !== this.validateForm.password) {
           callback(new Error('两次输入密码不一致!'));
         } else {
           callback();
@@ -109,7 +109,7 @@ export default {
       return {
         fit: 'fill',
         cancelDialogVisible: false,
-        ruleForm: {
+        validateForm: {
           username: '',
           password: '',
           checkPassword: '',
@@ -151,17 +151,17 @@ export default {
 
   methods:{
     submitForm: function(){
-       this.$refs.ruleForm.validate(valid => {
+       this.$refs.validateForm.validate(valid => {
          if(valid){
-           register({username: this.ruleForm.username, password: this.ruleForm.password, invitationCode: this.ruleForm.invitationCode})
+           register({username: this.validateForm.username, password: this.validateForm.password, invitationCode: this.validateForm.invitationCode})
            .then( () => {
               this.$message({ message: '注册成功，请登录', type: 'success' });
               this.$router.push({name: 'Login'})
            })
-           .catch( () => {})
+           .catch({})
          }
          else{
-            this.$message.error('请正确填写表单');
+            this.$message.error('请正确填写注册信息');
          }
        })
        this.refreshCode()
