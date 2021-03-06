@@ -8,12 +8,12 @@
       <el-card shadow="always" >
         <h1 style="text-align: center;">欢迎登陆</h1>
         <el-divider></el-divider>
-        <el-form  :model="validateForm" label-width="100px">
-          <el-form-item label="用户名" prop="name" :rules="[{ required: true, message: '用户名不能为空'},]">
-              <el-input placeholder="请输入用户名" type="text" v-model="validateForm.name" autocomplete="off"></el-input>
+        <el-form  :model="validateForm" label-width="100px" ref="validateForm">
+          <el-form-item label="用户名" prop="username" :rules="[{ required: true, validator: checkName, trigger: 'blur'},]">
+              <el-input placeholder="请输入用户名" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item label="密码" prop="password" :rules="[{ required: true, message: '密码不能为空'},]">
+          <el-form-item label="密码" prop="password" :rules="[{ required: true, message: '密码不能为空', trigger: 'blur'},{ min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }]">
               <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
           </el-form-item>
 
@@ -36,7 +36,7 @@
             </div>
           </el-form-item>
         
-          <el-button type="primary" @click="submitForm(validateForm)" class="two-button-margin">登录</el-button>
+          <el-button type="primary" @click="submitForm" class="two-button-margin">登录</el-button>
           <el-button @click="goToRgister()">注册</el-button>
         </el-form>
       </el-card>
@@ -81,6 +81,7 @@
 <script>
 import VerificationCodeModule from '../components/VerificationCode'
 import { verificationLogic } from '../mixins/verificationLogic'
+import {login} from '../api/login'
 
 export default {
   name: 'Login',
@@ -88,20 +89,46 @@ export default {
       return {
         fit: 'fill',
         validateForm: {
-            name: '',
+            username: '',
             password: '',
             vertificationCode: ''
         },
         qrDialogVisible: false,
         mailDialogVisible: false,
         qrCodeUrl: '',
+        checkName:  (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入用户名'));
+        }
+        else {
+          var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+          if(!uPattern.test(value)){
+             callback(new Error('用户名须4到16位字母,数字,下划线,减号'));
+          }
+          else{
+             callback();
+          }
+          callback();
+        }
+      }
       }
   },
 
   methods:{
-    submitForm: function(data){
-       console.log(data)
-       this.$router.push({name: 'ChatRoom'})
+    submitForm: function(){
+       this.$refs.validateForm.validate(valid => {
+         if(valid){
+            login({username: this.validateForm.username, password: this.validateForm.password })
+            .then( () => {
+                this.$router.push({name: 'ChatRoom'})
+            })
+            .catch({})
+         }
+         else{
+            this.$message.error('请正确填写登录信息');
+         }
+       })
+       this.refreshCode()
     },
 
     goToRgister: function(){

@@ -13,7 +13,7 @@
           <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
         </div>
 
-        <el-dialog title="设置头像" :visible.sync="iconDialogVisible" center="true" :width="dialogWidth">
+        <el-dialog title="设置头像" :visible.sync="iconDialogVisible" center :width="dialogWidth">
           <el-divider></el-divider>
           <div class="icon-select-box">
             <div class="icon-block" :class="{'icon-is-selected': temIconId === n}" v-for="n in iconNum" :key="n" @click="selectIcon(n)">
