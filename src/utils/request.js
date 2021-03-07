@@ -4,12 +4,12 @@ import { Message } from 'element-ui'
 
 const request = axios.create({
     baseURL: 'http://192.168.11.11:3000/rest/v1',
-    timeout: 15000
+    timeout: 15000,
+    withCredentials: true
 })
 
 request.interceptors.request.use(
     config => {
-        // config.headers[] = getToken('');
         return config
     },
     error => {
