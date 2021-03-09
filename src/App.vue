@@ -7,7 +7,22 @@
 </template>
 
 <script>
+import {authorization} from './api/authorization'
+import { getToken } from './utils/cookie'
+
 export default {
   
+  created: function(){
+    if(!getToken()){
+      if(this.$route.path !== '/login'){
+         this.$router.push({name: 'Login'})
+      }
+      return
+    }
+    authorization({})
+    .then(() => {
+    })
+    .catch(() => {})
+  }
 }
 </script>

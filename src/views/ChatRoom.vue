@@ -45,6 +45,7 @@ import { chatRoomResize } from '../mixins/chatRoom/chatRoomResize'
 import PlayerListModule from '../components/chatRoom/PlayerListModule'
 import PlayerInfoModule from '../components/chatRoom/PlayerInfoModule'
 import ChatModule from '../components/chatRoom/ChatModule'
+import { removeToken } from '../utils/cookie'
 
 export default {
   name: 'ChatRoom',
@@ -65,6 +66,7 @@ export default {
         message: '已登出，回到登录页面',
         type: 'info'
        });
+      removeToken();
       this.$router.push({name: 'Login'})
       this.cancelLeaveDialogVisible = false
     },
