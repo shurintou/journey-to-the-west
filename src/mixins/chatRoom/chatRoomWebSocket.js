@@ -1,7 +1,7 @@
 export var chatRoomWebSocket = {
     data: function(){
         return {
-            wsUrl : 'ws://192.168.11.11:8081',
+            wsUrl : 'ws://192.168.11.11:3000',
             /* 防止多次重连 */
             lockReconnect :false,
             /* 重连一定次数失败后不再重连 */
@@ -9,6 +9,7 @@ export var chatRoomWebSocket = {
             ws : null,
             timeoutObj: null,
             serverTimeoutObj: null,
+            reconnectTimeoutObj: null,
             wsDelay : 2000,
             timeout : 2000,
             chatTextId : 0,
@@ -40,9 +41,18 @@ export var chatRoomWebSocket = {
                 self.reset()
             };
                 
-            this.ws.onclose = function(){
-                if(self.isLeave === false) 
-                self.reconnect(self.wsUrl);
+            this.ws.onclose = function(close){
+                console.log(close)
+                if(close.code === 1000){
+                    clearTimeout(self.timeoutObj);
+                    clearTimeout(self.serverTimeoutObj);
+                    clearTimeout(self.reconnectTimeoutObj);
+                    self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : close.reason});
+                }
+                else{
+                    if(self.isLeave === false) 
+                    self.reconnect(self.wsUrl);
+                }
             };
 
             this.ws.onerror = function(){
@@ -54,6 +64,7 @@ export var chatRoomWebSocket = {
         reset: function(){
             clearTimeout(this.timeoutObj);
             clearTimeout(this.serverTimeoutObj);
+            clearTimeout(this.reconnectTimeoutObj);
             this.start();
         },
 
@@ -71,7 +82,7 @@ export var chatRoomWebSocket = {
             var self = this
             if(this.lockReconnect) return;
             this.lockReconnect = true;
-            setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
+            this.reconnectTimeoutObj = setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
                 if(self.isLeave === false){
                     if(self.reconnectTimes < 15){//离开页面后则不再刷新心跳
                         self.reconnectTimes = self.reconnectTimes + 1
@@ -84,11 +95,13 @@ export var chatRoomWebSocket = {
                         self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
                         clearTimeout(self.timeoutObj);
                         clearTimeout(self.serverTimeoutObj);
+                        clearTimeout(self.reconnectTimeoutObj);
                     }
                 }
                 else{
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
+                    clearTimeout(self.reconnectTimeoutObj);
                 }
             }, self.wsDelay);
         },
