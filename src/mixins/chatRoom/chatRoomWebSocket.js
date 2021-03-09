@@ -42,7 +42,6 @@ export var chatRoomWebSocket = {
             };
                 
             this.ws.onclose = function(close){
-                console.log(close)
                 if(close.code === 1000){
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
