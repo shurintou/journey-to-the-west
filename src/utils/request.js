@@ -24,7 +24,7 @@ request.interceptors.response.use(
             return res
         }
         else if(res.code === 401){
-            Message({message: '账号信息已过期，请重新登录', type: 'error'})
+            Message({message: res.message ? res.message : '账号信息已过期，请重新登录', type: 'error'})
             router.push({name: 'Login'})
         }
         else{

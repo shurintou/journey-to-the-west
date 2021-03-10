@@ -19,8 +19,12 @@ export default {
       }
       return
     }
-    authorization({})
+    authorization()
     .then(() => {
+      if(this.$route.path === '/chatroom' || this.$route.path === '/gameroom' ){
+        return
+      }
+      this.$router.push({name: 'ChatRoom'})
     })
     .catch(() => {})
   }
