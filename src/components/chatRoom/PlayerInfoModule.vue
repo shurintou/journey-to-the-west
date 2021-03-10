@@ -1,13 +1,15 @@
 <template>
     <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
-        <el-tooltip :disabled="false" effect="light" content="点击以设置头像" placement="top">
-          <div class="player-icon-box" @click="openIconSelectDialog">
-            <el-image class="aside-icon" :src="getIconUrl(temIconId)"></el-image>
+        <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以设置头像" placement="left">
+          <div class="player-icon-box" @click="iconDialogVisible = true">
+            <el-image class="aside-icon" :src="getAvatarUrl($store.state.avatar_id)"></el-image>
           </div>
         </el-tooltip>
-        <div class="player-nickname-box" :style="{'font-size': fontSize}">
-          <span>啊啊啊啊啊</span>
-        </div>
+        <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以设置昵称" placement="left">
+          <div class="player-nickname-box" :style="{'font-size': fontSize}">
+            <span>{{$store.state.nickname}}</span>
+          </div>
+        </el-tooltip>
         <div class="player-setting-box">
           <el-button class="setting-button" :style="{'font-size': fontSize}" type="info" icon="el-icon-view">查看</el-button>
           <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
@@ -16,19 +18,21 @@
         <el-dialog title="设置头像" :visible.sync="iconDialogVisible" center :width="dialogWidth">
           <el-divider></el-divider>
           <div class="icon-select-box">
-            <div class="icon-block" :class="{'icon-is-selected': temIconId === n}" v-for="n in iconNum" :key="n" @click="selectIcon(n)">
-              <el-image :src="getIconUrl(n)" :fit="'fill'"></el-image>
+            <div class="icon-block" :class="{'icon-is-selected': temAvatarId === n}" v-for="n in iconNum" :key="n" @click="temAvatarId = n">
+              <el-image :src="getAvatarUrl(n)" :fit="'fill'"></el-image>
             </div>
           </div>
           <span slot="footer">
             <el-button @click="iconDialogVisible = false" style="margin-right:10%">取消</el-button>
-            <el-button type="primary" @click="submitNewIcon()">确定</el-button>
+            <el-button type="primary" @click="submitNewAvatar()">确定</el-button>
           </span>
         </el-dialog>
     </el-aside>
 </template>
 
 <script>
+import { modifyAvatar, modifyNickname } from '../../api/modify'
+
 export default {
 
     data(){
@@ -37,7 +41,9 @@ export default {
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
-        temIconId: 0,
+        temAvatarId: 0,
+        /* 暂时设置的昵称 */
+        temNickname: '',
       }
     },
 
@@ -49,23 +55,27 @@ export default {
     },
 
     methods:{
-        getIconUrl: function(n){
+        getAvatarUrl: function(n){
           return require("@/assets/images/avatar_" + n + "-min.png")
         },
 
-        openIconSelectDialog: function(){
-          this.iconDialogVisible = true
-          /* Vuex存的头像Id */
-          // this.temIconId = 
+        submitNewAvatar: function(){
+          modifyAvatar({avatar_id : this.temAvatarId})
+          .then( () => {
+            this.$store.dispatch('mutateAvatarId', this.temAvatarId)
+            this.$message.success('成功修改头像')
+          })
+          .catch( () =>{
+            this.$message.error('修改失败，请稍后重试')
+          })
+          .finally( () =>{ this.iconDialogVisible = false })
         },
 
-        selectIcon: function(n){
-          this.temIconId = n
-        },
-
-        submitNewIcon: function(){
-          /* 向服务器提交新头像 */
-        },
+        submitNewNickname: function(){
+           modifyNickname({avatar_id : this.temAvatarId})
+          .then({})
+          .catch({})
+        }
     },
 }
 </script>
@@ -88,6 +98,7 @@ export default {
   }
 
   .player-nickname-box{
+    cursor: pointer;
     width: 85%;
     height: 15%;
     margin-top: 3%;

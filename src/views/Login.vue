@@ -119,8 +119,9 @@ export default {
        this.$refs.validateForm.validate(valid => {
          if(valid){
             login({username: this.validateForm.username, password: this.validateForm.password })
-            .then( () => {
+            .then( ( res ) => {
                 this.$router.push({name: 'ChatRoom'})
+                this.$store.dispatch('initialization', res.account)
             })
             .catch({})
          }

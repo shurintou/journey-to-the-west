@@ -20,11 +20,12 @@ export default {
       return
     }
     authorization()
-    .then(() => {
-      if(this.$route.path === '/chatroom' || this.$route.path === '/gameroom' ){
-        return
-      }
-      this.$router.push({name: 'ChatRoom'})
+    .then(( res ) => {
+        this.$store.dispatch('initialization', res.account)
+        if(this.$route.path === '/chatroom' || this.$route.path === '/gameroom' ){
+          return
+        }
+        this.$router.push({name: 'ChatRoom'})
     })
     .catch(() => {})
   }
