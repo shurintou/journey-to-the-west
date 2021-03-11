@@ -10,9 +10,10 @@ export var chatRoomWebSocket = {
             timeoutObj: null,
             serverTimeoutObj: null,
             reconnectTimeoutObj: null,
-            wsDelay : 2000,
-            timeout : 2000,
+            wsDelay : 3000,
+            timeout : 3000,
             chatTextId : 0,
+            player_loc: 0  //0为游戏大厅，其余为游戏房间号
         }
     },
 
@@ -29,14 +30,15 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
-                self.sendMessageToChatRoom({ 'id' : 'success', name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
+                self.ws.send(JSON.stringify({ type: 'player_loc', player_loc: self.player_loc }))
+                self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
             this.ws.onmessage = function (data){ 
                 let jsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
-                if( jsonData.text !== 'pong'){
-                    self.sendMessageToChatRoom({ 'id' : 'info', name : jsonData.name, type : 'info', 'text' : jsonData.text})
+                if( jsonData.type === 'chat'){
+                    self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
                 }
                 self.reset()
             };
@@ -46,7 +48,7 @@ export var chatRoomWebSocket = {
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                     clearTimeout(self.reconnectTimeoutObj);
-                    self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : close.reason});
+                    self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'error', text : close.reason});
                 }
                 else{
                     if(self.isLeave === false) 
@@ -70,7 +72,7 @@ export var chatRoomWebSocket = {
         start: function(){
             var self = this
             this.timeoutObj = setTimeout(function(){
-                self.ws.send(JSON.stringify({'text': 'ping'}));
+                self.ws.send(JSON.stringify({ type: 'ping' }));
                 self.serverTimeoutObj = setTimeout(function(){
                     self.ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
                 }, self.timeout)
@@ -85,13 +87,13 @@ export var chatRoomWebSocket = {
                 if(self.isLeave === false){
                     if(self.reconnectTimes < 15){//离开页面后则不再刷新心跳
                         self.reconnectTimes = self.reconnectTimes + 1
-                        self.sendMessageToChatRoom({ 'id' : 'warning', name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
                         self.createWebSocket(self.wsUrl);
                         self.lockReconnect = false;
                     }
                     else{
                         self.$message.error('已与游戏大厅断开连接');
-                        self.sendMessageToChatRoom({ 'id' : 'error', name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
                         clearTimeout(self.timeoutObj);
                         clearTimeout(self.serverTimeoutObj);
                         clearTimeout(self.reconnectTimeoutObj);
@@ -119,7 +121,7 @@ export var chatRoomWebSocket = {
         },
 
         sendTextToServe: function(text){
-            this.ws.send(JSON.stringify({name : this.user.nickname, type: 'info', 'text': text}))
+            this.ws.send(JSON.stringify({ type: 'chat', text: text, player_loc: this.player_loc }))
         },
     },
 
