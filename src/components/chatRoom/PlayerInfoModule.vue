@@ -1,12 +1,12 @@
 <template>
     <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以设置头像" placement="left">
-          <div class="player-icon-box" @click="iconDialogVisible = true">
+          <div class="player-icon-box" @click="avatarDialogVisible = true; temAvatarId = $store.state.avatar_id">
             <el-image class="aside-icon" :src="getAvatarUrl($store.state.avatar_id)"></el-image>
           </div>
         </el-tooltip>
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以设置昵称" placement="left">
-          <div class="player-nickname-box" :style="{'font-size': fontSize}">
+          <div class="player-nickname-box" :style="{'font-size': fontSize}" @click="nicknameDialogVisible = true; nicknameForm.name = $store.state.nickname">
             <span>{{$store.state.nickname}}</span>
           </div>
         </el-tooltip>
@@ -15,7 +15,7 @@
           <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
         </div>
 
-        <el-dialog title="设置头像" :visible.sync="iconDialogVisible" center :width="dialogWidth">
+        <el-dialog title="设置头像" :visible.sync="avatarDialogVisible" center :width="dialogWidth">
           <el-divider></el-divider>
           <div class="icon-select-box">
             <div class="icon-block" :class="{'icon-is-selected': temAvatarId === n}" v-for="n in iconNum" :key="n" @click="temAvatarId = n">
@@ -23,9 +23,23 @@
             </div>
           </div>
           <span slot="footer">
-            <el-button @click="iconDialogVisible = false" style="margin-right:10%">取消</el-button>
+            <el-button @click="avatarDialogVisible = false" style="margin-right:10%">取消</el-button>
             <el-button type="primary" @click="submitNewAvatar()">确定</el-button>
           </span>
+        </el-dialog>
+
+        <el-dialog title="设置昵称" :visible.sync="nicknameDialogVisible" center :width="dialogWidth" :close-on-click-modal="false">
+          <el-form :model="nicknameForm" ref="nicknameForm">
+            <el-form-item label="新昵称" prop="name" :rules="[{ required: true, validator: checkNickname, trigger: 'blur'}]">
+              <el-input v-model="nicknameForm.name" autocomplete="off" placeholder="输入新昵称" maxlength="10" show-word-limit>
+                 <i slot="prefix" class="el-input__icon el-icon-edit"></i>
+              </el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer">
+            <el-button @click="nicknameDialogVisible = false; $refs.nicknameForm.resetFields()" style="margin-right:10%">取消</el-button>
+            <el-button type="primary" @click.stop.prevent="submitNewNickname">确定</el-button>
+          </div>
         </el-dialog>
     </el-aside>
 </template>
@@ -37,13 +51,22 @@ export default {
 
     data(){
       return {
-        iconDialogVisible: false,
+        avatarDialogVisible: false,
+        nicknameDialogVisible: false,
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
         temAvatarId: 0,
-        /* 暂时设置的昵称 */
-        temNickname: '',
+        nicknameForm:{ name : '' },
+        checkNickname:  (rule, value, callback) => {
+          if (value === '') {
+            callback(new Error('请输入昵称'));
+          }
+          else if(value === this.$store.state.nickname) {
+            callback(new Error('更改前后昵称一致'));
+          }
+          callback()
+        }
       }
     },
 
@@ -63,18 +86,31 @@ export default {
           modifyAvatar({avatar_id : this.temAvatarId})
           .then( () => {
             this.$store.dispatch('mutateAvatarId', this.temAvatarId)
-            this.$message.success('成功修改头像')
+            this.$message.success('成功设置头像')
           })
           .catch( () =>{
             this.$message.error('修改失败，请稍后重试')
           })
-          .finally( () =>{ this.iconDialogVisible = false })
+          .finally( () =>{ this.avatarDialogVisible = false })
         },
 
         submitNewNickname: function(){
-           modifyNickname({avatar_id : this.temAvatarId})
-          .then({})
-          .catch({})
+           this.$refs.nicknameForm.validate( valid => {
+             if( valid ){
+                modifyNickname({nickname : this.nicknameForm.name})
+                .then( () =>{
+                  this.$store.dispatch('mutateNickname', this.nicknameForm.name).then( ()=> {
+                    this.nicknameForm.name = this.$store.state.nickname
+                  })
+                  this.$message.success('成功设置昵称')
+                })
+                .catch( () =>{
+                  this.$message.error('修改失败，请稍后重试')
+                })
+                .finally( () =>{ this.nicknameDialogVisible = false })
+             }
+           })
+         
         }
     },
 }
