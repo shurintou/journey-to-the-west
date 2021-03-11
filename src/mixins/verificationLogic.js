@@ -16,7 +16,7 @@ export var verificationLogic = {
 
         return {
             identifyCode: '',
-            identifyCodeWords: '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+            identifyCodeWords: '123456789ABCDEFGHIJKLMNPQRSTUVWXYZ',
             vertificationCode: vertificationCodeRule,
             vertificationCodeCorrect: false
         }
