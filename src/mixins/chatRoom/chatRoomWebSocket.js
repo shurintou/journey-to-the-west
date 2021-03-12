@@ -13,7 +13,8 @@ export var chatRoomWebSocket = {
             wsDelay : 3000,
             timeout : 3000,
             chatTextId : 0,
-            player_loc: 0  //0为游戏大厅，其余为游戏房间号
+            player_loc: 0,  //0为游戏大厅，其余为游戏房间号
+            player_status: 0, //0空闲1等待2忙碌
         }
     },
 
@@ -30,7 +31,7 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
-                self.ws.send(JSON.stringify({ type: 'player_loc', player_loc: self.player_loc }))
+                self.ws.send(JSON.stringify({ type: 'playerList', avatar_id: self.$store.state.avatar_id , player_loc: self.player_loc, player_status: self.player_status }))
                 self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
@@ -39,6 +40,13 @@ export var chatRoomWebSocket = {
                 self.reconnectTimes = 0
                 if( jsonData.type === 'chat'){
                     self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
+                }
+                else if(jsonData.type === 'playerList'){
+                    var newPlayerList = []
+                    for(var i =0; i < jsonData.data.length; i++){
+                        newPlayerList.push(JSON.parse(jsonData.data[i]))
+                    }
+                    self.playerList = newPlayerList
                 }
                 self.reset()
             };
