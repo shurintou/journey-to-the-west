@@ -1,25 +1,25 @@
 <template>
      <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
-        <el-table-column prop="avatar" label="头像" min-width="30">
+        <el-table-column prop="avatar_id" label="头像" min-width="30">
             <template slot-scope="scope">
-            <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar)"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
             </template>
         </el-table-column>
         <el-table-column prop="nickname" label="玩家" min-width="80">
             <template slot-scope="scope">
                 <el-popover trigger="hover" placement="right" popper-class="chat-popover" :width="popupWidth">
                     <p>玩家信息
-                        <el-tag :type="getType(scope.row.status)" effect="dark" :style="rowStyle" size="small" style="float:right">
-                            {{ getStatus(scope.row.status) }}
+                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" size="small" style="float:right">
+                            {{ getStatus(scope.row.player_status) }}
                         </el-tag>
                     </p>
-                    <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar)" :fit="'fill'"></el-image>
+                    <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar_id)" :fit="'fill'"></el-image>
                     <p>昵称: {{ scope.row.nickname }}</p>
-                    <p>胜局数: {{ scope.row.wins }}</p>
+                    <!-- <p>胜局数: {{ scope.row.wins }}</p> -->
                     <!-- 其他数据之后再加 -->
                     <div slot="reference" class="name-wrapper">
-                        <el-tag :type="getType(scope.row.status)" effect="dark" :style="rowStyle" :size="tagSize">
-                            {{ getStatus(scope.row.status) }}
+                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
+                            {{ getStatus(scope.row.player_status) }}
                         </el-tag>
                         <span>{{ ' ' + scope.row.nickname }}</span>
                     </div>
@@ -52,33 +52,33 @@ export default {
 
     methods:{
         tableRowClassName: function({row}) {
-            return row.status + '-row'
+            return this.getType(row.player_status) + '-row'
         },
 
         getAvatarUrl: function(avatarId){
           return require("@/assets/images/avatar_" + avatarId + "-min.png")
         },
 
-        getStatus: function(status){
-            if(status === 'playing'){
+        getStatus: function(player_status){
+            if(player_status === 2){
                 return '忙碌'
             }
-            else if(status === 'waiting'){
+            else if(player_status === 1){
                 return '等待'
             }
-            else if(status === 'free'){
+            else if(player_status === 0){
                 return '空闲'
             }
         },
 
-        getType: function(status){
-            if(status === 'playing'){
+        getType: function(player_status){
+            if(player_status === 2){
                 return 'danger'
             }
-            else if(status === 'waiting'){
+            else if(player_status === 1){
                 return 'warning'
             }
-            else if(status === 'free'){
+            else if(player_status === 0){
                 return 'success'
             }
         },
@@ -87,15 +87,15 @@ export default {
 </script>
 
 <style>
-    .el-table .waiting-row {
+    .el-table .warning-row {
         background: #f3efcb;
     }
 
-    .el-table .free-row {
+    .el-table .success-row {
         background: #d5f8ca;
     }
 
-    .el-table .playing-row {
+    .el-table .danger-row {
         background: #f0caca;
     }
 

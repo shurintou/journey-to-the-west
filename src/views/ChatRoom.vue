@@ -54,7 +54,7 @@ export default {
     return {
       chatText: [],
       cancelLeaveDialogVisible: false,
-      playerList: [{nickname:'zlt', avatar: 5, wins:5, max:100, min:0, status: 'playing'},{nickname:'hyf', avatar: 8, wins:0, max:100, min:0, status: 'waiting'},{nickname:'啊啊啊啊啊', avatar: 12, wins:0, max:10, min:0, status: 'free'}],
+      playerList: [],
     }
   },
 
