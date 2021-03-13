@@ -23,7 +23,7 @@
       <el-footer :height="footHeight">
         <el-container class="fill-height">
             <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" @getSentText="sendTextToServe" ref="chatModule"></ChatModule>
-            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth"></PlayerInfoModule>
+            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :ws="ws"></PlayerInfoModule>
         </el-container>
       </el-footer>
     </el-container>

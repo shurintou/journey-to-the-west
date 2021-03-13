@@ -75,6 +75,7 @@ export default {
         verticalBackground: {type: String, default: ''},
         fontSize: {type: String, default: ''},
         dialogWidth: {type: String, default: ''},
+        ws: { type: WebSocket, default: null},
     },
 
     methods:{
@@ -86,6 +87,9 @@ export default {
           modifyAvatar({avatar_id : this.temAvatarId})
           .then( () => {
             this.$store.dispatch('mutateAvatarId', this.temAvatarId)
+            .then( () => {
+                this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
+            })
             this.$message.success('成功设置头像')
           })
           .catch( () =>{
@@ -100,6 +104,7 @@ export default {
                 modifyNickname({nickname : this.nicknameForm.name})
                 .then( () =>{
                   this.$store.dispatch('mutateNickname', this.nicknameForm.name).then( ()=> {
+                    this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
                     this.nicknameForm.name = this.$store.state.nickname
                   })
                   this.$message.success('成功设置昵称')

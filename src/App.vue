@@ -22,7 +22,7 @@ export default {
     authorization()
     .then(( res ) => {
         this.$store.dispatch('initialization', res.account)
-        if(this.$route.path === '/chatroom' || this.$route.path === '/gameroom' ){
+        if(this.$route.path === '/chatroom'){
           return
         }
         this.$router.push({name: 'ChatRoom'})
