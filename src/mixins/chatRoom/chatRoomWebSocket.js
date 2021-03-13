@@ -31,7 +31,7 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
-                self.ws.send(JSON.stringify({ type: 'playerList', avatar_id: self.$store.state.avatar_id , player_loc: self.player_loc, player_status: self.player_status }))
+                self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.player_loc, player_status: self.player_status }))
                 self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
@@ -39,7 +39,9 @@ export var chatRoomWebSocket = {
                 let jsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if( jsonData.type === 'chat'){
-                    self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
+                    if(jsonData.player_loc === self.player_loc){
+                        self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
+                    }
                 }
                 else if(jsonData.type === 'playerList'){
                     var newPlayerList = []
@@ -129,7 +131,7 @@ export var chatRoomWebSocket = {
         },
 
         sendTextToServe: function(text){
-            this.ws.send(JSON.stringify({ type: 'chat', text: text, player_loc: this.player_loc }))
+            this.ws.send(JSON.stringify({ type: 'chat', nickname: this.$store.state.nickname, text: text, player_loc: this.player_loc }))
         },
     },
 
