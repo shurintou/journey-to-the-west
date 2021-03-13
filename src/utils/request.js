@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import router from '../router/'
+import {removeToken} from '../utils/cookie'
 
 const request = axios.create({
     baseURL: 'http://192.168.11.11:3000/rest/v1',
@@ -25,7 +26,10 @@ request.interceptors.response.use(
         }
         else if(res.code === 401){
             Message({message: res.message ? res.message : '账号信息已过期，请重新登录', type: 'error'})
-            router.push({name: 'Login'})
+            removeToken()
+            if(location.href.indexOf('login') === -1){
+                router.push({name: 'Login'})
+            }
         }
         else{
             Message({message: res.message, type: 'error'})

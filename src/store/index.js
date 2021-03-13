@@ -16,7 +16,9 @@ export default new Vuex.Store({
     username: '',
     avatar_id: 0,
     nickname: '',
-    isMobile: isMobile 
+    isMobile: isMobile ,
+    player_loc: 0,  //0为游戏大厅，其余为游戏房间号
+    player_status: 0, //0空闲1等待2忙碌
   },
   mutations: {
     initialization(state, payload){
@@ -30,6 +32,12 @@ export default new Vuex.Store({
     },
     mutateAvatarId(state, payload){
       state.avatar_id = payload
+    },
+    mutatePlyaerLoc(state, payload){
+      state.player_loc = payload.player_loc
+    },
+    mutatePlyaerStatus(state, payload){
+      state.player_status = payload.player_status
     }
   },
   actions: {
@@ -41,7 +49,13 @@ export default new Vuex.Store({
     },
     mutateAvatarId({ commit } , payload){
       commit('mutateAvatarId' , payload)
-    }
+    },
+    mutatePlyaerLoc({ commit } , payload){
+      commit('mutatePlyaerLoc' , payload)
+    },
+    mutatePlyaerStatus({ commit } , payload){
+      commit('mutatePlyaerStatus' , payload)
+    },
   },
   modules: {
   }
