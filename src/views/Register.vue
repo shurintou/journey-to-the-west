@@ -109,6 +109,7 @@ export default {
       return {
         fit: 'fill',
         cancelDialogVisible: false,
+        duplicateRegisterFlag: false,
         validateForm: {
           username: '',
           password: '',
@@ -151,6 +152,8 @@ export default {
 
   methods:{
     submitForm: function(){
+       if(this.duplicateRegisterFlag) return;
+       this.duplicateRegisterFlag = true
        this.$refs.validateForm.validate(valid => {
          if(valid){
            register({username: this.validateForm.username, password: this.validateForm.password, invitationCode: this.validateForm.invitationCode})
@@ -159,9 +162,13 @@ export default {
               this.$router.push({name: 'Login'})
            })
            .catch({})
+           .finally(() => {
+             this.duplicateRegisterFlag = false
+           })
          }
          else{
             this.$message.error('请正确填写注册信息');
+            this.duplicateRegisterFlag = false
          }
        })
        this.refreshCode()
