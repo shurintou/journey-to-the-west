@@ -42,6 +42,11 @@ export var chatRoomWebSocket = {
                         self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
                     }
                 }
+                else if( jsonData.type === 'system' ){
+                    if(jsonData.player_loc === self.$store.state.player_loc){
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'info', 'text' : jsonData.text})
+                    }
+                }
                 else if(jsonData.type === 'playerList'){
                     var newPlayerList = []
                     var player = {}
@@ -131,6 +136,7 @@ export var chatRoomWebSocket = {
                 this.chatTextId = this.chatTextId + 1
                 message.id = this.chatTextId
                 this.chatText.push(message);
+                if(this.chatText.length > 50) this.chatText.shift();
                 this.$nextTick(function(){
                     /* 通过ref层层深入访问到子组件的聊天框，调节其滚动条高度 */
                     this.$refs.chatModule.modifyScrollHeight()
