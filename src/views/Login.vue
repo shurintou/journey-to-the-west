@@ -95,6 +95,7 @@ export default {
         },
         qrDialogVisible: false,
         mailDialogVisible: false,
+        duplicateLoginFlag: false,
         qrCodeUrl: '',
         checkName:  (rule, value, callback) => {
         if (value === '') {
@@ -116,6 +117,8 @@ export default {
 
   methods:{
     submitForm: function(){
+       if(this.duplicateLoginFlag) return;
+       this.duplicateLoginFlag = true
        this.$refs.validateForm.validate(valid => {
          if(valid){
             login({username: this.validateForm.username, password: this.validateForm.password })
@@ -124,9 +127,13 @@ export default {
                 this.$store.dispatch('initialization', res.account)
             })
             .catch({})
+            .finally( ()=> {
+                this.duplicateLoginFlag = false
+            })
          }
          else{
             this.$message.error('请正确填写登录信息');
+            this.duplicateLoginFlag = false
          }
        })
        this.refreshCode()

@@ -53,6 +53,8 @@ export default {
       return {
         avatarDialogVisible: false,
         nicknameDialogVisible: false,
+        duplicateSubmitAvatarFlag: false,
+        duplicateSubmitNicknameFlag: false,
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
@@ -84,6 +86,8 @@ export default {
         },
 
         submitNewAvatar: function(){
+          if(this.duplicateSubmitAvatarFlag) return;
+          this.duplicateSubmitAvatarFlag = true
           modifyAvatar({avatar_id : this.temAvatarId})
           .then( () => {
             this.$store.dispatch('mutateAvatarId', this.temAvatarId)
@@ -95,12 +99,17 @@ export default {
           .catch( () =>{
             this.$message.error('修改失败，请稍后重试')
           })
-          .finally( () =>{ this.avatarDialogVisible = false })
+          .finally( () =>{ 
+            this.avatarDialogVisible = false
+            this.duplicateSubmitAvatarFlag = false
+          })
         },
 
         submitNewNickname: function(){
+           if(this.duplicateSubmitNicknameFlag) return;
+           this.duplicateSubmitNicknameFlag = true
            this.$refs.nicknameForm.validate( valid => {
-             if( valid ){
+              if( valid ){
                 modifyNickname({nickname : this.nicknameForm.name})
                 .then( () =>{
                   this.$store.dispatch('mutateNickname', this.nicknameForm.name).then( ()=> {
@@ -112,8 +121,14 @@ export default {
                 .catch( () =>{
                   this.$message.error('修改失败，请稍后重试')
                 })
-                .finally( () =>{ this.nicknameDialogVisible = false })
-             }
+                .finally( () =>{ 
+                  this.nicknameDialogVisible = false
+                  this.duplicateSubmitNicknameFlag = false
+                })
+              }
+              else{
+                this.duplicateSubmitNicknameFlag = false
+              }
            })
          
         }
