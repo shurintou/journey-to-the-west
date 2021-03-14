@@ -137,10 +137,6 @@ export var chatRoomWebSocket = {
                 })
             }
         },
-
-        sendTextToServe: function(text){
-            this.ws.send(JSON.stringify({ type: 'chat', nickname: this.$store.state.nickname, text: text, player_loc: this.$store.state.player_loc }))
-        },
     },
 
     created: function(){

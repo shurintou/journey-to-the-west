@@ -32,7 +32,7 @@
           <el-form :model="nicknameForm" ref="nicknameForm">
             <el-form-item label="新昵称" prop="name" :rules="[{ required: true, validator: checkNickname, trigger: 'blur'}]">
               <el-input v-model="nicknameForm.name" autocomplete="off" placeholder="输入新昵称" maxlength="10" show-word-limit>
-                 <i slot="prefix" class="el-input__icon el-icon-edit"></i>
+                 <i slot="prefix" class="el-input__icon el-icon-edit-outline"></i>
               </el-input>
             </el-form-item>
           </el-form>
