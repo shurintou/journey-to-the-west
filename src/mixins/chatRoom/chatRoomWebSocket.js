@@ -31,7 +31,7 @@ export var chatRoomWebSocket = {
             this.ws.onopen = function(){
                 self.start()
                 self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
-                self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
+                self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
             this.ws.onmessage = function (data){ 
@@ -44,7 +44,7 @@ export var chatRoomWebSocket = {
                 }
                 else if( jsonData.type === 'system' ){
                     if(jsonData.player_loc === self.$store.state.player_loc){
-                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'info', 'text' : jsonData.text})
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'warning', 'text' : jsonData.text})
                     }
                 }
                 else if(jsonData.type === 'playerList'){
@@ -71,7 +71,7 @@ export var chatRoomWebSocket = {
                     clearTimeout(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                     clearTimeout(self.reconnectTimeoutObj);
-                    self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'error', text : close.reason});
+                    self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : close.reason});
                 }
                 else{
                     if(self.isLeave === false) 
@@ -110,13 +110,13 @@ export var chatRoomWebSocket = {
                 if(self.isLeave === false){
                     if(self.reconnectTimes < 15){//离开页面后则不再刷新心跳
                         self.reconnectTimes = self.reconnectTimes + 1
-                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
                         self.createWebSocket(self.wsUrl);
                         self.lockReconnect = false;
                     }
                     else{
                         self.$message.error('已与游戏大厅断开连接');
-                        self.sendMessageToChatRoom({ 'id' : 0, name : '系统消息', type : 'error', text : '已与游戏大厅断开连接'});
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : '已与游戏大厅断开连接'});
                         clearTimeout(self.timeoutObj);
                         clearTimeout(self.serverTimeoutObj);
                         clearTimeout(self.reconnectTimeoutObj);
