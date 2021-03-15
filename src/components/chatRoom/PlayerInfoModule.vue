@@ -6,7 +6,7 @@
           </div>
         </el-tooltip>
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以设置昵称" placement="left">
-          <div class="player-nickname-box" :style="{'font-size': fontSize}" @click="nicknameDialogVisible = true; nicknameForm.name = $store.state.nickname">
+          <div class="player-nickname-box" :style="{'font-size': fontSize}" @click="nicknameDialogVisible = true; nicknameForm.name = $store.state.nickname; $nextTick( () => { $refs.nicknameForm.clearValidate() })">
             <span>{{$store.state.nickname}}</span>
           </div>
         </el-tooltip>
@@ -37,7 +37,7 @@
             </el-form-item>
           </el-form>
           <div slot="footer">
-            <el-button @click="nicknameDialogVisible = false; $refs.nicknameForm.resetFields()" style="margin-right:10%">取消</el-button>
+            <el-button @click="nicknameDialogVisible = false; $refs.nicknameForm.clearValidate()" style="margin-right:10%">取消</el-button>
             <el-button type="primary" @click.stop.prevent="submitNewNickname">确定</el-button>
           </div>
         </el-dialog>
@@ -88,21 +88,27 @@ export default {
         submitNewAvatar: function(){
           if(this.duplicateSubmitAvatarFlag) return;
           this.duplicateSubmitAvatarFlag = true
-          modifyAvatar({avatar_id : this.temAvatarId})
-          .then( () => {
-            this.$store.dispatch('mutateAvatarId', this.temAvatarId)
-            .then( () => {
-                this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
-            })
-            this.$message.success('成功设置头像')
-          })
-          .catch( () =>{
-            this.$message.error('修改失败，请稍后重试')
-          })
-          .finally( () =>{ 
-            this.avatarDialogVisible = false
+          if( this.temAvatarId === this.$store.state.avatar_id){
+            this.$message.error('更改前后头像一致，请重新选择')
             this.duplicateSubmitAvatarFlag = false
-          })
+          }
+          else{
+            modifyAvatar({avatar_id : this.temAvatarId})
+            .then( () => {
+              this.$store.dispatch('mutateAvatarId', this.temAvatarId)
+              .then( () => {
+                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
+              })
+              this.$message.success('成功设置头像')
+            })
+            .catch( () =>{
+              this.$message.error('修改失败，请稍后重试')
+            })
+            .finally( () =>{ 
+              this.avatarDialogVisible = false
+              this.duplicateSubmitAvatarFlag = false
+            })
+          }
         },
 
         submitNewNickname: function(){
