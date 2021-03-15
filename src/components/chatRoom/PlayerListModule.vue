@@ -1,38 +1,67 @@
 <template>
-     <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
-        <el-table-column prop="avatar_id" label="头像" min-width="30">
-            <template slot-scope="scope">
-            <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
-            </template>
-        </el-table-column>
-        <el-table-column prop="nickname" label="玩家" min-width="80">
-            <template slot-scope="scope">
-                <el-popover trigger="hover" placement="right" popper-class="chat-popover" :width="popupWidth">
-                    <p>玩家信息
-                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" size="small" style="float:right">
-                            {{ getStatus(scope.row.player_status) }}
-                        </el-tag>
-                    </p>
-                    <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar_id)" :fit="'fill'"></el-image>
-                    <p>昵称: {{ scope.row.nickname }}</p>
-                    <!-- <p>胜局数: {{ scope.row.wins }}</p> -->
-                    <!-- 其他数据之后再加 -->
-                    <div slot="reference" class="name-wrapper">
-                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
-                            {{ getStatus(scope.row.player_status) }}
-                        </el-tag>
-                        <span>{{ ' ' + scope.row.nickname }}</span>
-                    </div>
-                </el-popover>
-            </template>
-        </el-table-column>
-    </el-table>
+    <div>
+        <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
+            <el-table-column prop="avatar_id" label="头像" min-width="30">
+                <template slot-scope="scope">
+                    <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
+                </template>
+            </el-table-column>
+            <el-table-column prop="nickname" label="玩家" min-width="80">
+                <template slot-scope="scope">
+                    <el-popover trigger="hover" placement="right" popper-class="chat-popover" :width="popupWidth" :disabled="playerInfoDialogVisible">
+                        <p>玩家信息
+                            <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" size="small" style="float:right">
+                                {{ getStatus(scope.row.player_status) }}
+                            </el-tag>
+                        </p>
+                        <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar_id)" :fit="'fill'"></el-image>
+                        <p>昵称: {{ scope.row.nickname }}</p>
+                        <el-button type="warning" :style="{'font-size': fontSize}" :size="buttonSize" @click="getPlayerRecord(scope.row.id, scope.row.avatar_id, scope.row.nickname)">详细信息</el-button>
+                        <div slot="reference" class="name-wrapper">
+                            <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
+                                {{ getStatus(scope.row.player_status) }}
+                            </el-tag>
+                            <span>{{ ' ' + scope.row.nickname }}</span>
+                        </div>
+                    </el-popover>
+                </template>
+            </el-table-column>
+        </el-table>
+        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="largeDialogWidth" :modal-append-to-body = false center>
+            <el-divider></el-divider>
+            <PlayerProfileModule :playerProfileDto = "playerProfile"></PlayerProfileModule>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="info" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">返回</el-button>
+            </span>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
+import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
+
 export default {
+    name: 'playerListModule',
     data(){
         return {
+            playerInfoDialogVisible: false,
+            playerProfile:{
+                id: 0,
+                avatar_id: 0,
+                nickname: '',
+                level: 0,
+                record:{
+                    num_of_game: 0,
+                    most_game: 0,
+                    least_game: 0,
+                    experience: 0,
+                    experienced_cards: 0,
+                    max_card: 0,
+                    max_card_amount: 0,
+                    min_card: 0,
+                    min_card_amount: 0,
+                }
+            },
         }
     },
 
@@ -46,8 +75,12 @@ export default {
         playerList: Array,
         avatarSize: {type: Number, default: 20},
         fontSize: {type: String, default: '14px'},
+        largeFontSize : {type: String, default: '16px'},
         tagSize: {type: String, default: 'medium'},
         popupWidth: {type: Number, default: 160},
+        buttonSize: {type: String, default: 'medium'},
+        dialogWidth: {type: String, default: '50%'},
+        largeDialogWidth: {type: String, default: '50%'},
     },
 
     methods:{
@@ -82,7 +115,19 @@ export default {
                 return 'success'
             }
         },
+
+        getPlayerRecord: function(id, avatar_id, nickname){
+            this.playerProfile.id = id
+            this.playerInfoDialogVisible = true
+            this.playerProfile.avatar_id = avatar_id
+            this.playerProfile.nickname = nickname
+            console.log(id)
+        },
     },
+
+    components: {
+        PlayerProfileModule
+    }
 }
 </script>
 
