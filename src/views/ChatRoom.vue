@@ -3,7 +3,7 @@
   <el-container>
     <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
       <div class="player-list-box">
-        <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
+        <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
       </div>
       <div class="button-box">
         <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize}" :size="buttonSize">创建房间</el-button>
@@ -13,7 +13,7 @@
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-popover placement="bottom" :width="popupWidth" trigger="click">
-          <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth"></PlayerListModule>
+          <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
           <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
         <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>

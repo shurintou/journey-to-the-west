@@ -11,6 +11,7 @@ export var chatRoomResize = {
             largeFontSize: '',
             popupWidth: 160,
             dialogWidth: '50%',
+            largeDialogWidth: '50%',
             mainImg: require("@/assets/images/chatroom_main_image.png"),
             horizontalBackground: require("@/assets/images/horizontal_background.png"),
             verticalBackground: require("@/assets/images/vertical_background.png"),
@@ -31,6 +32,7 @@ export var chatRoomResize = {
                 this.popupWidth = 160
                 this.largeFontSize = '10px'
                 this.dialogWidth = '60%'
+                this.largeDialogWidth = '95%'
             }
             else if(screen_width < 800){
                 this.asideWidth = '160px'
@@ -43,6 +45,7 @@ export var chatRoomResize = {
                 this.popupWidth = 160
                 this.largeFontSize = '11px'
                 this.dialogWidth = '50%'
+                this.largeDialogWidth = '60%'
 
             }
             /* iphoneX plus横屏880 */
@@ -57,6 +60,7 @@ export var chatRoomResize = {
                 this.popupWidth = 170
                 this.largeFontSize = '12px'
                 this.dialogWidth = '40%'
+                this.largeDialogWidth = '40%'
 
             }
             else if(screen_width < 1024){
@@ -70,6 +74,7 @@ export var chatRoomResize = {
                 this.popupWidth = 180
                 this.largeFontSize = '13px'
                 this.dialogWidth = '30%'
+                this.largeDialogWidth = '30%'
 
             }
             else if(screen_width < 1280){
@@ -83,6 +88,7 @@ export var chatRoomResize = {
                 this.popupWidth = 190
                 this.largeFontSize = '14px'
                 this.dialogWidth = '30%'
+                this.largeDialogWidth = '30%'
 
             }
             /* 电脑 */
@@ -97,6 +103,7 @@ export var chatRoomResize = {
                 this.popupWidth = 200
                 this.largeFontSize = '15px'
                 this.dialogWidth = '30%'
+                this.largeDialogWidth = '30%'
 
             }
         }
