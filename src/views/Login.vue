@@ -8,7 +8,7 @@
       <el-card shadow="always" >
         <h1 style="text-align: center;">欢迎登陆</h1>
         <el-divider></el-divider>
-        <el-form  :model="validateForm" label-width="100px" ref="validateForm">
+        <el-form  :model="validateForm" label-width="100px" ref="validateForm" @keypress.native="enterLogin($event)">
           <el-form-item label="用户名" prop="username" :rules="[{ required: true, validator: checkName, trigger: 'blur'},]">
               <el-input placeholder="请输入用户名" type="text" v-model="validateForm.username" autocomplete="off"></el-input>
           </el-form-item>
@@ -155,7 +155,11 @@ export default {
       else if(which === 'line'){
         this.qrCodeUrl = require('@/assets/images/line-qr-code-min.png')
       }
-    }
+    },
+
+    enterLogin: function(e){
+            if(e.keyCode === 13)this.submitForm()
+    },
   },
 
   components:{
