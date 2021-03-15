@@ -2,13 +2,13 @@
      <div class="player-profile-box">
             <el-image style="margin-left: 35%; width: 30%" :src="getAvatarUrl(playerProfile.avatar_id)" :fit="'fill'"></el-image>
             <p class="player-profile-line" v-if="playerProfile.id === $store.state.id">
-                <el-tooltip effect="light" content="经验值" placement="top">
-                     <el-progress :text-inside="true" :percentage="60" :stroke-width="20" status="success"></el-progress>
+                <el-tooltip effect="light" :content="'距下次升级：' + playerProfile.record.experience + ' / ' + nextLevelExp" placement="top">
+                    <el-progress :text-inside="true" :percentage="expPecent" :stroke-width="20" status="success"></el-progress>
                 </el-tooltip>
             </p>
             <p class="player-profile-line">
                 <span>等级：</span>
-                <span class="player-profile-line-right">{{ playerProfile.level }}级</span>
+                <span class="player-profile-line-right">{{ level }}级</span>
             </p>
             <p class="player-profile-line">
                 <span>局数：</span>
@@ -62,28 +62,33 @@
 export default {
     data() {
         return {
-             playerProfile:{
-                id: 0,
-                avatar_id: 0,
-                nickname: '',
-                level: 0,
-                record:{
-                    num_of_game: 0,
-                    most_game: 0,
-                    least_game: 0,
-                    experience: 0,
-                    experienced_cards: 0,
-                    max_card: 0,
-                    max_card_amount: 0,
-                    min_card: 0,
-                    min_card_amount: 0,
-                }
-             },
+            level: 0,
+            expPecent: 0,
+            nextLevelExp: 0,
+            levelUpExp: [100, 300, 600, 1000, 1500, 2200, 3000, 3900, 4900, 6000, 7500, 9300, 11500, 14200, 17500]
         }
     },
 
+    watch:{
+        'playerProfile.record.experience': {
+            immediate: true,
+            handler: function(newVal){
+            for( var i = 0; i < this.levelUpExp.length; i++){
+                if(newVal < this.levelUpExp[i]){
+                    this.nextLevelExp = this.levelUpExp[i]
+                    this.level = i + 1
+                    this.expPecent = Math.round(100 * newVal / this.levelUpExp[i] )
+                    return
+                }
+            }
+            this.nextLevelExp = NaN
+            this.level = 15
+            this.expPecent = 100
+        }}
+    },
+
     props:{
-        playerProfileDto : {type: Object, default: null},
+        playerProfile : {type: Object, default: null},
     },
 
     methods:{
@@ -91,10 +96,6 @@ export default {
           return require("@/assets/images/avatar_" + avatarId + "-min.png")
         },
     },
-
-    created: function(){
-        this.playerProfile =this.playerProfileDto
-    }
 }
 </script>
 

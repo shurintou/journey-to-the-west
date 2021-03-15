@@ -29,7 +29,7 @@
         </el-table>
         <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="largeDialogWidth" :modal-append-to-body = false center>
             <el-divider></el-divider>
-            <PlayerProfileModule :playerProfileDto = "playerProfile"></PlayerProfileModule>
+            <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
             <span slot="footer" class="dialog-footer">
                 <el-button type="info" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">返回</el-button>
             </span>
@@ -49,7 +49,6 @@ export default {
                 id: 0,
                 avatar_id: 0,
                 nickname: '',
-                level: 0,
                 record:{
                     num_of_game: 0,
                     most_game: 0,
