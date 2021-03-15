@@ -94,12 +94,17 @@ export default {
           }
           else{
             modifyAvatar({avatar_id : this.temAvatarId})
-            .then( () => {
-              this.$store.dispatch('mutateAvatarId', this.temAvatarId)
-              .then( () => {
-                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
-              })
-              this.$message.success('成功设置头像')
+            .then( (res) => {
+              if(res.code === 200){
+                this.$store.dispatch('mutateAvatarId', this.temAvatarId)
+                .then( () => {
+                    this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
+                })
+                this.$message.success('成功设置头像')
+              }
+              else{
+                this.$message.error('修改失败，请稍后重试')
+              }
             })
             .catch( () =>{
               this.$message.error('修改失败，请稍后重试')
@@ -117,12 +122,17 @@ export default {
            this.$refs.nicknameForm.validate( valid => {
               if( valid ){
                 modifyNickname({nickname : this.nicknameForm.name})
-                .then( () =>{
-                  this.$store.dispatch('mutateNickname', this.nicknameForm.name).then( ()=> {
+                .then( (res) =>{
+                  if(res.code === 200){
+                    this.$store.dispatch('mutateNickname', this.nicknameForm.name).then( ()=> {
                     this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id , player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
                     this.nicknameForm.name = this.$store.state.nickname
-                  })
-                  this.$message.success('成功设置昵称')
+                    })
+                    this.$message.success('成功设置昵称')
+                  }
+                  else{
+                    this.$message.error('修改失败，请稍后重试')
+                  }
                 })
                 .catch( () =>{
                   this.$message.error('修改失败，请稍后重试')
