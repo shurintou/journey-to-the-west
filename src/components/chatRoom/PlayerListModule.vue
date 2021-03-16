@@ -27,7 +27,7 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="largeDialogWidth" :modal-append-to-body = false center>
+        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="largeDialogWidth" :modal-append-to-body = false center :modal="false">
             <el-divider></el-divider>
             <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
             <span slot="footer" class="dialog-footer">
