@@ -15,7 +15,7 @@
           <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
         </div>
 
-        <el-dialog title="修改头像" :visible.sync="avatarDialogVisible" center :width="dialogWidth">
+        <el-dialog title="修改头像" :visible.sync="avatarDialogVisible" center :width="dialogWidth" :modal="false">
           <el-divider></el-divider>
           <div class="icon-select-box">
             <div class="icon-block" :class="{'icon-is-selected': temAvatarId === n}" v-for="n in iconNum" :key="n" @click="temAvatarId = n">
@@ -28,7 +28,7 @@
           </span>
         </el-dialog>
 
-        <el-dialog title="修改昵称" :visible.sync="nicknameDialogVisible" center :width="dialogWidth" :close-on-click-modal="false">
+        <el-dialog title="修改昵称" :visible.sync="nicknameDialogVisible" center :width="dialogWidth" :close-on-click-modal="false" :modal="false">
           <el-form :model="nicknameForm" ref="nicknameForm" @submit.native.prevent="submitNewNickname">
             <el-form-item label="新昵称" prop="name" :rules="[{ required: true, validator: checkNickname, trigger: 'blur'}]">
               <el-input v-model="nicknameForm.name" autocomplete="off" placeholder="输入新昵称" maxlength="10" show-word-limit>
