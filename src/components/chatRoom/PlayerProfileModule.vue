@@ -2,7 +2,7 @@
      <div class="player-profile-box">
             <el-image style="margin-left: 35%; width: 30%" :src="getAvatarUrl(playerProfile.avatar_id)" :fit="'fill'"></el-image>
             <p class="player-profile-line" v-if="playerProfile.id === $store.state.id">
-                <el-tooltip effect="light" :content="'距下次升级：' + playerProfile.record.experience + ' / ' + nextLevelExp" placement="top">
+                <el-tooltip effect="light" :content="'距下次升级：' + currentExp + ' / ' + nextLevelExp" placement="top">
                     <el-progress :text-inside="true" :percentage="expPecent" :stroke-width="20" status="success"></el-progress>
                 </el-tooltip>
             </p>
@@ -70,6 +70,7 @@ export default {
         return {
             level: 0,
             expPecent: 0,
+            currentExp: 0,
             nextLevelExp: 0,
             levelUpExp: [100, 300, 600, 1000, 1500, 2200, 3000, 3900, 4900, 6000, 7500, 9300, 11500, 14200, 17500]
         }
@@ -79,14 +80,19 @@ export default {
         'playerProfile.record.experience': {
             immediate: true,
             handler: function(newVal){
+            this.currentExp = newVal
             for( var i = 0; i < this.levelUpExp.length; i++){
-                if(newVal < this.levelUpExp[i]){
+                if(this.currentExp < this.levelUpExp[i]){
                     this.nextLevelExp = this.levelUpExp[i]
                     this.level = i + 1
-                    this.expPecent = Math.round(100 * newVal / this.levelUpExp[i] )
+                    this.expPecent = Math.round(100 * this.currentExp / this.levelUpExp[i] )
                     return
                 }
+                else{
+                    this.currentExp = this.currentExp - this.levelUpExp[i]
+                }
             }
+            this.currentExp = NaN
             this.nextLevelExp = NaN
             this.level = 15
             this.expPecent = 100
