@@ -32,7 +32,9 @@
             </p> 
             <p class="player-profile-line">
                 <span>场均吃牌数：</span>
-                <span class="player-profile-line-right">{{  playerProfile.record.num_of_game === 0? 0 : playerProfile.record.experienced_cards / playerProfile.record.num_of_game }}张</span>
+                <el-tooltip effect="light" :content="playerProfile.record.experienced_cards + ' / ' + playerProfile.record.num_of_game" placement="left">
+                <span class="player-profile-line-right">{{  playerProfile.record.num_of_game === 0? 0 : (playerProfile.record.experienced_cards / playerProfile.record.num_of_game).toFixed(1) }}张</span>
+                </el-tooltip>
             </p> 
             <p class="player-profile-line">
                 <span>最少吃牌数：</span>
@@ -42,7 +44,9 @@
                 <el-tooltip effect="light" content="最少吃牌数所占该局总牌数的比例" placement="right">
                   <span>最少吃牌比：</span>
                 </el-tooltip>
-                <span class="player-profile-line-right">{{ playerProfile.record.min_card_amount === 0? 0 : playerProfile.record.min_card * 100 / playerProfile.record.min_card_amount }}%</span>
+                <el-tooltip effect="light" :content="playerProfile.record.min_card + ' / ' + playerProfile.record.min_card_amount" placement="left">
+                <span class="player-profile-line-right">{{ playerProfile.record.min_card_amount === 0? 0 : (playerProfile.record.min_card * 100 / playerProfile.record.min_card_amount).toFixed(1) }}%</span>
+                </el-tooltip>
             </p> 
             <p class="player-profile-line">
                 <span>最多吃牌数：</span>
@@ -52,7 +56,9 @@
                 <el-tooltip effect="light" content="最多吃牌数所占该局总牌数的比例" placement="right">
                     <span>最多吃牌比：</span>
                 </el-tooltip>
-                <span class="player-profile-line-right">{{ playerProfile.record.max_card_amount === 0? 0 : playerProfile.record.max_card * 100 / playerProfile.record.max_card_amount }}%</span>
+                <el-tooltip effect="light" :content="playerProfile.record.max_card + ' / ' + playerProfile.record.max_card_amount" placement="left">
+                <span class="player-profile-line-right">{{ playerProfile.record.max_card_amount === 0? 0 : (playerProfile.record.max_card * 100 / playerProfile.record.max_card_amount).toFixed(1) }}%</span>
+                </el-tooltip>
             </p> 
             <br>
     </div>
