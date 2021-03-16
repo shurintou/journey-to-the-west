@@ -11,7 +11,7 @@
           </div>
         </el-tooltip>
         <div class="player-setting-box">
-          <el-button class="setting-button" :style="{'font-size': fontSize}" type="info" icon="el-icon-view">查看</el-button>
+          <el-button class="setting-button" :style="{'font-size': fontSize}" type="info" icon="el-icon-view" @click="openViewModule">查看</el-button>
           <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
         </div>
 
@@ -41,11 +41,24 @@
             <el-button type="primary" @click.stop.prevent="submitNewNickname">修改</el-button>
           </div>
         </el-dialog>
+
+        <el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
+          <el-tabs type="border-card" v-model="activeViewModuleTabName" @tab-click="handleViewModuleTabClick">
+            <el-tab-pane label="个人战绩" name="record">
+               <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
+            </el-tab-pane>
+            <el-tab-pane label="过去对局" name="game">暂未开放</el-tab-pane>
+            <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
+            <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
+          </el-tabs>
+        </el-dialog>
     </el-aside>
 </template>
 
 <script>
 import { modifyAvatar, modifyNickname } from '../../api/modify'
+import { getPlayerRecord } from '../../api/infoSearch'
+import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
 
 export default {
 
@@ -53,13 +66,32 @@ export default {
       return {
         avatarDialogVisible: false,
         nicknameDialogVisible: false,
+        viewModuleDialogVisible: false,
         duplicateSubmitAvatarFlag: false,
         duplicateSubmitNicknameFlag: false,
+        duplicateGetInfoFlag: false,
+        activeViewModuleTabName: 'record',
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
         temAvatarId: 0,
         nicknameForm:{ name : '' },
+        playerProfile:{
+            id: 0,
+            avatar_id: 0,
+            nickname: '',
+            record:{
+                num_of_game: 0,
+                most_game: 0,
+                least_game: 0,
+                experience: 0,
+                experienced_cards: 0,
+                max_card: 0,
+                max_card_amount: 0,
+                min_card: 0,
+                min_card_amount: 0,
+            }
+        },
         checkNickname:  (rule, value, callback) => {
           if (value === '') {
             callback(new Error('请输入昵称'));
@@ -77,6 +109,7 @@ export default {
         verticalBackground: {type: String, default: ''},
         fontSize: {type: String, default: ''},
         dialogWidth: {type: String, default: ''},
+        playerInfoDialogWidth: {type: String, default: ''},
         ws: { type: WebSocket, default: null},
     },
 
@@ -146,9 +179,38 @@ export default {
                 this.duplicateSubmitNicknameFlag = false
               }
            })
-         
-        }
+        },
+
+        openViewModule: function(){
+            this.viewModuleDialogVisible = true
+            this.activeViewModuleTabName = 'record'
+            this.getPlayerRecord(this.$store.state.id, this.$store.state.avatar_id, this.$store.state.nickname)
+        },
+
+        handleViewModuleTabClick: function(tab){
+            console.log(tab.name)
+        },
+
+        getPlayerRecord: function(id, avatar_id, nickname){
+          if(this.duplicateGetInfoFlag) return;
+          this.duplicateGetInfoFlag = true
+          this.playerProfile.id = id
+          this.playerProfile.avatar_id = avatar_id
+          this.playerProfile.nickname = nickname
+          getPlayerRecord({id: id})
+          .then( (res) => {
+              this.playerProfile.record = res.record
+          })
+          .catch({})
+          .finally( () => {
+              this.duplicateGetInfoFlag = false
+          })
+      },
     },
+
+    components: {
+        PlayerProfileModule
+    }
 }
 </script>
 

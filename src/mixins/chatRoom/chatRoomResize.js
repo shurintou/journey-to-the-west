@@ -9,9 +9,10 @@ export var chatRoomResize = {
             fontSize: '',
             tagSize: '',
             largeFontSize: '',
-            popupWidth: 160,
-            dialogWidth: '50%',
-            largeDialogWidth: '50%',
+            popupWidth: 0,
+            dialogWidth: '',
+            largeDialogWidth: '',
+            playerInfoDialogWidth: '',
             mainImg: require("@/assets/images/chatroom_main_image.png"),
             horizontalBackground: require("@/assets/images/horizontal_background.png"),
             verticalBackground: require("@/assets/images/vertical_background.png"),
@@ -31,8 +32,9 @@ export var chatRoomResize = {
                 this.tagSize = 'mini'
                 this.popupWidth = 160
                 this.largeFontSize = '10px'
-                this.dialogWidth = '60%'
+                this.dialogWidth = '70%'
                 this.largeDialogWidth = '95%'
+                this.playerInfoDialogWidth = '95%'
             }
             else if(screen_width < 800){
                 this.asideWidth = '160px'
@@ -46,7 +48,7 @@ export var chatRoomResize = {
                 this.largeFontSize = '11px'
                 this.dialogWidth = '50%'
                 this.largeDialogWidth = '60%'
-
+                this.playerInfoDialogWidth = '75%'
             }
             /* iphoneX plus横屏880 */
             else if(screen_width < 900){
@@ -61,7 +63,7 @@ export var chatRoomResize = {
                 this.largeFontSize = '12px'
                 this.dialogWidth = '40%'
                 this.largeDialogWidth = '40%'
-
+                this.playerInfoDialogWidth = '60%'
             }
             else if(screen_width < 1024){
                 this.asideWidth = '200px'
@@ -75,7 +77,7 @@ export var chatRoomResize = {
                 this.largeFontSize = '13px'
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
-
+                this.playerInfoDialogWidth = '50%'
             }
             else if(screen_width < 1280){
                 this.asideWidth = '250px'
@@ -89,7 +91,7 @@ export var chatRoomResize = {
                 this.largeFontSize = '14px'
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
-
+                this.playerInfoDialogWidth = '50%'
             }
             /* 电脑 */
             else{
@@ -104,7 +106,7 @@ export var chatRoomResize = {
                 this.largeFontSize = '15px'
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
-
+                this.playerInfoDialogWidth = '50%'
             }
         }
     },
