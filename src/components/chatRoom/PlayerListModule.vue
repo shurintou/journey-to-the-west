@@ -39,12 +39,14 @@
 
 <script>
 import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
+import { getPlayerRecord } from '../../api/infoSearch'
 
 export default {
     name: 'playerListModule',
     data(){
         return {
             playerInfoDialogVisible: false,
+            duplicateGetInfoFlag: false, 
             playerProfile:{
                 id: 0,
                 avatar_id: 0,
@@ -116,11 +118,20 @@ export default {
         },
 
         getPlayerRecord: function(id, avatar_id, nickname){
+            if(this.duplicateGetInfoFlag) return;
+            this.duplicateGetInfoFlag = true
             this.playerProfile.id = id
             this.playerInfoDialogVisible = true
             this.playerProfile.avatar_id = avatar_id
             this.playerProfile.nickname = nickname
-            console.log(id)
+            getPlayerRecord({id: id})
+            .then( (res) => {
+                this.playerProfile.record = res.record
+            })
+            .catch({})
+            .finally( () => {
+                this.duplicateGetInfoFlag = false
+            })
         },
     },
 
