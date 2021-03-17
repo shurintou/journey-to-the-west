@@ -13,6 +13,7 @@ export var chatRoomResize = {
             dialogWidth: '',
             largeDialogWidth: '',
             playerInfoDialogWidth: '',
+            gameRoomItemWidth: 90,
             mainImg: require("@/assets/images/chatroom_main_image.png"),
             horizontalBackground: require("@/assets/images/horizontal_background.png"),
             verticalBackground: require("@/assets/images/vertical_background.png"),
@@ -35,6 +36,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '70%'
                 this.largeDialogWidth = '95%'
                 this.playerInfoDialogWidth = '95%'
+                this.gameRoomItemWidth = 90
             }
             else if(screen_width < 800){
                 this.asideWidth = '160px'
@@ -49,6 +51,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '50%'
                 this.largeDialogWidth = '60%'
                 this.playerInfoDialogWidth = '75%'
+                this.gameRoomItemWidth = 70
             }
             /* iphoneX plus横屏880 */
             else if(screen_width < 900){
@@ -64,6 +67,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '40%'
                 this.largeDialogWidth = '40%'
                 this.playerInfoDialogWidth = '60%'
+                this.gameRoomItemWidth = 65
             }
             else if(screen_width < 1024){
                 this.asideWidth = '200px'
@@ -78,6 +82,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
                 this.playerInfoDialogWidth = '50%'
+                this.gameRoomItemWidth = 60
             }
             else if(screen_width < 1280){
                 this.asideWidth = '250px'
@@ -92,6 +97,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
                 this.playerInfoDialogWidth = '50%'
+                this.gameRoomItemWidth = 55
             }
             /* 电脑 */
             else{
@@ -107,6 +113,7 @@ export var chatRoomResize = {
                 this.dialogWidth = '30%'
                 this.largeDialogWidth = '30%'
                 this.playerInfoDialogWidth = '50%'
+                this.gameRoomItemWidth = 50
             }
         }
     },
