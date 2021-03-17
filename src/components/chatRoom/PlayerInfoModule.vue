@@ -115,7 +115,7 @@ export default {
 
     methods:{
         getAvatarUrl: function(n){
-          return require("@/assets/images/avatar_" + n + "-min.png")
+          return require("@/assets/images/avatar/avatar_" + n + "-min.png")
         },
 
         submitNewAvatar: function(){
