@@ -90,7 +90,7 @@ export default {
         },
 
         getAvatarUrl: function(avatarId){
-          return require("@/assets/images/avatar_" + avatarId + "-min.png")
+          return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
         getStatus: function(player_status){
