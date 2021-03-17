@@ -19,7 +19,9 @@
         <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
         <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>创建房间</el-button>
       </el-header>
-      <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">Main</el-main>
+      <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
+        <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList"></GameRoomListModule>
+      </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
             <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
@@ -45,6 +47,7 @@ import { chatRoomResize } from '../mixins/chatRoom/chatRoomResize'
 import PlayerListModule from '../components/chatRoom/PlayerListModule'
 import PlayerInfoModule from '../components/chatRoom/PlayerInfoModule'
 import ChatModule from '../components/chatRoom/ChatModule'
+import GameRoomListModule from '../components/chatRoom/GameRoomListModule'
 import { removeToken } from '../utils/cookie'
 import { logout } from '../api/login'
 
@@ -55,6 +58,7 @@ export default {
       chatText: [],
       cancelLeaveDialogVisible: false,
       playerList: [],
+      gameRoomList: [],
     }
   },
 
@@ -76,6 +80,7 @@ export default {
     PlayerListModule,
     PlayerInfoModule,
     ChatModule,
+    GameRoomListModule
   },
 }
 </script>
