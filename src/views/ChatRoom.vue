@@ -30,32 +30,8 @@
       </el-footer>
     </el-container>
   </el-container>
-  <el-dialog title="提示" :visible.sync="cancelLeaveDialogVisible" :width="dialogWidth" center>
-        <i class="el-icon-question"></i>
-        <span style="text-align:center">确定要登出并离开游戏大厅吗？</span>
-        <span slot="footer">
-            <el-button @click="cancelLeaveDialogVisible = false" style="margin-right:10%">取消</el-button>
-            <el-button type="danger" @click="logOut()">确定</el-button>
-        </span>
-  </el-dialog>  
-  <el-dialog title="创建房间" :visible.sync="createGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" @close="closeCreateGameRoomDialog">
-        <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
-          <el-form-item label="房间名" prop="roomName" :rules="[{ required: true, message: '请输入房间名', trigger: 'blur' }]">
-              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
-              <el-input placeholder="非必填，4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
-          </el-form-item>
-        </el-form>
-         <div>
-          <span class="demonstration">使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
-          <el-slider v-model="gameRoomValidateForm.cardNum" :min="4" :max="10" :step="1" :show-tooltip="false"></el-slider>
-        </div>
-        <div slot="footer">
-            <el-button @click="closeCreateGameRoomDialog" style="margin-right:10%">取消</el-button>
-            <el-button type="success" @click="createGameRoom">创建</el-button>
-        </div>
-  </el-dialog>  
+  <LogoutDialogModule :cancelLeaveDialogVisible="cancelLeaveDialogVisible" :dialogWidth="dialogWidth" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}"></LogoutDialogModule>
+  <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
 </div>
 </template>
 
@@ -66,8 +42,8 @@ import PlayerListModule from '../components/chatRoom/PlayerListModule'
 import PlayerInfoModule from '../components/chatRoom/PlayerInfoModule'
 import ChatModule from '../components/chatRoom/ChatModule'
 import GameRoomListModule from '../components/chatRoom/GameRoomListModule'
-import { removeToken } from '../utils/cookie'
-import { logout } from '../api/login'
+import LogoutDialogModule from '../components/chatRoom/dialogs/LogoutDialogModule'
+import CreateGameRoomDialogModule from '../components/chatRoom/dialogs/CreateGameRoomDialogModule'
 
 export default {
   name: 'ChatRoom',
@@ -78,60 +54,21 @@ export default {
       createGameRoomDialogVisible: false,
       playerList: [],
       gameRoomList: [],
-      gameRoomValidateForm: {
-          roomName: this.$store.state.nickname + ' 的房间',
-          password: '', 
-          cardNum: 4,
-      },
-      checkPassword:  (rule, value, callback) => {
-          if (value === '') {
-            callback();
-          }
-          else {
-            var uPattern = /^[0-9]{4,8}$/
-            if(!uPattern.test(value)){
-              callback(new Error('密码须4到8位数字'));
-            }
-            else{
-              callback();
-            }
-            callback();
-          }
-      },
     }
   },
 
   mixins:[chatRoomWebSocket, chatRoomResize],
  
   methods:{
-    logOut: function(){
-      this.$message({
-        message: '已登出，回到登录页面',
-        type: 'info'
-       });
-      logout().finally( () => {removeToken()});
-      this.$router.push({name: 'Login'})
-      this.cancelLeaveDialogVisible = false
-    },
-
-    createGameRoom: function(){
-      console.log('create room')
-    },
-
-    closeCreateGameRoomDialog: function(){
-      this.createGameRoomDialogVisible = false
-      this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
-      this.gameRoomValidateForm.password = ''
-      this.gameRoomValidateForm.cardNum = 4
-      this.$refs.gameRoomValidateForm.clearValidate()
-    },
   },
 
   components:{
     PlayerListModule,
     PlayerInfoModule,
     ChatModule,
-    GameRoomListModule
+    GameRoomListModule,
+    LogoutDialogModule,
+    CreateGameRoomDialogModule,
   },
 }
 </script>
