@@ -33,11 +33,11 @@ export default new Vuex.Store({
     mutateAvatarId(state, payload){
       state.avatar_id = payload
     },
-    mutatePlyaerLoc(state, payload){
-      state.player_loc = payload.player_loc
+    mutatePlayerLoc(state, payload){
+      state.player_loc = payload
     },
-    mutatePlyaerStatus(state, payload){
-      state.player_status = payload.player_status
+    mutatePlayerStatus(state, payload){
+      state.player_status = payload
     }
   },
   actions: {
@@ -50,11 +50,11 @@ export default new Vuex.Store({
     mutateAvatarId({ commit } , payload){
       commit('mutateAvatarId' , payload)
     },
-    mutatePlyaerLoc({ commit } , payload){
-      commit('mutatePlyaerLoc' , payload)
+    mutatePlayerLoc({ commit } , payload){
+      commit('mutatePlayerLoc' , payload)
     },
-    mutatePlyaerStatus({ commit } , payload){
-      commit('mutatePlyaerStatus' , payload)
+    mutatePlayerStatus({ commit } , payload){
+      commit('mutatePlayerStatus' , payload)
     },
   },
   modules: {

@@ -28,7 +28,7 @@ export default {
     props:{
         playerList: {type: Array, default: null} ,
         gameRoomItemWidth: {type: Number, default: 90},
-        gameRoomList: {type: Array, default: null}, //gameRoomList: [{id : 1, name: '', status: 0, needPassword: false, playerList: [ 3, 10 ], },
+        gameRoomList: {type: Array, default: null}, //gameRoomList: [{id : 1, name: '', status: 0, needPassword: false, owner: 3, playerList: [ 3, 10 ], },
         largeFontSize: {type: String, default: ''},
     },
 

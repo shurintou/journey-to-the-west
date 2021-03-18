@@ -30,6 +30,7 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
+                self.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 }))
                 self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
                 self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
@@ -50,18 +51,48 @@ export var chatRoomWebSocket = {
                 else if(jsonData.type === 'playerList'){
                     var newPlayerList = []
                     var player = {}
-                    for(var i =0; i < jsonData.data.length; i++){
+                    for(let i =0; i < jsonData.data.length; i++){
                         player = JSON.parse(jsonData.data[i])
+                        /* 在大厅则获取该玩家信息 */
                         if(self.$store.state.player_loc === 0){
                             newPlayerList.push(player)
                         }
                         else{
+                            /* 不在大厅，但在同一房间，也获取该玩家信息 */
                             if(self.$store.state.player_loc === player.player_loc){
                                 newPlayerList.push(player)
                             }
                         }
                     }
                     self.playerList = newPlayerList
+                }
+                else if(jsonData.type === 'gameRoomList'){
+                    var newGameRoomList = [] 
+                    var room = {} //中间变量
+                    var playerLoc = 0 //gameRoomList中玩家所在房间id
+                    var playerLocRoom = {} //gameRoomList中玩家所在房间
+                    for(let i = 0; i < jsonData.data.length; i++){
+                        room = JSON.parse(jsonData.data[i])
+                        newGameRoomList.push(room)
+                        console.log(room)
+                        /* 获取玩家自身在哪个房间 */
+                        for(let j = 0; j < room.playerList.length; j++){
+                            if( self.$store.state.id === room.playerList[j] ){
+                                playerLoc = room.id
+                                playerLocRoom = room
+                                break
+                            }
+                        }
+                    }
+                    self.gameRoomList = newGameRoomList
+                    /* 如果玩家现在位置和上面获取到的不一样则设置为一样，并相应改变玩家状态 */
+                    if( self.$store.state.player_loc !== playerLoc ){
+                        self.$store.dispatch('mutatePlayerLoc', playerLoc).then(() =>{
+                            self.$store.dispatch('mutatePlayerStatus', playerLoc === 0? 0: playerLocRoom.status === 0 ? 1: 2).then(() => {
+                                self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
+                            })
+                        })
+                    }
                 }
                 self.reset()
             };
