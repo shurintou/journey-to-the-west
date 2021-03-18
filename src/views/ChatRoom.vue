@@ -31,7 +31,7 @@
     </el-container>
   </el-container>
   <LogoutDialogModule :cancelLeaveDialogVisible="cancelLeaveDialogVisible" :dialogWidth="dialogWidth" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}"></LogoutDialogModule>
-  <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
+  <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
 </div>
 </template>
 
