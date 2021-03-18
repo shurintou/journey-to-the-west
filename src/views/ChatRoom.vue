@@ -6,7 +6,7 @@
         <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
       </div>
       <div class="button-box">
-        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize}" :size="buttonSize">创建房间</el-button>
+        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize}" @click="createGameRoomDialogVisible = true" :size="buttonSize">创建房间</el-button>
         <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
       </div>
     </el-aside>
@@ -17,7 +17,7 @@
           <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
         <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
-        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>创建房间</el-button>
+        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="createGameRoomDialogVisible = true" :size="buttonSize" round>创建房间</el-button>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList"></GameRoomListModule>
@@ -37,7 +37,25 @@
             <el-button @click="cancelLeaveDialogVisible = false" style="margin-right:10%">取消</el-button>
             <el-button type="danger" @click="logOut()">确定</el-button>
         </span>
-    </el-dialog>   
+  </el-dialog>  
+  <el-dialog title="创建房间" :visible.sync="createGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" @close="closeCreateGameRoomDialog">
+        <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
+          <el-form-item label="房间名" prop="roomName" :rules="[{ required: true, message: '请输入房间名', trigger: 'blur' }]">
+              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
+              <el-input placeholder="非必填，4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
+          </el-form-item>
+        </el-form>
+         <div>
+          <span class="demonstration">使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
+          <el-slider v-model="gameRoomValidateForm.cardNum" :min="4" :max="10" :step="1" :show-tooltip="false"></el-slider>
+        </div>
+        <div slot="footer">
+            <el-button @click="closeCreateGameRoomDialog" style="margin-right:10%">取消</el-button>
+            <el-button type="success" @click="createGameRoom">创建</el-button>
+        </div>
+  </el-dialog>  
 </div>
 </template>
 
@@ -57,8 +75,29 @@ export default {
     return {
       chatText: [],
       cancelLeaveDialogVisible: false,
+      createGameRoomDialogVisible: false,
       playerList: [],
       gameRoomList: [],
+      gameRoomValidateForm: {
+          roomName: this.$store.state.nickname + ' 的房间',
+          password: '', 
+          cardNum: 4,
+      },
+      checkPassword:  (rule, value, callback) => {
+          if (value === '') {
+            callback();
+          }
+          else {
+            var uPattern = /^[0-9]{4,8}$/
+            if(!uPattern.test(value)){
+              callback(new Error('密码须4到8位数字'));
+            }
+            else{
+              callback();
+            }
+            callback();
+          }
+      },
     }
   },
 
@@ -73,6 +112,18 @@ export default {
       logout().finally( () => {removeToken()});
       this.$router.push({name: 'Login'})
       this.cancelLeaveDialogVisible = false
+    },
+
+    createGameRoom: function(){
+      console.log('create room')
+    },
+
+    closeCreateGameRoomDialog: function(){
+      this.createGameRoomDialogVisible = false
+      this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
+      this.gameRoomValidateForm.password = ''
+      this.gameRoomValidateForm.cardNum = 4
+      this.$refs.gameRoomValidateForm.clearValidate()
     },
   },
 
