@@ -5,10 +5,8 @@
       <div class="player-list-box">
         <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
       </div>
-      <div class="button-box">
-        <el-button type="success" class="chat-room-aside-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize}" @click="createGameRoomDialogVisible = true" :size="buttonSize">创建房间</el-button>
-        <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="cancelLeaveDialogVisible = true" :size="buttonSize">登出离开</el-button>
-      </div>
+      <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="cancelLeaveDialogVisible= true" @createGameRoomDialogVisible="createGameRoomDialogVisible = true"></ChatRoomButtonModule>
+      <GameRoomButtonModule v-else :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom"></GameRoomButtonModule>
     </el-aside>
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
@@ -16,11 +14,12 @@
           <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
           <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
-        <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="cancelLeaveDialogVisible = true" :size="buttonSize" round>登出离开</el-button>
-        <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="createGameRoomDialogVisible = true" :size="buttonSize" round>创建房间</el-button>
+        <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="cancelLeaveDialogVisible= true" @createGameRoomDialogVisible="createGameRoomDialogVisible = true"></ChatRoomButtonModule>
+        <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom"></GameRoomButtonModule>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList"></GameRoomListModule>
+        <div v-else>{{ playerLocRoom }}</div>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
@@ -44,6 +43,8 @@ import ChatModule from '../components/chatRoom/ChatModule'
 import GameRoomListModule from '../components/chatRoom/GameRoomListModule'
 import LogoutDialogModule from '../components/chatRoom/dialogs/LogoutDialogModule'
 import CreateGameRoomDialogModule from '../components/chatRoom/dialogs/CreateGameRoomDialogModule'
+import ChatRoomButtonModule from '../components/chatRoom/ChatRoomButtonModule'
+import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
 
 export default {
   name: 'ChatRoom',
@@ -54,6 +55,7 @@ export default {
       createGameRoomDialogVisible: false,
       playerList: [],
       gameRoomList: [],
+      playerLocRoom: null,
     }
   },
 
@@ -69,6 +71,8 @@ export default {
     GameRoomListModule,
     LogoutDialogModule,
     CreateGameRoomDialogModule,
+    ChatRoomButtonModule,
+    GameRoomButtonModule,
   },
 }
 </script>
@@ -117,31 +121,6 @@ export default {
     background-color: #edf0f5;
     border-radius: 6px;
     border: 2px solid #ebab0b;
-  }
-
-  .button-box{
-    margin-top:5%;
-    width: 80%;
-    height: 20%;
-    margin-left: 10%;
-    border-radius: 4px;
-  }
-
-  .chat-room-aside-button{
-     width: 100%;
-     height: 40%;
-     margin-bottom: 5%;
-  }
-
-  .chat-room-header-button{
-     float: right;
-     width: 20%;
-     margin-top: 2%;
-     height: 80%;
-  }
-
-  .chat-room-header-button:first-of-type{
-     margin-right: 5%;
   }
 
   .chat-room-header-button-player-list{
