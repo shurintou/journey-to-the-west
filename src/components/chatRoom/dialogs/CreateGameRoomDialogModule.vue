@@ -57,7 +57,19 @@ export default {
         createGameRoom: function(){
             this.$refs.gameRoomValidateForm.validate(valid => {
                 if(valid){
-                    this.ws.send(JSON.stringify({ type: 'gameRoomList', id: 0, name: this.gameRoomValidateForm.roomName, status: 0, needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false, password: this.gameRoomValidateForm.password, cardNum: this.gameRoomValidateForm.cardNum, owner: this.$store.state.id, playerList:[ this.$store.state.id ] }))
+                    this.ws.send(JSON.stringify({ 
+                        type: 'gameRoomList',
+                        id: 0, 
+                        name: this.gameRoomValidateForm.roomName, 
+                        status: 0, 
+                        needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
+                        password: this.gameRoomValidateForm.password, 
+                        cardNum: this.gameRoomValidateForm.cardNum, 
+                        owner: this.$store.state.id, 
+                        playerList:[ 
+                            {id: this.$store.state.id, cards: 0, seatIndex: 0, ready: false} 
+                            ]}
+                        ))
                     this.$refs.gameRoomValidateForm.clearValidate()
                 }
             })
