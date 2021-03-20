@@ -1,11 +1,11 @@
 <template>
       <div class="button-box" v-if="whichPattern === 'vertical'">
-            <el-button type="success" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isDisabled">{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
-            <el-button type="danger" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="emitCancelLeaveDialog" :size="buttonSize">离开房间</el-button>
+            <el-button :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying">{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
+            <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="emitCancelLeaveDialog" :size="buttonSize" :disabled="isGamePlaying">离开房间</el-button>
       </div>
       <div style="height: 100%" v-else>
-            <el-button type="danger" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitCancelLeaveDialog" :size="buttonSize" round>离开房间</el-button>
-            <el-button type="success" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isDisabled" round>{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
+            <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitCancelLeaveDialog" :size="buttonSize" round :disabled="isGamePlaying">离开房间</el-button>
+            <el-button :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying" round>{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
       </div>
 </template>
 
@@ -26,7 +26,11 @@ export default {
     },
 
     computed:{
-        isDisabled: function(){
+        isGamePlaying: function(){
+            return this.playerLocRoom.status === 0? false : true
+        },
+
+        isNotReady: function(){
             /* 房主的情况下 */
             if(this.playerLocRoom.owner === this.$store.state.id){
                 var isAllReady = true
@@ -50,10 +54,10 @@ export default {
                for(let i = 0; i < this.playerLocRoom.playerList.length; i++){
                     if(this.playerLocRoom.playerList[i].id === this.$store.state.id){
                         if(this.playerLocRoom.playerList[i].ready === false){
-                            return true
+                            return false
                         }
                         else{
-                            return false
+                            return true
                         }
                     }
                 }
@@ -64,7 +68,7 @@ export default {
 
     methods:{
         emitCancelLeaveDialog: function(){
-            this.$emit('emitCancelLeaveDialog', true)
+            this.$emit('leaveRoomDialogVisible', true)
         },
 
         emitReadyToStartGame: function(){

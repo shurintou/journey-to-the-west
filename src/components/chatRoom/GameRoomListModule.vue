@@ -8,7 +8,7 @@
                       </el-tooltip>
                  </span>
              </div>
-             <div v-for="(player, index) in gameRoom.playerList" :key="player"  class="room-list-player" :style="{'margin-left': index === 0 ? '2%' : 0}">
+             <div v-for="(player, index) in gameRoom.playerList" :key="player.id"  class="room-list-player" :style="{'margin-left': index === 0 ? '2%' : 0}">
                  <el-tooltip effect="light" :content="getPlayer(player).nickname" placement="bottom">
                     <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player).avatar_id)"></el-image>
                  </el-tooltip>
