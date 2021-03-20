@@ -5,8 +5,8 @@
       <div class="player-list-box">
         <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
       </div>
-      <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="cancelLeaveDialogVisible= true" @createGameRoomDialogVisible="createGameRoomDialogVisible = true"></ChatRoomButtonModule>
-      <GameRoomButtonModule v-else :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom"></GameRoomButtonModule>
+      <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
+      <GameRoomButtonModule v-else :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
     </el-aside>
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
@@ -14,8 +14,8 @@
           <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize"></PlayerListModule>
           <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
-        <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="cancelLeaveDialogVisible= true" @createGameRoomDialogVisible="createGameRoomDialogVisible = true"></ChatRoomButtonModule>
-        <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom"></GameRoomButtonModule>
+        <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
+        <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList"></GameRoomListModule>
@@ -31,6 +31,7 @@
   </el-container>
   <LogoutDialogModule :cancelLeaveDialogVisible="cancelLeaveDialogVisible" :dialogWidth="dialogWidth" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}"></LogoutDialogModule>
   <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
+  <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
 </div>
 </template>
 
@@ -45,6 +46,7 @@ import LogoutDialogModule from '../components/chatRoom/dialogs/LogoutDialogModul
 import CreateGameRoomDialogModule from '../components/chatRoom/dialogs/CreateGameRoomDialogModule'
 import ChatRoomButtonModule from '../components/chatRoom/ChatRoomButtonModule'
 import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
+import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialogModule'
 
 export default {
   name: 'ChatRoom',
@@ -53,6 +55,7 @@ export default {
       chatText: [],
       cancelLeaveDialogVisible: false,
       createGameRoomDialogVisible: false,
+      leaveRoomDialogVisible: false,
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
@@ -73,6 +76,7 @@ export default {
     CreateGameRoomDialogModule,
     ChatRoomButtonModule,
     GameRoomButtonModule,
+    LeaveRoomDialogModule,
   },
 }
 </script>

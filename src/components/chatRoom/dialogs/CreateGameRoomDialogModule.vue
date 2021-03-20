@@ -59,7 +59,7 @@ export default {
                 if(valid){
                     this.ws.send(JSON.stringify({ 
                         type: 'gameRoomList',
-                        id: 0, 
+                        id: NaN, 
                         name: this.gameRoomValidateForm.roomName, 
                         status: 0, 
                         needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
@@ -71,6 +71,7 @@ export default {
                             ]}
                         ))
                     this.$refs.gameRoomValidateForm.clearValidate()
+                    this.closeCreateGameRoomDialog()
                 }
             })
         },
