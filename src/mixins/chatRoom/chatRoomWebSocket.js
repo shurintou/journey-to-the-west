@@ -87,7 +87,7 @@ export var chatRoomWebSocket = {
                         room = JSON.parse(jsonData.data[i])
                         newGameRoomList.push(room)
                         /* 获取玩家自身在哪个房间 */
-                        for(let j = 0; j < room.playerList.length; j++){
+                        for(let j = 0; j < Object.keys(room.playerList).length; j++){
                             if( self.$store.state.id === room.playerList[j].id ){
                                 playerLoc = room.id
                                 playerLocRoom = room

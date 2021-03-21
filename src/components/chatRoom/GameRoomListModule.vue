@@ -1,16 +1,19 @@
 <template>
     <div id="room-list-container">
         <div v-for="gameRoom in gameRoomList" :key="gameRoom.id" class="room-list-item" :style="{ 'width': gameRoomItemWidth + '%' , 'margin-left': (100 - gameRoomItemWidth)/2  + '%' }">
-             <div class="room-list-title" :style="{'background-color': gameRoom.status === 0? '#67c23a' : gameRoom.status === 1? '#E6A23C' : '#F56C6C'}">
-                 <span class="room-list-text" :style="{'font-size': largeFontSize}">{{ (gameRoom.name) + '  （' + (gameRoom.status === 0? '可进入' : gameRoom.status === 1? '已满员' : '游戏中') + '）' }}
+             <div class="room-list-title" :style="{'background-color': gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '#E6A23C' : '#67c23a') : '#F56C6C'}" @click="enterGameRoom(gameRoom)">
+                 <span class="room-list-text" :style="{'font-size': largeFontSize}">{{ (gameRoom.name) + '  （' + (gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '已满员' : '可进入') : '游戏中') + '）' }}
                       <el-tooltip effect="light" content="进入该房间需要密码" placement="right" v-if="gameRoom.needPassword">
                         <i class="el-icon-lock"></i>
                       </el-tooltip>
                  </span>
              </div>
-             <div v-for="(player, index) in gameRoom.playerList" :key="player.id"  class="room-list-player" :style="{'margin-left': index === 0 ? '2%' : 0}">
-                 <el-tooltip effect="light" :content="getPlayer(player).nickname" placement="bottom">
-                    <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player).avatar_id)"></el-image>
+             <div v-for="(player, seatIndex) in gameRoom.playerList" :key="seatIndex"  class="room-list-player" :style="{'margin-left': seatIndex === 0 ? '2%' : 0}">
+                 <el-tooltip v-if="player.id !== 0" effect="light" :content="getPlayer(player.id).nickname" placement="bottom">
+                    <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)"></el-image>
+                 </el-tooltip>
+                 <el-tooltip v-else effect="light" :content="getPlayer(player.id).nickname" placement="bottom">
+                    <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)" @click="enterGameRoom(gameRoom)"></el-image>
                  </el-tooltip>
              </div>
         </div>
@@ -30,6 +33,7 @@ export default {
         gameRoomItemWidth: {type: Number, default: 90},
         gameRoomList: {type: Array, default: null}, //gameRoomList: [{id : 1, name: '', status: 0, needPassword: false, owner: 3, playerList: [ 3, 10 ], },
         largeFontSize: {type: String, default: ''},
+        ws: { type: WebSocket, default: null},
     },
 
     methods:{
@@ -39,11 +43,44 @@ export default {
                     return this.playerList[i]
                 }
             }
-            return { nickname: '不存在', avatar_id: 0  }
+            return { nickname: '空位', avatar_id: 0  }
         },
 
         getAvatarUrl: function(n){
-          return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+            return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+        },
+
+        isRoomFull: function(playerList){
+            let flag = true
+            for( let i = 0; i < Object.keys(playerList).length; i++){
+                console.log(playerList[i])
+                if(playerList[i].id === 0){
+                    flag = false
+                    break
+                }
+            }
+            return flag
+        },
+
+        enterGameRoom: function(gameRoom){
+            if(gameRoom.status === 1){
+                this.$message.warning('正在游戏中，无法加入')
+                return
+            }
+            if(this.isRoomFull(gameRoom.playerList)){
+                this.$message.warning('已满员，无法加入')
+                return
+            }
+            if(gameRoom.needPassword){
+                this.$emit('enterGameRoomDialogVisible', true)
+            }
+            else{
+                this.ws.send(JSON.stringify({ 
+                    type: 'gameRoomList',
+                    id: gameRoom.id, 
+                    action: 'enter',
+                }))
+            }
         },
     }
 }
