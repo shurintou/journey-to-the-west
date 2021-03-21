@@ -25,7 +25,7 @@ export default {
     data() {
         return {
             gameRoomValidateForm: {
-                roomName: this.$store.state.nickname + ' 的房间',
+                roomName: '',
                 password: '', 
                 cardNum: 4,
             },
@@ -51,6 +51,12 @@ export default {
         createGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
         ws: { type: WebSocket, default: null},
+    },
+
+    mounted: function(){
+        this.$nextTick( () => {
+            this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
+        })
     },
 
     methods:{
@@ -85,10 +91,10 @@ export default {
 
         closeCreateGameRoomDialog: function(){
             this.$emit('createGameRoomDialogVisible', false)
+            this.$refs.gameRoomValidateForm.clearValidate()
             this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
             this.gameRoomValidateForm.password = ''
             this.gameRoomValidateForm.cardNum = 4
-            this.$refs.gameRoomValidateForm.clearValidate()
         },
     }
 }
