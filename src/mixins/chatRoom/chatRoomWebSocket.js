@@ -48,6 +48,12 @@ export var chatRoomWebSocket = {
                         self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'warning', 'text' : jsonData.text})
                     }
                 }
+                else if( jsonData.type === 'error' ){
+                    if(jsonData.player_loc === self.$store.state.player_loc){
+                        self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', 'text' : jsonData.text})
+                        self.$message.error(jsonData.text)
+                    }
+                }
                 else if(jsonData.type === 'playerList'){
                     let newPlayerList = []
                     let player = {}
