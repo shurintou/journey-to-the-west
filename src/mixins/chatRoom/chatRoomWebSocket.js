@@ -68,9 +68,9 @@ export var chatRoomWebSocket = {
                             playerStatus = player.player_status
                         }
                     }
-                    /* 在大厅则获取所有玩家信息，不在大厅，但在同一房间，也获取该玩家信息 */
                     if(playerLoc !== 0){
-                        newPlayerList = newPlayerList.filter( player => player.player_loc === playerLoc )
+                        /* 此设定暂时摒弃：在大厅则获取所有玩家信息，不在大厅，但在同一房间，也获取该玩家信息。*/
+                        // newPlayerList = newPlayerList.filter( player => player.player_loc === playerLoc )
                         if(self.$store.state.player_loc === 0){
                             self.$message.success('成功进入房间')
                         }
