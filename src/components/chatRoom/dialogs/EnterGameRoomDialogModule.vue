@@ -1,0 +1,78 @@
+<template>
+    <el-dialog title="房间密码" :visible.sync="enterGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" :before-close="closeEnterGameRoomDialog">
+        <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
+          <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
+              <el-input placeholder="4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer">
+            <el-button @click="closeEnterGameRoomDialog" style="margin-right:10%">取消</el-button>
+            <el-button type="success" @click="enterGameRoom">确定</el-button>
+        </div>
+  </el-dialog>  
+</template>
+
+
+
+<script>
+export default {
+    data() {
+        return {
+            gameRoomValidateForm: {
+                password: '', 
+            },
+            checkPassword:  (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('密码不能为空'));
+                }
+                else {
+                    var uPattern = /^[0-9]{4,8}$/
+                    if(!uPattern.test(value)){
+                    callback(new Error('密码须4到8位数字'));
+                    }
+                    else{
+                    callback();
+                    }
+                    callback();
+                }
+            },
+        }
+    },
+
+    props:{
+        enterGameRoomDialogVisible: { type: Boolean, default: false },
+        dialogWidth: { type: String, default: '' },
+        ws: { type: WebSocket, default: null},
+    },
+
+    methods:{
+        enterGameRoom: function(){
+            this.$refs.gameRoomValidateForm.validate(valid => {
+                if(valid){
+                    this.ws.send(JSON.stringify({ 
+                        type: 'gameRoomList',
+                        id: NaN, 
+                        name: this.gameRoomValidateForm.roomName, 
+                        status: 0, 
+                        needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
+                        password: this.gameRoomValidateForm.password, 
+                        cardNum: this.gameRoomValidateForm.cardNum, 
+                        owner: this.$store.state.id, 
+                        playerList:[ 
+                            {id: this.$store.state.id, cards: 0, ready: false} 
+                            ]}
+                        ))
+                    this.$refs.gameRoomValidateForm.clearValidate()
+                    this.closeEnterGameRoomDialog()
+                }
+            })
+        },
+
+        closeEnterGameRoomDialog: function(){
+            this.$emit('enterGameRoomDialogVisible', false)
+            this.gameRoomValidateForm.password = ''
+            this.$refs.gameRoomValidateForm.clearValidate()
+        },
+    }
+}
+</script>

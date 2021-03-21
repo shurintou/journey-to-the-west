@@ -66,10 +66,17 @@ export default {
                         password: this.gameRoomValidateForm.password, 
                         cardNum: this.gameRoomValidateForm.cardNum, 
                         owner: this.$store.state.id, 
-                        playerList:[ 
-                            {id: this.$store.state.id, cards: 0, seatIndex: 0, ready: false} 
-                            ]}
-                        ))
+                        playerList: { 
+                            0: {id: this.$store.state.id, cards: 0, ready: false},
+                            1: {id: 0, cards: 0, ready: false},
+                            2: {id: 0, cards: 0, ready: false},
+                            3: {id: 0, cards: 0, ready: false},
+                            4: {id: 0, cards: 0, ready: false},
+                            5: {id: 0, cards: 0, ready: false},
+                            6: {id: 0, cards: 0, ready: false},
+                            7: {id: 0, cards: 0, ready: false},
+                        }
+                    }))
                     this.$refs.gameRoomValidateForm.clearValidate()
                     this.closeCreateGameRoomDialog()
                 }

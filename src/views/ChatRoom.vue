@@ -18,7 +18,7 @@
         <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
-        <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList"></GameRoomListModule>
+        <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></GameRoomListModule>
         <div v-else>{{ playerLocRoom }}</div>
       </el-main>
       <el-footer :height="footHeight">
@@ -32,6 +32,7 @@
   <LogoutDialogModule :cancelLeaveDialogVisible="cancelLeaveDialogVisible" :dialogWidth="dialogWidth" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}"></LogoutDialogModule>
   <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
   <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
+  <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
 </div>
 </template>
 
@@ -47,6 +48,7 @@ import CreateGameRoomDialogModule from '../components/chatRoom/dialogs/CreateGam
 import ChatRoomButtonModule from '../components/chatRoom/ChatRoomButtonModule'
 import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
 import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialogModule'
+import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
 
 export default {
   name: 'ChatRoom',
@@ -56,6 +58,7 @@ export default {
       cancelLeaveDialogVisible: false,
       createGameRoomDialogVisible: false,
       leaveRoomDialogVisible: false,
+      enterGameRoomDialogVisible: false,
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
@@ -77,6 +80,7 @@ export default {
     ChatRoomButtonModule,
     GameRoomButtonModule,
     LeaveRoomDialogModule,
+    EnterGameRoomDialogModule,
   },
 }
 </script>

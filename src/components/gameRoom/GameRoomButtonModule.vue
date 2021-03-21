@@ -1,11 +1,13 @@
 <template>
       <div class="button-box" v-if="whichPattern === 'vertical'">
-            <el-button :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying">{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
+            <el-button v-if="playerLocRoom.owner === $store.state.id" :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying">开始游戏</el-button>
+            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize">准备</el-button>
             <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="emitCancelLeaveDialog" :size="buttonSize" :disabled="isGamePlaying">离开房间</el-button>
       </div>
       <div style="height: 100%" v-else>
             <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitCancelLeaveDialog" :size="buttonSize" round :disabled="isGamePlaying">离开房间</el-button>
-            <el-button :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying" round>{{ playerLocRoom.owner === $store.state.id? '开始游戏': '准备' }}</el-button>
+            <el-button v-if="playerLocRoom.owner === $store.state.id" :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying" round>开始游戏</el-button>
+            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" round>准备</el-button>
       </div>
 </template>
 
@@ -35,30 +37,34 @@ export default {
             if(this.playerLocRoom.owner === this.$store.state.id){
                 var isAllReady = true
                 /* 至少两人才能开游戏 */
-                if(this.playerLocRoom.playerList.length > 1){
-                    /* 除房主之外的人都已准备好 */
-                    for(let i = 0; i < this.playerLocRoom.playerList.length; i++){
-                        if(this.playerLocRoom.playerList[i].id !== this.$store.state.id && this.playerLocRoom.playerList[i].ready === false){
-                            isAllReady = false
-                            break
-                        }
+                var playerNum = 0
+                for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
+                    if(this.playerLocRoom.playerList[i].id === 0){
+                        continue
                     }
-                    return isAllReady === false? true: false
+                    else{
+                        playerNum ++
+                    }
                 }
-                else{
+                if(playerNum < 2){
                     return true
                 }
+                /* 除房主之外的人都已准备好 */
+                for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
+                    if(this.playerLocRoom.playerList[i].id === 0){
+                        continue
+                    }
+                    else if(this.playerLocRoom.playerList[i].id !== this.$store.state.id && this.playerLocRoom.playerList[i].ready === false){
+                        isAllReady = false
+                        break
+                    }
+                }
+                return isAllReady === false? true: false
             }
-            /* 非房主的情况下 */
             else{
-               for(let i = 0; i < this.playerLocRoom.playerList.length; i++){
+                for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
                     if(this.playerLocRoom.playerList[i].id === this.$store.state.id){
-                        if(this.playerLocRoom.playerList[i].ready === false){
-                            return false
-                        }
-                        else{
-                            return true
-                        }
+                         return this.playerLocRoom.playerList[i].ready ? false : true
                     }
                 }
                 return false
@@ -74,6 +80,10 @@ export default {
         emitReadyToStartGame: function(){
             this.$emit('emitReadyToStartGame', true)
         },
+
+        emitStartGame: function(){
+            this.$emit('emitStartGame', true)
+        }
     }
 }
 </script>

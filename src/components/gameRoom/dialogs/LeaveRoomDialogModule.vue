@@ -32,7 +32,13 @@ export default {
         },
 
         leaveRoom: function(){
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$store.state.nickname }))
+            let seatIndex = 0
+            for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
+                if(this.playerLocRoom.playerList[i].id === this.$store.state.id){
+                    seatIndex = i
+                }
+            }
+            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$store.state.nickname, seatIndex: seatIndex }))
             this.$emit('leaveRoomDialogVisible', false)
         }
         
