@@ -42,6 +42,7 @@ export default {
     props:{
         enterGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
+        enterRoomId: { type: Number, default: 0 },
         ws: { type: WebSocket, default: null},
     },
 
@@ -50,18 +51,11 @@ export default {
             this.$refs.gameRoomValidateForm.validate(valid => {
                 if(valid){
                     this.ws.send(JSON.stringify({ 
-                        type: 'gameRoomList',
-                        id: NaN, 
-                        name: this.gameRoomValidateForm.roomName, 
-                        status: 0, 
-                        needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
-                        password: this.gameRoomValidateForm.password, 
-                        cardNum: this.gameRoomValidateForm.cardNum, 
-                        owner: this.$store.state.id, 
-                        playerList:[ 
-                            {id: this.$store.state.id, cards: 0, ready: false} 
-                            ]}
-                        ))
+                    type: 'gameRoomList',
+                    id: this.enterRoomId, 
+                    password: this.gameRoomValidateForm.password,
+                    action: 'enter',
+                    }))
                     this.$refs.gameRoomValidateForm.clearValidate()
                     this.closeEnterGameRoomDialog()
                 }

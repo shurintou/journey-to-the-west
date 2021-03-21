@@ -25,6 +25,7 @@ export default {
         buttonSize: {type: String, default: ''},
         largeFontSize: {type: String, default: ''},
         playerLocRoom: {type: Object, default: null},
+        ws: { type: WebSocket, default: null},
     },
 
     computed:{

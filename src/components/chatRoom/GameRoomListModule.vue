@@ -53,7 +53,6 @@ export default {
         isRoomFull: function(playerList){
             let flag = true
             for( let i = 0; i < Object.keys(playerList).length; i++){
-                console.log(playerList[i])
                 if(playerList[i].id === 0){
                     flag = false
                     break
@@ -73,6 +72,7 @@ export default {
             }
             if(gameRoom.needPassword){
                 this.$emit('enterGameRoomDialogVisible', true)
+                this.$emit('enterRoomId', gameRoom.id)
             }
             else{
                 this.ws.send(JSON.stringify({ 
