@@ -1,7 +1,7 @@
 <template>
     <div id="room-list-container">
         <div v-for="gameRoom in gameRoomList" :key="gameRoom.id" class="room-list-item" :style="{ 'width': gameRoomItemWidth + '%' , 'margin-left': (100 - gameRoomItemWidth)/2  + '%' }">
-             <div class="room-list-title" :style="{'background-color': gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '#E6A23C' : '#67c23a') : '#F56C6C'}" @click="enterGameRoom(gameRoom)">
+             <div class="room-list-title" :style="{'background-color': gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '#E6A23C' : '#67c23a') : '#F56C6C'}" @click="enterGameRoom(gameRoom, -1)">
                  <span class="room-list-text" :style="{'font-size': largeFontSize}">{{ (gameRoom.name) + '  （' + (gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '已满员' : '可进入') : '游戏中') + '）' }}
                       <el-tooltip effect="light" content="进入该房间需要密码" placement="right" v-if="gameRoom.needPassword">
                         <i class="el-icon-lock"></i>
@@ -13,7 +13,7 @@
                     <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)"></el-image>
                  </el-tooltip>
                  <el-tooltip v-else effect="light" :content="getPlayer(player.id).nickname" placement="bottom">
-                    <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)" @click="enterGameRoom(gameRoom)"></el-image>
+                    <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)" @click="enterGameRoom(gameRoom, seatIndex)"></el-image>
                  </el-tooltip>
              </div>
         </div>
@@ -61,7 +61,7 @@ export default {
             return flag
         },
 
-        enterGameRoom: function(gameRoom){
+        enterGameRoom: function(gameRoom, seatIndex){
             if(gameRoom.status === 1){
                 this.$message.warning('正在游戏中，无法加入')
                 return
@@ -72,12 +72,13 @@ export default {
             }
             if(gameRoom.needPassword){
                 this.$emit('enterGameRoomDialogVisible', true)
-                this.$emit('enterRoomId', gameRoom.id)
+                this.$emit('enterRoomDto', {id: gameRoom.id, seatIndex: seatIndex})
             }
             else{
                 this.ws.send(JSON.stringify({ 
                     type: 'gameRoomList',
                     id: gameRoom.id, 
+                    seatIndex: seatIndex,
                     action: 'enter',
                 }))
             }

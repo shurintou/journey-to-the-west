@@ -18,7 +18,7 @@
         <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
-        <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomId="function(value){enterRoomId= value}"></GameRoomListModule>
+        <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
         <div v-else>{{ playerLocRoom }}</div>
       </el-main>
       <el-footer :height="footHeight">
@@ -32,7 +32,7 @@
   <LogoutDialogModule :cancelLeaveDialogVisible="cancelLeaveDialogVisible" :dialogWidth="dialogWidth" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}"></LogoutDialogModule>
   <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
   <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
-  <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomId="enterRoomId" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
+  <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
 </div>
 </template>
 
@@ -62,7 +62,7 @@ export default {
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
-      enterRoomId: 0,
+      enterRoomDto: {},
     }
   },
 

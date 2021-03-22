@@ -42,7 +42,7 @@ export default {
     props:{
         enterGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        enterRoomId: { type: Number, default: 0 },
+        enterRoomDto: { type: Object, default: null },
         ws: { type: WebSocket, default: null},
     },
 
@@ -52,7 +52,8 @@ export default {
                 if(valid){
                     this.ws.send(JSON.stringify({ 
                     type: 'gameRoomList',
-                    id: this.enterRoomId, 
+                    id: this.enterRoomDto.id, 
+                    seatIndex: this.enterRoomDto.seatIndex,
                     password: this.gameRoomValidateForm.password,
                     action: 'enter',
                     }))
