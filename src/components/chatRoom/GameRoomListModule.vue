@@ -1,6 +1,6 @@
 <template>
     <div id="room-list-container">
-        <div v-for="gameRoom in gameRoomList" :key="gameRoom.id" class="room-list-item" :style="{ 'width': gameRoomItemWidth + '%' , 'margin-left': (100 - gameRoomItemWidth)/2  + '%' }">
+        <div v-for="(gameRoom, index) in gameRoomList" :key="gameRoom.id" class="room-list-item" :style="{ 'width': gameRoomItemWidth + '%' , 'margin-left': (100 - gameRoomItemWidth)/2  + '%', 'margin-top': index === 0 ? '1%': '0px',  }">
              <div class="room-list-title" :style="{'background-color': gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '#E6A23C' : '#67c23a') : '#F56C6C'}" @click="enterGameRoom(gameRoom, -1)">
                  <span class="room-list-text" :style="{'font-size': largeFontSize}">{{ (gameRoom.name) + '  （' + (gameRoom.status === 0? (isRoomFull(gameRoom.playerList) ? '已满员' : '可进入') : '游戏中') + '）' }}
                       <el-tooltip effect="light" content="进入该房间需要密码" placement="right" v-if="gameRoom.needPassword">
