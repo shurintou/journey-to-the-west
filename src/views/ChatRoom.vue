@@ -17,9 +17,9 @@
         <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
         <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
       </el-header>
-      <el-main :style="{backgroundImage: 'url(' + mainImg + ')'}">
+      <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
-        <div v-else>{{ playerLocRoom }}</div>
+        <GameRoomModule v-else :playerLocRoom="playerLocRoom"></GameRoomModule>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
@@ -49,6 +49,7 @@ import ChatRoomButtonModule from '../components/chatRoom/ChatRoomButtonModule'
 import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
 import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialogModule'
 import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
+import GameRoomModule from '../components/gameRoom/GameRoomModule'
 
 export default {
   name: 'ChatRoom',
@@ -82,6 +83,7 @@ export default {
     GameRoomButtonModule,
     LeaveRoomDialogModule,
     EnterGameRoomDialogModule,
+    GameRoomModule,
   },
 }
 </script>
