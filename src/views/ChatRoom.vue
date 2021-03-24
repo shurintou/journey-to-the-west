@@ -17,9 +17,9 @@
         <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
         <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
       </el-header>
-      <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px'}">
+      <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px 0px 0px 5px'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
-        <GameRoomModule v-else :playerLocRoom="playerLocRoom" :playerList="playerList"></GameRoomModule>
+        <GameRoomModule v-else :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize"></GameRoomModule>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
