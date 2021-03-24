@@ -2,13 +2,13 @@
     <div id="game-room-box-horizontal" v-if="isHorizontal">
         <div id="game-room-box-horizontal-header">
             <div class="game-room-box-horizontal-header-item" style="margin-left: 15%; float:left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
             </div>
             <div class="game-room-box-horizontal-header-item" style="float: left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
             </div>
             <div class="game-room-box-horizontal-header-item" style="float: left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :isItemHorizontal="true" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
             </div>
         </div>
         <div id="game-room-box-horizontal-body">
@@ -55,15 +55,12 @@
             <div class="game-room-box-vertical-body-aside" style="float: right">
                 <div class="game-room-box-vertical-body-aside-item">
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
-
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
-
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
-
                 </div>
             </div>
         </div>
