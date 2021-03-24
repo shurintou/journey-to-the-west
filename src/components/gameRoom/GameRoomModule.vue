@@ -1,36 +1,34 @@
 <template>
     <div id="game-room-box-horizontal">
         <div id="game-room-box-horizontal-header">
-            <div class="game-room-box-horizontal-header-item" style="margin-left: 15%;">6</div>
-            <div class="game-room-box-horizontal-header-item">5</div>
-            <div class="game-room-box-horizontal-header-item">4</div>
+            <div class="game-room-box-horizontal-header-item" style="margin-left: 15%; float:left">
+                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
+            </div>
+            <div class="game-room-box-horizontal-header-item" style="float: left">
+                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
+            </div>
+            <div class="game-room-box-horizontal-header-item" style="float: left">
+                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
+            </div>
         </div>
         <div id="game-room-box-horizontal-body">
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
-                <div class="game-room-box-horizontal-body-aside-item-top">7</div>
-                <div class="game-room-box-horizontal-body-aside-item-bottom">8</div>
+                <div class="game-room-box-horizontal-body-aside-item-top">
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(6)]"></GameRoomPlayerItemModule>
+                </div>
+                <div class="game-room-box-horizontal-body-aside-item-bottom">
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(7)]"></GameRoomPlayerItemModule>
+                </div>
             </div>
             <div id="game-room-box-horizontal-body-table"> 
+                <el-button>默认按钮</el-button>
             </div>
             <div class="game-room-box-horizontal-body-aside" style="float: right;">
-                 <el-tooltip effect="light" placement="top-start" :manual="true" v-model="dis">
-                    <div slot="content">
-                        <el-alert
-    title="成功提示的文案"
-    type="success" :closable="false">
-  </el-alert>
-  <el-alert
-    title="成功提示的文案"
-    type="success" :closable="false">
-  </el-alert>
-                    </div> 
-                    <div class="game-room-box-horizontal-body-aside-item-top">
-                    3
-                    </div>
-                </el-tooltip>
-                
+                <div class="game-room-box-horizontal-body-aside-item-top">
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
+                </div>
                 <div class="game-room-box-horizontal-body-aside-item-bottom">
-                    2
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
                 </div>
             </div>
         </div>
@@ -38,17 +36,42 @@
 </template>
 
 <script>
+import GameRoomPlayerItemModule from '../gameRoom/GameRoomPlayerItemModule'
+
 export default {
     data() {
         return{
-            dis: false,
         }
     },
 
     props:{
-        playerLocRoom: { type: Object, default: null}
-    }
+        playerLocRoom: { type: Object, default: null},
+        playerList: Array,
+    },
 
+    computed:{
+        playerSeatIndex: function(){
+            for( let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
+                if( this.playerLocRoom.playerList[i].id === this.$store.state.id ){
+                    return i
+                }
+            }
+            return 10
+        }
+    },
+
+    methods:{
+        calPlayersSeat: function(n){
+            if( n + this.playerSeatIndex > 7 ){
+                return n + this.playerSeatIndex - 8
+            }
+            return n + this.playerSeatIndex
+        },
+    },
+
+    components:{
+        GameRoomPlayerItemModule
+    },
 
 }
 </script>
@@ -75,7 +98,7 @@ export default {
         width: 15%;
         height: 100%;
         display: inline-block;
-        background-color: red;
+        /* background-color: red; */
     }
 
     #game-room-box-horizontal-body{
@@ -93,20 +116,20 @@ export default {
         width: 100%;
         height: 33%; 
         margin-top: 10%; 
-        background-color: red;
+        /* background-color: red; */
     }
 
     .game-room-box-horizontal-body-aside-item-bottom{
         width: 100%; 
         height: 33%; 
         margin-top: 35%; 
-        background-color: red;
+        /* background-color: red; */
     }
 
     #game-room-box-horizontal-body-table{
         width: 70%; 
         height: 100%; 
         display: inline-block; 
-        background-color: yellow
+        /* background-color: yellow */
     }
 </style>
