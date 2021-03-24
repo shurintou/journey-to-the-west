@@ -31,7 +31,7 @@
                   <el-form-item class="shortMargin">
                       <el-collapse-transition>
                         <div v-show="vertificationCodeCorrect">
-                          <el-alert class="transition-box" title="验证成功" type="success" center show-icon :closable="false"></el-alert>
+                          <el-alert title="验证成功" type="success" center show-icon :closable="false"></el-alert>
                         </div>
                       </el-collapse-transition>
                   </el-form-item>
