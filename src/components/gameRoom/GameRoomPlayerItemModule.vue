@@ -88,6 +88,7 @@ export default {
 .game-room-player-info-avatar-horizontal{
     vertical-align: middle;
     width:70%;
+    max-width: 4vw;
     height:100%;
     overflow: unset;
     display: inline-block;
