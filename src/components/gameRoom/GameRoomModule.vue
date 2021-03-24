@@ -21,6 +21,7 @@
                 </div>
             </div>
             <div id="game-room-box-horizontal-body-table" style="float: left;"> 
+                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :tagSize="tagSize" :fontSize="fontSize" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
             </div>
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
                 <div class="game-room-box-horizontal-body-aside-item-top">
@@ -69,6 +70,7 @@
 
 <script>
 import GameRoomPlayerItemModule from '../gameRoom/GameRoomPlayerItemModule'
+import GameRoomTableModule from '../gameRoom/GameRoomTableModule'
 
 export default {
     data() {
@@ -105,7 +107,8 @@ export default {
     },
 
     components:{
-        GameRoomPlayerItemModule
+        GameRoomPlayerItemModule,
+        GameRoomTableModule
     },
 
 }
