@@ -8,12 +8,15 @@
                     width="160"
                     v-model="isPopoverVisible">
                     <div style="margin: 0">
+                        <!-- 未开始游戏的时候，房主有踢人 -->
                         <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="isPopoverVisible = false">换位</el-button>
                         <el-button type="danger" size="mini" @click="isPopoverVisible = false">踢出</el-button>
+                        <!-- 开始游戏的时候，点玩家可以发言 -->
                     </div>
                     <div slot="reference">
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
                             <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
+                            <!-- 未准备时灰色，准备了绿色，房主黄色加星，游戏时蓝色，托管红色 -->
                             <el-tag effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{getPlayer().nickname}}</el-tag>
                         </div>
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
