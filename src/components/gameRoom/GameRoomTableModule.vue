@@ -4,7 +4,7 @@
             <!-- 房主可以点击此处更改房间设置 -->
             <el-alert :title="playerLocRoom.name + ( playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' )" type="info" center :closable="false"></el-alert>
             <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
-                <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poke/poke-pool.png')"></el-image>
+                <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
             </el-tooltip>
             <div id="game-room-table-horizontal-bottom">
                 <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
@@ -13,7 +13,7 @@
             </div>
         </div>
         <div v-else>
-            <el-image :src="require('@/assets/images/poke/1A.png')"></el-image>
+            <el-image :src="require('@/assets/images/poker/1A.png')"></el-image>
         </div>
     </div>
     <div v-else>
