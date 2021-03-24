@@ -1,6 +1,6 @@
 <template>
     <el-dialog title="房间密码" :visible.sync="enterGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" :before-close="closeEnterGameRoomDialog">
-        <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
+        <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm" @submit.native.prevent="enterGameRoom">
           <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
               <el-input placeholder="4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
           </el-form-item>
@@ -44,6 +44,14 @@ export default {
         dialogWidth: { type: String, default: '' },
         enterRoomDto: { type: Object, default: null },
         ws: { type: WebSocket, default: null},
+    },
+
+    watch:{
+        enterGameRoomDialogVisible: function(newVal){
+            if(newVal === true){
+                this.$refs.gameRoomValidateForm.clearValidate()
+            }
+        }
     },
 
     methods:{
