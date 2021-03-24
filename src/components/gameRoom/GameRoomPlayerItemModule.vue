@@ -14,12 +14,12 @@
                     <div slot="reference">
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
                             <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
-                            <el-tag effect="dark" :size="tagSize">{{getPlayer().nickname}}</el-tag>
+                            <el-tag effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{getPlayer().nickname}}</el-tag>
                         </div>
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
-                            <el-tag type="info" effect="dark" :size="tagSize">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
-                            <el-tag type="success" effect="dark" :size="tagSize">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
-                            <el-tag type="danger" effect="dark" :size="tagSize">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
+                            <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
+                            <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
+                            <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
                         </div>
                     </div>
                 </el-popover>
@@ -41,6 +41,7 @@ export default {
         playerList: Array,
         tooltipPlacement: { type: String, default: 'top'},
         tagSize: { type: String, default: ''},
+        fontSize: { type: String, default: ''},
         isItemHorizontal: { type: Boolean, default: false},
     },
 
