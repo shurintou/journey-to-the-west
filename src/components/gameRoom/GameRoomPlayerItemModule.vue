@@ -3,10 +3,7 @@
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
                 </div> 
-                <el-popover
-                    placement="top"
-                    width="160"
-                    v-model="isPopoverVisible">
+                <el-popover placement="top" width="160" v-model="isPopoverVisible">
                     <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id ? '0' : '25%'}">
                         <template v-if="playerLocRoom.status === 0">
                             <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="isPopoverVisible = false">换位</el-button>
@@ -16,11 +13,10 @@
                         <template v-else>
                         </template>
                     </div>
-                    <div slot="reference">
+                    <div slot="reference" id="game-room-player-info-box">
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
                             <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
-                            <!-- 未准备时灰色，准备了绿色，房主黄色加星，游戏时蓝色，托管红色 -->
-                            <el-tag effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{getPlayer().nickname}}</el-tag>
+                            <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="player.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getPlayer().nickname}}</el-tag>
                         </div>
                         <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
                             <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
@@ -51,6 +47,28 @@ export default {
         isItemHorizontal: { type: Boolean, default: false},
         playerLocRoom: { type: Object, default: null},
         ws: { type: WebSocket, default: null},
+    },
+
+    computed:{
+        getPlayerNameTagType: function(){
+            if(this.player.id === 0 ) return 'info'
+            /* 游戏未开始 */
+            if(this.playerLocRoom.status === 0){
+                if(this.player.id === this.playerLocRoom.owner){
+                    return 'warning'
+                }
+                if(this.player.ready === false){
+                    return 'info'
+                }
+                else{
+                    return 'success'
+                }
+            }
+            else{
+                /* 游戏开始，游戏时蓝色，托管红色 */
+                return ''
+            }
+        }
     },
 
     methods:{
@@ -94,6 +112,10 @@ export default {
 </script>
 
 <style>
+
+#game-room-player-info-box:hover{
+    cursor: pointer;
+}
 
 .game-room-player-info-item-vertical{
     width: 100%;
