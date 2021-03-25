@@ -52,6 +52,7 @@
                 </div>
             </div>
              <div id="game-room-box-vertical-body-table"> 
+                <GameRoomTableModule :playerLocRoom="playerLocRoom" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :dialogWidth="dialogWidth" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
             </div>
             <div class="game-room-box-vertical-body-aside" style="float: right">
                 <div class="game-room-box-vertical-body-aside-item">
