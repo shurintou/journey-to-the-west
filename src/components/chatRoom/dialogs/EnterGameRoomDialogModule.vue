@@ -50,6 +50,7 @@ export default {
         enterGameRoomDialogVisible: function(newVal){
             if(newVal === true){
                 this.gameRoomValidateForm.password = ''
+                this.$refs.gameRoomValidateForm.clearValidate()
             }
         }
     },

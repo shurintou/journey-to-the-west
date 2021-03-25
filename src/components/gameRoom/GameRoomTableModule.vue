@@ -1,14 +1,13 @@
 <template>
     <div v-if="isItemHorizontal" id="game-room-table-horizontal-box">
         <div v-if="playerLocRoom.status === 0" id="game-room-table-horizontal-container">
-            <!-- 房主可以点击此处更改房间设置 -->
             <div @click="function(){ if(playerLocRoom.owner === player.id) editGameRoomDialogVisible = true }">
-                <el-alert :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' ) + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" type="info" center :closable="false"></el-alert>
+                <el-alert :style="{'font-size': fontSize}" :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
             </div>
             <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
                 <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
             </el-tooltip>
-            <div id="game-room-table-horizontal-bottom">
+            <div id="game-room-table-horizontal-bottom" :style="{'margin-top': playerLocRoom.needPassword ? '14vh' : '20vh'}">
                 <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
                 <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
                 <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
@@ -65,7 +64,6 @@ export default {
 
 #game-room-table-horizontal-bottom{
     display: inline-block; 
-    margin-top: 28%; 
     width: 100%;
 }
 
