@@ -36,6 +36,7 @@ export default {
             for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
                 if(this.playerLocRoom.playerList[i].id === this.$store.state.id){
                     seatIndex = i
+                    break
                 }
             }
             this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$store.state.nickname, seatIndex: seatIndex }))
