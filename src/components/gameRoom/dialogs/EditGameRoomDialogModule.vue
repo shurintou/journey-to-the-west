@@ -2,7 +2,7 @@
     <el-dialog title="修改设置" :visible.sync="editGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" :before-close="closeEditGameRoomDialog">
         <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
           <el-form-item label="房间名" prop="roomName" :rules="[{ required: true, message: '请输入房间名', trigger: 'blur' }]">
-              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off"></el-input>
+              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off" maxlength="15" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
               <el-input placeholder="非必填，4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
