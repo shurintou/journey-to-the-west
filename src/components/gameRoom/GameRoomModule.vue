@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div id="game-room-box-horizontal-body-table" style="float: left;"> 
-                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :tagSize="tagSize" :fontSize="fontSize" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
+                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :tagSize="tagSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
             </div>
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
                 <div class="game-room-box-horizontal-body-aside-item-top">
@@ -79,6 +79,8 @@ export default {
     },
 
     props:{
+        dialogWidth: { type: String, default: ''},
+        ws: { type: WebSocket, default: null},
         playerLocRoom: { type: Object, default: null},
         playerList: Array,
         tagSize: { type: String, default: ''},

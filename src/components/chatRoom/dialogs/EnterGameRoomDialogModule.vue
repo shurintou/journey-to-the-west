@@ -49,7 +49,7 @@ export default {
     watch:{
         enterGameRoomDialogVisible: function(newVal){
             if(newVal === true){
-                this.$refs.gameRoomValidateForm.clearValidate()
+                this.gameRoomValidateForm.password = ''
             }
         }
     },
@@ -65,7 +65,6 @@ export default {
                     password: this.gameRoomValidateForm.password,
                     action: 'enter',
                     }))
-                    this.$refs.gameRoomValidateForm.clearValidate()
                     this.closeEnterGameRoomDialog()
                 }
             })

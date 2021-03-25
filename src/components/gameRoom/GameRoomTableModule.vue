@@ -2,7 +2,9 @@
     <div v-if="isItemHorizontal" id="game-room-table-horizontal-box">
         <div v-if="playerLocRoom.status === 0" id="game-room-table-horizontal-container">
             <!-- 房主可以点击此处更改房间设置 -->
-            <el-alert :title="playerLocRoom.name + ( playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' )" type="info" center :closable="false"></el-alert>
+            <div @click="function(){ if(playerLocRoom.owner === player.id) editGameRoomDialogVisible = true }">
+                <el-alert :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' ) + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" type="info" center :closable="false"></el-alert>
+            </div>
             <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
                 <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
             </el-tooltip>
@@ -15,6 +17,7 @@
         <div v-else>
             <el-image :src="require('@/assets/images/poker/1A.png')"></el-image>
         </div>
+        <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
     <div v-else>
 
@@ -22,21 +25,28 @@
 </template>
 
 <script>
+import EditGameRoomDialogModule from './dialogs/EditGameRoomDialogModule'
+
 export default {
     data() {
         return{
-
+            editGameRoomDialogVisible: false,
         }
     },
 
     props:{
+        dialogWidth: { type: String, default: ''},
         tagSize: { type: String, default: ''},
         fontSize: { type: String, default: ''},
         isItemHorizontal: { type: Boolean, default: false},
         playerLocRoom: { type: Object, default: null},
         player: { type: Object, default: null },
+        ws: { type: WebSocket, default: null},
     },
-  
+
+    components:{
+        EditGameRoomDialogModule
+    },
 }
 </script>
 
@@ -67,6 +77,10 @@ export default {
 
 .game-room-table-horizontal-record-item{
     margin-left: 3%;
+}
+
+.clickable:hover{
+    cursor: pointer;
 }
 
 </style>
