@@ -6,7 +6,7 @@
                 <el-popover placement="top" width="160" v-model="isPopoverVisible" :disabled="playerLocRoom.status === 0 && player.ready === true">
                     <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id ? '0' : '25%'}">
                         <template v-if="playerLocRoom.status === 0 && player.ready === false">
-                            <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="isPopoverVisible = false">换位</el-button>
+                            <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="changeSeat">换位</el-button>
                             <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini" @click="kickPlayerOff">踢出</el-button>
                         </template>
                         <!-- 开始游戏的时候，点玩家可以发言 -->
@@ -47,6 +47,8 @@ export default {
         isItemHorizontal: { type: Boolean, default: false},
         playerLocRoom: { type: Object, default: null},
         ws: { type: WebSocket, default: null},
+        seatIndex: { type: Number },
+        localPlayerSeatIndex: { type: Number },
     },
 
     computed:{
@@ -68,7 +70,7 @@ export default {
                 /* 游戏开始，游戏时蓝色，托管红色 */
                 return ''
             }
-        }
+        },
     },
 
     methods:{
@@ -90,21 +92,12 @@ export default {
                 this.isPopoverVisible = false
                 return 
             }
-            let seatIndex = 0
-            for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
-                if(this.playerLocRoom.playerList[i].id === this.player.id){
-                    seatIndex = i
-                    break
-                }
-            }
-            let nickname = ''
-            for(let i = 0; i < this.playerList.length; i++){
-                if(this.playerList[i].id === this.player.id){
-                    nickname = this.playerList[i].nickname
-                    break
-                }
-            }
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: nickname, seatIndex: seatIndex }))
+            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, seatIndex: this.seatIndex }))
+            this.isPopoverVisible = false
+        },
+
+        changeSeat: function(){
+            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$store.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex }))
             this.isPopoverVisible = false
         },
     }
