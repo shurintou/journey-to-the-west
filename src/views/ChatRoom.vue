@@ -33,6 +33,7 @@
   <CreateGameRoomDialogModule :createGameRoomDialogVisible="createGameRoomDialogVisible" :dialogWidth="dialogWidth" :ws="ws" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></CreateGameRoomDialogModule>
   <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
   <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
+  <AskChangeSeatDialogModule :askChangeSeatDialogVisible="askChangeSeatDialogVisible" :askChangeSeatInfo="askChangeSeatInfo" :playerList="playerList" :buttonSize="buttonSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" @askChangeSeatDialogVisible="function(value){askChangeSeatDialogVisible= value}"></AskChangeSeatDialogModule>
 </div>
 </template>
 
@@ -50,6 +51,7 @@ import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
 import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialogModule'
 import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
 import GameRoomModule from '../components/gameRoom/GameRoomModule'
+import AskChangeSeatDialogModule from '../components/gameRoom/dialogs/AskChangeSeatDialogModule'
 
 export default {
   name: 'ChatRoom',
@@ -60,10 +62,12 @@ export default {
       createGameRoomDialogVisible: false,
       leaveRoomDialogVisible: false,
       enterGameRoomDialogVisible: false,
+      askChangeSeatDialogVisible: false,
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
       enterRoomDto: {},
+      askChangeSeatInfo: null,
     }
   },
 
@@ -84,6 +88,7 @@ export default {
     LeaveRoomDialogModule,
     EnterGameRoomDialogModule,
     GameRoomModule,
+    AskChangeSeatDialogModule,
   },
 }
 </script>

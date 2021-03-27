@@ -54,6 +54,10 @@ export var chatRoomWebSocket = {
                         self.$message.error(jsonData.text)
                     }
                 }
+                else if( jsonData.type === 'askChangeSeat' ){
+                    self.askChangeSeatDialogVisible = true
+                    self.askChangeSeatInfo = jsonData.data
+                }
                 else if(jsonData.type === 'playerList'){
                     let newPlayerList = []
                     let player = {}
