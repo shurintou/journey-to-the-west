@@ -1,13 +1,13 @@
 <template>
       <div class="button-box" v-if="whichPattern === 'vertical'">
             <el-button v-if="playerLocRoom.owner === $store.state.id" :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-aside-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize}" @click="emitStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying">开始游戏</el-button>
-            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-aside-button" :icon="!isNotReady ? 'el-icon-circle-check' : 'el-icon-caret-right'" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize">{{!isNotReady?'已':''}}准备</el-button>
+            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-aside-button" :icon="!isNotReady ? 'el-icon-circle-check' : 'el-icon-caret-right'" :style="{'font-size': largeFontSize}" @click="emitReadyToStartGame" :size="buttonSize" :disabled="isGamePlaying">{{!isNotReady?'已':''}}准备</el-button>
             <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-aside-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize}" @click="emitCancelLeaveDialog" :size="buttonSize" :disabled="isGamePlaying">离开房间</el-button>
       </div>
       <div style="height: 100%" v-else>
             <el-button :type="isGamePlaying ? 'info':'danger'" class="chat-room-header-button" icon="el-icon-d-arrow-left" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitCancelLeaveDialog" :size="buttonSize" round :disabled="isGamePlaying">离开房间</el-button>
             <el-button v-if="playerLocRoom.owner === $store.state.id" :type="isNotReady || isGamePlaying ? 'info' : 'success'" class="chat-room-header-button" icon="el-icon-caret-right" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying" round>开始游戏</el-button>
-            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-header-button" :icon="!isNotReady ? 'el-icon-circle-check' : 'el-icon-caret-right'" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" round>{{!isNotReady?'已':''}}准备</el-button>
+            <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-header-button" :icon="!isNotReady ? 'el-icon-circle-check' : 'el-icon-caret-right'" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" @click="emitReadyToStartGame" :size="buttonSize" round :disabled="isGamePlaying">{{!isNotReady?'已':''}}准备</el-button>
       </div>
 </template>
 

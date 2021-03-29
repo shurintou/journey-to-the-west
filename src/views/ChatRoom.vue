@@ -24,7 +24,7 @@
       <el-footer :height="footHeight">
         <el-container class="fill-height">
             <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
-            <PlayerInfoModule :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws"></PlayerInfoModule>
+            <PlayerInfoModule :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws"></PlayerInfoModule>
         </el-container>
       </el-footer>
     </el-container>
