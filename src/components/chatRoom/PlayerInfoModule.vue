@@ -1,12 +1,12 @@
 <template>
     <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以修改头像" placement="left">
-          <div class="player-icon-box" @click="avatarDialogVisible = true; temAvatarId = $store.state.avatar_id">
+          <div class="player-icon-box" @click="openEditAvatarDialog">
             <el-image class="aside-icon" :src="getAvatarUrl($store.state.avatar_id)"></el-image>
           </div>
         </el-tooltip>
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以修改昵称" placement="left">
-          <div class="player-nickname-box" :style="{'font-size': fontSize}" @click="nicknameDialogVisible = true; nicknameForm.name = $store.state.nickname; $nextTick( () => { $refs.nicknameForm.clearValidate() })">
+          <div class="player-nickname-box" :style="{'font-size': fontSize}" @click="openEditNicknameDialog">
             <span>{{$store.state.nickname}}</span>
           </div>
         </el-tooltip>
@@ -110,6 +110,7 @@ export default {
         fontSize: {type: String, default: ''},
         dialogWidth: {type: String, default: ''},
         playerInfoDialogWidth: {type: String, default: ''},
+        playerLocRoom: {type: Object, default: null},
         ws: { type: WebSocket, default: null},
     },
 
@@ -205,7 +206,26 @@ export default {
           .finally( () => {
               this.duplicateGetInfoFlag = false
           })
-      },
+        },
+
+        openEditAvatarDialog: function(){
+          if(this.playerLocRoom !== null && this.playerLocRoom.status === 1){
+            this.$message.error('游戏中，请勿修改头像')
+            return
+          }
+          this.avatarDialogVisible = true
+          this.temAvatarId = this.$store.state.avatar_id
+        },
+
+        openEditNicknameDialog: function(){
+          if(this.playerLocRoom !== null && this.playerLocRoom.status === 1){
+            this.$message.error('游戏中，请勿修改昵称')
+            return
+          }
+          this.nicknameDialogVisible = true
+          this.nicknameForm.name = this.$store.state.nickname
+          this.$nextTick( () => { this.$refs.nicknameForm.clearValidate() })
+        }
     },
 
     components: {
