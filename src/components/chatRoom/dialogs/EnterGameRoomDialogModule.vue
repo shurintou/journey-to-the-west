@@ -57,6 +57,10 @@ export default {
 
     methods:{
         enterGameRoom: function(){
+            if(this.$store.state.avatar_id === 0){
+                this.$message.warning('请先设置头像和昵称')
+                return
+            }
             this.$refs.gameRoomValidateForm.validate(valid => {
                 if(valid){
                     this.ws.send(JSON.stringify({ 

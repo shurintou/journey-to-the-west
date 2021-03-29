@@ -62,6 +62,10 @@ export default {
         },
 
         enterGameRoom: function(gameRoom, seatIndex){
+            if(this.$store.state.avatar_id === 0){
+                this.$message.warning('请先设置头像和昵称')
+                return
+            }
             if(gameRoom.status === 1){
                 this.$message.warning('正在游戏中，无法加入')
                 return
