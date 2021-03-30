@@ -48,6 +48,7 @@ export default {
         playerLocRoom: { type: Object, default: null},
         ws: { type: WebSocket, default: null},
         seatIndex: { type: Number },
+        gameInfo: { type: Object, default: null },
         localPlayerSeatIndex: { type: Number },
     },
 

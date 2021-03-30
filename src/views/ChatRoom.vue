@@ -19,11 +19,12 @@
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px 0px 0px 5px'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
-        <GameRoomModule v-else :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws"></GameRoomModule>
+        <GameRoomModule v-else :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo"></GameRoomModule>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
-            <ChatModule :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
+            <ChatModule v-if="playerLocRoom? playerLocRoom.status === 1 : true" :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
+            <CardModule v-else :gameInfo="gameInfo" :horizontalBackground="horizontalBackground" :fontSize="fontSize" :buttonSize="buttonSize" :ws="ws"></CardModule>
             <PlayerInfoModule :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws"></PlayerInfoModule>
         </el-container>
       </el-footer>
@@ -52,6 +53,7 @@ import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialo
 import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
 import GameRoomModule from '../components/gameRoom/GameRoomModule'
 import AskChangeSeatDialogModule from '../components/gameRoom/dialogs/AskChangeSeatDialogModule'
+import CardModule from '../components/gameRoom/CardModule'
 
 export default {
   name: 'ChatRoom',
@@ -68,6 +70,7 @@ export default {
       playerLocRoom: null,
       enterRoomDto: {},
       askChangeSeatInfo: null,
+      gameInfo: null,
     }
   },
 
@@ -89,6 +92,7 @@ export default {
     EnterGameRoomDialogModule,
     GameRoomModule,
     AskChangeSeatDialogModule,
+    CardModule,
   },
 }
 </script>

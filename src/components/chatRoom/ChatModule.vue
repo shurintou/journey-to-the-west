@@ -21,7 +21,6 @@ export default {
     props:{
         chatText: {type: Array},
         horizontalBackground: {type: String, default: ''},
-        verticalBackground: {type: String, default: ''},
         buttonSize: {type: String, default: ''},
         ws: { type: WebSocket, default: null},
     },
