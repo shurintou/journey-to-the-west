@@ -15,11 +15,11 @@
         </div>
         <div v-else id="game-room-table-playing-horizontal-container">
             <div id="game-room-table-horizontal-box-top">
-                <el-tooltip  v-for="(card, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
+                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
                     <div slot="content">
-                        {{ card.name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+                        {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
                     </div>
-                    <el-image style="width: 20%; height:20vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + card.src  +'.png')"></el-image>
+                    <el-image style="width: 20%; height:20vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
                 </el-tooltip>
             </div>
             <div id="game-room-table-horizontal-box-bottom">
@@ -64,11 +64,11 @@
         </div>
         <div v-else id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-top">
-                <el-tooltip  v-for="(card, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
+                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
                     <div slot="content">
-                        {{ card.name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+                        {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
                     </div>
-                    <el-image style="width: 20%; height:10vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + card.src  +'.png')"></el-image>
+                    <el-image style="width: 20%; height:10vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
                 </el-tooltip>
             </div>
             <div id="game-room-table-vertical-box-bottom">
@@ -99,6 +99,8 @@
 
 <script>
 import EditGameRoomDialogModule from './dialogs/EditGameRoomDialogModule'
+import { cardList } from '../../mixins/gameRoom/cardList'
+
 
 export default {
     data() {
@@ -121,6 +123,8 @@ export default {
     components:{
         EditGameRoomDialogModule
     },
+
+    mixins:[ cardList ],
 }
 </script>
 
