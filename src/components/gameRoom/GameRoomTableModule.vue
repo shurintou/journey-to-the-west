@@ -64,7 +64,7 @@
         </div>
         <div v-else id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-top">
-                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
+                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + n" effect="light" placement="top">
                     <div slot="content">
                         {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
                     </div>
