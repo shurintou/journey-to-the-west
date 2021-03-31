@@ -1,5 +1,8 @@
 <template>
     <el-main class="hide-scroll-bar" :style="{backgroundImage: 'url(' + horizontalBackground + ')'}">
+        <div style="width:100%; height:20%">
+            <el-progress v-show="timer !== null" :percentage="time" :color="customColors" :show-text="false"></el-progress>
+        </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
             <el-tooltip v-for="(cardIndex, n) in sortCardList" :key="cardIndex + n" effect="light" placement="top" :content="cardList[cardIndex].name">
                 <div class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
@@ -8,8 +11,8 @@
             </el-tooltip>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
-            <el-button type="success" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }">出牌</el-button>
-            <el-button type="danger" style="float:right;margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }">不出</el-button>
+            <el-button type="success" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
+            <el-button type="danger" style="float:right;margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
             <el-button type="warning" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
         </div>
     </el-main>
@@ -24,6 +27,14 @@ export default {
     data(){
         return {
             selectCard:[],
+            timer: null,
+            time: 100,
+            customColors: [
+                {color: '#F56C6C', percentage: 25},
+                {color: '#E6A23C', percentage: 50},
+                {color: '#67C23A', percentage: 75},
+                {color: '#409EFF', percentage: 100}
+            ],
             gameInfo: {
                 id: 0,
                 remainCards: 100,
@@ -46,6 +57,25 @@ export default {
         buttonSize: {type: String, default: ''},
         fontSize: {type: String, default: ''},
         ws: { type: WebSocket, default: null},
+    },
+
+    watch:{
+        'gameInfo.currentPlayer': function(newVal){
+            if(this.gameInfo.gamePlayer[newVal].id === this.$store.state.id){
+                this.time = 100
+                this.timer = setInterval( () => {
+                    this.time = this.time - 1
+                } , 100)
+            }
+        },
+
+        time: function(newVal, oldVal){
+            if(newVal === 0 && oldVal === 1){
+                clearInterval(this.timer)
+                this.timer = null
+                this.time = 100
+            }
+        },
     },
 
     computed:{
@@ -108,7 +138,15 @@ export default {
                     }
                 }
             }
-        }
+        },
+
+        playCard: function(){
+
+        },
+
+        disCard: function(){
+            this.selectCard = [];
+        },
     },
 
     mixins:[ cardList ],
@@ -118,7 +156,7 @@ export default {
 <style>
 #card-module-top{
     width: 100%;
-    height: 80%;
+    height: 60%;
 }
 
 #card-module-bottom{
