@@ -12,6 +12,7 @@
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
             <el-button type="success" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
+            <!-- :disabled="timer === null" -->
             <el-button type="danger" style="float:right;margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
             <el-button type="warning" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
         </div>
@@ -40,7 +41,7 @@ export default {
                 remainCards: 100,
                 clockwise: false,
                 currentPlayer: 0,
-                currentCard: [15,15],
+                currentCard: [50],
                 currentCardPlayer: 0,
                 currentCombo: 0,
                 gamePlayer: {
@@ -63,6 +64,7 @@ export default {
         'gameInfo.currentPlayer': function(newVal){
             if(this.gameInfo.gamePlayer[newVal].id === this.$store.state.id){
                 this.time = 100
+                this.selectCard = []
                 this.timer = setInterval( () => {
                     this.time = this.time - 1
                 } , 100)
@@ -71,9 +73,7 @@ export default {
 
         time: function(newVal, oldVal){
             if(newVal === 0 && oldVal === 1){
-                clearInterval(this.timer)
-                this.timer = null
-                this.time = 100
+                this.destroyTimer()
             }
         },
     },
@@ -99,6 +99,12 @@ export default {
     },
 
     methods:{
+        destroyTimer: function(){
+            clearInterval(this.timer)
+            this.timer = null
+            this.time = 100
+        },
+
         addSelectCard: function(n, cardIndex){
             if(this.selectCard.length === 0){
                 this.selectCard.push(n)
@@ -141,7 +147,87 @@ export default {
         },
 
         playCard: function(){
+            if(this.selectCard.length === 0){
+                this.$message.warning('请选择要打出的牌')
+                return
+            }
+            if(this.selectCard.length !== this.gameInfo.currentCard.length){
+                this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
+                return
+            }
+            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 100){
+                this.$message.success('反弹牌可以通过')
+                return
+            }
+            /* 出的牌号数一样，则比较花色suit大小 */
+            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === this.cardList[this.gameInfo.currentCard[0]].num){
+                let currentCardList = this.gameInfo.currentCard
+                let playCardList = []
+                this.selectCard.forEach( item => { playCardList.push( this.sortCardList[item] )})
+                if(currentCardList.length > 1){
+                    currentCardList = currentCardList.sort((a,b) => {
+                        return (this.cardList[a].suit) - (this.cardList[b].suit)
+                    })
+                }
+                if(playCardList.length > 1){
+                    playCardList = playCardList.sort((a,b) => {
+                        return (this.cardList[a].suit) - (this.cardList[b].suit)
+                    })
+                }
+                let largerFlag = false
+                let notSmallerFlag = true
+                for(let i = 0; i < playCardList.length; i++){
+                    if(this.cardList[playCardList[i]].suit > this.cardList[currentCardList[i]].suit ){
+                        largerFlag = true
+                        continue
+                    }
+                    if(this.cardList[playCardList[i]].suit < this.cardList[currentCardList[i]].suit ){
+                        notSmallerFlag = false
+                        break
+                    }
+                }
+                if(largerFlag && notSmallerFlag){
+                    this.$message.success('成功打出')
+                }
+                else{
+                    this.$message.warning('打出的牌须大于台面牌型')
+                }
+                return
+            }
 
+            /* 出的牌号不一样则分情况比较牌号num大小 */
+            /* 都不是师傅的情况下 */
+            if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 30 && this.cardList[this.gameInfo.currentCard[0]].num < 30){
+                if(this.cardList[this.sortCardList[this.selectCard[0]]].num > this.cardList[this.gameInfo.currentCard[0]].num){
+                    this.$message.success('成功打出')
+                }
+                else{
+                    this.$message.warning('打出的牌须大于台面牌型')
+                }
+            }
+            /* 有一方是师傅的情况下 */
+            else{
+                /* 打出师傅 */
+                if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 31){
+                    if(this.cardList[this.gameInfo.currentCard[0]].num > 20){
+                        this.$message.success('成功打出')
+                    }
+                    else{
+                        this.$message.warning('师傅不能打妖怪哦')
+                    }
+                    return
+                }
+                /* 台面师傅 */
+                if(this.cardList[this.gameInfo.currentCard[0]].num === 31){
+                    if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 20){
+                        this.$message.success('成功打出')
+                    }
+                    else{
+                        this.$message.warning('徒弟不能打师傅哦')
+                    }
+                    return
+                }
+            }
         },
 
         disCard: function(){
