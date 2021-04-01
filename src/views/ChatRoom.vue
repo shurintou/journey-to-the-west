@@ -23,7 +23,7 @@
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
-            <ChatModule v-if="playerLocRoom? playerLocRoom.status === 1 : true" :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
+            <ChatModule v-if="playerLocRoom? playerLocRoom.status === 0 : true" :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
             <CardModule v-else :gameInfo="gameInfo" :horizontalBackground="horizontalBackground" :fontSize="fontSize" :buttonSize="buttonSize" :ws="ws"></CardModule>
             <PlayerInfoModule :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws"></PlayerInfoModule>
         </el-container>

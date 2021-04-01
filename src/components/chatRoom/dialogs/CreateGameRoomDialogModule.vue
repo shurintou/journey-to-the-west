@@ -78,6 +78,7 @@ export default {
                         password: this.gameRoomValidateForm.password, 
                         cardNum: this.gameRoomValidateForm.cardNum, 
                         owner: this.$store.state.id, 
+                        lastLoser: 0,
                         playerList: { 
                             0: {id: this.$store.state.id, cards: 0, win: 0, loss: 0, ready: false},
                             1: {id: 0, cards: 0, win: 0, loss: 0, ready: false},

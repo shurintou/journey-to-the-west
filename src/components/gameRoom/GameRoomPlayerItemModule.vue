@@ -1,4 +1,5 @@
 <template>
+    <!-- todo:正在出牌的玩家加上player-now-play-card类 -->
     <div>
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
@@ -136,6 +137,12 @@ export default {
     height:100%;
     overflow: unset;
     display: inline-block;
+}
+
+.player-now-play-card{
+    background-image: url('../../assets/images/player-frame.png');
+    background-color: rgb(119, 187, 17);
+    background-size: 100% 100%;
 }
 
 </style>

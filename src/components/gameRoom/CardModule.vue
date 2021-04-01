@@ -36,24 +36,11 @@ export default {
                 {color: '#67C23A', percentage: 75},
                 {color: '#409EFF', percentage: 100}
             ],
-            gameInfo: {
-                id: 0,
-                remainCards: 100,
-                clockwise: false,
-                currentPlayer: 0,
-                currentCard: [50],
-                currentCardPlayer: 0,
-                currentCombo: 0,
-                gamePlayer: {
-                    0: {id: 10, nickname: '', cards: 0, remainCards: [52,49,35,50,52], maxCombo: 0, online: true, wukong: 0, bajie: 0, shaseng: 0, tangseng: 0, joker: 0},
-                    1: {id: 3, nickname: '', cards: 0, remainCards: [50,49,35,51,52], maxCombo: 0, online: true, wukong: 0, bajie: 0, shaseng: 0, tangseng: 0, joker: 0},
-                }    
-            },
         }
     },
 
     props:{
-        // gameInfo: { type: Object, default: null },
+        gameInfo: { type: Object, default: null },
         horizontalBackground: {type: String, default: ''},
         buttonSize: {type: String, default: ''},
         fontSize: {type: String, default: ''},
