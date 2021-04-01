@@ -195,6 +195,7 @@ export var chatRoomWebSocket = {
                 if(this.chatText.length > 50) this.chatText.shift();
                 this.$nextTick(function(){
                     /* 通过ref层层深入访问到子组件的聊天框，调节其滚动条高度 */
+                    if(!this.$refs.chatModule)return
                     this.$refs.chatModule.modifyScrollHeight()
                 })
             }

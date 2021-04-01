@@ -87,7 +87,11 @@ export default {
         },
 
         emitStartGame: function(){
-            this.$emit('emitStartGame', true)
+            this.ws.send(JSON.stringify({ 
+                type: 'game',
+                id: this.playerLocRoom.id, 
+                action: 'initialize',
+            }))
         }
     }
 }
