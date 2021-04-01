@@ -4,7 +4,7 @@
             <el-progress v-show="timer !== null" :percentage="time" :color="customColors" :show-text="false"></el-progress>
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
-            <el-tooltip v-for="(cardIndex, n) in sortCardList" :key="cardIndex + n" effect="light" placement="top" :content="cardList[cardIndex].name">
+            <el-tooltip v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" effect="light" placement="top" :content="cardList[cardIndex].name">
                 <div class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
                     <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
                 </div>
@@ -44,7 +44,7 @@ export default {
                 currentCardPlayer: 0,
                 currentCombo: 0,
                 gamePlayer: {
-                    0: {id: 10, nickname: '', cards: 0, remainCards: [52,49,35,51,52], maxCombo: 0, online: true, wukong: 0, bajie: 0, shaseng: 0, tangseng: 0, joker: 0},
+                    0: {id: 10, nickname: '', cards: 0, remainCards: [52,49,35,50,52], maxCombo: 0, online: true, wukong: 0, bajie: 0, shaseng: 0, tangseng: 0, joker: 0},
                     1: {id: 3, nickname: '', cards: 0, remainCards: [50,49,35,51,52], maxCombo: 0, online: true, wukong: 0, bajie: 0, shaseng: 0, tangseng: 0, joker: 0},
                 }    
             },
