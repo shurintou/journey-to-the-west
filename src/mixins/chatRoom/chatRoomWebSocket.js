@@ -112,12 +112,19 @@ export var chatRoomWebSocket = {
                         if( self.$store.state.player_loc !== playerLoc ){
                             self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: playerLoc, player_status: playerLoc === 0? 0: playerLocRoom.status === 0 ? 1: 2 }))
                         }
+                        /* 如果玩家所在房间正在游戏中且本地没有该游戏信息 */
+                        if(playerLocRoom.status === 1 && self.gameInfo === null){
+                            self.ws.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
+                        }
                     }
                     /* 玩家不在任一房间 */
                     else{
                         self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: 0, player_status: 0}))
                     }
                     self.gameRoomList = newGameRoomList
+                }
+                else if(jsonData.type === 'game'){
+                    self.gameInfo = JSON.parse(jsonData.data)
                 }
                 self.reset()
             };

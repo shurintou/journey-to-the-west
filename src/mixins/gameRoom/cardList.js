@@ -2,6 +2,7 @@ export var cardList = {
     data: function(){
         return {
             cardList: [
+                /* 行数-6即是下标数 */
                 { num: 2, suit: 4, src: '2A', name: '妖怪2' },
                 { num: 2, suit: 3, src: '2B', name: '妖怪2' },
                 { num: 2, suit: 2, src: '2C', name: '妖怪2' },
