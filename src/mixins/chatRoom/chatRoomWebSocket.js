@@ -124,7 +124,16 @@ export var chatRoomWebSocket = {
                     self.gameRoomList = newGameRoomList
                 }
                 else if(jsonData.type === 'game'){
-                    self.gameInfo = JSON.parse(jsonData.data)
+                    if(jsonData.action === 'initialize' || self.gameInfo === null){
+                        self.gameInfo = JSON.parse(jsonData.data)
+                    }
+                    else{
+                        let gameData = JSON.parse(jsonData.data)
+                        /* 获取到的游戏数据版本高于本地的才接收 */
+                        if(gameData.version > self.gameInfo.version){
+                            self.gameInfo = gameData
+                        }
+                    }
                 }
                 self.reset()
             };
