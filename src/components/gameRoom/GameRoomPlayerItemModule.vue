@@ -10,21 +10,33 @@
                             <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="changeSeat">换位</el-button>
                             <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini" @click="kickPlayerOff">踢出</el-button>
                         </template>
-                        <!-- 开始游戏的时候，点玩家可以发言 -->
+                        <!-- todo:开始游戏的时候，点玩家可以发言 -->
                         <template v-if="playerLocRoom.status === 1">
                         </template>
                     </div>
                     <div slot="reference" id="game-room-player-info-box">
-                        <!-- todo:游戏时渲染用gameInfo的数据 -->
-                        <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
-                            <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
-                            <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="player.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getPlayer().nickname}}</el-tag>
-                        </div>
-                        <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
-                            <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
-                            <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
-                            <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
-                        </div>
+                        <template v-if="playerLocRoom.status === 0">
+                            <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
+                                <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
+                                <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="player.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getPlayer().nickname}}</el-tag>
+                            </div>
+                            <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
+                                <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃牌数： ' + player.cards + ' 张' }}</el-tag>
+                                <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
+                                <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
+                            </div>
+                        </template>
+                        <template v-if="playerLocRoom.status === 1 && gameInfo !== null && getGamePlayer !== null">
+                            <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
+                                <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getGamePlayer.avatar_id)"></el-image>
+                                <el-tag :type="getPlayerNameTagType" effect="dark" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="getGamePlayer.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getGamePlayer.nickname}}</el-tag>
+                            </div>
+                            <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}">
+                                <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                                <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总吃牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                                <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大吃牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                            </div>
+                        </template>
                     </div>
                 </el-popover>
         </el-tooltip>
@@ -70,10 +82,22 @@ export default {
                 }
             }
             else{
-                /* 游戏开始，游戏时蓝色，托管红色 */
-                return ''
+                if(this.getGamePlayer.online){
+                    return 'primary'
+                }
+                else{
+                    return 'danger'
+                }
             }
         },
+
+        getGamePlayer: function(){
+            if(this.gameInfo === null) return null
+            if(this.gameInfo.gamePlayer[this.seatIndex].id > 0){
+                return this.gameInfo.gamePlayer[this.seatIndex]
+            }
+            return null
+        }
     },
 
     methods:{
