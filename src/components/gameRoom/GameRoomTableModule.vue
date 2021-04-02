@@ -13,14 +13,16 @@
                 <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
             </div>
         </div>
-        <div v-else id="game-room-table-playing-horizontal-container">
+        <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
             <div id="game-room-table-horizontal-box-top">
-                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
-                    <div slot="content">
-                        {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
-                    </div>
-                    <el-image style="width: 20%; height:20vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                </el-tooltip>
+                <template v-if="gameInfo.currentCard.length > 0">
+                    <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
+                        <div slot="content">
+                            {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+                        </div>
+                        <el-image style="width: 20%; height:20vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                    </el-tooltip>
+                </template>
             </div>
             <div id="game-room-table-horizontal-box-bottom">
                 <el-tooltip effect="light" content="连击牌数" placement="top">
@@ -62,14 +64,16 @@
                 <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
             </div>
         </div>
-        <div v-else id="game-room-table-vertical-container">
+        <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-top">
-                <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" effect="light" placement="top">
-                    <div slot="content">
-                        {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
-                    </div>
-                    <el-image style="width: 20%; height:10vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                </el-tooltip>
+                <template v-if="gameInfo.currentCard.length > 0">
+                    <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" effect="light" placement="top">
+                        <div slot="content">
+                            {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+                        </div>
+                        <el-image style="width: 20%; height:10vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                    </el-tooltip>
+                </template>
             </div>
             <div id="game-room-table-vertical-box-bottom">
                 <el-tooltip effect="light" content="连击牌数" placement="top">

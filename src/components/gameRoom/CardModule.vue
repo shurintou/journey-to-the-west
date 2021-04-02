@@ -12,7 +12,7 @@
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
             <el-button type="success" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
-            <!-- :disabled="timer === null" -->
+            <!-- todo: :disabled="timer === null" -->
             <el-button type="danger" style="float:right;margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
             <el-button type="warning" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
         </div>
@@ -80,7 +80,12 @@ export default {
             if(this.getGamePlayer === null) return null
             let sortedList = this.getGamePlayer.remainCards
             return sortedList.sort((a,b) =>{
-                return (this.cardList[a].num + this.cardList[a].suit) - (this.cardList[b].num + this.cardList[b].suit)
+                if( this.cardList[a].num === this.cardList[b].num){
+                    return this.cardList[a].suit - this.cardList[b].suit
+                }
+                else{
+                    return this.cardList[a].num - this.cardList[b].num
+                }
             })
         },
     },
@@ -103,7 +108,7 @@ export default {
                     return
                 }
                 /* 判断是否超过长度 */
-                if(this.selectCard.length < this.gameInfo.currentCard.length){
+                if(this.selectCard.length < (this.gameInfo.currentCard.length === 0 ? 5 : this.gameInfo.currentCard.length )){
                     /* 未超过长度，判断牌是否同一类型，是同一类型加入数组 */
                     if(this.cardList[this.sortCardList[this.selectCard[0]]].num === this.cardList[cardIndex].num){
                         this.selectCard.push(n)
