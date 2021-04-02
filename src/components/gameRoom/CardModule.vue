@@ -11,10 +11,9 @@
             </el-tooltip>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
-            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
+            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard" :disabled="timer === null">不出</el-button>
             <el-button type="warning" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
-            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
-            <!-- todo: :disabled="timer === null" -->
+            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard" :disabled="timer === null">出牌</el-button>
         </div>
     </el-main>
 </template>
@@ -48,13 +47,15 @@ export default {
     },
 
     watch:{
-        'gameInfo.currentPlayer': function(newVal){
-            if(this.gameInfo.gamePlayer[newVal].id === this.$store.state.id){
+        'gameInfo.version': {
+            immediate: true,
+            handler: function(){
+            if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
                 this.time = 100
                 this.selectCard = []
                 this.timer = setInterval( () => {
                     this.time = this.time - 1
-                } , 100)
+                } , 100)}
             }
         },
 
@@ -66,6 +67,16 @@ export default {
     },
 
     computed:{
+        getSeatIndex: function(){
+            if(!this.gameInfo) return 10
+            for( let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++ ){
+                if(this.gameInfo.gamePlayer[i].id === this.$store.state.id){
+                    return i
+                }
+            }
+            return 10
+        },
+
         getGamePlayer: function(){
             if(!this.gameInfo) return null
             for( let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++ ){
@@ -238,6 +249,15 @@ export default {
                 }
             })
             this.selectCard = []
+            this.ws.send(JSON.stringify({ 
+                type: 'game',
+                action: 'play',
+                id: this.gameInfo.id, 
+                seatIndex: this.getSeatIndex,
+                playCard: playCardListValue,
+                remainCards: this.getGamePlayer.remainCards
+            }))
+            this.destroyTimer()
         },
 
         disCard: function(){
