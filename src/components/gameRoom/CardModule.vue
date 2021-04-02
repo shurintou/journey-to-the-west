@@ -11,10 +11,10 @@
             </el-tooltip>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
-            <el-button type="success" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
+            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
+            <el-button type="warning" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
+            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard">出牌</el-button>
             <!-- todo: :disabled="timer === null" -->
-            <el-button type="danger" style="float:right;margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard">不出</el-button>
-            <el-button type="warning" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
         </div>
     </el-main>
 </template>
@@ -143,12 +143,16 @@ export default {
                 this.$message.warning('请选择要打出的牌')
                 return
             }
+            if(this.gameInfo.currentCard.length === 0){
+                this.sendPlayCard()
+                return
+            }
             if(this.selectCard.length !== this.gameInfo.currentCard.length){
                 this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
                 return
             }
             if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 100){
-                this.$message.success('反弹牌可以通过')
+                this.sendPlayCard()
                 return
             }
             /* 出的牌号数一样，则比较花色suit大小 */
@@ -179,7 +183,7 @@ export default {
                     }
                 }
                 if(largerFlag && notSmallerFlag){
-                    this.$message.success('成功打出')
+                    this.sendPlayCard()
                 }
                 else{
                     this.$message.warning('打出的牌须大于台面牌型')
@@ -191,7 +195,7 @@ export default {
             /* 都不是师傅的情况下 */
             if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 30 && this.cardList[this.gameInfo.currentCard[0]].num < 30){
                 if(this.cardList[this.sortCardList[this.selectCard[0]]].num > this.cardList[this.gameInfo.currentCard[0]].num){
-                    this.$message.success('成功打出')
+                    this.sendPlayCard()
                 }
                 else{
                     this.$message.warning('打出的牌须大于台面牌型')
@@ -202,7 +206,7 @@ export default {
                 /* 打出师傅 */
                 if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 31){
                     if(this.cardList[this.gameInfo.currentCard[0]].num > 20){
-                        this.$message.success('成功打出')
+                        this.sendPlayCard()
                     }
                     else{
                         this.$message.warning('师傅不能打妖怪哦')
@@ -212,7 +216,7 @@ export default {
                 /* 台面师傅 */
                 if(this.cardList[this.gameInfo.currentCard[0]].num === 31){
                     if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 20){
-                        this.$message.success('成功打出')
+                        this.sendPlayCard()
                     }
                     else{
                         this.$message.warning('徒弟不能打师傅哦')
@@ -220,6 +224,20 @@ export default {
                     return
                 }
             }
+        },
+
+        sendPlayCard: function(){
+            let playCardListValue = []
+            this.selectCard.forEach( n => { playCardListValue.push(this.sortCardList[n])})
+            playCardListValue.forEach( value => {
+                for(let i = 0; i < this.getGamePlayer.remainCards.length; i++){
+                    if( this.getGamePlayer.remainCards[i] === value ){
+                        this.getGamePlayer.remainCards.splice(i,1)
+                        break
+                    }
+                }
+            })
+            this.selectCard = []
         },
 
         disCard: function(){
