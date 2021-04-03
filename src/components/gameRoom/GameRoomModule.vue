@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div id="game-room-box-horizontal-body-table" style="float: left;"> 
-                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :dialogWidth="dialogWidth" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
+                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
             </div>
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
                 <div class="game-room-box-horizontal-body-aside-item-top">
@@ -52,7 +52,7 @@
                 </div>
             </div>
              <div id="game-room-box-vertical-body-table"> 
-                <GameRoomTableModule :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :dialogWidth="dialogWidth" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
+                <GameRoomTableModule :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :player="playerLocRoom.playerList[calPlayersSeat(0)]"></GameRoomTableModule>
             </div>
             <div class="game-room-box-vertical-body-aside" style="float: right">
                 <div class="game-room-box-vertical-body-aside-item">
@@ -131,7 +131,7 @@ export default {
 
     #game-room-box-horizontal-header{
         width: 75vw;
-        height: 20vh;   
+        height: 15vh;   
     }
 
     .game-room-box-horizontal-header-item{

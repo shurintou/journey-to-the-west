@@ -14,36 +14,50 @@
             </div>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
+            <div id="game-room-table-horizontal-box-info">
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">游戏信息</p>
+            </div>
             <div id="game-room-table-horizontal-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
-                    <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="n" effect="light" placement="top">
-                        <div slot="content">
-                            {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
-                        </div>
-                        <el-image style="width: 20%; height:20vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                    </el-tooltip>
+                    <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
+                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
+                    </div>
+                </template>
+                <template v-if="gameInfo.jokerCard.length > 0">
+                    <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 && gameInfo.currentCard.length === 0 ? tablePokerLeftMargin: '0%'}">
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
+                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自玩家: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
+                    </div>
                 </template>
             </div>
-            <div id="game-room-table-horizontal-box-bottom">
+            <div id="game-room-table-horizontal-box-middle">
                 <el-tooltip effect="light" content="连击牌数" placement="top">
-                    <div style="margin-left: 10%;" class="game-room-table-horizontal-box-bottom-item">
+                    <div style="margin-left: 10%;" class="game-room-table-horizontal-box-middle-item">
                         <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
                         <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
                     </div>
                 </el-tooltip>
                 <el-tooltip effect="light" content="剩余牌数" placement="top">
-                    <div class="game-room-table-horizontal-box-bottom-item">
+                    <div class="game-room-table-horizontal-box-middle-item">
                         <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
                         <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
                     </div>
                 </el-tooltip>
                 <el-tooltip effect="light" content="出牌顺序" placement="top">
-                    <div class="game-room-table-horizontal-box-bottom-item">
+                    <div class="game-room-table-horizontal-box-middle-item">
                         <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw"></el-image>
                         <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw"></el-image>
                         <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
                     </div>
                 </el-tooltip>
+            </div>
+            <div id="game-room-table-horizontal-box-bottom">
+                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总吃牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大吃牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
             </div>
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
@@ -121,7 +135,42 @@ export default {
         playerLocRoom: { type: Object, default: null},
         player: { type: Object, default: null },
         gameInfo: { type: Object, default: null },
+        seatIndex: { type: Number },
         ws: { type: WebSocket, default: null},
+    },
+
+    computed:{
+        tablePokersWidth: function(){
+            if(this.isItemHorizontal){
+                if(this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length <= 5){
+                    return '20%'
+                }
+                else{
+                    return (100 / (this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length) ) + '' + '%'
+                }
+            }
+            return '20%'
+        },
+
+        tablePokerLeftMargin: function(){
+            if(this.isItemHorizontal){
+                if(this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length <= 5){
+                    return ( 50 - 10*(this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length) ) + '' + '%'
+                }
+                else{
+                    return '0%'
+                }
+            }
+            return '0%'
+        },
+
+        getGamePlayer: function(){
+            if(this.gameInfo === null) return null
+            if(this.gameInfo.gamePlayer[this.seatIndex].id > 0){
+                return this.gameInfo.gamePlayer[this.seatIndex]
+            }
+            return null
+        }
     },
 
     components:{
@@ -172,6 +221,19 @@ export default {
     height: 60vh;
 }
 
+#game-room-table-horizontal-box-info{
+    width: 80%;
+    margin-left: 10%;
+    height: 5vh;
+    text-align: center;
+}
+
+#game-info-text-box{
+    background-color: #f4f4f5;
+    border-radius: 5px;
+    color: #909399;
+}
+
 #game-room-table-vertical-room-info-top{
     width: 100%;
     height: 10vh;
@@ -200,7 +262,7 @@ export default {
     height: 20vh;
 }
 
-#game-room-table-horizontal-box-bottom{
+#game-room-table-horizontal-box-middle{
     width: 100%;
     height: 10vh;
 }
@@ -210,11 +272,11 @@ export default {
     height: 10vh;
 }
 
-.game-room-table-horizontal-box-bottom-item{
+.game-room-table-horizontal-box-middle-item{
     width: 6vw; 
     height: 10vh; 
     margin-left: 20%;
-    margin-top: 10%; 
+    margin-top: 3%; 
     display: inline-block;
 }
 
@@ -222,18 +284,27 @@ export default {
     width: 6vw; 
     height: 5vh; 
     margin-left: 20%;
-    margin-top: 10%; 
+    margin-top: 8%; 
     display: inline-block;
 }
 
 .white-color-font{
     color: white;
+    margin: 0;
 }
 
 #game-room-table-vertical-box-top{
     padding-top: 20vh;
     width: 100%;
     height: 20vh;
+}
+
+#game-room-table-horizontal-box-bottom{
+    width: 100%; 
+    height: 9vh; 
+    margin-top: 8%; 
+    margin-left: 20%;
+    display: inline-block;
 }
 
 </style>
