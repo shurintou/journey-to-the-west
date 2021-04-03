@@ -50,12 +50,19 @@ export default {
         'gameInfo.version': {
             immediate: true,
             handler: function(){
-            if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
-                this.time = 100
-                this.selectCard = []
-                this.timer = setInterval( () => {
-                    this.time = this.time - 1
-                } , 100)}
+                if(this.gameInfo === null) return
+                if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
+                    this.time = 100
+                    this.selectCard = []
+                    if(this.timer > 0){
+                        clearInterval(this.timer)
+                    }
+                    this.$nextTick( function(){
+                        this.timer = window.setInterval( () => {
+                            this.time = this.time - 1
+                        } , 100)
+                    })
+                }
             }
         },
 
