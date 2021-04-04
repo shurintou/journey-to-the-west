@@ -1,6 +1,6 @@
 <template>
     <el-main class="hide-scroll-bar" :style="{backgroundImage: 'url(' + horizontalBackground + ')'}">
-        <div style="width:100%; height:10%; margin: 0">
+        <div id="card-module-text">
             <el-progress v-show="timer !== null" :percentage="time" :color="customColors" :show-text="false"></el-progress>
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
@@ -276,6 +276,12 @@ export default {
 </script>
 
 <style>
+#card-module-text{
+    width: 100%; 
+    height: 10%;
+    margin: 0;
+}
+
 #card-module-top{
     width: 100%;
     height: 50%;
@@ -284,7 +290,7 @@ export default {
 #card-module-bottom{
     width: 100%;
     height: 20%;
-    margin-top: 4%;
+    margin-top: 4vh;
 }
 
 .poker-card-item{
@@ -311,7 +317,7 @@ export default {
 
 .card-item{
     width: 100%; 
-    height: 100%;
+    height: 90%;
     
 }
 
