@@ -267,7 +267,18 @@ export default {
         },
 
         disCard: function(){
-            this.selectCard = [];
+            if(this.gameInfo.currentCard.length === 0){
+                this.$message.warning('必须打出至少一张牌')
+                return
+            }
+            this.selectCard = []
+            this.ws.send(JSON.stringify({ 
+                type: 'game',
+                action: 'discard',
+                id: this.gameInfo.id, 
+                seatIndex: this.getSeatIndex,
+            }))
+            this.destroyTimer()
         },
     },
 
