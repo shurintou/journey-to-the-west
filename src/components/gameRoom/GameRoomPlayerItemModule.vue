@@ -1,6 +1,5 @@
 <template>
-    <!-- todo:正在出牌的玩家加上player-now-play-card类 -->
-    <div>
+    <div :class="{ 'player-now-play-card' : gameInfo && gameInfo.currentPlayer === seatIndex }">
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
                 </div> 
@@ -18,7 +17,7 @@
                         <template v-if="playerLocRoom.status === 0">
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
                                 <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getPlayer().avatar_id)"></el-image>
-                                <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="gameInfo.currentPlayer === seatIndex" class="el-icon-loading"></i>{{getPlayer().nickname}}</el-tag>
+                                <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="player.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getPlayer().nickname}}</el-tag>
                             </div>
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
                                 <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： ' + player.cards + ' 张' }}</el-tag>
@@ -165,8 +164,10 @@ export default {
 }
 
 .player-now-play-card{
-    background-image: url('../../assets/images/player-frame.png');
-    background-color: rgb(119, 187, 17);
+    border-radius: 5px;
+    border-style: solid;
+    border-color: chartreuse;
+    background-color: rgba(127,255,0,0.3);
     background-size: 100% 100%;
 }
 
