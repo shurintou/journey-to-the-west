@@ -22,14 +22,14 @@
                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
                         <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
                         <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                        <p class="white-color-font" :style="{'font-size': fontSize}">来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
                 </template>
                 <template v-if="gameInfo.jokerCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 && gameInfo.currentCard.length === 0 ? tablePokerLeftMargin: '0%'}">
                         <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
                         <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                        <p class="white-color-font" :style="{'font-size': fontSize}">来自玩家: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
                     </div>
                 </template>
             </div>
@@ -59,7 +59,7 @@
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
-    <div v-else id="game-room-table-box">
+    <div v-else id="game-room-table-box-vertical">
         <div v-if="playerLocRoom.status === 0" id="game-room-table-vertical-container">
              <div @click="function(){ if(playerLocRoom.owner === player.id) editGameRoomDialogVisible = true }" id="game-room-table-vertical-room-info-top">
                 <el-alert :style="{'font-size': fontSize}" :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
@@ -76,36 +76,53 @@
             </div>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
+            <div id="game-room-table-vertical-box-info">
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">游戏信息</p>
+            </div>
             <div id="game-room-table-vertical-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
-                    <el-tooltip  v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" effect="light" placement="top">
-                        <div slot="content">
-                            {{ cardList[cardIndex].name }} <br/>来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
-                        </div>
-                        <el-image style="width: 20%; height:10vh" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
-                    </el-tooltip>
+                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }">
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
+                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
+                    </div>
+                </template>
+            </div>
+            <div id="game-room-table-vertical-box-middle">
+                <template v-if="gameInfo.jokerCard.length > 0">
+                    <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? ( 50 - 10*gameInfo.jokerCard.length ) + '' + '%': '0%' }">
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
+                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
+                    </div>
                 </template>
             </div>
             <div id="game-room-table-vertical-box-bottom">
-                <el-tooltip effect="light" content="连击牌数" placement="top">
-                    <div style="margin-left: 10%;" class="game-room-table-vertical-box-bottom-item">
-                        <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
-                        <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                    </div>
-                </el-tooltip>
-                <el-tooltip effect="light" content="剩余牌数" placement="top">
-                    <div class="game-room-table-vertical-box-bottom-item">
-                        <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
-                        <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
-                    </div>
-                </el-tooltip>
-                <el-tooltip effect="light" content="出牌顺序" placement="top">
-                    <div class="game-room-table-vertical-box-bottom-item">
-                        <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw"></el-image>
-                        <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw"></el-image>
-                        <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
-                    </div>
-                </el-tooltip>
+                <div style="margin-left: 10%;" class="game-room-table-vertical-box-bottom-item">
+                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">连击牌数</div>
+                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
+                    <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
+                </div>
+                <div class="game-room-table-vertical-box-bottom-item">
+                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">剩余牌数</div>
+                    <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
+                </div>
+                <div class="game-room-table-vertical-box-bottom-item">
+                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">出牌顺序</div>
+                    <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw"></el-image>
+                    <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
+                </div>
+            </div>
+            <div id="game-room-table-vertical-info-box-bottom">
+                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+            </div>
+            <div id="game-room-table-vertical-info-box-bottom">
+                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+            </div>
+            <div id="game-room-table-vertical-info-box-bottom">
+                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
             </div>
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
@@ -185,6 +202,11 @@ export default {
     height: 100%;
 }
 
+#game-room-table-box-vertical{
+    width: 100%;
+    height: 80%;
+}
+
 #game-room-table-horizontal-container{
     margin-left: 20%;
     width: 60%; 
@@ -213,9 +235,8 @@ export default {
 }
 
 #game-room-table-vertical-container{
-    margin-left: 2%;
     width: 100%;
-    height: 60vh;
+    height: 50vh;
 }
 
 #game-room-table-horizontal-box-info{
@@ -224,6 +245,13 @@ export default {
     height: 5vh;
     text-align: center;
     margin-top: 2vh;
+}
+
+#game-room-table-vertical-box-info{
+    width: 100%;
+    margin-top: 10vh;
+    height: 2vh;
+    text-align: center;
 }
 
 #game-info-text-box{
@@ -242,11 +270,11 @@ export default {
 #game-room-table-vertical-room-info-middle{
     width: 100%;
     height: 10vh;
-    padding-top: 5vh;
+    margin-top: 5vh;
 }
 
 #game-room-table-vertical-room-info-bottom{
-    margin-top: 15vh;
+    margin-top: 5vh;
     width: 100%;
     height: 10vh;
 }
@@ -292,9 +320,15 @@ export default {
 }
 
 #game-room-table-vertical-box-top{
-    padding-top: 20vh;
     width: 100%;
-    height: 20vh;
+    height: 10vh;
+}
+
+#game-room-table-vertical-box-middle{
+    padding-top: 5vh;
+    width: 100%;
+    height: 10vh;
+    padding-bottom: 3vh;
 }
 
 #game-room-table-horizontal-box-bottom{
@@ -303,6 +337,13 @@ export default {
     margin-top: 10%; 
     margin-left: 20%;
     display: inline-block;
+}
+
+#game-room-table-vertical-info-box-bottom{
+    width: 100%; 
+    height: 2vh; 
+    margin-top: 5%; 
+    margin-left: 20%;
 }
 
 </style>
