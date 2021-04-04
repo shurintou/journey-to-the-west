@@ -290,7 +290,7 @@ export default {
 #card-module-bottom{
     width: 100%;
     height: 20%;
-    margin-top: 4vh;
+    margin-top: 3vh;
 }
 
 .poker-card-item{

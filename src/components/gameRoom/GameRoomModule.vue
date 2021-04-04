@@ -173,15 +173,15 @@ export default {
     #game-room-box-vertical{
         background-size: 60vw 66vh;
         background-repeat: no-repeat;
-        background-position-x: 17vw;
+        background-position-x: 16vw;
         background-position-y: 6vh;
         background-image: url('../../assets/images/game-table-vertical.png');
-        width: 100vw;
+        width: 95vw;
         height: 71vh;
     }
 
     #game-room-box-vertical-header{
-        width: 100vw;
+        width: 95vw;
         height: 8vh;
     }
 
