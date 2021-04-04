@@ -20,7 +20,7 @@
             <div id="game-room-table-horizontal-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
                         <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自玩家: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
@@ -34,25 +34,22 @@
                 </template>
             </div>
             <div id="game-room-table-horizontal-box-middle">
-                <el-tooltip effect="light" content="连击牌数" placement="top">
-                    <div style="margin-left: 10%;" class="game-room-table-horizontal-box-middle-item">
-                        <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
-                        <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                    </div>
-                </el-tooltip>
-                <el-tooltip effect="light" content="剩余牌数" placement="top">
-                    <div class="game-room-table-horizontal-box-middle-item">
-                        <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
-                        <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
-                    </div>
-                </el-tooltip>
-                <el-tooltip effect="light" content="出牌顺序" placement="top">
-                    <div class="game-room-table-horizontal-box-middle-item">
-                        <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw"></el-image>
-                        <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw"></el-image>
-                        <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
-                    </div>
-                </el-tooltip>
+                <div style="margin-left: 10%;" class="game-room-table-horizontal-box-middle-item">
+                    <p class="white-color-font" :style="{'font-size': fontSize}">连击牌数</p>
+                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
+                    <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
+                </div>
+                <div class="game-room-table-horizontal-box-middle-item">
+                    <p class="white-color-font" :style="{'font-size': fontSize}">剩余牌数</p>
+                    <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
+                </div>
+                <div class="game-room-table-horizontal-box-middle-item">
+                    <p class="white-color-font" :style="{'font-size': fontSize}">出牌顺序</p>
+                    <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw"></el-image>
+                    <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
+                </div>
             </div>
             <div id="game-room-table-horizontal-box-bottom">
                 <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
@@ -226,6 +223,7 @@ export default {
     margin-left: 10%;
     height: 5vh;
     text-align: center;
+    margin-top: 2vh;
 }
 
 #game-info-text-box{
@@ -301,8 +299,8 @@ export default {
 
 #game-room-table-horizontal-box-bottom{
     width: 100%; 
-    height: 9vh; 
-    margin-top: 8%; 
+    height: 5vh; 
+    margin-top: 10%; 
     margin-left: 20%;
     display: inline-block;
 }

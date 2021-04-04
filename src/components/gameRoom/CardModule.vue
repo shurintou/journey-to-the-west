@@ -1,14 +1,13 @@
 <template>
     <el-main class="hide-scroll-bar" :style="{backgroundImage: 'url(' + horizontalBackground + ')'}">
-        <div style="width:100%; height:20%">
+        <div style="width:100%; height:10%; margin: 0">
             <el-progress v-show="timer !== null" :percentage="time" :color="customColors" :show-text="false"></el-progress>
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
-            <el-tooltip v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" effect="light" placement="top" :content="cardList[cardIndex].name">
-                <div class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
-                    <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
-                </div>
-            </el-tooltip>
+            <div v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
+                <p class="black-color-font" :style="{'font-size': fontSize}">{{cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')')}}</p>
+                <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
+            </div>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
             <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard" :disabled="timer === null">不出</el-button>
@@ -279,18 +278,20 @@ export default {
 <style>
 #card-module-top{
     width: 100%;
-    height: 60%;
+    height: 50%;
 }
 
 #card-module-bottom{
     width: 100%;
     height: 20%;
+    margin-top: 4%;
 }
 
 .poker-card-item{
     width: 13%;
-    height: 80%;
+    height: 100%;
     margin-right: 2%;
+    text-align: center;
     display: inline-block;
 }
 
@@ -316,5 +317,10 @@ export default {
 
 .poker-card-item:hover{
     cursor: pointer;
+}
+
+.black-color-font{
+    color: black;
+    margin: 0;
 }
 </style>
