@@ -120,9 +120,14 @@
                     <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
                 </div>
             </div>
-            <div id="game-room-table-vertical-info-box-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
-            </div>
+            <el-tooltip effect="light" placement="right" :manual="true" v-model="isTooltipShow">
+                <div slot="content">
+                    <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
+                </div> 
+                <div id="game-room-table-vertical-info-box-bottom">
+                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                </div>
+            </el-tooltip>
             <div id="game-room-table-vertical-info-box-bottom">
                 <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
             </div>
