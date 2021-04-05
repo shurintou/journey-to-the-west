@@ -15,7 +15,7 @@
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
             <div id="game-room-table-horizontal-box-info">
-                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">游戏信息</p>
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">{{gameTableTexts ? gameTableTexts[0]: ''}}</p>
             </div>
             <div id="game-room-table-horizontal-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
@@ -77,7 +77,7 @@
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-info">
-                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">游戏信息</p>
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">{{gameTableTexts? gameTableTexts[0] : ''}}</p>
             </div>
             <div id="game-room-table-vertical-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
@@ -137,7 +137,9 @@ import { cardList } from '../../mixins/gameRoom/cardList'
 export default {
     data() {
         return{
-            editGameRoomDialogVisible: false,           
+            editGameRoomDialogVisible: false,
+            gameTableTexts: [],
+            timer: 0,           
         }
     },
 
@@ -151,6 +153,25 @@ export default {
         gameInfo: { type: Object, default: null },
         seatIndex: { type: Number },
         ws: { type: WebSocket, default: null},
+    },
+
+    watch:{
+        'gameInfo.messages': {
+            immediate: true,
+            handler: function(newVal){
+                if(this.gameInfo === null) return
+                clearTimeout(this.timer)
+                this.gameTableTexts = newVal
+            }
+        },
+
+        gameTableTexts: function(){
+            if(this.gameTableTexts && this.gameTableTexts.length > 1){
+                this.timer = setTimeout( () => {
+                    this.gameTableTexts.shift()
+                }, 2000)
+            }
+        }
     },
 
     computed:{
