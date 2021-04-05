@@ -2,15 +2,24 @@
     <div :class="{ 'player-now-play-card' : gameInfo && gameInfo.currentPlayer === seatIndex }">
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
+                    <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
                 </div> 
                 <el-popover placement="top" width="160" v-model="isPopoverVisible" :disabled="playerLocRoom.status === 0 && player.ready === true">
-                    <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id ? '0' : '25%'}">
+                    <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id || playerLocRoom.status === 1 ? '0' : '25%'}">
                         <template v-if="playerLocRoom.status === 0 && player.ready === false">
                             <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="changeSeat">换位</el-button>
                             <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini" @click="kickPlayerOff">踢出</el-button>
                         </template>
-                        <!-- todo:开始游戏的时候，点玩家可以发言 -->
                         <template v-if="playerLocRoom.status === 1">
+                            <el-select size="medium" v-model="gameTextToPlayer" placeholder="向该玩家发言" @change="sentSelectedTextToPlayer">
+                                <el-option :disabled="true" label="请选择" value=""></el-option>
+                                <el-option label="小小小！" value="小小小！"></el-option>
+                                <el-option label="求师傅！" value="求师傅！"></el-option>
+                                <el-option label="求拉满！" value="求拉满！"></el-option>
+                                <el-option label="你的牌打得太好了" value="你的牌打得太好了"></el-option>
+                                <el-option label="我等得花儿都谢了" value="我等得花儿都谢了"></el-option>
+                                <el-option label="合作愉快" value="合作愉快"></el-option>
+                            </el-select>
                         </template>
                     </div>
                     <div slot="reference" id="game-room-player-info-box">
@@ -48,6 +57,9 @@ export default {
         return{
             isTooltipShow: false,
             isPopoverVisible: false,
+            gameTextToPlayer: '',
+            gameTextFromPlayer: [],
+            timer: 0,           
         }
     },
 
@@ -63,6 +75,30 @@ export default {
         seatIndex: { type: Number },
         gameInfo: { type: Object, default: null },
         localPlayerSeatIndex: { type: Number },
+        sentGameTextToPlayer: { type: Object, default: null },
+    },
+
+    watch:{
+        sentGameTextToPlayer: function(newVal){
+            if(this.gameInfo === null) return
+            if(newVal.targetId === this.$store.state.id){
+                this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 对你说: ' + newVal.text )
+            }
+            else{
+                this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 对' + this.gameInfo.gamePlayer[newVal.target].nickname +  ' 说: ' + newVal.text )
+            }
+            this.$nextTick(function(){
+                if(this.gameTextFromPlayer.length > 0){
+                    this.isTooltipShow = true
+                    this.gameTextFromPlayerTimer = setTimeout( () => {
+                        this.gameTextFromPlayer.shift()
+                        if(this.gameTextFromPlayer.length === 0){
+                            this.isTooltipShow = false
+                        }
+                    }, 4000)
+                }
+            })
+        },
     },
 
     computed:{
@@ -96,7 +132,7 @@ export default {
                 return this.gameInfo.gamePlayer[this.seatIndex]
             }
             return null
-        }
+        },
     },
 
     methods:{
@@ -125,6 +161,12 @@ export default {
         changeSeat: function(){
             this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$store.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex, confirm: false }))
             this.isPopoverVisible = false
+        },
+
+        sentSelectedTextToPlayer: function(){
+            this.isPopoverVisible = false
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$store.state.id, text: this.gameTextToPlayer }))
+            this.gameTextToPlayer = ''
         },
     }
 }

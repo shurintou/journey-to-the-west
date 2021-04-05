@@ -137,6 +137,9 @@ export var chatRoomWebSocket = {
                             self.gameInfo.gamePlayer[jsonData.seatIndex].online = jsonData.online
                         }
                     }
+                    else if(jsonData.action === 'textToPlayer'){
+                        self.sentGameTextToPlayerObj[jsonData.data.source] = jsonData.data
+                    }
                     else{
                         let gameData = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
