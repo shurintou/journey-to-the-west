@@ -51,11 +51,16 @@
                     <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
                 </div>
             </div>
-            <div id="game-room-table-horizontal-box-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
-            </div>
+            <el-tooltip effect="light" placement="top" :manual="true" v-model="isTooltipShow">
+                <div slot="content">
+                    <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
+                </div> 
+                <div id="game-room-table-horizontal-box-bottom">
+                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                    <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                    <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                </div>
+            </el-tooltip>
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
@@ -137,9 +142,12 @@ import { cardList } from '../../mixins/gameRoom/cardList'
 export default {
     data() {
         return{
+            isTooltipShow: false,
             editGameRoomDialogVisible: false,
             gameTableTexts: [],
-            timer: 0,           
+            gameTextFromPlayer: [],
+            timer: 0,    
+            gameTextFromPlayerTimer: 0,       
         }
     },
 
@@ -153,6 +161,7 @@ export default {
         gameInfo: { type: Object, default: null },
         seatIndex: { type: Number },
         ws: { type: WebSocket, default: null},
+        sentGameTextToPlayer: { type: Object, default: null },
     },
 
     watch:{
@@ -171,7 +180,25 @@ export default {
                     this.gameTableTexts.shift()
                 }, 2000)
             }
-        }
+        },
+
+        sentGameTextToPlayer: function(newVal){
+            if(this.gameInfo === null) return
+            if(newVal.sourceId === this.$store.state.id){
+                this.gameTextFromPlayer.push( '你对 ' + this.gameInfo.gamePlayer[newVal.target].nickname + ' 说: ' + newVal.text )
+                this.$nextTick(function(){
+                    if(this.gameTextFromPlayer.length > 0){
+                        this.isTooltipShow = true
+                        this.gameTextFromPlayerTimer = setTimeout( () => {
+                            this.gameTextFromPlayer.shift()
+                            if(this.gameTextFromPlayer.length === 0){
+                                this.isTooltipShow = false
+                            }
+                        }, 4000)
+                    }
+                })
+            }
+        },
     },
 
     computed:{
