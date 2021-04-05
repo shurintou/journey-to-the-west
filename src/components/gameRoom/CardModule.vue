@@ -10,9 +10,9 @@
             </div>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
-            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="disCard" :disabled="timer === null">不出</el-button>
-            <el-button type="warning" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }">托管</el-button>
-            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard" :disabled="timer === null">出牌</el-button>
+            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="discard" :disabled="timer === null || getGamePlayer.online === false">不出</el-button>
+            <el-button :type="getGamePlayer.online === false ? 'info': 'warning'" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" :disabled="timer !== null" @click="shiftOnline">{{ getGamePlayer.online === false ? '取消' : '托管' }}</el-button>
+            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard" :disabled="timer === null || getGamePlayer.online === false">出牌</el-button>
         </div>
     </el-main>
 </template>
@@ -49,7 +49,7 @@ export default {
         'gameInfo.version': {
             immediate: true,
             handler: function(){
-                if(this.gameInfo === null) return
+                if(this.gameInfo === null || this.getGamePlayer.online === false) return
                 if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
                     this.time = 100
                     this.selectCard = []
@@ -266,7 +266,7 @@ export default {
             this.destroyTimer()
         },
 
-        disCard: function(){
+        discard: function(){
             if(this.gameInfo.currentCard.length === 0){
                 this.$message.warning('必须打出至少一张牌')
                 return
@@ -279,6 +279,15 @@ export default {
                 seatIndex: this.getSeatIndex,
             }))
             this.destroyTimer()
+        },
+
+        shiftOnline: function(){
+            this.ws.send(JSON.stringify({ 
+                type: 'game',
+                action: 'shiftOnline',
+                id: this.gameInfo.id, 
+                seatIndex: this.getSeatIndex,
+            }))
         },
     },
 
