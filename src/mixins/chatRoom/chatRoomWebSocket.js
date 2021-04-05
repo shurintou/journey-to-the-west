@@ -43,9 +43,14 @@ export var chatRoomWebSocket = {
                         self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
                     }
                 }
-                else if( jsonData.type === 'system' ){
+                else if( jsonData.type === 'system' ){//聊天框显示系统信息
                     if(jsonData.player_loc === self.$store.state.player_loc){
                         self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'warning', 'text' : jsonData.text})
+                    }
+                }
+                else if( jsonData.type === 'message' ){//上方弹窗显示系统信息
+                    if(jsonData.player_loc === self.$store.state.player_loc){
+                        self.$message({message: jsonData.text, type: jsonData.subType })
                     }
                 }
                 else if( jsonData.type === 'error' ){
@@ -126,6 +131,11 @@ export var chatRoomWebSocket = {
                 else if(jsonData.type === 'game'){
                     if(jsonData.action === 'initialize' || self.gameInfo === null){
                         self.gameInfo = JSON.parse(jsonData.data)
+                    }
+                    else if(jsonData.action === 'shiftOnline'){
+                        if(self.gameInfo !== null){
+                            self.gameInfo.gamePlayer[jsonData.seatIndex].online = jsonData.online
+                        }
                     }
                     else{
                         let gameData = JSON.parse(jsonData.data)
