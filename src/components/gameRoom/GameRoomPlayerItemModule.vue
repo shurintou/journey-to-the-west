@@ -12,7 +12,7 @@
                         </template>
                         <template v-if="playerLocRoom.status === 1">
                             <el-select size="medium" v-model="gameTextToPlayer" placeholder="向该玩家发言" @change="sentSelectedTextToPlayer">
-                                <el-option :disabled="true" label="请选择" value=""></el-option>
+                                <el-option :disabled="true" label="向该玩家发言" value=""></el-option>
                                 <el-option label="收" value="收"></el-option>
                                 <el-option label="小小小" value="小小小"></el-option>
                                 <el-option label="求师傅" value="求师傅"></el-option>
