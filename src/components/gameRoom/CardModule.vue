@@ -168,7 +168,8 @@ export default {
                 this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
                 return
             }
-            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 100){
+            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 100 || this.cardList[this.gameInfo.currentCard[0]].num === 100){
+                //打出的牌是反弹牌，或现有牌池是反弹牌，则无须比较
                 this.sendPlayCard()
                 return
             }
