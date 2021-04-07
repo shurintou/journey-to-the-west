@@ -7,7 +7,7 @@
                 <el-popover placement="top" width="160" v-model="isPopoverVisible" :disabled="playerLocRoom.status === 0 && player.ready === true">
                     <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id || playerLocRoom.status === 1 ? '0' : '25%'}">
                         <template v-if="playerLocRoom.status === 0 && player.ready === false">
-                            <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="changeSeat">换位</el-button>
+                            <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini" @click="changeSeat" :disabled="playerLocRoom.playerList[localPlayerSeatIndex].ready === true">换位</el-button>
                             <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini" @click="kickPlayerOff">踢出</el-button>
                         </template>
                         <template v-if="playerLocRoom.status === 1">
