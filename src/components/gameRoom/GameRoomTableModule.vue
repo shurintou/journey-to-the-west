@@ -53,13 +53,28 @@
             </div>
             <el-tooltip effect="light" placement="top" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
-                    <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
+                    <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
                 </div> 
-                <div id="game-room-table-horizontal-box-bottom">
-                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
-                    <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
-                    <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
-                </div>
+                 <el-popover placement="top" width="160" v-model="isPopoverVisible">
+                    <div style="margin: 0">
+                        <el-select size="medium" v-model="gameTextToPlayer" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
+                            <el-option :disabled="true" label="向全体发言" value=""></el-option>
+                            <el-option label="小小小" value="小小小"></el-option>
+                            <el-option label="求师傅" value="求师傅"></el-option>
+                            <el-option label="求拉满" value="求拉满"></el-option>
+                            <el-option label="求转向" value="求转向"></el-option>
+                            <el-option label="我太难了" value="我太难了"></el-option>
+                            <el-option label="战略性收牌" value="战略性收牌"></el-option>
+                        </el-select>
+                    </div>
+                    <template  slot="reference">
+                        <div id="game-room-table-horizontal-box-bottom">
+                            <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                            <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                            <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                        </div>
+                    </template>
+                 </el-popover>
             </el-tooltip>
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
@@ -128,12 +143,27 @@
                     <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
                 </div>
             </el-tooltip>
-            <div id="game-room-table-vertical-info-box-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
-            </div>
-            <div id="game-room-table-vertical-info-box-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
-            </div>
+             <el-popover placement="top" width="160" v-model="isPopoverVisible">
+                    <div style="margin: 0">
+                        <el-select size="medium" v-model="gameTextToPlayer" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
+                            <el-option :disabled="true" label="向全体发言" value=""></el-option>
+                            <el-option label="小小小" value="小小小"></el-option>
+                            <el-option label="求师傅" value="求师傅"></el-option>
+                            <el-option label="求拉满" value="求拉满"></el-option>
+                            <el-option label="求转向" value="求转向"></el-option>
+                            <el-option label="我太难了" value="我太难了"></el-option>
+                            <el-option label="战略性收牌" value="战略性收牌"></el-option>
+                        </el-select>
+                    </div>
+                <template  slot="reference">
+                    <div id="game-room-table-vertical-info-box-bottom">
+                        <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                    </div>
+                    <div id="game-room-table-vertical-info-box-bottom">
+                        <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                    </div>
+                </template>
+             </el-popover>
         </div>
         <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
@@ -152,7 +182,9 @@ export default {
             gameTableTexts: [],
             gameTextFromPlayer: [],
             timer: 0,    
-            gameTextFromPlayerTimer: 0,       
+            gameTextFromPlayerTimer: 0,
+            isPopoverVisible: false,    
+            gameTextToPlayer: '',   
         }
     },
 
@@ -190,7 +222,12 @@ export default {
         sentGameTextToPlayer: function(newVal){
             if(this.gameInfo === null) return
             if(newVal.sourceId === this.$store.state.id){
-                this.gameTextFromPlayer.push( '你对 ' + this.gameInfo.gamePlayer[newVal.target].nickname + ' 说: ' + newVal.text )
+                if(newVal.target === -1){
+                    this.gameTextFromPlayer.push( '你说: ' + newVal.text )
+                }
+                else{
+                    this.gameTextFromPlayer.push( '你对 ' + this.gameInfo.gamePlayer[newVal.target].nickname + ' 说: ' + newVal.text )
+                }
                 this.$nextTick(function(){
                     if(this.gameTextFromPlayer.length > 0){
                         this.isTooltipShow = true
@@ -199,7 +236,7 @@ export default {
                             if(this.gameTextFromPlayer.length === 0){
                                 this.isTooltipShow = false
                             }
-                        }, 4000)
+                        }, 6000)
                     }
                 })
             }
@@ -238,6 +275,14 @@ export default {
             }
             return null
         }
+    },
+
+    methods:{
+         sentSelectedTextToPlayer: function(){
+            this.isPopoverVisible = false
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: this.gameTextToPlayer }))
+            this.gameTextToPlayer = ''
+        },
     },
 
     components:{
@@ -390,6 +435,10 @@ export default {
     margin-top: 10%; 
     margin-left: 20%;
     display: inline-block;
+}
+
+#game-room-table-horizontal-box-bottom:hover{
+    cursor: pointer;
 }
 
 #game-room-table-vertical-info-box-bottom{

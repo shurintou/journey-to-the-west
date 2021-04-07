@@ -2,7 +2,7 @@
     <div :class="{ 'player-now-play-card' : gameInfo && gameInfo.currentPlayer === seatIndex }">
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
-                    <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
+                    <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
                 </div> 
                 <el-popover placement="top" width="160" v-model="isPopoverVisible" :disabled="playerLocRoom.status === 0 && player.ready === true">
                     <div style="margin: 0"  :style="{'margin-left': playerLocRoom.owner === $store.state.id || playerLocRoom.status === 1 ? '0' : '25%'}">
@@ -83,7 +83,10 @@ export default {
     watch:{
         sentGameTextToPlayer: function(newVal){
             if(this.gameInfo === null) return
-            if(newVal.targetId === this.$store.state.id){
+            if(newVal.targetId === -1){
+                this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 说: ' + newVal.text )
+            }
+            else if(newVal.targetId === this.$store.state.id){
                 this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 对你说: ' + newVal.text )
             }
             else{
@@ -97,7 +100,7 @@ export default {
                         if(this.gameTextFromPlayer.length === 0){
                             this.isTooltipShow = false
                         }
-                    }, 4000)
+                    }, 6000)
                 }
             })
         },
