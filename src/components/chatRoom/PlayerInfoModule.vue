@@ -120,6 +120,11 @@ export default {
         },
 
         submitNewAvatar: function(){
+          if(this.playerLocRoom && this.playerLocRoom.status ===1){
+            this.$message.warning('游戏中，请勿修改头像')
+            this.avatarDialogVisible = false
+            return
+          } 
           if(this.duplicateSubmitAvatarFlag) return;
           this.duplicateSubmitAvatarFlag = true
           if( this.temAvatarId === this.$store.state.avatar_id){
@@ -151,7 +156,12 @@ export default {
         },
 
         submitNewNickname: function(){
-           if(this.duplicateSubmitNicknameFlag) return;
+           if(this.playerLocRoom && this.playerLocRoom.status ===1){
+            this.$message.warning('游戏中，请勿修改昵称')
+            this.nicknameDialogVisible = false
+            return
+           } 
+           if(this.duplicateSubmitNicknameFlag) return
            this.duplicateSubmitNicknameFlag = true
            this.$refs.nicknameForm.validate( valid => {
               if( valid ){

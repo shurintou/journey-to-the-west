@@ -131,6 +131,8 @@ export var chatRoomWebSocket = {
                 else if(jsonData.type === 'game'){
                     if(jsonData.action === 'initialize' || self.gameInfo === null){
                         self.gameInfo = JSON.parse(jsonData.data)
+                        self.leaveRoomDialogVisible = false
+                        self.askChangeSeatDialogVisible = false
                     }
                     else if(jsonData.action === 'shiftOnline'){
                         if(self.gameInfo !== null){
