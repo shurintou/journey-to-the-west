@@ -48,6 +48,7 @@ export default {
 
     watch:{
         enterGameRoomDialogVisible: function(newVal){
+            if(!this.$refs.gameRoomValidateForm)return
             if(newVal === true){
                 this.gameRoomValidateForm.password = ''
                 this.$refs.gameRoomValidateForm.clearValidate()
