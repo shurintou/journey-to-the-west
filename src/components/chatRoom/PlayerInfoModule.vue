@@ -12,7 +12,7 @@
         </el-tooltip>
         <div class="player-setting-box">
           <el-button class="setting-button" :style="{'font-size': fontSize}" type="info" icon="el-icon-view" @click="openViewModule">查看</el-button>
-          <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity">帮助</el-button>
+          <el-button class="help-button" :style="{'font-size': fontSize}" type="warning" icon="el-icon-s-opportunity" @click="openHelpModule">帮助</el-button>
         </div>
 
         <el-dialog title="修改头像" :visible.sync="avatarDialogVisible" center :width="dialogWidth" :modal="false">
@@ -52,6 +52,15 @@
             <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
           </el-tabs>
         </el-dialog>
+
+        <el-dialog title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
+          <el-tabs type="border-card" v-model="activeHelpModuleTabName" @tab-click="handleHelpModuleTabClick">
+            <el-tab-pane label="游戏规则" name="rule">
+            </el-tab-pane>
+            <el-tab-pane label="等级经验" name="level">暂未开放</el-tab-pane>
+            <el-tab-pane label="成就条件" name="condition">暂未开放</el-tab-pane>
+          </el-tabs>
+        </el-dialog>
     </el-aside>
 </template>
 
@@ -67,10 +76,12 @@ export default {
         avatarDialogVisible: false,
         nicknameDialogVisible: false,
         viewModuleDialogVisible: false,
+        helpModuleDialogVisible: false,
         duplicateSubmitAvatarFlag: false,
         duplicateSubmitNicknameFlag: false,
         duplicateGetInfoFlag: false,
         activeViewModuleTabName: 'record',
+        activeHelpModuleTabName: 'rule',
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
@@ -198,7 +209,16 @@ export default {
             this.getPlayerRecord(this.$store.state.id, this.$store.state.avatar_id, this.$store.state.nickname)
         },
 
+        openHelpModule: function(){
+            this.helpModuleDialogVisible = true
+            this.activeHelpModuleTabName = 'rule'
+        },
+
         handleViewModuleTabClick: function(tab){
+            console.log(tab.name)
+        },
+
+        handleHelpModuleTabClick: function(tab){
             console.log(tab.name)
         },
 

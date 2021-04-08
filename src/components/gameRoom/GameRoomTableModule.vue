@@ -250,7 +250,6 @@ export default {
                 let str = newVal.split('px')[0]
                 let i = parseInt(str)
                 this.textFontSize = (i + 2) + '' + 'px' 
-                console.log(this.textFontSize)
             }
         },
     },
