@@ -10,8 +10,10 @@ export var chatRoomWebSocket = {
             timeoutObj: null,
             serverTimeoutObj: null,
             reconnectTimeoutObj: null,
+            /* 断线重连间隔 */
             wsDelay : 3000,
-            timeout : 3000,
+            /* 心跳间隔 */
+            timeout : 15000,
             chatTextId : 0,
           
         }
@@ -158,7 +160,7 @@ export var chatRoomWebSocket = {
                 
             this.ws.onclose = function(close){
                 if(close.code === 1000){
-                    clearTimeout(self.timeoutObj);
+                    clearInterval(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                     clearTimeout(self.reconnectTimeoutObj);
                     self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : close.reason});
@@ -176,15 +178,13 @@ export var chatRoomWebSocket = {
         },
 
         reset: function(){
-            clearTimeout(this.timeoutObj);
             clearTimeout(this.serverTimeoutObj);
             clearTimeout(this.reconnectTimeoutObj);
-            this.start();
         },
 
         start: function(){
             var self = this
-            this.timeoutObj = setTimeout(function(){
+            this.timeoutObj = setInterval(function(){
                 self.ws.send(JSON.stringify({ type: 'ping' }));
                 self.serverTimeoutObj = setTimeout(function(){
                     self.ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
@@ -207,13 +207,13 @@ export var chatRoomWebSocket = {
                     else{
                         self.$message.error('已与游戏大厅断开连接');
                         self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : '已与游戏大厅断开连接'});
-                        clearTimeout(self.timeoutObj);
+                        clearInterval(self.timeoutObj);
                         clearTimeout(self.serverTimeoutObj);
                         clearTimeout(self.reconnectTimeoutObj);
                     }
                 }
                 else{
-                    clearTimeout(self.timeoutObj);
+                    clearInterval(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
                     clearTimeout(self.reconnectTimeoutObj);
                 }
@@ -222,6 +222,7 @@ export var chatRoomWebSocket = {
 
 
         sendMessageToChatRoom: function(message){
+            if(this.gameInfo !== null) return
             if(this.isLeave === false){
                 this.chatTextId = this.chatTextId + 1
                 message.id = this.chatTextId
