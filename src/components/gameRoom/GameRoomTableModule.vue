@@ -15,7 +15,7 @@
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
             <div id="game-room-table-horizontal-box-info">
-                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">{{gameTableTexts ? gameTableTexts[0]: ''}}</p>
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': textFontSize}">{{gameTableTexts ? gameTableTexts[0]: ''}}</p>
             </div>
             <div id="game-room-table-horizontal-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
@@ -97,7 +97,7 @@
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-info">
-                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': fontSize}">{{gameTableTexts? gameTableTexts[0] : ''}}</p>
+                <p id="game-info-text-box" class="white-color-font" :style="{'font-size': textFontSize}">{{gameTableTexts? gameTableTexts[0] : ''}}</p>
             </div>
             <div id="game-room-table-vertical-box-top">
                 <template v-if="gameInfo.currentCard.length > 0">
@@ -185,6 +185,7 @@ export default {
             gameTextFromPlayerTimer: 0,
             isPopoverVisible: false,    
             gameTextToPlayer: '',   
+            textFontSize: '',
         }
     },
 
@@ -192,6 +193,7 @@ export default {
         dialogWidth: { type: String, default: ''},
         tagSize: { type: String, default: ''},
         fontSize: { type: String, default: ''},
+        largeFontSize: { type: String, default: ''},
         isItemHorizontal: { type: Boolean, default: false},
         playerLocRoom: { type: Object, default: null},
         player: { type: Object, default: null },
@@ -239,6 +241,16 @@ export default {
                         }, 6000)
                     }
                 })
+            }
+        },
+
+        largeFontSize: {
+            immediate: true,
+            handler: function(newVal){
+                let str = newVal.split('px')[0]
+                let i = parseInt(str)
+                this.textFontSize = (i + 2) + '' + 'px' 
+                console.log(this.textFontSize)
             }
         },
     },
