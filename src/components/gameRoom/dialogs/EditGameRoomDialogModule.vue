@@ -10,7 +10,7 @@
         </el-form>
          <div>
           <span>使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
-          <el-slider v-model="gameRoomValidateForm.cardNum" :min="4" :max="10" :step="1" :show-tooltip="false"></el-slider>
+          <el-slider v-model="gameRoomValidateForm.cardNum" :min="2" :max="10" :step="1" :show-tooltip="false"></el-slider>
         </div>
         <div slot="footer">
             <el-button @click="closeEditGameRoomDialog" style="margin-right:10%">取消</el-button>
@@ -27,7 +27,7 @@ export default {
             gameRoomValidateForm: {
                 roomName: '',
                 password: '', 
-                cardNum: 4,
+                cardNum: 2,
             },
             checkPassword:  (rule, value, callback) => {
                 if (value === '') {
