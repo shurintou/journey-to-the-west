@@ -35,6 +35,7 @@
   <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
   <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
   <AskChangeSeatDialogModule :askChangeSeatDialogVisible="askChangeSeatDialogVisible" :askChangeSeatInfo="askChangeSeatInfo" :playerList="playerList" :buttonSize="buttonSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" @askChangeSeatDialogVisible="function(value){askChangeSeatDialogVisible= value}"></AskChangeSeatDialogModule>
+  <GameResultDialogModule :gameResultDialogVisible="true" :avatarSize="avatarSize" :fontSize="fontSize" :tagSize="tagSize" :popupWidth="popupWidth" :buttonSize="buttonSize" :dialogWidth="dialogWidth" :largeDialogWidth="largeDialogWidth" :largeFontSize="largeFontSize"></GameResultDialogModule>
 </div>
 </template>
 
@@ -53,6 +54,7 @@ import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialo
 import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
 import GameRoomModule from '../components/gameRoom/GameRoomModule'
 import AskChangeSeatDialogModule from '../components/gameRoom/dialogs/AskChangeSeatDialogModule'
+import GameResultDialogModule from '../components/gameRoom/dialogs/GameResultDialogModule'
 import CardModule from '../components/gameRoom/CardModule'
 
 export default {
@@ -103,6 +105,7 @@ export default {
     GameRoomModule,
     AskChangeSeatDialogModule,
     CardModule,
+    GameResultDialogModule,
   },
 }
 </script>
