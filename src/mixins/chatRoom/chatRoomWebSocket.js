@@ -147,6 +147,10 @@ export var chatRoomWebSocket = {
                     else if(jsonData.action === 'delete'){
                         self.gameInfo = null
                     }
+                    else if(jsonData.action === 'result'){
+                        self.gameResult = JSON.parse(jsonData.data)
+                        self.gameResultDialogVisible = true
+                    }
                     else{
                         let gameData = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
