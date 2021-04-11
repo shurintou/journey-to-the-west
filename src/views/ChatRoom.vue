@@ -35,7 +35,7 @@
   <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){ leaveRoomDialogVisible = value}"></LeaveRoomDialogModule>
   <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
   <AskChangeSeatDialogModule :askChangeSeatDialogVisible="askChangeSeatDialogVisible" :askChangeSeatInfo="askChangeSeatInfo" :playerList="playerList" :buttonSize="buttonSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" @askChangeSeatDialogVisible="function(value){askChangeSeatDialogVisible= value}"></AskChangeSeatDialogModule>
-  <GameResultDialogModule :gameResultDialogVisible="true" :avatarSize="avatarSize" :fontSize="fontSize" :tagSize="tagSize" :popupWidth="popupWidth" :buttonSize="buttonSize" :dialogWidth="dialogWidth" :largeDialogWidth="largeDialogWidth" :largeFontSize="largeFontSize"></GameResultDialogModule>
+  <GameResultDialogModule :gameResult="gameResult" :gameResultDialogVisible="gameResultDialogVisible" :avatarSize="avatarSize" :fontSize="fontSize" :tagSize="tagSize" :popupWidth="popupWidth" :buttonSize="buttonSize" :dialogWidth="dialogWidth" :largeDialogWidth="largeDialogWidth" :largeFontSize="largeFontSize" @gameResultDialogVisible="function(value){gameResultDialogVisible= value}"></GameResultDialogModule>
 </div>
 </template>
 
@@ -67,12 +67,14 @@ export default {
       leaveRoomDialogVisible: false,
       enterGameRoomDialogVisible: false,
       askChangeSeatDialogVisible: false,
+      gameResultDialogVisible: false,
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
       enterRoomDto: {},
       askChangeSeatInfo: null,
       gameInfo: null,
+      gameResult: null,
       sentGameTextToPlayerObj:{
         0: {},
         1: {},
