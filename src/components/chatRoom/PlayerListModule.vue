@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="playerList !== null && playerList.length > 0">
         <el-table :height="isHorizontal? '70vh': ''" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
             <el-table-column prop="avatar_id" label="头像" min-width="30">
                 <template slot-scope="scope">
