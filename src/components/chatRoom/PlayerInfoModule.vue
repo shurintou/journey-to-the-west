@@ -45,9 +45,11 @@
         <el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
           <el-tabs type="border-card" v-model="activeViewModuleTabName" @tab-click="handleViewModuleTabClick">
             <el-tab-pane label="个人战绩" name="record">
-               <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
+              <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
             </el-tab-pane>
-            <el-tab-pane label="过去对局" name="game">暂未开放</el-tab-pane>
+            <el-tab-pane label="过去对局" name="game">
+              <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum"></GameResultsListModule>
+            </el-tab-pane>
             <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
             <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
           </el-tabs>
@@ -66,8 +68,9 @@
 
 <script>
 import { modifyAvatar, modifyNickname } from '../../api/modify'
-import { getPlayerRecord } from '../../api/infoSearch'
+import { getPlayerRecord, getGameRecordsList } from '../../api/infoSearch'
 import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
+import GameResultsListModule from '../gameRoom/GameResultsListModule'
 
 export default {
 
@@ -82,6 +85,8 @@ export default {
         duplicateGetInfoFlag: false,
         activeViewModuleTabName: 'record',
         activeHelpModuleTabName: 'rule',
+        gameResultsList: [],
+        gameResultsPageNum : 0,
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
@@ -215,7 +220,9 @@ export default {
         },
 
         handleViewModuleTabClick: function(tab){
-            console.log(tab.name)
+            if(tab.name === 'game'){
+              this.getGameRecordsList(1)
+            }
         },
 
         handleHelpModuleTabClick: function(tab){
@@ -235,6 +242,17 @@ export default {
           .catch({})
           .finally( () => {
               this.duplicateGetInfoFlag = false
+          })
+        },
+
+        getGameRecordsList: function(page){
+          getGameRecordsList({page: page})
+          .then( res=> {
+            this.gameResultsList = res.list
+            this.gameResultsPageNum = res.pageNum
+          })
+          .catch( () =>{
+            this.$message.error('获取数据失败，请稍后重试')
           })
         },
 
@@ -259,7 +277,8 @@ export default {
     },
 
     components: {
-        PlayerProfileModule
+        PlayerProfileModule,
+        GameResultsListModule,
     }
 }
 </script>
