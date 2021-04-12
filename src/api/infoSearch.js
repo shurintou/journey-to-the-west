@@ -6,3 +6,17 @@ export function getPlayerRecord(params){
         method: 'get',
     })
 }
+
+export function getGameRecordsList(params){
+    return request({
+        url: '/game/records/' + params.page,
+        method: 'get',
+    })
+}
+
+export function getGameRecord(params){
+    return request({
+        url: '/game/record/' + params.id,
+        method: 'get',
+    })
+}
