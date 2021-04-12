@@ -266,6 +266,7 @@ export default {
     },
 
     beforeDestroy: function(){
+        if(this.myChart === null) return
         this.myChart.clear()
         this.myChart.dispose()
         this.selectedLegend = ''
