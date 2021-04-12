@@ -13,6 +13,7 @@
                         <el-tag :size="tagSize" type="info" effect="dark" :style="{'font-size': this.largeFontSize}">使用牌数: {{gameResult.cardsNum}}副</el-tag>
                         <el-tag :size="tagSize" type="info" effect="light" :style="{'font-size': this.largeFontSize}">玩家数: {{gameResult.playersNum}}</el-tag>
                     </div>
+                    <el-divider></el-divider>
                     <el-table :default-sort = "{prop: 'seatIndex', order: 'ascending'}" :data="gameResult.gameResultList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="{'font-size': this.largeFontSize}" :header-row-style="{'font-size': this.fontSize}">
                         <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60">
                             <template slot-scope="scope">
@@ -36,10 +37,17 @@
                 </div>
             </el-tab-pane>
             <el-tab-pane label="图形数据" name="visualData">
+                <el-button type="primary" :size="buttonSize" round @click="changeEchartSelected('')" style="margin-right: 1vw" :disabled="selectedLegend === ''">综合</el-button>
+                <el-button type="danger" :size="buttonSize" round @click="changeEchartSelected('all')" style="margin-right: 1vw" :disabled="selectedLegend === 'all'">总收牌</el-button>
+                <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')" style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大收牌</el-button>
+                <el-button type="info" :size="buttonSize" round @click="changeEchartSelected('func')" :disabled="selectedLegend === 'func'">功能牌</el-button>
+                <el-divider></el-divider>
                 <div id="main" style="width: 80vw; height: 90vh;"></div>
             </el-tab-pane>
         </el-tabs>
-        
+        <span slot="footer">
+            <el-button type="danger" :size="buttonSize" @click="closeGameResultDialog">关闭</el-button>
+        </span>
     </el-dialog>
 </template>
 
@@ -53,7 +61,8 @@ export default {
         return{
             activeGameResultModuleTabName: 'gameRecord',  
             echartDrawed: false,    
-            myChart: null,      
+            myChart: null,
+            selectedLegend: '',
         }
     },
 
@@ -83,6 +92,7 @@ export default {
         gameResult: function(newVal){
             if(newVal !== null){
                 this.echartDrawed = false
+                this.selectedLegend = ''
             }
         }
     },
@@ -112,11 +122,42 @@ export default {
 
         closeGameResultDialog: function(){
             this.$emit('gameResultDialogVisible', false)
+            this.selectedLegend = ''
             window.removeEventListener("resize", this.echartResizeLogic)
         },
 
         echartResizeLogic: function(){
             this.myChart.resize()
+        },
+
+        changeEchartSelected: function(type){
+            let selectedArray = null
+            this.selectedLegend = type
+            if(type === ''){
+                selectedArray = {
+                    '总收牌' : true, '最大收牌' : true, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                }
+            }
+            else if(type === 'all'){
+                selectedArray = {
+                    '总收牌' : true, '最大收牌' : false, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                }
+            }
+            else if(type === 'max'){
+                selectedArray = {
+                    '总收牌' : false, '最大收牌' : true, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                }
+            }
+            else if(type === 'func'){
+                selectedArray = {
+                    '总收牌' : false, '最大收牌' : false, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                }
+            }
+            this.myChart.setOption({
+                legend: {
+                    selected: selectedArray
+                },
+            })
         },
 
         handleGameResultModuleTabClick: function(tab){
@@ -126,6 +167,11 @@ export default {
                 var chartDom = document.getElementById('main')
                 this.myChart = echarts.init(chartDom)
                 window.addEventListener("resize",this.echartResizeLogic,false)
+                let seriesLabelStyle = {
+                    show: true,
+                    fontWeight: 'bold',
+                    fontSize: parseInt(this.largeFontSize.split('px')[0])
+                }
                 var option
                 option = {
                     tooltip: {
@@ -134,6 +180,7 @@ export default {
                             type: 'shadow'
                         }
                     },
+                    color: ['#F56C6C', '#E6A23C', '#91cc75', '#5470c6','#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
                     legend: {
                         data: ['总收牌', '最大收牌', '使用悟空','使用八戒','使用沙僧','使用唐僧','使用反弹'],
                         x: 'left',
@@ -160,49 +207,56 @@ export default {
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.cards
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
                         {
                             name: '最大收牌',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.maxCombo
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
-                         {
+                        {
                             name: '使用悟空',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.wukong
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
-                         {
+                        {
                             name: '使用八戒',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.bajie
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
-                         {
+                        {
                             name: '使用沙僧',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.shaseng
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
-                         {
+                        {
                             name: '使用唐僧',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.tangseng
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
-                         {
+                        {
                             name: '使用反弹',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.joker
-                            })
+                            }),
+                            label: seriesLabelStyle
                         },
                     ]
                 }
@@ -214,6 +268,7 @@ export default {
     beforeDestroy: function(){
         this.myChart.clear()
         this.myChart.dispose()
+        this.selectedLegend = ''
         window.removeEventListener("resize", this.echartResizeLogic)
     }
 }
