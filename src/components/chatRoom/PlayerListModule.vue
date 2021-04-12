@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-table :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
+        <el-table :height="isHorizontal? '70vh': ''" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
             <el-table-column prop="avatar_id" label="头像" min-width="30">
                 <template slot-scope="scope">
                     <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -82,6 +82,7 @@ export default {
         buttonSize: {type: String, default: 'medium'},
         dialogWidth: {type: String, default: '50%'},
         largeDialogWidth: {type: String, default: '50%'},
+        isHorizontal: { type: Boolean, default: false},
     },
 
     methods:{
