@@ -28,9 +28,9 @@
             </el-table-column>
         </el-table>
         <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth" :modal-append-to-body = false center :modal="false">
-            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible"></PlayerInfoTabModule>
+            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible" :isHorizontal="isHorizontal"></PlayerInfoTabModule>
             <span slot="footer" class="dialog-footer">
-                <el-button type="info" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">返回</el-button>
+                <el-button type="danger" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">关闭</el-button>
             </span>
         </el-dialog>
     </div>

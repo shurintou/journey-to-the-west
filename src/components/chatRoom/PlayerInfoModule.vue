@@ -44,6 +44,9 @@
 
         <el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
           <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible"></PlayerInfoTabModule>
+          <span slot="footer" class="dialog-footer">
+              <el-button type="danger" @click="viewModuleDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">关闭</el-button>
+          </span>
         </el-dialog>
 
         <el-dialog title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
@@ -117,6 +120,8 @@ export default {
         playerInfoDialogWidth: {type: String, default: ''},
         playerLocRoom: {type: Object, default: null},
         ws: { type: WebSocket, default: null},
+        isHorizontal: { type: Boolean, default: false},
+        buttonSize: {type: String, default: ''},
     },
 
     methods:{
