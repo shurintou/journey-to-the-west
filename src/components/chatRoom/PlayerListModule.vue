@@ -1,6 +1,6 @@
 <template>
     <div v-if="playerList !== null && playerList.length > 0">
-        <el-table :height="isHorizontal? '70vh': ''" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
+        <el-table :height="isHorizontal? '70vh': null" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
             <el-table-column prop="avatar_id" label="头像" min-width="30">
                 <template slot-scope="scope">
                     <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -28,7 +28,7 @@
             </el-table-column>
         </el-table>
         <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth" :modal-append-to-body = false center :modal="false">
-            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible" :isHorizontal="isHorizontal"></PlayerInfoTabModule>
+            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible" :isHorizontal="isHorizontal" @sendGameResultToPlayerInfo="function(value){$emit('sendGameResultToChatRoom', value)}"></PlayerInfoTabModule>
             <span slot="footer" class="dialog-footer">
                 <el-button type="danger" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">关闭</el-button>
             </span>
