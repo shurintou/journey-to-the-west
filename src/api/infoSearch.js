@@ -9,7 +9,8 @@ export function getPlayerRecord(params){
 
 export function getGameRecordsList(params){
     return request({
-        url: '/game/records/' + params.page,
+        url: '/game/records/',
+        params: { page : params.page, id : params.id },
         method: 'get',
     })
 }

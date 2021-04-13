@@ -43,16 +43,7 @@
         </el-dialog>
 
         <el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
-          <el-tabs type="border-card" v-model="activeViewModuleTabName" @tab-click="handleViewModuleTabClick">
-            <el-tab-pane label="个人战绩" name="record">
-              <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
-            </el-tab-pane>
-            <el-tab-pane label="过去对局" name="game">
-              <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum"></GameResultsListModule>
-            </el-tab-pane>
-            <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
-            <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
-          </el-tabs>
+          <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible"></PlayerInfoTabModule>
         </el-dialog>
 
         <el-dialog title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
@@ -68,9 +59,9 @@
 
 <script>
 import { modifyAvatar, modifyNickname } from '../../api/modify'
-import { getPlayerRecord, getGameRecordsList } from '../../api/infoSearch'
-import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
-import GameResultsListModule from '../gameRoom/GameResultsListModule'
+import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
+import { getPlayerRecord } from '../../api/infoSearch'
+
 
 export default {
 
@@ -85,8 +76,6 @@ export default {
         duplicateGetInfoFlag: false,
         activeViewModuleTabName: 'record',
         activeHelpModuleTabName: 'rule',
-        gameResultsList: [],
-        gameResultsPageNum : 0,
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
@@ -210,19 +199,12 @@ export default {
 
         openViewModule: function(){
             this.viewModuleDialogVisible = true
-            this.activeViewModuleTabName = 'record'
             this.getPlayerRecord(this.$store.state.id, this.$store.state.avatar_id, this.$store.state.nickname)
         },
 
         openHelpModule: function(){
             this.helpModuleDialogVisible = true
             this.activeHelpModuleTabName = 'rule'
-        },
-
-        handleViewModuleTabClick: function(tab){
-            if(tab.name === 'game'){
-              this.getGameRecordsList(1)
-            }
         },
 
         handleHelpModuleTabClick: function(tab){
@@ -242,17 +224,6 @@ export default {
           .catch({})
           .finally( () => {
               this.duplicateGetInfoFlag = false
-          })
-        },
-
-        getGameRecordsList: function(page){
-          getGameRecordsList({page: page})
-          .then( res=> {
-            this.gameResultsList = res.list
-            this.gameResultsPageNum = res.pageNum
-          })
-          .catch( () =>{
-            this.$message.error('获取数据失败，请稍后重试')
           })
         },
 
@@ -277,8 +248,7 @@ export default {
     },
 
     components: {
-        PlayerProfileModule,
-        GameResultsListModule,
+      PlayerInfoTabModule,
     }
 }
 </script>

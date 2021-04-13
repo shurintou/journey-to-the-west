@@ -27,9 +27,8 @@
                 </template>
             </el-table-column>
         </el-table>
-        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="largeDialogWidth" :modal-append-to-body = false center :modal="false">
-            <el-divider></el-divider>
-            <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
+        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth" :modal-append-to-body = false center :modal="false">
+            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible"></PlayerInfoTabModule>
             <span slot="footer" class="dialog-footer">
                 <el-button type="info" @click="playerInfoDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">返回</el-button>
             </span>
@@ -38,8 +37,8 @@
 </template>
 
 <script>
-import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
 import { getPlayerRecord } from '../../api/infoSearch'
+import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
 
 export default {
     name: 'playerListModule',
@@ -82,6 +81,7 @@ export default {
         buttonSize: {type: String, default: 'medium'},
         dialogWidth: {type: String, default: '50%'},
         largeDialogWidth: {type: String, default: '50%'},
+        playerInfoDialogWidth: {type: String, default: '50%'},
         isHorizontal: { type: Boolean, default: false},
     },
 
@@ -137,7 +137,7 @@ export default {
     },
 
     components: {
-        PlayerProfileModule
+        PlayerInfoTabModule,
     }
 }
 </script>
