@@ -43,7 +43,7 @@
         </el-dialog>
 
         <el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
-          <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible"></PlayerInfoTabModule>
+          <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible" @sendGameResultToPlayerInfo="function(value){$emit('sendGameResultToChatRoom', value)}"></PlayerInfoTabModule>
           <span slot="footer" class="dialog-footer">
               <el-button type="danger" @click="viewModuleDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">关闭</el-button>
           </span>

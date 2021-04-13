@@ -3,7 +3,7 @@
   <el-container>
     <el-aside :width="asideWidth" v-if="asideWidth !== '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
       <div class="player-list-box">
-        <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize" :isHorizontal="asideWidth !== '0px'" :playerInfoDialogWidth="playerInfoDialogWidth"></PlayerListModule>
+        <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize" :isHorizontal="asideWidth !== '0px'" :playerInfoDialogWidth="playerInfoDialogWidth" @sendGameResultToChatRoom="function(value){ gameResult = value.gameResult; gameResultDialogVisible = true }"></PlayerListModule>
       </div>
       <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
       <GameRoomButtonModule v-else :whichPattern="'vertical'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function(value){leaveRoomDialogVisible = value}"></GameRoomButtonModule>
@@ -11,7 +11,7 @@
     <el-container>
       <el-header v-if="asideWidth === '0px'" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-popover placement="bottom" :width="popupWidth" trigger="click">
-          <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize" :isHorizontal="asideWidth !== '0px'" :playerInfoDialogWidth="playerInfoDialogWidth"></PlayerListModule>
+          <PlayerListModule :playerList = "playerList" :avatarSize = "avatarSize" :fontSize = "fontSize" :tagSize = "tagSize" :popupWidth = "popupWidth" :buttonSize = "buttonSize" :dialogWidth = "dialogWidth" :largeDialogWidth = "largeDialogWidth" :largeFontSize = "largeFontSize" :isHorizontal="asideWidth !== '0px'" :playerInfoDialogWidth="playerInfoDialogWidth" @sendGameResultToChatRoom="function(value){ gameResult = value.gameResult; gameResultDialogVisible = true }"></PlayerListModule>
           <el-button slot="reference" class="chat-room-header-button-player-list" type="primary" icon="el-icon-user-solid" :style="{'font-size': largeFontSize, 'padding': '0px 0px'}" :size="buttonSize" round>玩家列表</el-button>
         </el-popover>
         <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize" :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function(value){cancelLeaveDialogVisible = value}" @createGameRoomDialogVisible="function(value){createGameRoomDialogVisible = value}"></ChatRoomButtonModule>
@@ -25,7 +25,7 @@
         <el-container class="fill-height">
             <ChatModule v-if="playerLocRoom? playerLocRoom.status === 0 : true" :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
             <CardModule v-else :gameInfo="gameInfo" :horizontalBackground="horizontalBackground" :fontSize="fontSize" :buttonSize="buttonSize" :ws="ws"></CardModule>
-            <PlayerInfoModule :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws" :isHorizontal="asideWidth !== '0px'" :buttonSize="buttonSize"></PlayerInfoModule>
+            <PlayerInfoModule :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws" :isHorizontal="asideWidth !== '0px'" :buttonSize="buttonSize" @sendGameResultToChatRoom="function(value){ gameResult = value.gameResult; gameResultDialogVisible = true }"></PlayerInfoModule>
         </el-container>
       </el-footer>
     </el-container>
@@ -75,16 +75,7 @@ export default {
       askChangeSeatInfo: null,
       gameInfo: null,
       gameResult: null,
-      sentGameTextToPlayerObj:{
-        0: {},
-        1: {},
-        2: {},
-        3: {},
-        4: {},
-        5: {},
-        6: {},
-        7: {},
-      }
+      sentGameTextToPlayerObj:{ 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {},}
     }
   },
 

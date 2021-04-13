@@ -14,7 +14,7 @@
                         <el-tag :size="tagSize" type="info" effect="light" :style="{'font-size': this.largeFontSize}">玩家数: {{gameResult.playersNum}}</el-tag>
                     </div>
                     <el-divider></el-divider>
-                    <el-table :default-sort = "{prop: 'seatIndex', order: 'ascending'}" :data="gameResult.gameResultList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="{'font-size': this.largeFontSize}" :header-row-style="{'font-size': this.fontSize}">
+                    <el-table :default-sort = "{prop: 'seatIndex', order: 'ascending'}" :data="gameResult.gameResultList" style="width: 100%" :row-style="{'font-size': this.largeFontSize}" :header-row-style="{'font-size': this.fontSize}">
                         <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60">
                             <template slot-scope="scope">
                                 <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -94,6 +94,18 @@ export default {
                 this.echartDrawed = false
                 this.selectedLegend = ''
             }
+        },
+
+        gameResultDialogVisible: function(newVal){
+            if(!newVal){
+                this.activeGameResultModuleTabName = 'gameRecord'
+                if(this.myChart !== null){
+                    this.myChart.clear()
+                    this.myChart.dispose()
+                    this.selectedLegend = ''
+                    window.removeEventListener("resize", this.echartResizeLogic)
+                }
+            }
         }
     },
 
@@ -115,6 +127,7 @@ export default {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
+        /* 17行el-table加上 :row-class-name="tableRowClassName" 可以给玩家行加颜色 */
         tableRowClassName: function({row}) {
             if(row.id === this.$store.state.id)
             return 'is-local-player-row'

@@ -4,7 +4,7 @@
             <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
         </el-tab-pane>
         <el-tab-pane label="过去对局" name="game">
-            <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum" :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage" @pageChanged="getGameRecordsList"></GameResultsListModule>
+            <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum" :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage" @pageChanged="getGameRecordsList" @sendGameResultToPlayerInfoTab="function(value){$emit('sendGameResultToPlayerInfo', value)}"></GameResultsListModule>
         </el-tab-pane>
         <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
         <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
