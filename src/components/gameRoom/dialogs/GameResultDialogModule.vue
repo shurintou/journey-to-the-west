@@ -40,7 +40,7 @@
                 <el-button type="primary" :size="buttonSize" round @click="changeEchartSelected('')" style="margin-right: 1vw" :disabled="selectedLegend === ''">综合</el-button>
                 <el-button type="danger" :size="buttonSize" round @click="changeEchartSelected('all')" style="margin-right: 1vw" :disabled="selectedLegend === 'all'">总收牌</el-button>
                 <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')" style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大收牌</el-button>
-                <el-button type="info" :size="buttonSize" round @click="changeEchartSelected('func')" :disabled="selectedLegend === 'func'">功能牌</el-button>
+                <el-button type="success" :size="buttonSize" round @click="changeEchartSelected('func')" :disabled="selectedLegend === 'func'">功能牌</el-button>
                 <el-divider></el-divider>
                 <div id="main" style="width: 80vw; height: 90vh;"></div>
             </el-tab-pane>
