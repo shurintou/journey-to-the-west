@@ -1,6 +1,6 @@
 <template>
     <div v-if="playerList !== null && playerList.length > 0">
-        <el-table :height="isHorizontal? '70vh': null" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle">
+        <el-table :height="isHorizontal? '70vh': null" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle" @row-click="getRowPlayerInfo">
             <el-table-column prop="avatar_id" label="头像" min-width="30">
                 <template slot-scope="scope">
                     <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -8,22 +8,12 @@
             </el-table-column>
             <el-table-column prop="nickname" label="玩家" min-width="80">
                 <template slot-scope="scope">
-                    <el-popover trigger="hover" placement="right" popper-class="chat-popover" :width="popupWidth" :disabled="playerInfoDialogVisible">
-                        <p>玩家信息
-                            <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" size="small" style="float:right">
-                                {{ getStatus(scope.row.player_status) }}
-                            </el-tag>
-                        </p>
-                        <el-image style="width: 100px; height: 100px" :src="getAvatarUrl(scope.row.avatar_id)" :fit="'fill'"></el-image>
-                        <p>昵称: {{ scope.row.nickname }}</p>
-                        <el-button type="warning" :style="{'font-size': fontSize}" :size="buttonSize" @click="getPlayerRecord(scope.row.id, scope.row.avatar_id, scope.row.nickname)">详细信息</el-button>
-                        <div slot="reference" class="name-wrapper">
-                            <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
-                                {{ getStatus(scope.row.player_status) }}
-                            </el-tag>
-                            <span>{{ ' ' + scope.row.nickname }}</span>
-                        </div>
-                    </el-popover>
+                    <div slot="reference" class="name-wrapper">
+                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
+                            {{ getStatus(scope.row.player_status) }}
+                        </el-tag>
+                        <span>{{ ' ' + scope.row.nickname }}</span>
+                    </div>
                 </template>
             </el-table-column>
         </el-table>
@@ -133,6 +123,10 @@ export default {
             .finally( () => {
                 this.duplicateGetInfoFlag = false
             })
+        },
+
+        getRowPlayerInfo: function(row){
+            this.getPlayerRecord(row.id, row.avatar_id, row.nickname)
         },
     },
 
