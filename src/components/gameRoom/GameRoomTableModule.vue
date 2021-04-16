@@ -35,14 +35,14 @@
             </div>
             <div id="game-room-table-horizontal-box-middle">
                 <div style="margin-left: 10%;" class="game-room-table-horizontal-box-middle-item">
-                    <p class="white-color-font" :style="{'font-size': fontSize}">连击牌数</p>
-                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
-                    <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                </div>
-                <div class="game-room-table-horizontal-box-middle-item">
                     <p class="white-color-font" :style="{'font-size': fontSize}">剩余牌数</p>
                     <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
                     <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
+                </div>
+                <div class="game-room-table-horizontal-box-middle-item">
+                    <p class="white-color-font" :style="{'font-size': fontSize}">连击牌数</p>
+                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
                 </div>
                 <div class="game-room-table-horizontal-box-middle-item">
                     <p class="white-color-font" :style="{'font-size': fontSize}">出牌顺序</p>
@@ -118,18 +118,18 @@
                 </template>
             </div>
             <div id="game-room-table-vertical-box-bottom">
-                <div style="margin-left: 10%;" class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">连击牌数</div>
-                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
-                    <div class="white-color-font" style="margin-left: 20%;" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                </div>
                 <div class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">剩余牌数</div>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">剩余牌数</div>
                     <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
                     <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
+               </div>
+                <div class="game-room-table-vertical-box-bottom-item">
+                    <div class="white-color-font" :style="{'font-size':fontSize}">连击牌数</div>
+                    <el-image :src="require('@/assets/images/poker/drop-cards.png')" style="max-width:8vw"></el-image>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
                 </div>
                 <div class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" style="min-width: 40px" :style="{'font-size':fontSize}">出牌顺序</div>
+                    <div class="white-color-font" :style="{'font-size':fontSize}">出牌顺序</div>
                     <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw" class="clockwise-rotate"></el-image>
                     <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw" class="anti-clockwise-rotate"></el-image>
                     <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
@@ -413,14 +413,15 @@ export default {
     margin-left: 20%;
     margin-top: 3%; 
     display: inline-block;
+    text-align: center;
 }
 
 .game-room-table-vertical-box-bottom-item{
-    width: 6vw; 
+    width: 15vw; 
     height: 5vh; 
-    margin-left: 20%;
     margin-top: 8%; 
     display: inline-block;
+    text-align: center;
 }
 
 .white-color-font{
