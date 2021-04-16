@@ -33,6 +33,13 @@ import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
 export default {
     name: 'playerListModule',
     data(){
+        var isPlayerListNull = true
+        if(this.playerList === undefined || this.playerList.length === 0){
+            isPlayerListNull = true
+        }
+        else{
+            isPlayerListNull = false
+        }
         return {
             playerInfoDialogVisible: false,
             duplicateGetInfoFlag: false, 
@@ -52,7 +59,7 @@ export default {
                     min_card_amount: 0,
                 }
             },
-            loading: true,
+            loading: isPlayerListNull,
         }
     },
 
