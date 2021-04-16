@@ -41,7 +41,7 @@
                 <span class="player-profile-line-right">{{  playerProfile.record.min_card }}张</span>
             </p> 
             <p class="player-profile-line">
-                <el-tooltip effect="light" content="最少收牌数所占该局总牌数的比例" placement="right">
+                <el-tooltip effect="light" content="最少收牌数占该局玩家平均收牌数的比例" placement="right">
                   <span>最少收牌比：</span>
                 </el-tooltip>
                 <el-tooltip effect="light" :content="playerProfile.record.min_card + ' / ' + playerProfile.record.min_card_amount" placement="left">
@@ -53,7 +53,7 @@
                 <span class="player-profile-line-right">{{  playerProfile.record.max_card }}张</span>
             </p> 
             <p class="player-profile-line">
-                <el-tooltip effect="light" content="最多收牌数所占该局总牌数的比例" placement="right">
+                <el-tooltip effect="light" content="最多收牌数与该局玩家平均收牌数的比例" placement="right">
                     <span>最多收牌比：</span>
                 </el-tooltip>
                 <el-tooltip effect="light" :content="playerProfile.record.max_card + ' / ' + playerProfile.record.max_card_amount" placement="left">
