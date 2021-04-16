@@ -76,13 +76,23 @@ export default {
       askChangeSeatInfo: null,
       gameInfo: null,
       gameResult: null,
-      sentGameTextToPlayerObj:{ 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {},}
+      sentGameTextToPlayerObj:{ 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {},},
+      loading: null,
     }
   },
 
   mixins:[chatRoomWebSocket, chatRoomResize],
  
   methods:{
+  },
+
+  created: function(){
+    this.loading = this.$loading({
+      lock: true,
+      text: '努力连接中',
+      spinner: 'el-icon-loading',
+      background: 'rgba(255, 255, 255, 0.7)'
+    })
   },
 
   components:{

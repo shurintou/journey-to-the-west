@@ -14,7 +14,7 @@
                         <el-tag :size="tagSize" type="info" effect="light" :style="{'font-size': this.largeFontSize}">玩家数: {{gameResult.playersNum}}</el-tag>
                     </div>
                     <el-divider></el-divider>
-                    <el-table :default-sort = "{prop: 'seatIndex', order: 'ascending'}" :data="gameResult.gameResultList" style="width: 100%" :row-style="{'font-size': this.largeFontSize}" :header-row-style="{'font-size': this.fontSize}">
+                    <el-table v-loading="loading" :default-sort = "{prop: 'seatIndex', order: 'ascending'}" :data="gameResult.gameResultList" style="width: 100%" :row-style="{'font-size': this.largeFontSize}" :header-row-style="{'font-size': this.fontSize}">
                         <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60">
                             <template slot-scope="scope">
                                 <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -63,6 +63,7 @@ export default {
             echartDrawed: false,    
             myChart: null,
             selectedLegend: '',
+            loading: true,
         }
     },
 
@@ -93,6 +94,7 @@ export default {
             if(newVal !== null){
                 this.echartDrawed = false
                 this.selectedLegend = ''
+                this.loading = false
             }
         },
 
