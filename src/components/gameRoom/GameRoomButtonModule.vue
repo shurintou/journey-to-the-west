@@ -21,7 +21,15 @@ export default {
     },
 
     props:{
-        whichPattern: { type: String, default: 'vertical'},
+        whichPattern: { 
+            type: String, 
+            default: function(){
+                if(document.body.clientWidth < 400){
+                    return 'horizontal'
+                }
+                return 'vertical'
+            }
+        },
         buttonSize: {type: String, default: ''},
         largeFontSize: {type: String, default: ''},
         playerLocRoom: {type: Object, default: null},
