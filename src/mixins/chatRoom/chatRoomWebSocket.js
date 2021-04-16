@@ -32,6 +32,7 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
+                self.loading.close()
                 self.ws.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
                 self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
                 self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
@@ -163,6 +164,12 @@ export var chatRoomWebSocket = {
             };
                 
             this.ws.onclose = function(close){
+                self.loading = self.$loading({
+                    lock: true,
+                    text: '努力连接中',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(255, 255, 255, 0.7)'
+                })
                 if(close.code === 1000){
                     clearInterval(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
@@ -176,6 +183,12 @@ export var chatRoomWebSocket = {
             };
 
             this.ws.onerror = function(){
+                self.loading = self.$loading({
+                    lock: true,
+                    text: '网络异常，尝试重连',
+                    spinner: 'el-icon-loading',
+                    background: 'rgba(255, 255, 255, 0.7)'
+                })
                 if(self.isLeave === false) 
                 self.reconnect(self.wsUrl);
             };

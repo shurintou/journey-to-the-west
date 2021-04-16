@@ -1,6 +1,6 @@
 <template>
     <div v-if="playerList !== null && playerList.length > 0">
-        <el-table :height="isHorizontal? '70vh': null" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle" @row-click="getRowPlayerInfo">
+        <el-table v-loading="loading" :height="isHorizontal? '70vh': null" :data="playerList" style="width: 100%" :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle" @row-click="getRowPlayerInfo">
             <el-table-column prop="avatar_id" label="头像" min-width="30">
                 <template slot-scope="scope">
                     <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
@@ -52,6 +52,7 @@ export default {
                     min_card_amount: 0,
                 }
             },
+            loading: true,
         }
     },
 
@@ -59,6 +60,13 @@ export default {
         rowStyle: function(){
             return {'font-size': this.fontSize}
         },
+    },
+
+    watch:{
+        playerList: function(){
+            if(this.playerList === undefined || this.playerList.length === 0)return
+            this.loading = false
+        }
     },
 
     props:{
