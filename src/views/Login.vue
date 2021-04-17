@@ -97,6 +97,7 @@ export default {
         mailDialogVisible: false,
         duplicateLoginFlag: false,
         qrCodeUrl: '',
+        loading: null,
         checkName:  (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入用户名'));
@@ -121,6 +122,12 @@ export default {
        this.duplicateLoginFlag = true
        this.$refs.validateForm.validate(valid => {
          if(valid){
+            this.loading = this.$loading({
+              lock: true,
+              text: '登录中',
+              spinner: 'el-icon-loading',
+              background: 'rgba(255, 255, 255, 0.7)'
+            })
             login({username: this.validateForm.username, password: this.validateForm.password })
             .then( ( res ) => {
                 this.$router.push({name: 'ChatRoom'})
@@ -129,6 +136,7 @@ export default {
             .catch({})
             .finally( ()=> {
                 this.duplicateLoginFlag = false
+                this.loading.close()
             })
          }
          else{
