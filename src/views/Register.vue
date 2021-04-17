@@ -110,6 +110,7 @@ export default {
         fit: 'fill',
         cancelDialogVisible: false,
         duplicateRegisterFlag: false,
+        loading: null,
         validateForm: {
           username: '',
           password: '',
@@ -156,6 +157,12 @@ export default {
        this.duplicateRegisterFlag = true
        this.$refs.validateForm.validate(valid => {
          if(valid){
+           this.loading = this.$loading({
+              lock: true,
+              text: '注册中',
+              spinner: 'el-icon-loading',
+              background: 'rgba(255, 255, 255, 0.7)'
+           })
            register({username: this.validateForm.username, password: this.validateForm.password, invitationCode: this.validateForm.invitationCode})
            .then( () => {
               this.$message({ message: '注册成功，请登录', type: 'success' });
@@ -164,6 +171,7 @@ export default {
            .catch({})
            .finally(() => {
              this.duplicateRegisterFlag = false
+             this.loading.close()
            })
          }
          else{
