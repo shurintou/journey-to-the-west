@@ -33,7 +33,12 @@ export var chatRoomWebSocket = {
                 self.start()
                 self.loading.close()
                 self.ws.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
-                self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
+                if(self.$store.state.player_loc > 0){
+                    self.ws.send(JSON.stringify({ type: 'playerList', action: 'get'}))
+                }
+                else{
+                    self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
+                }
                 self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'success', 'text' : '进入游戏大厅，成功连接服务器'});
             };
                 
@@ -122,6 +127,10 @@ export var chatRoomWebSocket = {
                         /* 如果玩家所在房间正在游戏中且本地没有该游戏信息 */
                         if(playerLocRoom.status === 1 && self.gameInfo === null){
                             self.ws.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
+                        }
+                        /* 如果玩家所在房间游戏已结束且本地还存有游戏 */
+                        if(playerLocRoom.status === 0 && self.gameInfo !== null){
+                            self.gameInfo = null
                         }
                     }
                     /* 玩家不在任一房间 */
