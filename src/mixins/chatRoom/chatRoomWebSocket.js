@@ -15,7 +15,6 @@ export var chatRoomWebSocket = {
             /* 心跳间隔 */
             timeout : 15000,
             chatTextId : 0,
-          
         }
     },
 
@@ -170,12 +169,6 @@ export var chatRoomWebSocket = {
             };
                 
             this.ws.onclose = function(close){
-                self.loading = self.$loading({
-                    lock: true,
-                    text: '努力连接中',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.7)'
-                })
                 if(close.code === 1000){
                     clearInterval(self.timeoutObj);
                     clearTimeout(self.serverTimeoutObj);
@@ -183,20 +176,28 @@ export var chatRoomWebSocket = {
                     self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : close.reason});
                 }
                 else{
-                    if(self.isLeave === false) 
-                    self.reconnect(self.wsUrl);
+                    if(self.isLeave === false){
+                        self.reconnect(self.wsUrl)
+                        self.loading = self.$loading({
+                            lock: true,
+                            text: '努力连接中',
+                            spinner: 'el-icon-loading',
+                            background: 'rgba(255, 255, 255, 0.7)'
+                        })
+                    } 
                 }
             };
 
             this.ws.onerror = function(){
-                self.loading = self.$loading({
-                    lock: true,
-                    text: '网络异常，尝试重连',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.7)'
-                })
-                if(self.isLeave === false) 
-                self.reconnect(self.wsUrl);
+                if(self.isLeave === false){
+                    self.loading = self.$loading({
+                        lock: true,
+                        text: '网络异常，尝试重连',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(255, 255, 255, 0.7)'
+                    })
+                    self.reconnect(self.wsUrl)
+                } 
             };
         },
 
@@ -261,11 +262,16 @@ export var chatRoomWebSocket = {
     },
 
     created: function(){
-        this.createWebSocket(this.wsUrl);
+        this.createWebSocket(this.wsUrl)
     },
 
     beforeDestroy: function(){
-        this.ws.close();
+        clearInterval(this.timeoutObj);
+        clearTimeout(this.serverTimeoutObj);
+        clearTimeout(this.reconnectTimeoutObj);
+        this.$nextTick(()=>{
+            this.ws.close()
+        })
     }
 }
 
