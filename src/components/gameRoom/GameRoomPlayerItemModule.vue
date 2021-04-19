@@ -108,6 +108,7 @@ export default {
         },
 
         gameInfo: function(newVal){
+            if(newVal === null) return
             if(newVal.currentPlayer === this.seatIndex){
                 this.showColorChanging = false
                 var vm = this
