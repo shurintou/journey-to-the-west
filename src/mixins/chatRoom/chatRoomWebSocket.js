@@ -240,6 +240,7 @@ export var chatRoomWebSocket = {
                     else{
                         self.$message.error('已与游戏大厅断开连接');
                         self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'error', text : '已与游戏大厅断开连接'});
+                        self.loading.close()
                         clearInterval(self.timeoutObj);
                         clearTimeout(self.serverTimeoutObj);
                         clearTimeout(self.reconnectTimeoutObj);
