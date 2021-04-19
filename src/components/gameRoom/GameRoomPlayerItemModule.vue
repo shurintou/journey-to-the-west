@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'player-now-play-card' : gameInfo && gameInfo.currentPlayer === seatIndex }">
+    <div :class="{ 'player-now-play-card' : gameInfo && gameInfo.currentPlayer === seatIndex , 'player-now-play-color' : showColorChanging }">
          <el-tooltip effect="light" :placement="tooltipPlacement" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
                     <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
@@ -61,7 +61,8 @@ export default {
             isPopoverVisible: false,
             gameTextToPlayer: '',
             gameTextFromPlayer: [],
-            timer: 0,           
+            timer: 0,  
+            showColorChanging: false,         
         }
     },
 
@@ -105,6 +106,22 @@ export default {
                 }
             })
         },
+
+        gameInfo: function(newVal){
+            if(newVal.currentPlayer === this.seatIndex){
+                this.showColorChanging = false
+                var vm = this
+                //牌池有牌时不出牌，刷新玩家背景框颜色动画的逻辑
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        vm.showColorChanging = true
+                    })
+                })
+            }
+            else{
+                this.showColorChanging = false
+            }
+        }
     },
 
     computed:{
@@ -178,7 +195,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 #game-room-player-info-box:hover{
     cursor: pointer;
@@ -212,11 +229,58 @@ export default {
 }
 
 .player-now-play-card{
-    border-radius: 5px;
+    border-radius: 1vw;
     border-style: solid;
-    border-color: chartreuse;
-    background-color: rgba(127,255,0,0.3);
     background-size: 100% 100%;
 }
 
+.player-now-play-color {
+	-webkit-animation: player-now-play-color 10s linear alternate both;
+    animation: player-now-play-color 10s linear alternate both;
+}
+
+@-webkit-keyframes player-now-play-color {
+    0% {
+         background: rgba(0, 191, 235, 0.3);
+        border-color: rgb(0, 191, 235);
+    }
+    25% {
+        background: rgba(127 ,255 , 0, 0.3);
+        border-color: rgb(127, 255, 0);
+    }
+    50% {
+        background: rgba(255, 255, 0, 0.3);
+        border-color: rgb(255, 255, 0);
+    }
+    75% {
+        background: rgba(255, 0, 0, 0.3);
+        border-color: rgb(255, 0, 0);
+    }
+    100% {
+        background: rgba(0, 0, 0, 0);
+        border-color: rgba(0, 0, 0, 0);
+    }
+}
+@keyframes player-now-play-color {
+   0% {
+        background: rgba(0, 191, 235, 0.3);
+        border-color: rgb(0, 191, 235);
+    }
+    25% {
+        background: rgba(127 ,255 , 0, 0.3);
+        border-color: rgb(127, 255, 0);
+    }
+    50% {
+        background: rgba(255, 255, 0, 0.3);
+        border-color: rgb(255, 255, 0);
+    }
+    75% {
+        background: rgba(255, 0, 0, 0.3);
+        border-color: rgb(255, 0, 0);
+    }
+    100% {
+        background: rgba(0, 0, 0, 0);
+        border-color: rgba(0, 0, 0, 0);
+    }
+}
 </style>
