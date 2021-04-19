@@ -34,22 +34,9 @@
                 </template>
             </div>
             <div id="game-room-table-horizontal-box-middle">
-                <div style="margin-left: 10%;" class="game-room-table-horizontal-box-middle-item">
-                    <p class="white-color-font" :style="{'font-size': fontSize}">剩余牌数</p>
-                    <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
-                </div>
-                <div class="game-room-table-horizontal-box-middle-item">
-                    <p class="white-color-font" :style="{'font-size': fontSize}">连击牌数</p>
-                    <el-image :src="require('@/assets/images/poker/drop-cards.png')"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                </div>
-                <div class="game-room-table-horizontal-box-middle-item">
-                    <p class="white-color-font" :style="{'font-size': fontSize}">出牌顺序</p>
-                    <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw" class="clockwise-rotate"></el-image>
-                    <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw" class="anti-clockwise-rotate"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
-                </div>
+                <RemainCardsNum :isHorizontal="true" :gameInfo="gameInfo" :fontSize="fontSize"></RemainCardsNum>
+                <ComboCardsNum :isHorizontal="true" :gameInfo="gameInfo" :fontSize="fontSize"></ComboCardsNum>
+                <Clockwise :isHorizontal="true" :gameInfo="gameInfo" :fontSize="fontSize"></Clockwise>
             </div>
             <el-tooltip effect="light" placement="top" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
@@ -118,22 +105,9 @@
                 </template>
             </div>
             <div id="game-room-table-vertical-box-bottom">
-                <div class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" :style="{'font-size':fontSize}">剩余牌数</div>
-                    <el-image :src="require('@/assets/images/poker/poker-pool.png')" style="max-width:3vw"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.remainCards}}张</div>
-               </div>
-                <div class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" :style="{'font-size':fontSize}">连击牌数</div>
-                    <el-image :src="require('@/assets/images/poker/drop-cards.png')" style="max-width:8vw"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.currentCombo}}张</div>
-                </div>
-                <div class="game-room-table-vertical-box-bottom-item">
-                    <div class="white-color-font" :style="{'font-size':fontSize}">出牌顺序</div>
-                    <el-image v-if="gameInfo.clockwise" :src="require('@/assets/images/clockwise.png')" style="max-width:4vw" class="clockwise-rotate"></el-image>
-                    <el-image v-else :src="require('@/assets/images/anti-clockwise.png')" style="max-width:4vw" class="anti-clockwise-rotate"></el-image>
-                    <div class="white-color-font" :style="{'font-size':fontSize}">{{gameInfo.clockwise ? '顺时针' : '逆时针'}}</div>
-                </div>
+                <RemainCardsNum :isHorizontal="false" :gameInfo="gameInfo" :fontSize="fontSize"></RemainCardsNum>
+                <ComboCardsNum :isHorizontal="false" :gameInfo="gameInfo" :fontSize="fontSize"></ComboCardsNum>
+                <Clockwise :isHorizontal="false" :gameInfo="gameInfo" :fontSize="fontSize"></Clockwise>
             </div>
             <el-tooltip effect="light" placement="right" :manual="true" v-model="isTooltipShow">
                 <div slot="content">
@@ -172,7 +146,9 @@
 <script>
 import EditGameRoomDialogModule from './dialogs/EditGameRoomDialogModule'
 import { cardList } from '../../mixins/gameRoom/cardList'
-
+import RemainCardsNum from './fragment/RemainCardsNum'
+import ComboCardsNum from './fragment/ComboCardsNum'
+import Clockwise from './fragment/Clockwise'
 
 export default {
     data() {
@@ -297,7 +273,10 @@ export default {
     },
 
     components:{
-        EditGameRoomDialogModule
+        EditGameRoomDialogModule,
+        RemainCardsNum,
+        ComboCardsNum,
+        Clockwise,
     },
 
     mixins:[ cardList ],
@@ -458,39 +437,5 @@ export default {
     height: 2vh; 
     margin-top: 5%; 
     margin-left: 20%;
-}
-
-.clockwise-rotate{
-    -webkit-animation: clockwiseRotate 10s linear infinite;
-    animation: clockwiseRotate 10s linear infinite;
-}
-
-.anti-clockwise-rotate{
-    -webkit-animation: antiClockwiseRotate 10s linear infinite;
-    animation: antiClockwiseRotate 10s linear infinite;
-}
-
-@-webkit-keyframes clockwiseRotate{
-    0%{ -webkit-transform: rotate(0deg);}
-    50%{ -webkit-transform: rotate(180deg);}
-    100%{ -webkit-transform: rotate(360deg);}
-}
-
-@keyframes clockwiseRotate{
-    0%{ -webkit-transform: rotate(0deg);}
-    50%{ -webkit-transform: rotate(180deg);}
-    100%{ -webkit-transform: rotate(360deg);}
-}
-
-@-webkit-keyframes antiClockwiseRotate{
-    0%{ -webkit-transform: rotate(0deg);}
-    50%{ -webkit-transform: rotate(-180deg);}
-    100%{ -webkit-transform: rotate(-360deg);}
-}
-
-@keyframes antiClockwiseRotate{
-    0%{ -webkit-transform: rotate(0deg);}
-    50%{ -webkit-transform: rotate(-180deg);}
-    100%{ -webkit-transform: rotate(-360deg);}
 }
 </style>
