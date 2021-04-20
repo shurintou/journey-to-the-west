@@ -38,12 +38,12 @@
                         </template>
                         <template v-if="playerLocRoom.status === 1 && gameInfo !== null && getGamePlayer !== null">
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
-                                <el-image :class="{'game-room-player-info-avatar-vertical' : !isItemHorizontal, 'game-room-player-info-avatar-horizontal' : isItemHorizontal}" :src="getAvatarUrl(getGamePlayer.avatar_id)"></el-image>
+                                <AnimatedAvatar :avatarClass ="isItemHorizontal ? 'game-room-player-info-avatar-horizontal' : 'game-room-player-info-avatar-vertical'" :avatarUrl="getAvatarUrl(getGamePlayer.avatar_id)" :gameInfo="gameInfo"></AnimatedAvatar>
                                 <el-tag :type="getPlayerNameTagType" effect="dark" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="gameInfo.currentPlayer === seatIndex" class="el-icon-loading"></i>{{getGamePlayer.nickname}}</el-tag>
                             </div>
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}">
                             <transition leave-active-class="scale-out-top">
-                                <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                                <el-tag v-show="getGamePlayer.remainCards.length > 0" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
                             </transition>
                             <el-tag :class="{'increase-num' : allCardsFlag}" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： '}} <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum> {{' 张' }}</el-tag>
                             <el-tag :class="{'increase-num' : comboFlag}" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
@@ -57,6 +57,7 @@
 
 <script>
 import CardsNum from './fragment/CardsNum'
+import AnimatedAvatar from './fragment/AnimatedAvatar'
 
 export default {
     data() {
@@ -222,6 +223,7 @@ export default {
 
     components:{
         CardsNum,
+        AnimatedAvatar,
     }
 }
 </script>
