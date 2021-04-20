@@ -18,7 +18,7 @@ export default {
 
     watch:{
         value: function (newValue, oldValue){
-            if(newValue > oldValue){
+            if(newValue > oldValue && newValue > 0){
                 this.$emit( 'increased' )
             }
             let diff = Math.abs(newValue - oldValue)
