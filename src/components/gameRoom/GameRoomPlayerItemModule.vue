@@ -31,9 +31,9 @@
                                 <el-tag :type="getPlayerNameTagType" :effect="player.id === 0 ? 'light' : 'dark'" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="player.id === playerLocRoom.owner" class="el-icon-star-on"></i>{{getPlayer().nickname}}</el-tag>
                             </div>
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}" v-if="getPlayer().avatar_id !== 0">
-                                <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： ' + player.cards + ' 张' }}</el-tag>
-                                <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
-                                <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
+                                <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
+                                <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
+                                <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
                             </div>
                         </template>
                         <template v-if="playerLocRoom.status === 1 && gameInfo !== null && getGamePlayer !== null">
@@ -42,9 +42,11 @@
                                 <el-tag :type="getPlayerNameTagType" effect="dark" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="gameInfo.currentPlayer === seatIndex" class="el-icon-loading"></i>{{getGamePlayer.nickname}}</el-tag>
                             </div>
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}">
+                            <transition leave-active-class="scale-out-top">
                                 <el-tag type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
-                                <el-tag type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
-                                <el-tag type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                            </transition>
+                            <el-tag :class="{'increase-num' : allCardsFlag}" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： '}} <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum> {{' 张' }}</el-tag>
+                            <el-tag :class="{'increase-num' : comboFlag}" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
                             </div>
                         </template>
                     </div>
@@ -54,6 +56,8 @@
 </template>
 
 <script>
+import CardsNum from './fragment/CardsNum'
+
 export default {
     data() {
         return{
@@ -62,7 +66,9 @@ export default {
             gameTextToPlayer: '',
             gameTextFromPlayer: [],
             timer: 0,  
-            showColorChanging: false,         
+            showColorChanging: false,  
+            allCardsFlag: false,
+            comboFlag: false,       
         }
     },
 
@@ -192,6 +198,30 @@ export default {
             this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$store.state.id, text: this.gameTextToPlayer }))
             this.gameTextToPlayer = ''
         },
+
+        increasedHandler: function(whichFlag){
+            let vm = this
+            if(whichFlag === 'all'){
+                this.allCardsFlag = false
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        vm.allCardsFlag = true
+                    })
+                })
+            }
+            else if(whichFlag === 'combo'){
+                this.comboFlag = false
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        vm.comboFlag = true
+                    })
+                })
+            }
+        },
+    },
+
+    components:{
+        CardsNum,
     }
 }
 </script>
