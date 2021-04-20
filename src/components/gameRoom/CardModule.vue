@@ -49,7 +49,7 @@ export default {
         'gameInfo.version': {
             immediate: true,
             handler: function(){
-                if(this.gameInfo === null || this.getGamePlayer.online === false) return
+                if(this.gameInfo === null || this.getGamePlayer.online === false || this.gameInfo.currentPlayer === -1) return
                 if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
                     this.time = 100
                     this.selectCard = []
