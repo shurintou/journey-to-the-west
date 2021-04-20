@@ -36,7 +36,7 @@
     <div id="game-room-box-vertical" v-else>
         <div id="game-room-box-vertical-header">
             <div id="game-room-box-vertical-header-item">
-                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="false" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
             </div>
         </div>
         <div id="game-room-box-vertical-body">
