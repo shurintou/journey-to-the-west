@@ -18,6 +18,9 @@ export default {
 
     watch:{
         value: function (newValue, oldValue){
+            if(newValue > oldValue){
+                this.$emit( 'increased' )
+            }
             let diff = Math.abs(newValue - oldValue)
             if(diff > 1){
                 this.tween(oldValue, newValue)

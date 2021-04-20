@@ -8,9 +8,9 @@
                 <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
             </el-tooltip>
             <div id="game-room-table-horizontal-bottom" :style="{'margin-top': playerLocRoom.needPassword ? '14vh' : '20vh'}">
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： ' + player.cards + ' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
             </div>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
@@ -56,9 +56,11 @@
                     </div>
                     <template  slot="reference">
                         <div id="game-room-table-horizontal-box-bottom">
-                            <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
-                            <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
-                            <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                            <transition leave-active-class="scale-out-top">
+                                <el-tag v-show="getGamePlayer.remainCards.length > 0" class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                            </transition>
+                            <el-tag :class="{'increase-num' : allCardsFlag}" class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： '}} <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum> {{' 张' }}</el-tag>
+                            <el-tag :class="{'increase-num' : comboFlag}" class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
                         </div>
                     </template>
                  </el-popover>
@@ -77,9 +79,9 @@
                 </el-tooltip>
             </div>
             <div id="game-room-table-vertical-room-info-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： ' + player.cards + ' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： ' + player.win + ' 局' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： ' + player.loss + ' 局' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
+                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
             </div>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
@@ -114,7 +116,9 @@
                     <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
                 </div> 
                 <div id="game-room-table-vertical-info-box-bottom">
-                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                    <transition leave-active-class="scale-out-top">
+                        <el-tag v-show="getGamePlayer.remainCards.length > 0" class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
+                    </transition>
                 </div>
             </el-tooltip>
              <el-popover placement="top" width="160" v-model="isPopoverVisible">
@@ -131,10 +135,10 @@
                     </div>
                 <template  slot="reference">
                     <div id="game-room-table-vertical-info-box-bottom">
-                        <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： ' + getGamePlayer.cards + ' 张' }}</el-tag>
+                        <el-tag :class="{'increase-num' : allCardsFlag}" class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： '}} <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum> {{' 张' }}</el-tag>
                     </div>
                     <div id="game-room-table-vertical-info-box-bottom">
-                        <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： ' + getGamePlayer.maxCombo + ' 张' }}</el-tag>
+                        <el-tag :class="{'increase-num' : comboFlag}" class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
                     </div>
                 </template>
              </el-popover>
@@ -149,6 +153,7 @@ import { cardList } from '../../mixins/gameRoom/cardList'
 import RemainCardsNum from './fragment/RemainCardsNum'
 import ComboCardsNum from './fragment/ComboCardsNum'
 import Clockwise from './fragment/Clockwise'
+import CardsNum from './fragment/CardsNum'
 
 export default {
     data() {
@@ -162,6 +167,8 @@ export default {
             isPopoverVisible: false,    
             gameTextToPlayer: '',   
             textFontSize: '',
+            allCardsFlag: false,
+            comboFlag: false,
         }
     },
 
@@ -270,6 +277,26 @@ export default {
             this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: this.gameTextToPlayer }))
             this.gameTextToPlayer = ''
         },
+
+        increasedHandler: function(whichFlag){
+            let vm = this
+            if(whichFlag === 'all'){
+                this.allCardsFlag = false
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        vm.allCardsFlag = true
+                    })
+                })
+            }
+            else if(whichFlag === 'combo'){
+                this.comboFlag = false
+                window.requestAnimationFrame(function() {
+                    window.requestAnimationFrame(function() {
+                        vm.comboFlag = true
+                    })
+                })
+            }
+        },
     },
 
     components:{
@@ -277,6 +304,7 @@ export default {
         RemainCardsNum,
         ComboCardsNum,
         Clockwise,
+        CardsNum,
     },
 
     mixins:[ cardList ],
@@ -438,4 +466,9 @@ export default {
     margin-top: 5%; 
     margin-left: 20%;
 }
+
+.increase-num{-webkit-animation:increase-num 1s ease-in-out both;animation:increase-num 1s ease-in-out both}
+@-webkit-keyframes increase-num{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.6);transform:scale(1.6)}100%{-webkit-transform:scale(1);transform:scale(1)}}@keyframes increase-num{0%{-webkit-transform:scale(1);transform:scale(1)}50%{-webkit-transform:scale(1.6);transform:scale(1.6)}100%{-webkit-transform:scale(1);transform:scale(1)}}
+.scale-out-top{-webkit-animation:scale-out-top .5s cubic-bezier(.55,.085,.68,.53) both;animation:scale-out-top .5s cubic-bezier(.55,.085,.68,.53) both}
+@-webkit-keyframes scale-out-top{0%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 0;transform-origin:50% 0;opacity:1}100%{-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:50% 0;transform-origin:50% 0;opacity:1}}@keyframes scale-out-top{0%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:50% 0;transform-origin:50% 0;opacity:1}100%{-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:50% 0;transform-origin:50% 0;opacity:1}}
 </style>
