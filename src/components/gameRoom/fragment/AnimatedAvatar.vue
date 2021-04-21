@@ -8,7 +8,7 @@ export default {
         return{
             vibrateFlag: false,
             heartbeatFlag: false,
-            actionBoundryList: [0,1,2,3,4],
+            actionBoundryList: [0,10,20,30,40],
         }
     },
 
