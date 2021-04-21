@@ -2,7 +2,8 @@
     <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{backgroundImage: 'url(' + verticalBackground + ')'}">
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以修改头像" placement="left">
           <div class="player-icon-box" @click="openEditAvatarDialog">
-            <el-image class="aside-icon" :src="getAvatarUrl($store.state.avatar_id)"></el-image>
+            <el-image v-if="gameInfo === null || gameInfo.currentPlayer === -1" class="aside-icon" :src="getAvatarUrl($store.state.avatar_id)"></el-image>
+            <AnimatedAvatar v-else :avatarClass ="'aside-icon'" :avatarUrl="getAvatarUrl($store.state.avatar_id)" :currentPlayerCards="getGamePlayer.cards" :isCurrentPlayer="gameInfo.gamePlayer[gameInfo.currentPlayer].id === $store.state.id" :currentGameCombo="gameInfo.currentCombo"></AnimatedAvatar>
           </div>
         </el-tooltip>
         <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以修改昵称" placement="left">
@@ -64,7 +65,7 @@
 import { modifyAvatar, modifyNickname } from '../../api/modify'
 import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
 import { getPlayerRecord } from '../../api/infoSearch'
-
+import AnimatedAvatar from '../gameRoom/fragment/AnimatedAvatar'
 
 export default {
 
@@ -113,6 +114,7 @@ export default {
     },
 
     props:{
+        gameInfo: { type: Object, default: null },
         subAsideWidth: {type: String, default: ''},
         verticalBackground: {type: String, default: ''},
         fontSize: {type: String, default: ''},
@@ -122,6 +124,18 @@ export default {
         ws: { type: WebSocket, default: null},
         isHorizontal: { type: Boolean, default: false},
         buttonSize: {type: String, default: ''},
+    },
+
+    computed:{
+        getGamePlayer: function(){
+            if(this.gameInfo === null) return null
+            for(let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++){
+              if(this.gameInfo.gamePlayer[i].id === this.$store.state.id){
+                  return this.gameInfo.gamePlayer[i]
+              }
+            }
+            return null
+        },
     },
 
     methods:{
@@ -254,6 +268,7 @@ export default {
 
     components: {
       PlayerInfoTabModule,
+      AnimatedAvatar,
     }
 }
 </script>
