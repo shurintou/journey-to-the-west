@@ -38,7 +38,7 @@
                         </template>
                         <template v-if="playerLocRoom.status === 1 && gameInfo !== null && getGamePlayer !== null">
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal }">
-                                <AnimatedAvatar :avatarClass ="isItemHorizontal ? 'game-room-player-info-avatar-horizontal' : 'game-room-player-info-avatar-vertical'" :avatarUrl="getAvatarUrl(getGamePlayer.avatar_id)" :gameInfo="gameInfo"></AnimatedAvatar>
+                                <AnimatedAvatar :avatarClass ="isItemHorizontal ? 'game-room-player-info-avatar-horizontal' : 'game-room-player-info-avatar-vertical'" :avatarUrl="getAvatarUrl(getGamePlayer.avatar_id)" :currentPlayerCards="getGamePlayer.cards" :isCurrentPlayer="gameInfo.currentPlayer === seatIndex" :currentGameCombo="gameInfo.currentCombo"></AnimatedAvatar>
                                 <el-tag :type="getPlayerNameTagType" effect="dark" :size="tagSize" :style="{'font-size': fontSize}"><i v-if="gameInfo.currentPlayer === seatIndex" class="el-icon-alarm-clock"></i>{{getGamePlayer.nickname}}</el-tag>
                             </div>
                             <div :class="{'game-room-player-info-item-vertical' : !isItemHorizontal, 'game-room-player-info-item-horitonzal' : isItemHorizontal}">
