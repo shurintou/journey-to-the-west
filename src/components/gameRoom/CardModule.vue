@@ -164,7 +164,12 @@ export default {
                 return
             }
             if(this.timer === null){
-                this.$message.warning('还未轮到你出牌')
+                if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
+                    this.$message.warning('出牌时间超时了')
+                }
+                else{
+                    this.$message.warning('还未轮到你出牌')
+                }
                 playSound('click')
                 return
             }
