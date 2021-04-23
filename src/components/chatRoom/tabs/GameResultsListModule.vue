@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { getGameRecord } from '../../api/infoSearch'
+import { getGameRecord } from '../../../api/infoSearch'
 
 export default {
     data() {
@@ -73,7 +73,7 @@ export default {
     .game-result-item{
         width: 100%;
         height: 20%;
-        background-image: url('../../assets/images/icon-select-background.png');
+        background-image: url('../../../assets/images/icon-select-background.png');
         background-size: 100% 100%;
         border-radius: 3%;
         margin-bottom: 3vh;
