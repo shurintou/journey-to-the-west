@@ -35,6 +35,9 @@ export default {
                 window.requestAnimationFrame(function() {
                     window.requestAnimationFrame(function() {
                         vm.vibrateFlag = true
+                        let audio = document.querySelector('#audio')
+                        audio.src = require('@/assets/musics/discard.mp3')
+                        audio.play()
                     })
                 })
             }

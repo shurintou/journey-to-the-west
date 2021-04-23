@@ -196,6 +196,13 @@ export default {
             }
         },
 
+        'gameInfo.currentPlayer': function(newVal){
+            if(this.gameInfo === null || newVal === -1) return
+            let audio = document.querySelector('#audio')
+            audio.src = require('@/assets/musics/card-drop.mp3')
+            audio.play()
+        },
+
         gameTableTexts: function(){
             if(this.gameTableTexts && this.gameTableTexts.length > 1){
                 this.timer = setTimeout( () => {
