@@ -8,12 +8,16 @@
         </el-tab-pane>
         <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
         <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
+        <el-tab-pane label="设置" name="setting" v-if="playerProfile.id === $store.state.id">
+            <SettingModule :fontSize="fontSize"></SettingModule>
+        </el-tab-pane>
     </el-tabs>
 </template>
 
 <script>
-import PlayerProfileModule from '../chatRoom/PlayerProfileModule'
-import GameResultsListModule from '../gameRoom/GameResultsListModule'
+import PlayerProfileModule from './tabs/PlayerProfileModule'
+import GameResultsListModule from './tabs/GameResultsListModule'
+import SettingModule from './tabs/SettingModule'
 import { getGameRecordsList } from '../../api/infoSearch'
 
 export default {
@@ -28,7 +32,7 @@ export default {
 
     props:{
         playerProfile: {type: Object, default: null},
-        fontSize: {type: String, default: 'record'},
+        fontSize: {type: String, default: ''},
         isShowing: {type: Boolean, default: false},
         isHorizontal: {type: Boolean, default: false},
     },
@@ -64,6 +68,7 @@ export default {
     components:{
         PlayerProfileModule,
         GameResultsListModule,
+        SettingModule,
     },
 }
 </script>

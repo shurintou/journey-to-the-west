@@ -1,5 +1,9 @@
+import vuex from '../store/index'
 
 export function playSound(data){
+    if(!vuex.state.playSound){
+        return
+    }
     let audio = document.querySelector('#audio')
     let mpeg = document.querySelector('#mpeg')
     let ogg = document.querySelector('#ogg')

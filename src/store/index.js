@@ -19,6 +19,7 @@ export default new Vuex.Store({
     isMobile: isMobile ,
     player_loc: 0,  //0为游戏大厅，其余为游戏房间号
     player_status: 0, //0空闲1等待2忙碌
+    playSound: true,
   },
   mutations: {
     initialization(state, payload){
@@ -38,7 +39,10 @@ export default new Vuex.Store({
     },
     mutatePlayerStatus(state, payload){
       state.player_status = payload
-    }
+    },
+    mutatePlaySound(state, payload){
+      state.playSound = payload
+    },
   },
   actions: {
     initialization({ commit } , payload){
@@ -55,6 +59,9 @@ export default new Vuex.Store({
     },
     mutatePlayerStatus({ commit } , payload){
       commit('mutatePlayerStatus' , payload)
+    },
+    mutatePlaySound({ commit } , payload){
+      commit('mutatePlaySound' , payload)
     },
   },
   modules: {

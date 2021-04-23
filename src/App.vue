@@ -3,6 +3,11 @@
     <div>
       <router-view/>
     </div>
+    <audio id="bgm" loop>
+      <source :src="require('@/assets/musics/bgm.mp3')" type="audio/mpeg">
+      <source :src="require('@/assets/musics/bgm.ogg')" type="audio/ogg">
+      <embed :src="require('@/assets/musics/bgm.mp3')">
+    </audio>
     <audio id="audio">
       <source id="mpeg" :src="require('@/assets/musics/mute.mp3')" type="audio/mpeg">
       <source id="ogg" :src="require('@/assets/musics/mute.ogg')" type="audio/ogg">
@@ -42,7 +47,9 @@ export default {
   methods:{
     registerEffectAudio: function(){
       const audio = document.querySelector('#audio')
+      const bgm = document.querySelector('#bgm')
       audio.play()
+      bgm.play()
       window.removeEventListener("click",this.registerEffectAudio)
     }
   },
