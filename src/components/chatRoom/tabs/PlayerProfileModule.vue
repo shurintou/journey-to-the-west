@@ -113,7 +113,7 @@ export default {
 
 <style>
     .player-profile-box{
-        background-image: url('../../assets/images/icon-select-background.png');
+        background-image: url('../../../assets/images/icon-select-background.png');
         background-size: 100% 100%;
     }
     .player-profile-line{
