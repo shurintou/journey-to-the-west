@@ -21,6 +21,7 @@
 
 <script>
 import { cardList } from '../../mixins/gameRoom/cardList'
+import { playSound } from '../../utils/soundEffect'
 
 export default {
     data(){
@@ -115,6 +116,7 @@ export default {
         },
 
         addSelectCard: function(n, cardIndex){
+            playSound('click')
             if(this.selectCard.length === 0){
                 this.selectCard.push(n)
             }
@@ -158,16 +160,19 @@ export default {
         playCardEmittedByRef: function(){
             if(this.getGamePlayer.online === false){
                 this.$message.warning('请先取消托管')
+                playSound('click')
                 return
             }
             if(this.timer === null){
                 this.$message.warning('还未轮到你出牌')
+                playSound('click')
                 return
             }
             this.playCard()
         },
 
         playCard: function(){
+            playSound('click')
             if(this.selectCard.length === 0){
                 this.$message.warning('请选择要打出的牌')
                 return
@@ -280,6 +285,7 @@ export default {
         },
 
         discard: function(){
+            playSound('click')
             if(this.gameInfo.currentCard.length === 0){
                 this.$message.warning('必须打出至少一张牌')
                 return
@@ -295,6 +301,7 @@ export default {
         },
 
         shiftOnline: function(){
+            playSound('click')
             this.ws.send(JSON.stringify({ 
                 type: 'game',
                 action: 'shiftOnline',
