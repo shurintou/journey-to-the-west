@@ -3,6 +3,8 @@
     <div>
       <router-view/>
     </div>
+    <audio id="audio">
+    </audio>
   </div>
 </template>
 
@@ -28,6 +30,18 @@ export default {
         this.$router.push({name: 'ChatRoom'})
     })
     .catch(() => {})
-  }
+  },
+
+  mounted: function(){
+    window.addEventListener("click",this.registerEffectAudio,false)
+  },
+
+  methods:{
+    registerEffectAudio: function(){
+      const audio = document.querySelector('#audio')
+      audio.play()
+      window.removeEventListener("click",this.registerEffectAudio)
+    }
+  },
 }
 </script>
