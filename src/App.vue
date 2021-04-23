@@ -4,6 +4,9 @@
       <router-view/>
     </div>
     <audio id="audio">
+      <source id="mpeg" :src="require('@/assets/musics/mute.mp3')" type="audio/mpeg">
+      <source id="ogg" :src="require('@/assets/musics/mute.ogg')" type="audio/ogg">
+      <embed id="embed" :src="require('@/assets/musics/mute.mp3')">
     </audio>
   </div>
 </template>
