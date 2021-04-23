@@ -155,6 +155,18 @@ export default {
             }
         },
 
+        playCardEmittedByRef: function(){
+            if(this.getGamePlayer.online === false){
+                this.$message.warning('请先取消托管')
+                return
+            }
+            if(this.timer === null){
+                this.$message.warning('还未轮到你出牌')
+                return
+            }
+            this.playCard()
+        },
+
         playCard: function(){
             if(this.selectCard.length === 0){
                 this.$message.warning('请选择要打出的牌')
