@@ -19,12 +19,12 @@
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px 0px 0px 5px'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
-        <GameRoomModule v-else :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo"></GameRoomModule>
+        <GameRoomModule v-else :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="$refs.cardModule.playCardEmittedByRef()"></GameRoomModule>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
             <ChatModule v-if="playerLocRoom? playerLocRoom.status === 0 : true" :horizontalBackground="horizontalBackground" :chatText="chatText" :buttonSize="buttonSize" :ws="ws" ref="chatModule"></ChatModule>
-            <CardModule v-else :gameInfo="gameInfo" :horizontalBackground="horizontalBackground" :fontSize="fontSize" :buttonSize="buttonSize" :ws="ws"></CardModule>
+            <CardModule v-else :gameInfo="gameInfo" :horizontalBackground="horizontalBackground" :fontSize="fontSize" :buttonSize="buttonSize" :ws="ws" ref="cardModule"></CardModule>
             <PlayerInfoModule :gameInfo="gameInfo" :playerLocRoom="playerLocRoom" :subAsideWidth="subAsideWidth" :verticalBackground="verticalBackground" :fontSize="largeFontSize" :dialogWidth="dialogWidth" :playerInfoDialogWidth="playerInfoDialogWidth" :ws="ws" :isHorizontal="asideWidth !== '0px'" :buttonSize="buttonSize" @sendGameResultToChatRoom="function(value){ gameResult = value.gameResult; gameResultDialogVisible = true }"></PlayerInfoModule>
         </el-container>
       </el-footer>

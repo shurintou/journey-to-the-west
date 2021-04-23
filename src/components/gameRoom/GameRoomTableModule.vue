@@ -17,7 +17,7 @@
             <div id="game-room-table-horizontal-box-info">
                 <p id="game-info-text-box" class="white-color-font" :style="{'font-size': textFontSize}">{{gameTableTexts ? gameTableTexts[0]: ''}}</p>
             </div>
-            <div id="game-room-table-horizontal-box-top">
+            <div id="game-room-table-horizontal-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
                         <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
@@ -88,7 +88,7 @@
             <div id="game-room-table-vertical-box-info">
                 <p id="game-info-text-box" class="white-color-font" :style="{'font-size': textFontSize}">{{gameTableTexts? gameTableTexts[0] : ''}}</p>
             </div>
-            <div id="game-room-table-vertical-box-top">
+            <div id="game-room-table-vertical-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                      <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }">
                         <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
@@ -97,7 +97,7 @@
                     </div>
                 </template>
             </div>
-            <div id="game-room-table-vertical-box-middle">
+            <div id="game-room-table-vertical-box-middle" @click="$emit('playCard')">
                 <template v-if="gameInfo.jokerCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? ( 50 - 10*gameInfo.jokerCard.length ) + '' + '%': '0%' }">
                         <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
