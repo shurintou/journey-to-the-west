@@ -154,6 +154,7 @@ import RemainCardsNum from './fragment/RemainCardsNum'
 import ComboCardsNum from './fragment/ComboCardsNum'
 import Clockwise from './fragment/Clockwise'
 import CardsNum from './fragment/CardsNum'
+import { playSound } from '../../utils/soundEffect'
 
 export default {
     data() {
@@ -196,11 +197,13 @@ export default {
             }
         },
 
-        'gameInfo.currentPlayer': function(newVal){
+        'gameInfo.currentPlayer': function(newVal, oldVal){
             if(this.gameInfo === null || newVal === -1) return
-            let audio = document.querySelector('#audio')
-            audio.src = require('@/assets/musics/card-drop.mp3')
-            audio.play()
+            if(oldVal === undefined){
+                playSound('card-shuffle')
+                return
+            }
+            playSound('card-drop')
         },
 
         gameTableTexts: function(){
