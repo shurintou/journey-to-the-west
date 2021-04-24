@@ -1,7 +1,7 @@
 import vuex from '../store/index'
 
 export function playSound(data){
-    if(!vuex.state.playSound){
+    if(!vuex.state.setting.playSound){
         return
     }
     let audio = document.querySelector('#audio')
