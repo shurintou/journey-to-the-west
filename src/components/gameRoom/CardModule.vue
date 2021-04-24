@@ -21,7 +21,7 @@
 
 <script>
 import { cardList } from '../../mixins/gameRoom/cardList'
-import { playSound } from '../../utils/soundEffect'
+import { playSound } from '../../utils/soundHandler'
 
 export default {
     data(){
