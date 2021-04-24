@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { playSound } from '../../../utils/soundEffect'
+import { playSound } from '../../../utils/soundHandler'
 
 export default {
     data() {

@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { playBgm } from '../../../utils/soundHandler'
+
 export default {
     data() {
         return{
@@ -32,16 +34,12 @@ export default {
                 return this.$store.state.setting.playBgm
             },
             set (value) {
-                let bgm = document.querySelector('#bgm')
-                if(value){
-                    bgm.play()
-                }
-                else{
-                    bgm.pause()
-                }
                 let setting = this.$store.state.setting
                 setting.playBgm = value
                 this.$store.dispatch('mutateSetting', setting)
+                .then( () => {
+                    playBgm()
+                })
             }
         },
 

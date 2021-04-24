@@ -154,7 +154,7 @@ import RemainCardsNum from './fragment/RemainCardsNum'
 import ComboCardsNum from './fragment/ComboCardsNum'
 import Clockwise from './fragment/Clockwise'
 import CardsNum from './fragment/CardsNum'
-import { playSound } from '../../utils/soundEffect'
+import { playSound } from '../../utils/soundHandler'
 
 export default {
     data() {

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { playBgm } from './utils/soundHandler'
 import {authorization} from './api/authorization'
 import { getToken } from './utils/cookie'
 
@@ -47,9 +48,8 @@ export default {
   methods:{
     registerEffectAudio: function(){
       const audio = document.querySelector('#audio')
-      const bgm = document.querySelector('#bgm')
       audio.play()
-      bgm.play()
+      playBgm(true) // 第一次调用该方法，参数传true
       window.removeEventListener("click",this.registerEffectAudio)
     }
   },
