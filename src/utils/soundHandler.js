@@ -37,3 +37,13 @@ export function playBgm(isFirst){
         bgm.pause()
     }
 }
+
+export function modifyBgmVolume (value){
+    let bgm = document.querySelector('#bgm')
+    bgm.volume  = value
+}
+
+export function modifySoundVolume (value){
+    let audio = document.querySelector('#audio')
+    audio.volume  = value
+}

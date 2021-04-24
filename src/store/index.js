@@ -22,6 +22,8 @@ export default new Vuex.Store({
     setting:{
       playSound: true,
       playBgm: true,
+      bgmVolume : 100,
+      soundVolume: 100,
     },
   },
   mutations: {
