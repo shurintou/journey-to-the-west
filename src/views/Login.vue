@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import VerificationCodeModule from '../components/VerificationCode'
-import { verificationLogic } from '../mixins/verificationLogic'
+import VerificationCodeModule from '../components/topPage/VerificationCode'
+import { verificationLogic } from '../mixins/topPage/verificationLogic'
 import {login} from '../api/login'
 
 export default {

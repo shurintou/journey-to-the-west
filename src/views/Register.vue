@@ -65,8 +65,8 @@
 </template>
 
 <script>
-import VerificationCodeModule from '../components/VerificationCode'
-import { verificationLogic } from '../mixins/verificationLogic'
+import VerificationCodeModule from '../components/topPage/VerificationCode'
+import { verificationLogic } from '../mixins/topPage/verificationLogic'
 import { register } from '../api/register'
 
 export default {
