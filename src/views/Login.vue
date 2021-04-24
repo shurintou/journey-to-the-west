@@ -1,5 +1,6 @@
 <template>
 <div id="login_root">
+  <MusicButton></MusicButton>
   <el-row type="flex" justify="center">
       <el-image :src="require('@/assets/images/head_icon.png')" :fit="fit"></el-image>
   </el-row>
@@ -80,6 +81,7 @@
 
 <script>
 import VerificationCodeModule from '../components/topPage/VerificationCode'
+import MusicButton from '../components/topPage/MusicButton'
 import { verificationLogic } from '../mixins/topPage/verificationLogic'
 import {login} from '../api/login'
 
@@ -171,7 +173,8 @@ export default {
   },
 
   components:{
-      VerificationCodeModule
+      VerificationCodeModule,
+      MusicButton,
   },
 
   mixins:[ verificationLogic ]
