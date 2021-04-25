@@ -1,3 +1,5 @@
+import { playSound } from '../../utils/soundHandler'
+
 export var chatRoomWebSocket = {
     data: function(){
         return {
@@ -159,6 +161,7 @@ export var chatRoomWebSocket = {
                     else if(jsonData.action === 'result'){
                         self.gameResult = JSON.parse(jsonData.data)
                         self.gameResultDialogVisible = true
+                        playSound('game-over')
                         for(let i = 0; i < self.gameResult.playerExpList.length; i++){
                             if(self.gameResult.playerExpList[i].id === self.$store.state.id){
                                 self.$message.success('获得 ' + self.gameResult.playerExpList[i].exp + ' 点经验值')

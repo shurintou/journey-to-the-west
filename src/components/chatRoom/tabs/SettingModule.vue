@@ -22,7 +22,7 @@
         </div>
         <div class="setting_item">
             <div>
-                <span :style="{'font-size': fontSize}">快速发言</span>
+                <span :style="{'font-size': fontSize}" style="line-height: 40px">快速发言</span>
                 <el-select :multiple-limit="10" v-model="quickChat" multiple collapse-tags style="float: right" placeholder="请选择">
                     <el-option-group v-for="group in messageGroups" :key="group.label" :label="group.label">
                         <el-option v-for="item in group.options" :key="item" :label="item" :value="item"></el-option>
