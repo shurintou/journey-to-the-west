@@ -11,10 +11,6 @@
                             <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini" @click="kickPlayerOff">踢出</el-button>
                         </template>
                         <template v-if="playerLocRoom.status === 1">
-                            <!-- <el-select size="medium" value-key="id" v-model="gameTextToPlayer" placeholder="向该玩家发言" @change="sentSelectedTextToPlayer">
-                                <el-option :disabled="true" label="向该玩家发言" value=""></el-option>
-                                <el-option v-for="item in $store.state.setting.textToPlayer" :key="item.id" :label="item.text" :value="item"></el-option>
-                            </el-select> -->
                             <QuickChatSelector :labelMessage="'向该玩家发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer"></QuickChatSelector>
                         </template>
                     </div>
@@ -190,7 +186,7 @@ export default {
 
         sentSelectedTextToPlayer: function(item){
             this.isPopoverVisible = false
-            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$store.state.id, text: item.text }))
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$store.state.id, text: item.text, soundSrc: item.music }))
         },
 
         increasedHandler: function(whichFlag){
