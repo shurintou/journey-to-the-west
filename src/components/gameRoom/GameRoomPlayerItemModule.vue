@@ -13,14 +13,7 @@
                         <template v-if="playerLocRoom.status === 1">
                             <el-select size="medium" v-model="gameTextToPlayer" placeholder="向该玩家发言" @change="sentSelectedTextToPlayer">
                                 <el-option :disabled="true" label="向该玩家发言" value=""></el-option>
-                                <el-option label="收" value="收"></el-option>
-                                <el-option label="小小小" value="小小小"></el-option>
-                                <el-option label="求师傅" value="求师傅"></el-option>
-                                <el-option label="求拉满" value="求拉满"></el-option>
-                                <el-option label="求转向" value="求转向"></el-option>
-                                <el-option label="你的牌打得太好了" value="你的牌打得太好了"></el-option>
-                                <el-option label="我等得花儿都谢了" value="我等得花儿都谢了"></el-option>
-                                <el-option label="合作愉快" value="合作愉快"></el-option>
+                                <el-option v-for="item in $store.state.setting.textToPlayer" :key="item" :label="item" :value="item"></el-option>
                             </el-select>
                         </template>
                     </div>

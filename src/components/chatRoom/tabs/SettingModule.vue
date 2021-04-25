@@ -20,6 +20,16 @@
             <span :style="{'font-size': fontSize}" style="line-height: 40px">音效音量</span>
             <el-slider style="width: 70%; float: right;" v-model="soundVolume" :disabled="!soundEffect" :show-tooltip="false"></el-slider>
         </div>
+        <div class="setting_item">
+            <div>
+                <span :style="{'font-size': fontSize}">快速发言</span>
+                <el-select :multiple-limit="10" v-model="quickChat" multiple collapse-tags style="float: right" placeholder="请选择">
+                    <el-option-group v-for="group in messageGroups" :key="group.label" :label="group.label">
+                        <el-option v-for="item in group.options" :key="item" :label="item" :value="item"></el-option>
+                    </el-option-group>
+                </el-select>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -29,6 +39,24 @@ import { playBgm, modifyBgmVolume, modifySoundVolume } from '../../../utils/soun
 export default {
     data() {
         return{
+            messageGroups: [ 
+                {
+                    label: '调侃',
+                    options: ["你的牌打得太好了", "我等得花儿都谢了", "合作愉快", "都别走，大战到天亮"]
+                },
+                {
+                    label: '求助',
+                    options: ["小小小", "大大大", "求师傅", "求拉满", "求转向"]
+                },
+                {
+                    label: '收牌',
+                    options: ["收", "我太难了", "我人没了", "战略性收牌"]
+                },
+                {
+                    label: '方言',
+                    options: ["洗", "匠匠匠", "卷卷卷", "我霉了", "牛掰"]
+                }
+            ]
         }
     },
 
@@ -94,6 +122,17 @@ export default {
                 })
             }
         },
+
+        quickChat: {
+            get () {
+                return this.$store.state.setting.textToPlayer 
+            },
+            set (value) {
+                let setting = this.$store.state.setting
+                setting.textToPlayer  = value
+                this.$store.dispatch('mutateSetting', setting)
+            }
+        }
     },
 }
 </script>
