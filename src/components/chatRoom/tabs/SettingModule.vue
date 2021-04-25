@@ -23,9 +23,9 @@
         <div class="setting_item">
             <div>
                 <span :style="{'font-size': fontSize}" style="line-height: 40px">快速发言</span>
-                <el-select :multiple-limit="10" v-model="quickChat" multiple collapse-tags style="float: right" placeholder="请选择">
+                <el-select :multiple-limit="10" value-key="id" v-model="quickChat" multiple collapse-tags style="float: right" placeholder="请选择">
                     <el-option-group v-for="group in messageGroups" :key="group.label" :label="group.label">
-                        <el-option v-for="item in group.options" :key="item" :label="item" :value="item"></el-option>
+                        <el-option v-for="item in group.options" :key="item.id" :label="item.text" :value="item"></el-option>
                     </el-option-group>
                 </el-select>
             </div>
@@ -42,19 +42,45 @@ export default {
             messageGroups: [ 
                 {
                     label: '调侃',
-                    options: ["你的牌打得太好了", "我等得花儿都谢了", "合作愉快", "都别走，大战到天亮"]
+                    options:
+                    [
+                        { id: 1, music: "", text: "你的牌打得太好了"}, 
+                        { id: 2, music: "", text: "我等得花儿都谢了"}, 
+                        { id: 3, music: "", text: "合作愉快"}, 
+                        { id: 4, music: "", text: "都别走，大战到天亮"}
+                    ]
                 },
                 {
                     label: '求助',
-                    options: ["小小小", "大大大", "求师傅", "求拉满", "求转向"]
+                    options: 
+                    [
+                        { id: 5, music: "", text: "小小小"}, 
+                        { id: 6, music: "", text: "大大大"}, 
+                        { id: 7, music: "", text: "求师傅"}, 
+                        { id: 8, music: "", text: "求拉满"}, 
+                        { id: 9, music: "", text: "求转向"}
+                    ]
                 },
                 {
                     label: '收牌',
-                    options: ["收", "我太难了", "我人没了", "战略性收牌"]
+                    options: 
+                    [
+                        { id: 10, music: "", text: "收"}, 
+                        { id: 11, music: "", text: "我太难了"}, 
+                        { id: 12, music: "", text: "我人没了"}, 
+                        { id: 13, music: "", text: "战略性收牌"}
+                    ]
                 },
                 {
                     label: '方言',
-                    options: ["洗", "所所所", "卷卷卷", "我霉了", "牛掰"]
+                    options: 
+                    [
+                        { id: 14, music: "", text: "洗"}, 
+                        { id: 15, music: "", text: "所所所"}, 
+                        { id: 16, music: "", text: "卷卷卷"}, 
+                        { id: 17, music: "", text: "我霉了"}, 
+                        { id: 18, music: "", text: "牛掰"}
+                    ]
                 }
             ]
         }
