@@ -44,10 +44,6 @@
                 </div> 
                  <el-popover placement="top" width="160" v-model="isPopoverVisible">
                     <div style="margin: 0">
-                        <!-- <el-select size="medium" v-model="gameTextToPlayer" value-key="id" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
-                            <el-option :disabled="true" label="向全体发言" value=""></el-option>
-                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item.id" :label="item.text" :value="item"></el-option>
-                        </el-select> -->
                         <QuickChatSelector :labelMessage="'向全体发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer"></QuickChatSelector>
                     </div>
                     <template  slot="reference">
@@ -119,10 +115,6 @@
             </el-tooltip>
              <el-popover placement="top" width="160" v-model="isPopoverVisible">
                     <div style="margin: 0">
-                        <!-- <el-select size="medium" v-model="gameTextToPlayer" value-key="id" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
-                            <el-option :disabled="true" label="向全体发言" value=""></el-option>
-                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item.id" :label="item.text" :value="item"></el-option>
-                        </el-select> -->
                         <QuickChatSelector :labelMessage="'向全体发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer"></QuickChatSelector>
                     </div>
                 <template  slot="reference">
@@ -276,7 +268,7 @@ export default {
     methods:{
          sentSelectedTextToPlayer: function(item){
             this.isPopoverVisible = false
-            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: item.text }))
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: item.text, soundSrc: item.music }))
         },
 
         increasedHandler: function(whichFlag){
