@@ -44,42 +44,44 @@ export default {
                     label: '调侃',
                     options:
                     [
-                        { id: 1, music: "", text: "你的牌打得太好了"}, 
-                        { id: 2, music: "", text: "我等得花儿都谢了"}, 
-                        { id: 3, music: "", text: "合作愉快"}, 
-                        { id: 4, music: "", text: "都别走，大战到天亮"}
+                        { id: 1, music: "1", text: "你的牌打得太好了"}, 
+                        { id: 2, music: "2", text: "我等得花儿都谢了"}, 
+                        { id: 3, music: "3", text: "合作愉快"}, 
+                        { id: 4, music: "4", text: "都别走，大战到天亮"}
                     ]
                 },
                 {
                     label: '求助',
                     options: 
                     [
-                        { id: 5, music: "", text: "小小小"}, 
-                        { id: 6, music: "", text: "大大大"}, 
-                        { id: 7, music: "", text: "求师傅"}, 
-                        { id: 8, music: "", text: "求拉满"}, 
-                        { id: 9, music: "", text: "求转向"}
+                        { id: 5, music: "5", text: "小小小"}, 
+                        { id: 6, music: "6", text: "大大大"}, 
+                        { id: 7, music: "7", text: "求师傅"}, 
+                        { id: 8, music: "8", text: "求拉满"}, 
+                        { id: 9, music: "9", text: "求转向"}
                     ]
                 },
                 {
                     label: '收牌',
                     options: 
                     [
-                        { id: 10, music: "", text: "收"}, 
-                        { id: 11, music: "", text: "我太难了"}, 
-                        { id: 12, music: "", text: "我人没了"}, 
-                        { id: 13, music: "", text: "战略性收牌"}
+                        { id: 10, music: "10", text: "收"}, 
+                        { id: 11, music: "11", text: "我太难了"}, 
+                        { id: 12, music: "12", text: "我人没了"}, 
+                        { id: 13, music: "13", text: "战略性收牌"}
                     ]
                 },
                 {
                     label: '方言',
                     options: 
                     [
-                        { id: 14, music: "", text: "洗"}, 
-                        { id: 15, music: "", text: "所所所"}, 
-                        { id: 16, music: "", text: "卷卷卷"}, 
-                        { id: 17, music: "", text: "我霉了"}, 
-                        { id: 18, music: "", text: "牛掰"}
+                        { id: 14, music: "14", text: "洗"}, 
+                        { id: 15, music: "15", text: "所所所"}, 
+                        { id: 16, music: "16", text: "卷卷卷"}, 
+                        { id: 17, music: "17", text: "小小小(方)"}, 
+                        { id: 18, music: "18", text: "大大大(方)"}, 
+                        { id: 19, music: "19", text: "我霉了"}, 
+                        { id: 20, music: "20", text: "牛掰"},
                     ]
                 }
             ]
