@@ -18,7 +18,17 @@ if ( localSettingStr === null ) {
     playBgm: true,
     bgmVolume : 100,
     soundVolume: 100,
-    textToPlayer: ["收", "小小小", "求师傅", "求拉满", "求转向", "你的牌打得太好了", "我等得花儿都谢了", "合作愉快"],
+    textToPlayer: 
+    [
+      { id: 10, music: "", text: "收"}, 
+      { id: 5, music: "", text: "小小小"}, 
+      { id: 7, music: "", text: "求师傅"}, 
+      { id: 8, music: "", text: "求拉满"}, 
+      { id: 9, music: "", text: "求转向"},
+      { id: 1, music: "", text: "你的牌打得太好了"}, 
+      { id: 2, music: "", text: "我等得花儿都谢了"}, 
+      { id: 3, music: "", text: "合作愉快"}, 
+    ],
   }
 }
 else{

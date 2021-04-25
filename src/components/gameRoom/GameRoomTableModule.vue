@@ -44,15 +44,11 @@
                 </div> 
                  <el-popover placement="top" width="160" v-model="isPopoverVisible">
                     <div style="margin: 0">
-                        <el-select size="medium" v-model="gameTextToPlayer" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
+                        <!-- <el-select size="medium" v-model="gameTextToPlayer" value-key="id" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
                             <el-option :disabled="true" label="向全体发言" value=""></el-option>
-                            <el-option label="小小小" value="小小小"></el-option>
-                            <el-option label="求师傅" value="求师傅"></el-option>
-                            <el-option label="求拉满" value="求拉满"></el-option>
-                            <el-option label="求转向" value="求转向"></el-option>
-                            <el-option label="我太难了" value="我太难了"></el-option>
-                            <el-option label="战略性收牌" value="战略性收牌"></el-option>
-                        </el-select>
+                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item.id" :label="item.text" :value="item"></el-option>
+                        </el-select> -->
+                        <QuickChatSelector :labelMessage="'向全体发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer"></QuickChatSelector>
                     </div>
                     <template  slot="reference">
                         <div id="game-room-table-horizontal-box-bottom">
@@ -123,10 +119,11 @@
             </el-tooltip>
              <el-popover placement="top" width="160" v-model="isPopoverVisible">
                     <div style="margin: 0">
-                        <el-select size="medium" v-model="gameTextToPlayer" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
+                        <!-- <el-select size="medium" v-model="gameTextToPlayer" value-key="id" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
                             <el-option :disabled="true" label="向全体发言" value=""></el-option>
-                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item" :label="item" :value="item"></el-option>
-                        </el-select>
+                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item.id" :label="item.text" :value="item"></el-option>
+                        </el-select> -->
+                        <QuickChatSelector :labelMessage="'向全体发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer"></QuickChatSelector>
                     </div>
                 <template  slot="reference">
                     <div id="game-room-table-vertical-info-box-bottom">
@@ -150,6 +147,7 @@ import ComboCardsNum from './fragment/ComboCardsNum'
 import Clockwise from './fragment/Clockwise'
 import CardsNum from './fragment/CardsNum'
 import { playSound } from '../../utils/soundHandler'
+import QuickChatSelector from './fragment/QuickChatSelector'
 
 export default {
     data() {
@@ -161,7 +159,6 @@ export default {
             timer: 0,    
             gameTextFromPlayerTimer: 0,
             isPopoverVisible: false,    
-            gameTextToPlayer: '',   
             textFontSize: '',
             allCardsFlag: false,
             comboFlag: false,
@@ -277,10 +274,9 @@ export default {
     },
 
     methods:{
-         sentSelectedTextToPlayer: function(){
+         sentSelectedTextToPlayer: function(item){
             this.isPopoverVisible = false
-            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: this.gameTextToPlayer }))
-            this.gameTextToPlayer = ''
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.seatIndex, target: -1, targetId: -1, sourceId: this.$store.state.id, text: item.text }))
         },
 
         increasedHandler: function(whichFlag){
@@ -310,6 +306,7 @@ export default {
         ComboCardsNum,
         Clockwise,
         CardsNum,
+        QuickChatSelector,
     },
 
     mixins:[ cardList ],
