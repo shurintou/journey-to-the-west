@@ -125,12 +125,7 @@
                     <div style="margin: 0">
                         <el-select size="medium" v-model="gameTextToPlayer" placeholder="向全体发言" @change="sentSelectedTextToPlayer">
                             <el-option :disabled="true" label="向全体发言" value=""></el-option>
-                            <el-option label="小小小" value="小小小"></el-option>
-                            <el-option label="求师傅" value="求师傅"></el-option>
-                            <el-option label="求拉满" value="求拉满"></el-option>
-                            <el-option label="求转向" value="求转向"></el-option>
-                            <el-option label="我太难了" value="我太难了"></el-option>
-                            <el-option label="战略性收牌" value="战略性收牌"></el-option>
+                            <el-option v-for="item in $store.state.setting.textToPlayer" :key="item" :label="item" :value="item"></el-option>
                         </el-select>
                     </div>
                 <template  slot="reference">
