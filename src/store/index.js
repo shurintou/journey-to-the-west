@@ -20,14 +20,14 @@ if ( localSettingStr === null ) {
     soundVolume: 100,
     textToPlayer: 
     [
-      { id: 10, music: "", text: "收"}, 
-      { id: 5, music: "", text: "小小小"}, 
-      { id: 7, music: "", text: "求师傅"}, 
-      { id: 8, music: "", text: "求拉满"}, 
-      { id: 9, music: "", text: "求转向"},
-      { id: 1, music: "", text: "你的牌打得太好了"}, 
-      { id: 2, music: "", text: "我等得花儿都谢了"}, 
-      { id: 3, music: "", text: "合作愉快"}, 
+      { id: 10, music: "10", text: "收"}, 
+      { id: 5, music: "5", text: "小小小"}, 
+      { id: 7, music: "7", text: "求师傅"}, 
+      { id: 8, music: "8", text: "求拉满"}, 
+      { id: 9, music: "9", text: "求转向"},
+      { id: 1, music: "1", text: "你的牌打得太好了"}, 
+      { id: 2, music: "2", text: "我等得花儿都谢了"}, 
+      { id: 3, music: "3", text: "合作愉快"}, 
     ],
   }
 }
