@@ -3,16 +3,7 @@
     <div>
       <router-view/>
     </div>
-    <audio id="bgm" loop>
-      <source :src="require('@/assets/musics/bgm.mp3')" type="audio/mpeg">
-      <source :src="require('@/assets/musics/bgm.ogg')" type="audio/ogg">
-      <embed :src="require('@/assets/musics/bgm.mp3')">
-    </audio>
-    <audio id="audio">
-      <source id="mpeg" :src="require('@/assets/musics/mute.mp3')" type="audio/mpeg">
-      <source id="ogg" :src="require('@/assets/musics/mute.ogg')" type="audio/ogg">
-      <embed id="embed" :src="require('@/assets/musics/mute.mp3')">
-    </audio>
+    <MusicModule></MusicModule>
   </div>
 </template>
 
@@ -20,6 +11,7 @@
 import { playBgm } from './utils/soundHandler'
 import {authorization} from './api/authorization'
 import { getToken } from './utils/cookie'
+import MusicModule from './components/topPage/MusicModule'
 
 export default {
   
@@ -52,6 +44,10 @@ export default {
       playBgm(true) // 第一次调用该方法，参数传true
       window.removeEventListener("click",this.registerEffectAudio)
     }
+  },
+
+  components:{
+    MusicModule,
   },
 }
 </script>
