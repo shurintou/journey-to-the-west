@@ -184,6 +184,7 @@ export default {
         'gameInfo.currentPlayer': function(newVal, oldVal){
             if(this.gameInfo === null || newVal === -1) return
             if(oldVal === undefined){
+                playSound('game-start-voice')
                 playSound('card-shuffle')
                 return
             }

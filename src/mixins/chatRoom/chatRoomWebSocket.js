@@ -161,6 +161,7 @@ export var chatRoomWebSocket = {
                     else if(jsonData.action === 'result'){
                         self.gameResult = JSON.parse(jsonData.data)
                         self.gameResultDialogVisible = true
+                        playSound('game-over-voice')
                         playSound('game-over')
                         for(let i = 0; i < self.gameResult.playerExpList.length; i++){
                             if(self.gameResult.playerExpList[i].id === self.$store.state.id){
