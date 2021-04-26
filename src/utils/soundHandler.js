@@ -4,17 +4,27 @@ export function playSound(data){
     if(!vuex.state.setting.playSound){
         return
     }
-    let audio = document.querySelector('#audio')
-    let mpeg = document.querySelector('#mpeg')
-    let ogg = document.querySelector('#ogg')
-    let embed = document.querySelector('#embed')
-    mpeg.src = require('@/assets/musics/' + data + '.mp3')
-    ogg.src = require('@/assets/musics/' + data + '.ogg')
-    embed.src = require('@/assets/musics/' + data + '.mp3')
-    audio.load()
-    setTimeout(() => {
-        audio.play()
-    }, 200)
+    let audios = document.querySelectorAll('.audio_pool')
+    let freeAudioIndex = -1
+    for(let i = 0; i < audios.length; i++){
+        if(audios[i].paused || audios[i].ended){
+            freeAudioIndex = i
+            break
+        }
+    }
+    if(freeAudioIndex > -1){
+        let audio = document.querySelector('#audio_' + freeAudioIndex)
+        let mpeg = document.querySelector('#mpeg_' + freeAudioIndex)
+        let ogg = document.querySelector('#ogg_' + freeAudioIndex)
+        let embed = document.querySelector('#embed_' + freeAudioIndex)
+        mpeg.src = require('@/assets/musics/' + data + '.mp3')
+        ogg.src = require('@/assets/musics/' + data + '.ogg')
+        embed.src = require('@/assets/musics/' + data + '.mp3')
+        audio.load()
+        setTimeout(() => {
+            audio.play()
+        }, 200)
+    }
 }
 
 export function playBgm(isFirst){
@@ -44,6 +54,6 @@ export function modifyBgmVolume (value){
 }
 
 export function modifySoundVolume (value){
-    let audio = document.querySelector('#audio')
-    audio.volume  = value
+    let audios = document.querySelectorAll('.audio_pool')
+    audios.forEach( audio => audio.volume  = value)
 }
