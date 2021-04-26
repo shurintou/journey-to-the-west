@@ -244,6 +244,8 @@ export default {
 
         sentGameTextToPlayer: function(newVal){
             if(this.gameInfo === null) return
+            if(newVal.source === undefined || newVal.text === undefined || newVal.target === undefined) return
+            this.$emit('gameTextToPlayerSent', this.seatIndex)
             if(newVal.sourceId === this.$store.state.id){
                 if(newVal.target === -1){
                     this.gameTextFromPlayer.push( '你说: ' + newVal.text )

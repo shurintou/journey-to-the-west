@@ -83,7 +83,9 @@ export default {
     watch:{
         sentGameTextToPlayer: function(newVal){
             if(this.gameInfo === null) return
+            if(newVal.source === undefined || newVal.text === undefined || newVal.target === undefined) return
             if(this.gameInfo.gamePlayer[newVal.source] === undefined) return
+            this.$emit('gameTextToPlayerSent', this.seatIndex)
             if(newVal.targetId === -1){
                 this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 说: ' + newVal.text )
             }
