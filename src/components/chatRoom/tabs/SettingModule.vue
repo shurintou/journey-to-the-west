@@ -22,6 +22,12 @@
         </div>
         <div class="setting_item">
             <div>
+                <span :style="{'font-size': fontSize}">出牌提示声</span>
+                <el-switch style="float: right" v-model="youTurnVoice" active-color="#13ce66" inactive-color="#ff4949" :disabled="!soundEffect"></el-switch>
+            </div>
+        </div>
+        <div class="setting_item">
+            <div>
                 <span :style="{'font-size': fontSize}" style="line-height: 40px">快速发言</span>
                 <el-select :multiple-limit="10" value-key="id" v-model="quickChat" multiple collapse-tags style="float: right" placeholder="请选择">
                     <el-option-group v-for="group in messageGroups" :key="group.label" :label="group.label">
@@ -121,6 +127,9 @@ export default {
             set (value) {
                 let setting = this.$store.state.setting
                 setting.playSound = value
+                if(value === false){
+                    setting.youTurnVoice = value
+                }
                 this.$store.dispatch('mutateSetting', setting)
             }
         },
@@ -150,6 +159,17 @@ export default {
                 .then( () => {
                     modifySoundVolume ((value / 100).toFixed(1))
                 })
+            }
+        },
+
+        youTurnVoice : {
+            get () {
+                return this.$store.state.setting.youTurnVoice
+            },
+            set (value) {
+                let setting = this.$store.state.setting
+                setting.youTurnVoice = value
+                this.$store.dispatch('mutateSetting', setting)
             }
         },
 
