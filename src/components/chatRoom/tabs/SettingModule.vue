@@ -78,11 +78,12 @@ export default {
                         { id: 14, music: "14", text: "洗"}, 
                         { id: 15, music: "15", text: "所所所"}, 
                         { id: 16, music: "16", text: "卷卷卷"}, 
-                        { id: 17, music: "17", text: "小小小(方)"}, 
-                        { id: 18, music: "18", text: "大大大(方)"}, 
+                        { id: 17, music: "17", text: "小小小(桂)"}, 
+                        { id: 18, music: "18", text: "大大大(桂)"}, 
                         { id: 19, music: "19", text: "我霉了"}, 
                         { id: 20, music: "20", text: "牛掰"},
                         { id: 21, music: "21", text: "瘾"},
+                        { id: 22, music: "22", text: "我好方啊"},
                     ]
                 }
             ]
