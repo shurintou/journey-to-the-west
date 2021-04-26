@@ -18,6 +18,7 @@ if ( localSettingStr === null ) {
     playBgm: true,
     bgmVolume : 100,
     soundVolume: 100,
+    youTurnVoice: false,
     textToPlayer: 
     [
       { id: 10, music: "10", text: "收"}, 

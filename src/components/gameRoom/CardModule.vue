@@ -58,6 +58,13 @@ export default {
                         clearInterval(this.timer)
                     }
                     this.$nextTick( function(){
+                        if(this.$store.state.setting.youTurnVoice){
+                            if(this.gameInfo.currentCard.length > 0){
+                                setTimeout(function(){
+                                    playSound('youturn')
+                                }, 1000) 
+                            }
+                        }
                         this.timer = window.setInterval( () => {
                             this.time = this.time - 1
                         } , 100)
