@@ -82,6 +82,7 @@ export default {
                         { id: 18, music: "18", text: "大大大(方)"}, 
                         { id: 19, music: "19", text: "我霉了"}, 
                         { id: 20, music: "20", text: "牛掰"},
+                        { id: 21, music: "21", text: "瘾"},
                     ]
                 }
             ]
