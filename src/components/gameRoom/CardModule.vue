@@ -49,7 +49,7 @@ export default {
     watch:{
         'gameInfo.version': {
             immediate: true,
-            handler: function(){
+            handler: function(newVal){
                 if(this.gameInfo === null || this.getGamePlayer.online === false || this.gameInfo.currentPlayer === -1) return
                 if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
                     this.time = 100
@@ -59,7 +59,7 @@ export default {
                     }
                     this.$nextTick( function(){
                         if(this.$store.state.setting.youTurnVoice){
-                            if(this.gameInfo.currentCard.length > 0){
+                            if(this.gameInfo.currentCard.length > 0 || newVal === 0){
                                 setTimeout(function(){
                                     playSound('youturn')
                                 }, 1000) 
