@@ -207,6 +207,7 @@ export default {
                 else{
                     this.gameTextFromPlayer.push( '你对 ' + this.gameInfo.gamePlayer[newVal.target].nickname + ' 说: ' + newVal.text )
                 }
+                playSound('quickChat/' + newVal.soundSrc)
                 this.$nextTick(function(){
                     if(this.gameTextFromPlayer.length > 0){
                         this.isTooltipShow = true
