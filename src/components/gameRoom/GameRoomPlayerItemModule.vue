@@ -49,6 +49,7 @@
 import CardsNum from './fragment/CardsNum'
 import AnimatedAvatar from './fragment/AnimatedAvatar'
 import QuickChatSelector from './fragment/QuickChatSelector'
+import { playSound } from '../../utils/soundHandler'
 
 export default {
     data() {
@@ -91,6 +92,7 @@ export default {
             else{
                 this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 对' + this.gameInfo.gamePlayer[newVal.target].nickname +  ' 说: ' + newVal.text )
             }
+            playSound('quickChat/' + newVal.soundSrc)
             this.$nextTick(function(){
                 if(this.gameTextFromPlayer.length > 0){
                     this.isTooltipShow = true

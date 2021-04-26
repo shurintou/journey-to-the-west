@@ -7,7 +7,7 @@ export function playSound(data){
     let audios = document.querySelectorAll('.audio_pool')
     let freeAudioIndex = -1
     for(let i = 0; i < audios.length; i++){
-        if(audios[i].paused || audios[i].ended){
+        if(audios[i].ended){
             freeAudioIndex = i
             break
         }
