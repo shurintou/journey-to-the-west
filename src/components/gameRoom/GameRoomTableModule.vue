@@ -188,7 +188,39 @@ export default {
                 playSound('card-shuffle')
                 return
             }
-            playSound('card-drop')
+            //有反弹牌则优先发出反弹牌的音效
+            if(this.gameInfo.jokerCard.length > 0){
+                if(this.cardList[this.gameInfo.jokerCard[0]].suit === 1){
+                    playSound('playCard/guanyin')
+                }
+                else{
+                    playSound('playCard/rulai')
+                }
+                return
+            }
+            if(this.cardList[this.gameInfo.currentCard[0]].num === 21){
+                playSound('playCard/shaseng')
+            }
+            else if(this.cardList[this.gameInfo.currentCard[0]].num === 22){
+                playSound('playCard/bajie')
+            }
+            else if(this.cardList[this.gameInfo.currentCard[0]].num === 23){
+                playSound('playCard/wukong')
+            }
+            else if(this.cardList[this.gameInfo.currentCard[0]].num === 31){
+                playSound('playCard/shifu')
+            }
+            else if(this.cardList[this.gameInfo.currentCard[0]].num === 100){
+                if(this.cardList[this.gameInfo.currentCard[0]].suit === 1){
+                    playSound('playCard/guanyin')
+                }
+                else{
+                    playSound('playCard/rulai')
+                }
+            }
+            else{
+                playSound('playCard/card-drop')
+            }
         },
 
         gameTableTexts: function(){
