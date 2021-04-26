@@ -39,8 +39,8 @@ export default {
 
   methods:{
     registerEffectAudio: function(){
-      const audio = document.querySelector('#audio')
-      audio.play()
+      let audios = document.querySelectorAll('.audio_pool')
+      audios.forEach( audio => audio.play())
       playBgm(true) // 第一次调用该方法，参数传true
       window.removeEventListener("click",this.registerEffectAudio)
     }
