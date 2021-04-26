@@ -7,11 +7,16 @@
             <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
                 <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
             </el-tooltip>
-            <div id="game-room-table-horizontal-bottom" :style="{'margin-top': playerLocRoom.needPassword ? '14vh' : '20vh'}">
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
-            </div>
+            <el-tooltip effect="light" placement="top" :manual="true" v-model="isTooltipShow">
+                <div slot="content">
+                    <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
+                </div> 
+                <div id="game-room-table-horizontal-bottom" :style="{'margin-top': playerLocRoom.needPassword ? '14vh' : '20vh'}">
+                    <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
+                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
+                    <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
+                </div>
+            </el-tooltip>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-playing-horizontal-container">
             <div id="game-room-table-horizontal-box-info">
@@ -70,11 +75,16 @@
                     <el-image :fit="'contain'" class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
                 </el-tooltip>
             </div>
-            <div id="game-room-table-vertical-room-info-bottom">
-                <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
-                <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
-            </div>
+                <div id="game-room-table-vertical-room-info-bottom">
+                    <el-tooltip effect="light" placement="right" :manual="true" v-model="isTooltipShow">
+                        <div slot="content">
+                            <p v-for="item in gameTextFromPlayer" :key="item">{{ item }}</p>
+                        </div> 
+                        <el-tag class="game-room-table-horizontal-record-item" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '收牌数： '}} <CardsNum :value="player.cards"></CardsNum> {{' 张' }}</el-tag>
+                    </el-tooltip>
+                    <el-tag class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '吃鸡： '}} <CardsNum :value="player.win"></CardsNum> {{' 局' }}</el-tag>
+                    <el-tag class="game-room-table-horizontal-record-item" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '拉跨： '}} <CardsNum :value="player.loss"></CardsNum> {{' 局' }}</el-tag>
+                </div>
         </div>
         <div v-if="playerLocRoom.status === 1 && gameInfo !== null" id="game-room-table-vertical-container">
             <div id="game-room-table-vertical-box-info">
@@ -169,6 +179,7 @@ export default {
         seatIndex: { type: Number },
         ws: { type: WebSocket, default: null},
         sentGameTextToPlayer: { type: Object, default: null },
+        sentPlayerLocRomTypeChatMessage: { type: Object, default: null },
     },
 
     watch:{
@@ -253,6 +264,24 @@ export default {
                     }
                 })
             }
+        },
+
+        sentPlayerLocRomTypeChatMessage: function(newVal){
+            if(this.gameInfo !== null) return
+            if(newVal === undefined || newVal.nickname === undefined || newVal === null || newVal.text === undefined || newVal.text === '') return
+            this.$emit('typeChatMessageSent', this.seatIndex)
+            this.gameTextFromPlayer.push( '你说: ' + newVal.text )
+            this.$nextTick(function(){
+                if(this.gameTextFromPlayer.length > 0){
+                    this.isTooltipShow = true
+                    this.gameTextFromPlayerTimer = setTimeout( () => {
+                        this.gameTextFromPlayer.shift()
+                        if(this.gameTextFromPlayer.length === 0){
+                            this.isTooltipShow = false
+                        }
+                    }, 6000)
+                }
+            })
         },
 
         largeFontSize: {

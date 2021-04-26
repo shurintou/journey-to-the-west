@@ -50,6 +50,9 @@ export var chatRoomWebSocket = {
                 if( jsonData.type === 'chat'){
                     if(jsonData.player_loc === self.$store.state.player_loc){
                         self.sendMessageToChatRoom({ 'id' : 0, name : jsonData.userId ===  self.$store.state.id ? '你' : jsonData.nickname, type : 'info', 'text' : jsonData.text})
+                        if(jsonData.player_loc > 0){
+                            self.playerLocRomTypeChatMessageObject = {id: jsonData.userId, nickname: jsonData.nickname, text: jsonData.text}
+                        }
                     }
                 }
                 else if( jsonData.type === 'system' ){//聊天框显示系统信息
