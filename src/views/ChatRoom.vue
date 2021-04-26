@@ -19,7 +19,7 @@
       </el-header>
       <el-main :style="{backgroundImage: 'url(' + mainImg + ')', padding: '0px 0px 0px 5px'}">
         <GameRoomListModule v-if="$store.state.player_loc === 0" :largeFontSize="largeFontSize" :gameRoomItemWidth="gameRoomItemWidth" :gameRoomList="gameRoomList" :playerList="playerList" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}" @enterRoomDto="function(value){enterRoomDto= value}"></GameRoomListModule>
-        <GameRoomModule v-else :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="$refs.cardModule.playCardEmittedByRef()"></GameRoomModule>
+        <GameRoomModule v-else :playerLocRomTypeChatMessageObject="playerLocRomTypeChatMessageObject" :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList" :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="$refs.cardModule.playCardEmittedByRef()"></GameRoomModule>
       </el-main>
       <el-footer :height="footHeight">
         <el-container class="fill-height">
@@ -78,6 +78,7 @@ export default {
       gameResult: null,
       sentGameTextToPlayerObj:{ 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {},},
       loading: null,
+      playerLocRomTypeChatMessageObject: null,
     }
   },
 

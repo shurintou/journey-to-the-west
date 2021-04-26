@@ -77,6 +77,7 @@ export default {
         gameInfo: { type: Object, default: null },
         localPlayerSeatIndex: { type: Number },
         sentGameTextToPlayer: { type: Object, default: null },
+        sentPlayerLocRomTypeChatMessage: { type: Object, default: null },
     },
 
     watch:{
@@ -93,6 +94,24 @@ export default {
                 this.gameTextFromPlayer.push( this.gameInfo.gamePlayer[newVal.source].nickname + ' 对' + this.gameInfo.gamePlayer[newVal.target].nickname +  ' 说: ' + newVal.text )
             }
             playSound('quickChat/' + newVal.soundSrc)
+            this.$nextTick(function(){
+                if(this.gameTextFromPlayer.length > 0){
+                    this.isTooltipShow = true
+                    this.gameTextFromPlayerTimer = setTimeout( () => {
+                        this.gameTextFromPlayer.shift()
+                        if(this.gameTextFromPlayer.length === 0){
+                            this.isTooltipShow = false
+                        }
+                    }, 6000)
+                }
+            })
+        },
+
+        sentPlayerLocRomTypeChatMessage: function(newVal){
+            if(this.gameInfo !== null) return
+            if(newVal === undefined || newVal.nickname === undefined || newVal === null || newVal.text === undefined || newVal.text === '') return
+            this.$emit('typeChatMessageSent', this.seatIndex)
+            this.gameTextFromPlayer.push( newVal.nickname + ' 说: ' + newVal.text )
             this.$nextTick(function(){
                 if(this.gameTextFromPlayer.length > 0){
                     this.isTooltipShow = true

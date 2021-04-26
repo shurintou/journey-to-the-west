@@ -2,33 +2,33 @@
     <div id="game-room-box-horizontal" v-if="isHorizontal">
         <div id="game-room-box-horizontal-header">
             <div class="game-room-box-horizontal-header-item" style="margin-left: 15%; float:left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(5)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(5)]" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(5)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
             </div>
             <div class="game-room-box-horizontal-header-item" style="float: left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(4)]" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
             </div>
             <div class="game-room-box-horizontal-header-item" style="float: left">
-                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(3)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(3)]" :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(3)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
             </div>
         </div>
         <div id="game-room-box-horizontal-body">
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
                 <div class="game-room-box-horizontal-body-aside-item-top">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(6)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(6)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(6)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-horizontal-body-aside-item-bottom">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(7)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(7)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(7)]"></GameRoomPlayerItemModule>
                 </div>
             </div>
             <div id="game-room-box-horizontal-body-table" style="float: left;"> 
-                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(0)]" :player="playerLocRoom.playerList[calPlayersSeat(0)]" @playCard="$emit('playCard')"></GameRoomTableModule>
+                <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(0)]" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(0)]" :player="playerLocRoom.playerList[calPlayersSeat(0)]" @playCard="$emit('playCard')"></GameRoomTableModule>
             </div>
             <div class="game-room-box-horizontal-body-aside" style="float: left;">
                 <div class="game-room-box-horizontal-body-aside-item-top">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(2)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(2)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(2)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-horizontal-body-aside-item-bottom">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(1)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(1)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(1)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
                 </div>
             </div>
         </div>
@@ -36,33 +36,33 @@
     <div id="game-room-box-vertical" v-else>
         <div id="game-room-box-vertical-header">
             <div id="game-room-box-vertical-header-item">
-                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :isItemHorizontal="false" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
+                <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(4)]" :gameInfo="gameInfo" :isItemHorizontal="false" :seatIndex="calPlayersSeat(4)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(4)]"></GameRoomPlayerItemModule>
             </div>
         </div>
         <div id="game-room-box-vertical-body">
             <div class="game-room-box-vertical-body-aside" style="float:left">
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(5)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(5)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(5)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(5)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(6)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(6)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(6)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(7)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(7)]" :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(7)]"></GameRoomPlayerItemModule>
                 </div>
             </div>
              <div id="game-room-box-vertical-body-table"> 
-                <GameRoomTableModule :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(0)]" :player="playerLocRoom.playerList[calPlayersSeat(0)]" @playCard="$emit('playCard')"></GameRoomTableModule>
+                <GameRoomTableModule :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(0)]" :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws" :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(0)]" :player="playerLocRoom.playerList[calPlayersSeat(0)]" @playCard="$emit('playCard')"></GameRoomTableModule>
             </div>
             <div class="game-room-box-vertical-body-aside" style="float: right">
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(3)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(3)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(3)]" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(2)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(2)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(2)]" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
                 </div>
                 <div class="game-room-box-vertical-body-aside-item">
-                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(1)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]" :playerLocRoom="playerLocRoom" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
+                    <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize" :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(1)" :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]" :playerLocRoom="playerLocRoom" @typeChatMessageSent="function(seatIndex){sentPlayerLocRomTypeChatMessageObject[seatIndex]={}}" :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(1)]" :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex" :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
                 </div>
             </div>
         </div>
@@ -76,6 +76,7 @@ import GameRoomTableModule from '../gameRoom/GameRoomTableModule'
 export default {
     data() {
         return{
+            sentPlayerLocRomTypeChatMessageObject:{ 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {},},
         }
     },
 
@@ -90,6 +91,19 @@ export default {
         fontSize: { type: String, default: ''},
         largeFontSize: { type: String, default: ''},
         sentGameTextToPlayerObj: { type: Object, default: null },
+        playerLocRomTypeChatMessageObject: { type: Object, default: null },
+    },
+
+    watch:{
+        playerLocRomTypeChatMessageObject: function(newVal){
+            if(this.playerLocRoom === null)return
+            for(let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++){
+                if(this.playerLocRoom.playerList[this.calPlayersSeat(i)].id === newVal.id){
+                    this.sentPlayerLocRomTypeChatMessageObject[this.calPlayersSeat(i)] = newVal
+                    break
+                }
+            }
+        }
     },
 
     computed:{
