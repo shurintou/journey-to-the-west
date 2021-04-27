@@ -7,7 +7,9 @@
             <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum" :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage" @pageChanged="getGameRecordsList" @sendGameResultToPlayerInfoTab="function(value){$emit('sendGameResultToPlayerInfo', value)}"></GameResultsListModule>
         </el-tab-pane>
         <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
-        <el-tab-pane label="排行榜" name="rank">暂未开放</el-tab-pane>
+        <el-tab-pane label="排行榜" name="rank">
+            <RankModule :playerProfile = "playerProfile"></RankModule>
+        </el-tab-pane>
         <el-tab-pane label="设置" name="setting" v-if="playerProfile.id === $store.state.id">
             <SettingModule :fontSize="fontSize"></SettingModule>
         </el-tab-pane>
@@ -18,6 +20,7 @@
 import PlayerProfileModule from './tabs/PlayerProfileModule'
 import GameResultsListModule from './tabs/GameResultsListModule'
 import SettingModule from './tabs/SettingModule'
+import RankModule from './tabs/RankModule'
 import { getGameRecordsList } from '../../api/infoSearch'
 
 export default {
@@ -69,6 +72,7 @@ export default {
         PlayerProfileModule,
         GameResultsListModule,
         SettingModule,
+        RankModule,
     },
 }
 </script>

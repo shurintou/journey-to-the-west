@@ -37,6 +37,10 @@
                 </el-tooltip>
             </p> 
             <p class="player-profile-line">
+                <span>单次最大收牌：</span>
+                <span class="player-profile-line-right">{{  playerProfile.record.max_combo }}张</span>
+            </p>
+            <p class="player-profile-line">
                 <span>最少收牌数：</span>
                 <span class="player-profile-line-right">{{  playerProfile.record.min_card }}张</span>
             </p> 
