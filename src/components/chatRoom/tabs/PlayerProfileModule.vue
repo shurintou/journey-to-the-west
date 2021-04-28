@@ -37,28 +37,28 @@
                 </el-tooltip>
             </p> 
             <p class="player-profile-line">
-                <span>单次最大收牌：</span>
+                <span>单次最多收牌数：</span>
                 <span class="player-profile-line-right">{{  playerProfile.record.max_combo }}张</span>
             </p>
             <p class="player-profile-line">
-                <span>最少收牌数：</span>
-                <span class="player-profile-line-right">{{  playerProfile.record.min_card }}张</span>
+                <span>单局最少收牌数：</span>
+                <span class="player-profile-line-right">{{  playerProfile.record.least_cards === -1 ? 0 : playerProfile.record.least_cards }}张</span>
             </p> 
             <p class="player-profile-line">
-                <el-tooltip effect="light" content="最少收牌数占该局玩家平均收牌数的比例" placement="right">
-                  <span>最少收牌比：</span>
+                <el-tooltip effect="light" content="收牌数占该局玩家平均收牌数的比例(小于100%)" placement="right">
+                  <span>单局最低收牌比：</span>
                 </el-tooltip>
                 <el-tooltip effect="light" :content="playerProfile.record.min_card + ' / ' + playerProfile.record.min_card_amount" placement="left">
                 <span class="player-profile-line-right">{{ playerProfile.record.min_card_amount === 0? 0 : (playerProfile.record.min_card * 100 / playerProfile.record.min_card_amount).toFixed(1) }}%</span>
                 </el-tooltip>
             </p> 
             <p class="player-profile-line">
-                <span>最多收牌数：</span>
-                <span class="player-profile-line-right">{{  playerProfile.record.max_card }}张</span>
+                <span>单局最多收牌数：</span>
+                <span class="player-profile-line-right">{{  playerProfile.record.most_cards }}张</span>
             </p> 
             <p class="player-profile-line">
-                <el-tooltip effect="light" content="最多收牌数与该局玩家平均收牌数的比例" placement="right">
-                    <span>最多收牌比：</span>
+                <el-tooltip effect="light" content="收牌数占该局玩家平均收牌数的比例(至少100%)" placement="right">
+                    <span>单局最高收牌比：</span>
                 </el-tooltip>
                 <el-tooltip effect="light" :content="playerProfile.record.max_card + ' / ' + playerProfile.record.max_card_amount" placement="left">
                 <span class="player-profile-line-right">{{ playerProfile.record.max_card_amount === 0? 0 : (playerProfile.record.max_card * 100 / playerProfile.record.max_card_amount).toFixed(1) }}%</span>

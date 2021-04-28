@@ -1,5 +1,6 @@
 <template>
     <el-collapse v-model="activeName" @change="changeHandler" accordion>
+        
         <el-collapse-item name="level">
             <template slot="title">
                 <i class="el-icon-medal-1"></i>等级
@@ -11,6 +12,7 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="calLevel(rankInfo.playerInfo.record) + '级'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
+
         <el-collapse-item name="winner">
             <template slot="title">
                 <i class="el-icon-chicken"></i>吃鸡
@@ -22,17 +24,7 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
-        <el-collapse-item name="lowest_rate">
-            <template slot="title">
-                <i class="el-icon-trophy"></i>最少收牌比
-            </template>
-            <template v-if="rankInfo !== null">
-                <p>{{showTopThreeLabel}}</p>
-                <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="(item.record / 10) + '%'" :fontSize="fontSize"></RankItem>
-                <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
-            </template>
-        </el-collapse-item>
+
         <el-collapse-item name="loser">
             <template slot="title">
                 <i class="el-icon-delete"></i>拉跨
@@ -44,6 +36,7 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
+
          <el-collapse-item name="sum">
              <template slot="title">
                 <i class="el-icon-files"></i>总收牌数
@@ -55,9 +48,10 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
-        <el-collapse-item name="combo">
+
+          <el-collapse-item name="combo">
             <template slot="title">
-                <i class="el-icon-tickets"></i>单次最大收牌
+                <i class="el-icon-tickets"></i>单次最多收牌数
             </template>
             <template v-if="rankInfo !== null">
                 <p>{{showTopThreeLabel}}</p>
@@ -66,9 +60,22 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
-        <el-collapse-item name="highest_rate">
+
+        <el-collapse-item name="least_cards">
             <template slot="title">
-                <i class="el-icon-trophy-1"></i>最多收牌比
+                <i class="el-icon-medal"></i>单局最少收牌数
+            </template>
+            <template v-if="rankInfo !== null">
+                <p>{{showTopThreeLabel}}</p>
+                <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
+                <p>{{showPlayerName}}</p>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+            </template>
+        </el-collapse-item>
+
+        <el-collapse-item name="lowest_rate">
+            <template slot="title">
+                <i class="el-icon-trophy"></i>单局最低收牌比
             </template>
             <template v-if="rankInfo !== null">
                 <p>{{showTopThreeLabel}}</p>
@@ -77,6 +84,31 @@
                 <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
+
+        <el-collapse-item name="most_cards">
+            <template slot="title">
+                <i class="el-icon-s-data"></i>单局最多收牌数
+            </template>
+            <template v-if="rankInfo !== null">
+                <p>{{showTopThreeLabel}}</p>
+                <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
+                <p>{{showPlayerName}}</p>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+            </template>
+        </el-collapse-item>
+
+        <el-collapse-item name="highest_rate">
+            <template slot="title">
+                <i class="el-icon-trophy-1"></i>单局最高收牌比
+            </template>
+            <template v-if="rankInfo !== null">
+                <p>{{showTopThreeLabel}}</p>
+                <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="(item.record / 10) + '%'" :fontSize="fontSize"></RankItem>
+                <p>{{showPlayerName}}</p>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
+            </template>
+        </el-collapse-item>
+
     </el-collapse>
 </template>
 
