@@ -6,13 +6,13 @@
         <el-tab-pane label="过去对局" name="game">
             <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum" :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage" @pageChanged="getGameRecordsList" @sendGameResultToPlayerInfoTab="function(value){$emit('sendGameResultToPlayerInfo', value)}"></GameResultsListModule>
         </el-tab-pane>
-        <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
         <el-tab-pane label="排行榜" name="rank">
             <RankModule :playerProfile = "playerProfile" :fontSize="fontSize" :isShowing="isShowing"></RankModule>
         </el-tab-pane>
         <el-tab-pane label="设置" name="setting" v-if="playerProfile.id === $store.state.id">
             <SettingModule :fontSize="fontSize"></SettingModule>
         </el-tab-pane>
+        <el-tab-pane v-if="false" label="成就" name="achievement" disabled>暂未开放</el-tab-pane>
     </el-tabs>
 </template>
 
