@@ -9,7 +9,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="calLevel(item.record) + '级'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="calLevel(rankInfo.playerInfo.record) + '级'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="calLevel(rankInfo.playerInfo.record) + '级'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -21,7 +21,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '局'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -33,7 +33,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '局'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '局'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -45,7 +45,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -57,7 +57,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -69,7 +69,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -81,7 +81,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="(item.record / 10) + '%'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -93,7 +93,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="item.record + '张'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="rankInfo.playerInfo.record + '张'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -105,7 +105,7 @@
                 <p>{{showTopThreeLabel}}</p>
                 <RankItem v-for="item in rankInfo.rankList" :key="item.id" :rank="item.rank" :avatarId="item.avatarId" :nickname="item.nickname" :record="(item.record / 10) + '%'" :fontSize="fontSize"></RankItem>
                 <p>{{showPlayerName}}</p>
-                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="rankInfo.playerInfo.avatarId" :nickname="rankInfo.playerInfo.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
+                <RankItem v-if="rankInfo.playerInfo !== null" :rank="rankInfo.playerInfo.rank" :avatarId="playerProfile.avatar_id" :nickname="playerProfile.nickname" :record="(rankInfo.playerInfo.record / 10) + '%'" :fontSize="fontSize"></RankItem>
             </template>
         </el-collapse-item>
 
@@ -128,6 +128,7 @@ export default {
     props:{
         fontSize: {type: String, default: ''},
         playerProfile: {type: Object, default: null},
+        isShowing: {type: Boolean, default: false},
     },
 
     computed:{
@@ -149,6 +150,14 @@ export default {
             if(this.playerProfile === null)return ''
             if(this.rankInfo === null || this.rankInfo.rankList.length < 1)return '目前无排名数据'
             return '前三名'
+        }
+    },
+
+    watch:{
+        isShowing: function(newVal){
+            if(!newVal){
+                this.activeName = ''
+            }
         }
     },
 
