@@ -51,12 +51,10 @@
         </el-dialog>
 
         <el-dialog title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
-          <el-tabs type="border-card" v-model="activeHelpModuleTabName" @tab-click="handleHelpModuleTabClick">
-            <el-tab-pane label="游戏规则" name="rule">
-            </el-tab-pane>
-            <el-tab-pane label="等级经验" name="level">暂未开放</el-tab-pane>
-            <el-tab-pane label="成就条件" name="condition">暂未开放</el-tab-pane>
-          </el-tabs>
+            <HelpModule :isShowing="helpModuleDialogVisible" :fontSize="fontSize" :avatarSize="avatarSize"></HelpModule>
+           <span slot="footer" class="dialog-footer">
+              <el-button type="danger" @click="helpModuleDialogVisible = false" :style="{'font-size': fontSize}" :size="buttonSize">关闭</el-button>
+          </span>
         </el-dialog>
     </el-aside>
 </template>
@@ -66,6 +64,7 @@ import { modifyAvatar, modifyNickname } from '../../api/modify'
 import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
 import { getPlayerRecord } from '../../api/infoSearch'
 import AnimatedAvatar from '../gameRoom/fragment/AnimatedAvatar'
+import HelpModule from './HelpModule'
 
 export default {
 
@@ -79,7 +78,6 @@ export default {
         duplicateSubmitNicknameFlag: false,
         duplicateGetInfoFlag: false,
         activeViewModuleTabName: 'record',
-        activeHelpModuleTabName: 'rule',
         /* 头像数量 */
         iconNum: 35,
         /* 暂时选择的头像Id */
@@ -124,6 +122,7 @@ export default {
         ws: { type: WebSocket, default: null},
         isHorizontal: { type: Boolean, default: false},
         buttonSize: {type: String, default: ''},
+        avatarSize: {type: Number, default: 20},
     },
 
     computed:{
@@ -223,7 +222,6 @@ export default {
 
         openHelpModule: function(){
             this.helpModuleDialogVisible = true
-            this.activeHelpModuleTabName = 'rule'
         },
 
         handleHelpModuleTabClick: function(tab){
@@ -269,6 +267,7 @@ export default {
     components: {
       PlayerInfoTabModule,
       AnimatedAvatar,
+      HelpModule,
     }
 }
 </script>
