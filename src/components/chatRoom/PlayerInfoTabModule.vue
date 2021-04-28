@@ -8,7 +8,7 @@
         </el-tab-pane>
         <el-tab-pane label="成就" name="achievement">暂未开放</el-tab-pane>
         <el-tab-pane label="排行榜" name="rank">
-            <RankModule :playerProfile = "playerProfile"></RankModule>
+            <RankModule :playerProfile = "playerProfile" :fontSize="fontSize"></RankModule>
         </el-tab-pane>
         <el-tab-pane label="设置" name="setting" v-if="playerProfile.id === $store.state.id">
             <SettingModule :fontSize="fontSize"></SettingModule>
