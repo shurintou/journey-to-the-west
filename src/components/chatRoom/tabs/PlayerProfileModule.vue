@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { calAllStaffsOfExperience } from '../../../utils/experienceHandler'
+import { calExperience } from '../../../utils/calculator'
 
 export default {
     data() {
@@ -85,7 +85,7 @@ export default {
         'playerProfile.record.experience': {
             immediate: true,
             handler: function(newVal){
-            let result = calAllStaffsOfExperience(newVal)
+            let result = calExperience(newVal)
             this.currentExp = result.currentExp
             this.nextLevelExp = result.nextLevelExp
             this.level = result.level
