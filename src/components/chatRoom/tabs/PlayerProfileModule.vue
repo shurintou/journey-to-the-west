@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { calAllStaffsOfExperience } from '../../../utils/experienceHandler'
+
 export default {
     data() {
         return {
@@ -76,7 +78,6 @@ export default {
             expPecent: 0,
             currentExp: 0,
             nextLevelExp: 0,
-            levelUpExp: [100, 300, 600, 1000, 1500, 2200, 3000, 3900, 4900, 6000, 7500, 9300, 11500, 14200, 17500]
         }
     },
 
@@ -84,22 +85,11 @@ export default {
         'playerProfile.record.experience': {
             immediate: true,
             handler: function(newVal){
-            this.currentExp = newVal
-            for( var i = 0; i < this.levelUpExp.length; i++){
-                if(this.currentExp < this.levelUpExp[i]){
-                    this.nextLevelExp = this.levelUpExp[i]
-                    this.level = i + 1
-                    this.expPecent = Math.round(100 * this.currentExp / this.levelUpExp[i] )
-                    return
-                }
-                else{
-                    this.currentExp = this.currentExp - this.levelUpExp[i]
-                }
-            }
-            this.currentExp = NaN
-            this.nextLevelExp = NaN
-            this.level = 15
-            this.expPecent = 100
+            let result = calAllStaffsOfExperience(newVal)
+            this.currentExp = result.currentExp
+            this.nextLevelExp = result.nextLevelExp
+            this.level = result.level
+            this.expPecent = result.expPecent
         }}
     },
 
