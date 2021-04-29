@@ -90,6 +90,7 @@ export default {
                         { id: 20, music: "20", text: "牛掰"},
                         { id: 21, music: "21", text: "瘾"},
                         { id: 22, music: "22", text: "我好方啊"},
+                        { id: 23, music: "23", text: "来啊"},
                     ]
                 }
             ]
