@@ -62,7 +62,7 @@
             <p :style="{'font-size': fontSize}">从小到大排序。</p>
             <br>
             <h2 :style="{'font-size': fontSize}">多牌比较：</h2>
-            <p :style="{'font-size': fontSize}">当上家牌数量大于1时，比较规则为 <u>每张牌均不小于上家牌，并且其中至少有一张“大于”上家牌</u></p>
+            <p :style="{'font-size': fontSize}">当上家牌数量大于1时，比较规则为 <u>每张牌均不小于上家牌，并且其中至少有一张“大于”上家牌。</u></p>
             <p :style="{'font-size': fontSize}">例如上家打出以下牌型：</p>
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2C.png')"></el-avatar>
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2B.png')"></el-avatar>
@@ -106,8 +106,8 @@
             <p :style="{'font-size': fontSize}">此时上家打出了一个♠2，</p>
             <p :style="{'font-size': fontSize}">虽然大多数时候我们都从小牌出起，但考虑到局势的发展，如果我们接着打出♣4，等再次轮到我们时，上家牌极有可能是徒弟牌，而此时我们手上徒弟师傅牌不足，无法应付可能到来的情况。</p>
             <p :style="{'font-size': fontSize}">所以一个较为大胆的做法是：打出K或者A。这样大概率等再次轮到我们时，上家牌会是师傅或者一个点数较小的妖怪。</p>
-            <p :style="{'font-size': fontSize}">以上只是举例，实际情况可能更加复杂，须根据自己的手牌情况和场上局势来判断。</p>
-            <p :style="{'font-size': fontSize}">当然，如开头所说，牌局的走势大多数时候是不可控的，况且还有观音如来这些逆天因素的存在，以上方法并不总是有效，</p>
+            <p :style="{'font-size': fontSize}">当然，以上只是举例，实际情况可能更加复杂，须根据自己的手牌情况和场上局势来判断。</p>
+            <p :style="{'font-size': fontSize}">如开头所说，牌局的走势大多数时候是不可控的，况且还有观音如来这些逆天因素的存在，以上方法并不总是有效。</p>
         </el-tab-pane>
 
         <el-tab-pane label="常见问题" name="questions" lazy>
