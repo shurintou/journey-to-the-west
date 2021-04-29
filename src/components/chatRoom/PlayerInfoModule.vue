@@ -97,6 +97,8 @@ export default {
                 max_card_amount: 0,
                 min_card: 0,
                 min_card_amount: 0,
+                least_cards: 0,
+                most_cards: 0,
             }
         },
         checkNickname:  (rule, value, callback) => {
