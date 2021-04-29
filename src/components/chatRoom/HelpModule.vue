@@ -5,7 +5,6 @@
             <hr class="divider-line">
             <p :style="{'font-size': fontSize}">西游记是一种类似于“斗兽棋”的扑克牌游戏，进行该游戏至少需要2名玩家，可使用2~10副扑克牌，扑克牌数可依玩家人数酌情增减。</p>
             <p :style="{'font-size': fontSize}">另外，西游记的游戏规则各个地方不尽相同，以下游戏说明仅代表作者本人观点。</p>
-            
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-stopwatch"></i>游戏流程</h1>
             <hr class="divider-line">
             <h2 :style="{'font-size': fontSize}">开局：</h2>
@@ -15,14 +14,14 @@
             <h2 :style="{'font-size': fontSize}">出牌：</h2>
             <p :style="{'font-size': fontSize}">若台面上无牌，玩家可打出同一牌点(如♠A和<span style="color: red">♥A</span>)的任意张牌；若台面上有上家打出的牌，则下家须根据大小顺序打出 <u>张数相同且牌型“大于”上家牌的牌</u>，依次类推。</p>
             <h2 :style="{'font-size': fontSize}">连击：</h2>
-            <p :style="{'font-size': fontSize}">打出的牌计入连击牌池。并且当出牌数大于1时，每次连击还将产生倍乘效果。</p>
+            <p :style="{'font-size': fontSize}">打出的牌计入连击牌池，计+1。当出牌数大于1时，从第二次连击开始将产生倍乘效果。</p>
+            <p :style="{'font-size': fontSize}">如连续5人打出2张牌，则连击数计为： 2, 6(2+4), 12(6+6), 20(12+8), 30(20+10)。 </p>
             <h2 :style="{'font-size': fontSize}">补牌：</h2>
             <p :style="{'font-size': fontSize}">每次玩家出完牌后，若剩余牌堆里还有牌，则将手牌补到5张。</p>
             <h2 :style="{'font-size': fontSize}">收牌：</h2>
             <p :style="{'font-size': fontSize}">当玩家打不出“大于”牌时，则放弃出牌并收下所有连击牌池中的牌，计入自己的收牌数，然后重新开始出牌。</p>
             <h2 :style="{'font-size': fontSize}">结算：</h2>
             <p :style="{'font-size': fontSize}">当所有玩家的手牌出完后，结算所有玩家的收牌数，结束游戏。</p>
-
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-finished"></i>大小顺序</h1>
             <hr class="divider-line">
             <p :style="{'font-size': fontSize}">西游记使用全副扑克牌，牌点大小的比较类似于斗兽棋。</p>
@@ -76,13 +75,105 @@
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2D.png')"></el-avatar>
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2A.png')"></el-avatar>
             <p :style="{'font-size': fontSize}">虽然其中一张♠2比<span style="color: red">♥2</span>大，但<span style="color: red">♦2</span>小于♣2，不满足比较规则，所以不能打出。</p>
-
-
-            
-            <p :style="{'font-size': fontSize}"></p>
-
         </el-tab-pane>
-        <el-tab-pane label="等级经验" name="level" lazy>暂未开放</el-tab-pane>
+
+        <el-tab-pane label="游戏技巧" name="skill" lazy>
+            <p :style="{'font-size': fontSize}"><i class="el-icon-warning-outline"></i>西游记游戏本身并没有什么太多技巧，玩家收牌多少，运气占很大部分，以下技巧仅供参考。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>保持牌型</h1>
+            <hr class="divider-line">
+            <p :style="{'font-size': fontSize}">尽量保证自己手上有各种牌型：妖怪、徒弟、师傅，缺一不可。观音和如来则不到万不得已尽量不用，留作杀手锏。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>战略性收牌</h1>
+            <hr class="divider-line">
+            <p :style="{'font-size': fontSize}">当连击牌池中的牌数不多，且手上的牌如以下所示时</p>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2D.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2A.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2B.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/11A.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/3D.png')"></el-avatar>
+            <p :style="{'font-size': fontSize}">虽然收牌并不是我们想要的，但从长远的战略眼光来看，可以忍痛收下牌，然后把3个2一次性打出以调整自己的手牌组合。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>控制局势</h1>
+            <p :style="{'font-size': fontSize}">大部分情况下，牌局的走势是不受我们控制的，但我们仍然可以在一定范围内左右它。</p>
+            <p :style="{'font-size': fontSize}">比如一场5人局游戏，我们手上有以下牌型</p>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/4C.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/6B.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/13B.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/1D.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/8B.png')"></el-avatar>
+            <p :style="{'font-size': fontSize}">此时上家打出了一个♠2，</p>
+            <p :style="{'font-size': fontSize}">虽然大多数时候我们都从小牌出起，但考虑到局势的发展，如果我们接着打出♣4，等再次轮到我们时，上家牌极有可能是徒弟牌，而此时我们手上徒弟师傅牌不足，无法应付可能到来的情况。</p>
+            <p :style="{'font-size': fontSize}">所以一个较为大胆的做法是：打出K或者A。这样大概率等再次轮到我们时，上家牌会是师傅或者一个点数较小的妖怪。</p>
+            <p :style="{'font-size': fontSize}">以上只是举例，实际情况可能更加复杂，须根据自己的手牌情况和场上局势来判断。</p>
+            <p :style="{'font-size': fontSize}">当然，如开头所说，牌局的走势大多数时候是不可控的，况且还有观音如来这些逆天因素的存在，以上方法并不总是有效，</p>
+        </el-tab-pane>
+
+        <el-tab-pane label="常见问题" name="questions" lazy>
+            <el-collapse v-model="activeQuestionNames">
+                <el-collapse-item name="0">
+                    <template slot="title">
+                        <i class="el-icon-info"></i><span :style="{'font-size': fontSize}">作者建议</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">1：建议尽量使用当今的主流浏览器如Chorme, Safari, Firefox等。</p>
+                        <p :style="{'font-size': fontSize}">2：建议尽量使用大屏幕手机以防止画面出现元素重叠，溢出边界等问题。</p>
+                        <p :style="{'font-size': fontSize}">3：遇到问题时，可先尝试刷新网页。刷新后如果问题仍没有得到解决，请参考下面回答或联系作者。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="1">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q1：画面出现不正常抖动，溢出边界，渲染错误等问题？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">尽管作者已针对各种主流浏览器和移动端做出了响应式布局的设计，但仍然有部分移动端的尺寸会使得画面无法被正确渲染，解决的办法是尝试切换横竖屏后刷新网页。</p>
+                        <p :style="{'font-size': fontSize}">注意：切换横竖屏后不刷新网页可能会导致一些画面元素渲染位置不正确的问题。</p>
+                        <p :style="{'font-size': fontSize}">如果切换横竖屏刷新后仍不能解决您的问题，请将您所使用的移动端机型以及出现问题的画面截屏发送给作者以使我们作出针对该机型的调整，谢谢。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="2">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q2：设置了背景音乐和游戏音效开启但仍然没有声音？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">由于ios等移动端的限制，进入本网页时并不会自动播放音乐，而是需要点击屏幕一下以激活音乐播放器，才能成功播放音乐。</p>
+                        <p :style="{'font-size': fontSize}">如果您点击了屏幕后仍不会播放音乐，请将您所使用的浏览器和移动端机型发送给作者以使我们作出针对性的调整，谢谢。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="3">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q3：无法通过游戏内设置调整音量？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">如果您是ios用户，由于ios禁止通过网页调整系统音量，所以ios用户的设置面板上没有调整音量的选项。</p>
+                        <p :style="{'font-size': fontSize}">如果您不是ios用户，那么可以认为您使用的移动端也采取了与上述ios相同的策略，请将您的移动端机型发送给作者以使我们作出针对该机型的调整，谢谢。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="4">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q4：游戏内托管失败？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">由于本网页的游戏数据并没有设置锁机制，所以当网络延迟较大时，提交托管可能会失败，属正常行为。</p>
+                        <p :style="{'font-size': fontSize}">建议您在玩游戏时保持通畅的网咯。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="5">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q5：游戏内如何快速出牌？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">在选择好要出的牌后，除了点击“出牌”按钮，还可以通过点击台面来出牌。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="6">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q6：游戏进行时如何与玩家交流？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">本网页效仿了各种棋牌游戏的防作弊机制，即游戏进行中时不能通过打字与其他玩家交流。</p>
+                        <p :style="{'font-size': fontSize}">但我们仍为您准备了一些快速发言的语句，可以通过点击玩家或自己的计分板来选择要快速发言的语句。</p>
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
+        </el-tab-pane>
     </el-tabs>
 </template>
 
@@ -91,6 +182,7 @@ export default {
     data() {
         return{
             activeHelpModuleTabName: 'rule',
+            activeQuestionNames: ['0'],
         }
     },
 
@@ -104,6 +196,7 @@ export default {
         isShowing: function(newVal){
             if(newVal){
                 this.activeHelpModuleTabName = 'rule'
+                this.activeQuestionNames = ['0']
             }
         }
     },
