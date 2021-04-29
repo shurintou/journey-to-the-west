@@ -82,6 +82,9 @@
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>保持牌型</h1>
             <hr class="divider-line">
             <p :style="{'font-size': fontSize}">尽量保证自己手上有各种牌型：妖怪、徒弟、师傅，缺一不可。观音和如来则不到万不得已尽量不用，留作杀手锏。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>小牌先出</h1>
+            <hr class="divider-line">
+            <p :style="{'font-size': fontSize}">大多数时候，先把小牌打出去都是正确的选择，当然也有特殊情况，具体可参考下方“控制局势”。</p>
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>战略性收牌</h1>
             <hr class="divider-line">
             <p :style="{'font-size': fontSize}">当连击牌池中的牌数不多，且手上的牌如以下所示时</p>
@@ -92,6 +95,7 @@
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/3D.png')"></el-avatar>
             <p :style="{'font-size': fontSize}">虽然收牌并不是我们想要的，但从长远的战略眼光来看，可以忍痛收下牌，然后把3个2一次性打出以调整自己的手牌组合。</p>
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-star-on"></i>控制局势</h1>
+            <hr class="divider-line">
             <p :style="{'font-size': fontSize}">大部分情况下，牌局的走势是不受我们控制的，但我们仍然可以在一定范围内左右它。</p>
             <p :style="{'font-size': fontSize}">比如一场5人局游戏，我们手上有以下牌型</p>
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/4C.png')"></el-avatar>
