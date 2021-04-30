@@ -16,15 +16,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "chatroom" */ '../views/ChatRoom.vue')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  },
-  {
     path: '/register',
     name: 'Register',
     component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
-  }
+  },
 ]
 
 const router = new VueRouter({
