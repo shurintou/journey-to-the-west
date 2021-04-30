@@ -178,6 +178,39 @@
                 </el-collapse-item>
             </el-collapse>
         </el-tab-pane>
+
+        <el-tab-pane label="联系作者" name="contact" lazy>
+            <p :style="{'font-size': fontSize}"><i class="el-icon-info"></i>联系作者时请表明来意，并提供相应的问题截图、移动端机型和浏览器类型，谢谢。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-chat-dot-round"></i>社交媒体</h1>
+            <hr class="divider-line">
+            <el-row :gutter="20">
+                <el-col :span="2"><div style="visibility: hidden">123</div></el-col>
+                <el-col :span="10">
+                    <div style="text-align: center">
+                        <p :style="{'font-size': fontSize}">微信</p>
+                        <el-avatar shape="square" :size="avatarSize + 80" :src="require('@/assets/images/wechat-qr-code-min.png')"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="10">
+                    <div style="text-align: center">
+                        <p :style="{'font-size': fontSize}">line</p>
+                        <el-avatar shape="square" :size="avatarSize + 80" :src="require('@/assets/images/line-qr-code-min.png')"></el-avatar>
+                    </div>
+                </el-col>
+                <el-col :span="2"><div></div></el-col>
+            </el-row>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-chat-dot-round"></i>发送邮件</h1>
+            <hr class="divider-line">
+            <span :style="{'font-size': fontSize}">请发送邮件至</span><i class="el-icon-s-promotion"></i>
+            <el-link type="info" href="mailto:shurintou@gmail.com?subject = Hello">shurintou@gmail.com</el-link>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-chat-dot-round"></i>Github</h1>
+            <hr class="divider-line">
+            <p :style="{'font-size': fontSize}">如果您拥有Github账号，您也可以在上面向作者提出issue。</p>
+            <span :style="{'font-size': fontSize}">前端项目：</span><el-link type="success" href="https://github.com/shurintou/journey-to-the-west" target="_blank">https://github.com/shurintou/journey-to-the-west</el-link>
+            <br>
+            <span :style="{'font-size': fontSize}">后端项目：</span><el-link type="warning" href="https://github.com/shurintou/server-of-jttw" target="_blank">https://github.com/shurintou/server-of-jttw</el-link>
+            <p :style="{'font-size': fontSize}">如果您觉得本网页体验不错，您还可以在Github上给该项目点星<i class="el-icon-star-off"></i>以支持我们，谢谢。</p>
+        </el-tab-pane>
     </el-tabs>
 </template>
 
