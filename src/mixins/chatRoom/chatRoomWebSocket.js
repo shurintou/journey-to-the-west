@@ -33,7 +33,6 @@ export var chatRoomWebSocket = {
             this.ws = new WebSocket(url)
             this.ws.onopen = function(){
                 self.start()
-                self.loading.close()
                 self.ws.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
                 if(self.$store.state.player_loc > 0){
                     self.ws.send(JSON.stringify({ type: 'playerList', action: 'get'}))
@@ -143,6 +142,9 @@ export var chatRoomWebSocket = {
                         self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id , player_loc: 0, player_status: 0}))
                     }
                     self.gameRoomList = newGameRoomList
+                    self.$nextTick( () => {
+                        self.loading.close()
+                    })
                 }
                 else if(jsonData.type === 'game'){
                     if(jsonData.action === 'initialize' || self.gameInfo === null){
