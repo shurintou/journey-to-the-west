@@ -48,8 +48,8 @@
   </el-row>
 
   <el-row type="flex" justify="center">
-      <el-link type="info">关于本站</el-link>
-      <el-link type="info">用户须知</el-link>
+      <el-link type="info" @click="left_drawer = true">关于本站</el-link>
+      <el-link type="info" @click="right_drawer = true">用户须知</el-link>
   </el-row>
 
   <el-row type="flex" justify="center">
@@ -76,6 +76,60 @@
       </el-dialog>
   </el-row>
 
+  <el-drawer title="用户须知" :visible.sync="left_drawer" direction="ltr" size="300px" :with-header="false">
+    <div style="height: 100%" class="drawer_background">
+      <el-button style="float: right" icon="el-icon-back" size="small" type="info" effect="dark" @click="left_drawer = false"></el-button>
+      <div class="drawer_background">
+        <div style="margin-left: 3px;">
+          <br>
+          <br>
+          <h2 style="text-align: center">关于本站</h2>
+          <br>
+          <span> 以下是本网站的相关信息。</span>
+          <h4>网站定位</h4>
+          <p>本网站是由私人开设的非营利性网站，仅供授权许可的用户休闲娱乐使用。</p>
+          <h4>静态资源</h4>
+          <p>本网站所使用的图片，音效资源均来自于网络上公开或已授权资源，及作者本人制作。如您发现其中有涉及到侵权的行为，请及时联系作者，经确认后将下架相应资源。</p>
+          <h4>网站源码</h4>
+          <p>本网站所使用的源码均由本站作者所写，并开源于Github供他人学习、借鉴、参考。</p>
+          <h4>用户信息</h4>
+          <p>本网站尊重用户个人隐私，不公开、盗用、贩售用户的任何个人信息。</p>
+          <h4>关于作者</h4>
+          <p>本站作者是一名中途入行的程序员，目前也正在学习中。欢迎各种技术交流切磋，也欢迎针对本网站提出建设性的意见和建议。</p>
+          <br>
+          <p>本站作者享有关于以上内容的最终解释权。</p>
+        </div>
+      </div>
+    </div>
+  </el-drawer>
+
+  <el-drawer title="用户须知" :visible.sync="right_drawer" direction="rtl" size="300px" :with-header="false">
+    <div style="height: 100%" class="drawer_background">
+      <el-button icon="el-icon-right" size="small" type="info" effect="dark" @click="right_drawer = false"></el-button>
+      <div class="drawer_background">
+        <div style="margin-left: 3px;">
+          <br>
+          <br>
+          <h2 style="text-align: center">用户须知</h2>
+          <br>
+          <span> 用户在使用本网站之前请先了解下述事宜。</span>
+          <h4>禁止行为</h4>
+          <p>本网站所提供内容仅供休闲娱乐使用，不得将本网站用于赌博等非法用途，对于非法用途所造成的损失及法律责任，本网站概不负责。</p>
+          <h4>发布内容</h4>
+          <p>用户应遵守所在国家的相关法律，不得在本网站上发布非法的、骚扰性的、中伤他人的、辱骂性的、恐吓性的、伤害性的、庸俗的、淫秽等不良言论或内容。</p>
+          <p>用户对其所发布的内容单独承担全部法律责任，对于该内容所造成的不良影响与法律责任本站概不负责。</p>
+          <h4>郑重声明</h4>
+          <p>本站有可能在没有事先通知的情况下对网站信息进行修改，或者停止网站的使用。对于可能造成的用户损失本站概不负责。</p>
+          <p>对于用户由于使用了本网站而带来的直接的或间接的不良影响或损失，本站概不负责。</p>
+          <h4>关于链接</h4>
+          <p>本网站有可能链接到第三方网站，但本站对其内容的安全性和可靠性不承担任何责任。</p>
+          <br>
+          <p>本站作者享有关于以上内容的最终解释权。</p>
+        </div>
+      </div>
+    </div>
+  </el-drawer>
+
 </div>
 </template>
 
@@ -98,6 +152,8 @@ export default {
         qrDialogVisible: false,
         mailDialogVisible: false,
         duplicateLoginFlag: false,
+        left_drawer: false,
+        right_drawer: false,
         qrCodeUrl: '',
         loading: null,
         checkName:  (rule, value, callback) => {
@@ -247,4 +303,16 @@ export default {
         .shortHeight{
           line-height : 0px
         }
+
+        .drawer_background{
+          background-image: url('../assets/images/icon-select-background.png');
+          background-size: 100% 100%;
+        }
+</style>
+
+
+<style>
+.el-drawer__body {
+  overflow: auto;
+}
 </style>
