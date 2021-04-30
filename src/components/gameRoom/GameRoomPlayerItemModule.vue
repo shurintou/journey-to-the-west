@@ -186,7 +186,7 @@ export default {
                     return this.playerList[i]
                 }
             }
-            return { nickname: '空位', avatar_id: 0  }
+            return { nickname: '空位' + (this.seatIndex + 1), avatar_id: 0  }
         },
 
         getAvatarUrl: function(n){
