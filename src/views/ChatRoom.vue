@@ -96,6 +96,14 @@ export default {
     })
   },
 
+  beforeRouteEnter(to, from ,next){
+    next( vm => {
+      if(from.name === 'Login'){
+        vm.loading.close()
+      }
+    })
+  },
+
   components:{
     PlayerListModule,
     PlayerInfoModule,

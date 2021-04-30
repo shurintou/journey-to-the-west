@@ -138,7 +138,6 @@ export default {
             .catch({})
             .finally( ()=> {
                 this.duplicateLoginFlag = false
-                this.loading.close()
             })
          }
          else{
