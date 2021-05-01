@@ -119,12 +119,12 @@
                     <div>
                         <p :style="{'font-size': fontSize}">1：建议尽量使用当今的主流浏览器如Chorme, Safari, Firefox等。</p>
                         <p :style="{'font-size': fontSize}">2：建议尽量使用大屏幕手机以防止画面出现元素重叠，溢出边界等问题。</p>
-                        <p :style="{'font-size': fontSize}">3：遇到问题时，可先尝试刷新网页。刷新后如果问题仍没有得到解决，请参考下面回答或联系作者。</p>
+                        <p :style="{'font-size': fontSize}">3：遇到系统性问题时，可先尝试刷新网页。刷新后如果问题仍没有得到解决，请参考下面回答或联系作者。</p>
                     </div>
                 </el-collapse-item>
                 <el-collapse-item name="1">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q1：画面出现不正常抖动，溢出边界，渲染错误等问题？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：画面出现不正常抖动，溢出边界，渲染错误等问题？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">尽管作者已针对各种主流浏览器和移动端做出了响应式布局的设计，但仍然有部分移动端的尺寸会使得画面无法被正确渲染，解决的办法是尝试切换横竖屏后刷新网页。</p>
@@ -134,53 +134,77 @@
                 </el-collapse-item>
                 <el-collapse-item name="2">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q2：设置了背景音乐和游戏音效开启但仍然没有声音？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：登录网页时不想播放音乐？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">点击登录页面右上角的播放键即可关闭音乐的自动播放。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="3">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：设置了背景音乐和游戏音效开启但仍然没有声音？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">由于ios等移动端的限制，进入本网页时并不会自动播放音乐，而是需要点击屏幕一下以激活音乐播放器，才能成功播放音乐。</p>
                         <p :style="{'font-size': fontSize}">如果您点击了屏幕后仍不会播放音乐，请将您所使用的浏览器和移动端机型发送给作者以使我们作出针对性的调整，谢谢。</p>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item name="3">
+                <el-collapse-item name="4">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q3：无法通过游戏内设置调整音量？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：无法通过游戏内设置调整音量？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">如果您是ios用户，由于ios禁止通过网页调整系统音量，所以ios用户的设置面板上没有调整音量的选项。</p>
                         <p :style="{'font-size': fontSize}">如果您不是ios用户，那么可以认为您使用的移动端也采取了与上述ios相同的策略，请将您的移动端机型发送给作者以使我们作出针对该机型的调整，谢谢。</p>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item name="4">
+                <el-collapse-item name="5">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q4：游戏内托管失败？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：游戏内托管失败？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">由于本网页的游戏数据并没有设置锁机制，所以当网络延迟较大时，提交托管可能会失败，属正常行为。</p>
                         <p :style="{'font-size': fontSize}">建议您在玩游戏时保持通畅的网咯。</p>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item name="5">
+                <el-collapse-item name="6">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q5：游戏内如何快速出牌？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：游戏内如何快速出牌？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">在选择好要出的牌后，除了点击“出牌”按钮，还可以通过点击台面来出牌。</p>
                     </div>
                 </el-collapse-item>
-                <el-collapse-item name="6">
+                <el-collapse-item name="7">
                     <template slot="title">
-                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q6：游戏进行时如何与玩家交流？</span>
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：游戏进行时如何与玩家交流？</span>
                     </template>
                     <div>
                         <p :style="{'font-size': fontSize}">本网页效仿了各种棋牌游戏的防作弊机制，即游戏进行中时不能通过打字与其他玩家交流。</p>
-                        <p :style="{'font-size': fontSize}">但我们仍为您准备了一些快速发言的语句，可以通过点击玩家或自己的计分板来选择要快速发言的语句。</p>
+                        <p :style="{'font-size': fontSize}">但我们仍为您准备了一些快速发言的语句，可以通过点击玩家或自己的计分板来选择要说的话。</p>
+                    </div>
+                </el-collapse-item>
+                <el-collapse-item name="8">
+                    <template slot="title">
+                        <i class="el-icon-question"></i><span :style="{'font-size': fontSize}">Q：快速发言中的方言是？</span>
+                    </template>
+                    <div>
+                        <p :style="{'font-size': fontSize}">作者家乡的桂林话及一些自创的术语。其中</p>
+                        <p :style="{'font-size': fontSize}">洗：通日语「しね」(shi ne)，与叫玩家收牌的“收”一个意思，但表达语气更强烈。</p>
+                        <p :style="{'font-size': fontSize}">所所所：所，通日语师匠的匠「しょう」(syo)，意为“求师傅”。</p>
+                        <p :style="{'font-size': fontSize}">卷卷卷：桂林话的“转”，意味“求转向”。</p>
+                        <p :style="{'font-size': fontSize}">我霉了：霉，桂林话，一般指物理状态的软烂，此处大意为“我人没了”、“我烂掉了”、“我拉跨了”。</p>
+                        <p :style="{'font-size': fontSize}">瘾：桂林话，大意为“过瘾”、“痛快”。</p>
+                        <p :style="{'font-size': fontSize}">我好方啊：方，桂林话，意思同“慌”。</p>
                     </div>
                 </el-collapse-item>
             </el-collapse>
         </el-tab-pane>
 
         <el-tab-pane label="联系作者" name="contact" lazy>
-            <p :style="{'font-size': fontSize}"><i class="el-icon-info"></i>联系作者时请表明来意，并提供相应的问题截图、移动端机型和浏览器类型，谢谢。</p>
+            <i class="el-icon-info"></i><span :style="{'font-size': fontSize}">作者建议</span>
+            <p :style="{'font-size': fontSize}">如果您遇到问题或Bug，请尽快联系作者解决。同时也欢迎各种技术交流切磋，或针对本网站提出的建设性意见和建议。</p>
+            <p :style="{'font-size': fontSize}">联系作者时请表明来意，如果是报告问题或Bug请同时提供相应的截图、移动端机型和浏览器类型，谢谢。</p>
             <h1 :style="{'font-size': fontSize}"><i class="el-icon-chat-dot-round"></i>社交媒体</h1>
             <hr class="divider-line">
             <el-row :gutter="20">
