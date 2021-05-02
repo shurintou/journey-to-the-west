@@ -3,7 +3,7 @@ import { playSound } from '../../utils/soundHandler'
 export var chatRoomWebSocket = {
     data: function(){
         return {
-            wsUrl : 'ws://192.168.11.11:3000',
+            wsUrl : process.env.VUE_APP_WS_URL,
             /* 防止多次重连 */
             lockReconnect :false,
             /* 重连一定次数失败后不再重连 */
@@ -13,9 +13,10 @@ export var chatRoomWebSocket = {
             serverTimeoutObj: null,
             reconnectTimeoutObj: null,
             /* 断线重连间隔 */
-            wsDelay : 3000,
+            wsDelay : process.env.VUE_APP_WS_RECONNECT_PERIOD,
+            maxReconnectTImes: process.env.VUE_APP_WS_RECONNECT_MAX_TIMES,
             /* 心跳间隔 */
-            timeout : 15000,
+            timeout : process.env.VUE_APP_WS_HEART_BEAT_PERIOD,
             chatTextId : 0,
         }
     },
@@ -240,7 +241,7 @@ export var chatRoomWebSocket = {
             this.lockReconnect = true;
             this.reconnectTimeoutObj = setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
                 if(self.isLeave === false){
-                    if(self.reconnectTimes < 15){//离开页面后则不再刷新心跳
+                    if(self.reconnectTimes < self.maxReconnectTImes){//离开页面后则不再刷新心跳
                         self.reconnectTimes = self.reconnectTimes + 1
                         self.sendMessageToChatRoom({ 'id' : 0, name : '【系统消息】', type : 'warning', text : '与服务器连接断开，尝试重连中...'});
                         self.createWebSocket(self.wsUrl);

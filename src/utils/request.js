@@ -4,8 +4,8 @@ import router from '../router/'
 import {removeToken} from '../utils/cookie'
 
 const request = axios.create({
-    baseURL: 'http://192.168.11.11:3000/rest/v1',
-    timeout: 15000,
+    baseURL: process.env.VUE_APP_API_URL,
+    timeout: process.env.VUE_APP_API_TIMEOUT,
     withCredentials: true
 })
 
