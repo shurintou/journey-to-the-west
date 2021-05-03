@@ -193,10 +193,17 @@ export default {
             })
             login({username: this.validateForm.username, password: this.validateForm.password })
             .then( ( res ) => {
+              if(res.account){
                 this.$router.push({name: 'ChatRoom'})
                 this.$store.dispatch('initialization', res.account)
+              }
+              else{
+                this.loading.close()
+              }
             })
-            .catch({})
+            .catch( () =>{
+              this.loading.close()
+            })
             .finally( ()=> {
                 this.duplicateLoginFlag = false
             })
