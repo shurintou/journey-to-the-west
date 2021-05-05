@@ -281,8 +281,8 @@ export default {
 }
 
 .player-now-play-color {
-	-webkit-animation: player-now-play-color 10s linear alternate both;
-    animation: player-now-play-color 10s linear alternate both;
+	-webkit-animation: player-now-play-color 15s linear alternate both;
+    animation: player-now-play-color 15s linear alternate both;
 }
 
 @-webkit-keyframes player-now-play-color {
