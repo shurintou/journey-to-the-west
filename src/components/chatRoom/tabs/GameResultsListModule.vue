@@ -12,7 +12,7 @@
                     <el-avatar shape="square" :fit="'cover'" :src="require('@/assets/images/poker/game-result-ammount.png')"></el-avatar>
                 </div>
                 <div class="game-result-sub-item">
-                    <div><span :style="{'font-size': fontSize}">最大收牌: {{gameResult.max_combo}}张</span></div>
+                    <div><span :style="{'font-size': fontSize}">最大连击: {{gameResult.max_combo}}张</span></div>
                     <el-avatar shape="square" :fit="'cover'" :src="require('@/assets/images/poker/game-result-max-combo.png')"></el-avatar>
                 </div>
                 <div class="game-result-sub-item" @click="getGameResultInfo(gameResult.gameId)">

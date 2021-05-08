@@ -14,8 +14,9 @@
             <h2 :style="{'font-size': fontSize}">出牌：</h2>
             <p :style="{'font-size': fontSize}">若台面上无牌，玩家可打出同一牌点(如♠A和<span style="color: red">♥A</span>)的任意张牌；若台面上有上家打出的牌，则下家须根据大小顺序打出 <u>张数相同且牌型“大于”上家牌的牌</u>，依次类推。</p>
             <h2 :style="{'font-size': fontSize}">连击：</h2>
-            <p :style="{'font-size': fontSize}">打出的牌计入连击牌池，计+1。当出牌数大于1时，从第二次连击开始将产生倍乘效果。</p>
-            <p :style="{'font-size': fontSize}">如连续5人打出2张牌，则连击数计为： 2, 6(2+4), 12(6+6), 20(12+8), 30(20+10)。 </p>
+            <p :style="{'font-size': fontSize}">打出的牌计入连击牌池，计+1。当出牌数大于1时，从第二次连击开始将产生从出牌数起计的倍乘效果。</p>
+            <p :style="{'font-size': fontSize}">如连续5人打出2张牌，倍乘从2开始起计，则连击数计为： 2, 6(2+2*2), 12(6+3*2), 20(12+4*2), 30(20+5*2)。 </p>
+            <p :style="{'font-size': fontSize}">如连续5人打出3张牌，倍乘从3开始起计，则连击数计为： 3, 12(3+3*3), 24(12+4*3), 39(24+5*3), 57(39+6*3)。 </p>
             <h2 :style="{'font-size': fontSize}">补牌：</h2>
             <p :style="{'font-size': fontSize}">每次玩家出完牌后，若剩余牌堆里还有牌，则将手牌补到5张。</p>
             <h2 :style="{'font-size': fontSize}">收牌：</h2>

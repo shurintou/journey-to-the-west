@@ -27,7 +27,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column align="center" sortable prop="cards" label="总收牌" min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="maxCombo" label="最大收牌" min-width="60"></el-table-column>
+                        <el-table-column align="center" sortable prop="maxCombo" label="最大连击" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="wukong" label="使用悟空" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="bajie" label="使用八戒" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="shaseng" label="使用沙僧" min-width="60"></el-table-column>
@@ -39,7 +39,7 @@
             <el-tab-pane label="图形数据" name="visualData">
                 <el-button type="primary" :size="buttonSize" round @click="changeEchartSelected('')" style="margin-right: 1vw" :disabled="selectedLegend === ''">综合</el-button>
                 <el-button type="danger" :size="buttonSize" round @click="changeEchartSelected('all')" style="margin-right: 1vw" :disabled="selectedLegend === 'all'">总收牌</el-button>
-                <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')" style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大收牌</el-button>
+                <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')" style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大连击</el-button>
                 <el-button type="success" :size="buttonSize" round @click="changeEchartSelected('func')" :disabled="selectedLegend === 'func'">功能牌</el-button>
                 <el-divider></el-divider>
                 <div id="main" style="width: 80vw; height: 90vh;"></div>
@@ -150,22 +150,22 @@ export default {
             this.selectedLegend = type
             if(type === ''){
                 selectedArray = {
-                    '总收牌' : true, '最大收牌' : true, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                    '总收牌' : true, '最大连击' : true, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
                 }
             }
             else if(type === 'all'){
                 selectedArray = {
-                    '总收牌' : true, '最大收牌' : false, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                    '总收牌' : true, '最大连击' : false, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
                 }
             }
             else if(type === 'max'){
                 selectedArray = {
-                    '总收牌' : false, '最大收牌' : true, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                    '总收牌' : false, '最大连击' : true, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
                 }
             }
             else if(type === 'func'){
                 selectedArray = {
-                    '总收牌' : false, '最大收牌' : false, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                    '总收牌' : false, '最大连击' : false, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
                 }
             }
             this.myChart.setOption({
@@ -197,7 +197,7 @@ export default {
                     },
                     color: ['#F56C6C', '#E6A23C', '#91cc75', '#5470c6','#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
                     legend: {
-                        data: ['总收牌', '最大收牌', '使用悟空','使用八戒','使用沙僧','使用唐僧','使用反弹'],
+                        data: ['总收牌', '最大连击', '使用悟空','使用八戒','使用沙僧','使用唐僧','使用反弹'],
                         x: 'left',
                     },
                     grid: {
@@ -226,7 +226,7 @@ export default {
                             label: seriesLabelStyle
                         },
                         {
-                            name: '最大收牌',
+                            name: '最大连击',
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.maxCombo
