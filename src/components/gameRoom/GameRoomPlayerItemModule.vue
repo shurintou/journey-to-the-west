@@ -36,7 +36,7 @@
                                 <el-tag v-show="getGamePlayer.remainCards.length > 0" type="success" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '手牌数： ' + getGamePlayer.remainCards.length + ' 张' }}</el-tag>
                             </transition>
                             <el-tag :class="{'increase-num' : allCardsFlag}" type="info" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '总收牌： '}} <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum> {{' 张' }}</el-tag>
-                            <el-tag :class="{'increase-num' : comboFlag}" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大收牌： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
+                            <el-tag :class="{'increase-num' : comboFlag}" type="danger" effect="dark" :size="tagSize" :style="{'font-size': fontSize}">{{ '最大连击： '}} <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum> {{' 张' }}</el-tag>
                             </div>
                         </template>
                     </div>

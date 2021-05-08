@@ -37,7 +37,7 @@
                 </el-tooltip>
             </p> 
             <p class="player-profile-line">
-                <span>单次最多收牌数：</span>
+                <span>最大连击收牌数：</span>
                 <span class="player-profile-line-right">{{  playerProfile.record.max_combo }}张</span>
             </p>
             <p class="player-profile-line">

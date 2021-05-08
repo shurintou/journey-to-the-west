@@ -51,7 +51,7 @@
 
           <el-collapse-item name="combo">
             <template slot="title">
-                <i class="el-icon-tickets"></i>单次最多收牌数
+                <i class="el-icon-tickets"></i>最大连击收牌数
             </template>
             <template v-if="rankInfo !== null">
                 <p>{{showTopThreeLabel}}</p>
