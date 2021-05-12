@@ -1,20 +1,26 @@
 <template>
-    <el-dialog title="修改设置" :visible.sync="editGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="false" :before-close="closeEditGameRoomDialog">
+    <el-dialog :title="(!notEditableFlag?'修改': '查看') + '设置'" :visible.sync="editGameRoomDialogVisible" :width="dialogWidth" center :modal="false" :close-on-click-modal="notEditableFlag" :before-close="closeEditGameRoomDialog">
+        <el-alert v-if="notEditableFlag" :closable="false" center title="只有房主才能修改设置" :style="{'font-size': fontSize}" type="info"></el-alert>
         <el-form  :model="gameRoomValidateForm" ref="gameRoomValidateForm">
           <el-form-item label="房间名" prop="roomName" :rules="[{ required: true, message: '请输入房间名', trigger: 'blur' }]">
-              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off" maxlength="15" show-word-limit></el-input>
+              <el-input placeholder="请输入房间名" type="text" v-model="gameRoomValidateForm.roomName" autocomplete="off" maxlength="15" show-word-limit :disabled="notEditableFlag"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password" :rules="[{trigger: 'blur', validator: checkPassword}]">
-              <el-input placeholder="非必填，4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit></el-input>
+              <el-input placeholder="非必填，4到8位数字" v-model="gameRoomValidateForm.password" autocomplete="off" maxlength="8" show-word-limit :disabled="notEditableFlag"></el-input>
           </el-form-item>
         </el-form>
          <div>
           <span>使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
-          <el-slider v-model="gameRoomValidateForm.cardNum" :min="2" :max="10" :step="1" :show-tooltip="false"></el-slider>
+          <el-slider v-model="gameRoomValidateForm.cardNum" :min="2" :max="10" :step="1" :show-tooltip="false" :disabled="notEditableFlag"></el-slider>
         </div>
         <div slot="footer">
-            <el-button @click="closeEditGameRoomDialog" style="margin-right:10%">取消</el-button>
-            <el-button type="success" @click="editGameRoom">修改</el-button>
+            <template v-if="!notEditableFlag">
+                <el-button @click="closeEditGameRoomDialog" style="margin-right:10%">取消</el-button>
+                <el-button type="success" @click="editGameRoom">修改</el-button>
+            </template>
+            <template v-else>
+                <el-button type="primary" @click="closeEditGameRoomDialog">关闭</el-button>
+            </template>
         </div>
     </el-dialog>  
 </template>
@@ -24,6 +30,7 @@
 export default {
     data() {
         return {
+            notEditableFlag: true,
             gameRoomValidateForm: {
                 roomName: '',
                 password: '', 
@@ -52,6 +59,7 @@ export default {
         dialogWidth: { type: String, default: '' },
         ws: { type: WebSocket, default: null},
         playerLocRoom: { type: Object, default: null},
+        fontSize: { type: String, default: ''},
     },
 
     watch:{
@@ -61,7 +69,23 @@ export default {
                 this.gameRoomValidateForm.password = this.playerLocRoom.needPassword ? this.playerLocRoom.password : ''
                 this.gameRoomValidateForm.cardNum = this.playerLocRoom.cardNum
             }
-        }
+        },
+
+        'playerLocRoom.owner': {
+            immediate:true,
+            handler: function(newVal){
+                if(this.playerLocRoom === null){
+                    this.notEditableFlag = true
+                    return
+                } 
+                if(newVal === this.$store.state.id){
+                    this.notEditableFlag = false
+                }
+                else{
+                    this.notEditableFlag = true
+                }
+            },
+        },
     },
 
     methods:{
