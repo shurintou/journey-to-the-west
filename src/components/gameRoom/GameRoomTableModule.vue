@@ -1,8 +1,8 @@
 <template>
     <div v-if="isItemHorizontal" id="game-room-table-box">
         <div v-if="playerLocRoom.status === 0" id="game-room-table-horizontal-container">
-            <div @click="function(){ if(playerLocRoom.owner === player.id) editGameRoomDialogVisible = true }">
-                <el-alert style="margin-top: 3vh; padding: 0px" :style="{'font-size': fontSize}" :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
+            <div @click="function(){editGameRoomDialogVisible = true }">
+                <el-alert style="margin-top: 3vh; padding: 0px" :style="{'font-size': fontSize}" class="clickable" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '[查看]')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
             </div>
             <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
                 <el-image class="game-room-table-horizontal-poker-pool" :style="{'margin-left': n === 1 ? ( 50 - 5*playerLocRoom.cardNum ) + '' + '%': '0%' }" :src="require('@/assets/images/poker/poker-pool.png')"></el-image>
@@ -63,12 +63,12 @@
                  </el-popover>
             </el-tooltip>
         </div>
-        <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
+        <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" :fontSize="fontSize" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
     <div v-else id="game-room-table-box-vertical">
         <div v-if="playerLocRoom.status === 0" id="game-room-table-vertical-container">
-             <div @click="function(){ if(playerLocRoom.owner === player.id) editGameRoomDialogVisible = true }" id="game-room-table-vertical-room-info-top">
-                <el-alert :style="{'font-size': fontSize}" :class="{'clickable': playerLocRoom.owner === player.id}" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
+             <div @click="function(){editGameRoomDialogVisible = true }" id="game-room-table-vertical-room-info-top">
+                <el-alert :style="{'font-size': fontSize}" class="clickable" :title="playerLocRoom.name + ( playerLocRoom.owner === player.id ? ' [修改]' : '[查看]')" :description="  playerLocRoom.needPassword ? ' 密码： ' +  playerLocRoom.password : '' " type="info" center :closable="false"></el-alert>
             </div>
             <div id="game-room-table-vertical-room-info-middle">
                 <el-tooltip  v-for="n in playerLocRoom.cardNum" :key="n" effect="light" :content="'游戏使用牌数： ' + playerLocRoom.cardNum + '副'" placement="right-start">
@@ -137,7 +137,7 @@
                 </template>
              </el-popover>
         </div>
-        <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
+        <EditGameRoomDialogModule :editGameRoomDialogVisible="editGameRoomDialogVisible" :playerLocRoom="playerLocRoom" :dialogWidth="dialogWidth" :ws="ws" :fontSize="fontSize" @editGameRoomDialogVisible="function(value){ editGameRoomDialogVisible = value}"></EditGameRoomDialogModule>
     </div>
 </template>
 
