@@ -5,14 +5,15 @@
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
             <div v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
-                <p class="black-color-font" :style="{'font-size': fontSize}">{{getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')')}}</p>
-                <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
+                <p class="black-color-font" :style="{'font-size': fontSize, 'color': cardIndex < 100 ? 'black' : '#409EFF'}">{{getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')')}}</p>
+                <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n) || selectMetamorphoseCard.includes(n), 'card-not-selected' : !selectCard.includes(n) && cardIndex < 100, 'metamorphose-border': cardIndex >= 100 && !selectCard.includes(n) && !selectMetamorphoseCard.includes(n), 'cannot-choose-metamorphose': metamorphoseMode && (cardIndex < 100 || selectCard.includes(n))}" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
             </div>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
-            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="discard" :disabled="timer === null || getGamePlayer.online === false">不出</el-button>
-            <el-button :type="getGamePlayer.online === false ? 'info': 'warning'" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize }" :disabled="timer !== null" @click="shiftOnline">{{ getGamePlayer.online === false ? '取消' : '托管' }}</el-button>
-            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize }" @click="playCard" :disabled="timer === null || getGamePlayer.online === false">出牌</el-button>
+            <el-button type="danger" style="float:left;margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize, 'padding': paddingSize }" @click="discard" :disabled="timer === null || getGamePlayer.online === false || metamorphoseMode">不出</el-button>
+            <el-button :type="getGamePlayer.online === false ? 'info': 'warning'" style="float:left; margin-left:2%" :size="buttonSize" :style="{'font-size': fontSize, 'padding': paddingSize }" :disabled="timer !== null" @click="shiftOnline">{{ getGamePlayer.online === false ? '取消' : '托管' }}</el-button>
+            <el-button type="success" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize, 'padding': paddingSize }" @click="playCard" :disabled="timer === null || getGamePlayer.online === false">出牌</el-button>
+            <el-button :type="metamorphoseMode ? 'info' : 'primary'" style="float:right; margin-right:2%" :size="buttonSize" :style="{'font-size': fontSize, 'padding': paddingSize }" @click="shiftMetamorphoseMode" :disabled="timer === null || getGamePlayer.online === false">{{metamorphoseMode ? '取消' : '变身'}}</el-button>
         </div>
     </el-main>
 </template>
@@ -27,8 +28,10 @@ export default {
     data(){
         return {
             selectCard:[],
+            selectMetamorphoseCard: [],
             timer: null,
             time: 100,
+            metamorphoseMode: false,
             customColors: [
                 {color: '#F56C6C', percentage: 25},
                 {color: '#E6A23C', percentage: 50},
@@ -53,6 +56,8 @@ export default {
                 if(this.gameInfo === null || this.getGamePlayer.online === false || this.gameInfo.currentPlayer === -1) return
                 if(this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id){
                     this.time = 100
+                    this.metamorphoseMode = false
+                    this.selectMetamorphoseCard = []
                     this.selectCard = []
                     if(this.timer > 0){
                         clearInterval(this.timer)
@@ -113,6 +118,18 @@ export default {
                 }
             })
         },
+
+        paddingSize: function(){
+            if(this.buttonSize === 'medium'){
+                return '10px 20px'
+            }
+            else if(this.buttonSize === 'small'){
+                return '9px 15px'
+            }
+            else{
+                return '7px 10px'
+            }
+        },
     },
 
     methods:{
@@ -120,10 +137,36 @@ export default {
             clearInterval(this.timer)
             this.timer = null
             this.time = 100
+            this.metamorphoseMode = false
+            this.selectMetamorphoseCard = []
         },
 
         addSelectCard: function(n, cardIndex){
             playSound('click')
+            /* 变身模式 */
+            if(this.metamorphoseMode){
+                if(cardIndex < 100 || this.selectCard.includes(n)){
+                    this.$message.warning('请选择变身牌')
+                    return
+                }
+                /* 已选择的牌则取消选择 */
+                if(this.selectMetamorphoseCard.includes(n)){
+                    this.selectMetamorphoseCard = this.selectMetamorphoseCard.filter( card => card !== n)
+                    return
+                }
+                /* 判断是否超过长度 */
+                if(this.selectMetamorphoseCard.length + this.selectCard.length < (this.gameInfo.currentCard.length === 0 ? 5 : this.gameInfo.currentCard.length )){
+                    /* 未超过长度，加入数组 */
+                    this.selectMetamorphoseCard.push(n)
+                }
+                else{
+                    /* 超过长度，弹出最后加入的变身牌 */
+                    this.selectMetamorphoseCard.shift()
+                    this.selectMetamorphoseCard.push(n)
+                }
+                return
+            }
+            /* 非变身模式 */
             if(this.selectCard.length === 0){
                 this.selectCard.push(n)
             }
@@ -190,10 +233,14 @@ export default {
                 return
             }
             if(this.gameInfo.currentCard.length === 0){
+                if(this.metamorphoseMode && this.selectMetamorphoseCard.length === 0){
+                    this.$message.warning('请选择要打出的变身牌')
+                    return
+                }
                 this.sendPlayCard()
                 return
             }
-            if(this.selectCard.length !== this.gameInfo.currentCard.length){
+            if(this.selectCard.length + this.selectMetamorphoseCard.length !== this.gameInfo.currentCard.length){
                 this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
                 return
             }
@@ -207,6 +254,9 @@ export default {
                 let currentCardList = this.gameInfo.currentCard
                 let playCardList = []
                 this.selectCard.forEach( item => { playCardList.push( this.sortCardList[item] )})
+                if(this.metamorphoseMode){
+                    this.selectMetamorphoseCard.forEach( item => { playCardList.push( this.sortCardList[item] )})
+                }
                 if(currentCardList.length > 1){
                     currentCardList = currentCardList.sort((a,b) => {
                         return (this.getIndexOfCardList(a).suit) - (this.getIndexOfCardList(b).suit)
@@ -276,6 +326,11 @@ export default {
         sendPlayCard: function(){
             let playCardListValue = []
             this.selectCard.forEach( n => { playCardListValue.push(this.sortCardList[n])})
+            let originLength = playCardListValue.length //原形牌长度
+            let originIndex = playCardListValue[0]//原形牌牌面
+            if(this.metamorphoseMode){
+                this.selectMetamorphoseCard.forEach( n => { playCardListValue.push(this.sortCardList[n])})
+            }
             playCardListValue.forEach( value => {
                 for(let i = 0; i < this.getGamePlayer.remainCards.length; i++){
                     if( this.getGamePlayer.remainCards[i] === value ){
@@ -283,6 +338,20 @@ export default {
                         break
                     }
                 }
+            })
+            for(let i = 0; i < originLength; i++){//对原形牌处理，大于100则减100
+                if(playCardListValue[i] >= 100){
+                    playCardListValue[i] = playCardListValue[i] - 100
+                }
+            }
+            for(let j = originLength; j < playCardListValue.length; j++){//对变身牌处理，小于100则+100
+                playCardListValue[j] = originIndex + this.getIndexOfCardList(originIndex).suit - this.getIndexOfCardList(playCardListValue[j]).suit
+                if(playCardListValue[j] < 100){
+                    playCardListValue[j] = playCardListValue[j] + 100
+                }
+            }
+            playCardListValue.sort((a,b) =>{
+                return this.getIndexOfCardList(a).suit - this.getIndexOfCardList(b).suit
             })
             this.selectCard = []
             this.ws.send(JSON.stringify({ 
@@ -320,6 +389,36 @@ export default {
                 id: this.gameInfo.id, 
                 seatIndex: this.getSeatIndex,
             }))
+        },
+
+        shiftMetamorphoseMode: function(){
+            if(this.metamorphoseMode){
+                this.metamorphoseMode = false
+                this.selectMetamorphoseCard = []
+                return
+            }
+            if(this.selectCard.length === 0){
+                this.$message.warning('请先选择原形牌')
+                return
+            }
+            let unSelectedCardIndexList = this.sortCardList
+            unSelectedCardIndexList = unSelectedCardIndexList.filter( (val,index) => {
+                return !this.selectCard.includes(index)
+            })
+            const hasMetamorphoseCard = unSelectedCardIndexList.some( val => val >= 100)
+            if(!hasMetamorphoseCard){
+                this.$message.warning('没有可用的变身牌')
+                return
+            }
+            if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100 ){
+                this.$message.warning('无法变身观音或如来')
+                return
+            }
+            if(this.gameInfo.currentCard.length > 0 && this.selectCard.length >= this.gameInfo.currentCard.length ){
+                this.$message.warning('选择的原形牌过多')
+                return
+            }
+            this.metamorphoseMode = true
         },
     },
 
@@ -380,5 +479,16 @@ export default {
 .black-color-font{
     color: black;
     margin: 0;
+}
+
+.metamorphose-border{
+    border-width: 2%;
+    border-radius: 8px;
+    border-color: #409EFF;
+    border-style: solid;
+}
+
+.cannot-choose-metamorphose{
+    filter: brightness(60%);
 }
 </style>

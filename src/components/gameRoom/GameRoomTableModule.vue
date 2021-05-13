@@ -25,7 +25,7 @@
             <div id="game-room-table-horizontal-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
+                        <p class="white-color-font" :style="{'font-size': fontSize, 'color': cardIndex < 100 ? 'white' : '#409EFF'}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
                         <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
@@ -93,7 +93,7 @@
             <div id="game-room-table-vertical-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                      <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
+                        <p class="white-color-font" :style="{'font-size': fontSize, 'color': cardIndex < 100 ? 'white' : '#409EFF'}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
                         <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
