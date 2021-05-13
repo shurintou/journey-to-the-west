@@ -5,8 +5,8 @@
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
             <div v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" class="poker-card-item" :style="{'margin-left': n === 0 ? ( 50 - 7.5*getGamePlayer.remainCards.length ) + '' + '%': '0%' }">
-                <p class="black-color-font" :style="{'font-size': fontSize}">{{cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')')}}</p>
-                <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
+                <p class="black-color-font" :style="{'font-size': fontSize}">{{getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')')}}</p>
+                <el-image fit="fill" class="card-item" :class="{'is-card-selected' : selectCard.includes(n), 'card-not-selected' : !selectCard.includes(n)}" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')" @click="addSelectCard(n, cardIndex)"></el-image>
             </div>
         </div>
         <div id="card-module-bottom" v-if="getGamePlayer !== null">
@@ -105,11 +105,11 @@ export default {
             if(this.getGamePlayer === null) return null
             let sortedList = this.getGamePlayer.remainCards
             return sortedList.sort((a,b) =>{
-                if( this.cardList[a].num === this.cardList[b].num){
-                    return this.cardList[a].suit - this.cardList[b].suit
+                if( this.getIndexOfCardList(a).num === this.getIndexOfCardList(b).num){
+                    return this.getIndexOfCardList(a).suit - this.getIndexOfCardList(b).suit
                 }
                 else{
-                    return this.cardList[a].num - this.cardList[b].num
+                    return this.getIndexOfCardList(a).num - this.getIndexOfCardList(b).num
                 }
             })
         },
@@ -136,7 +136,7 @@ export default {
                 /* 判断是否超过长度 */
                 if(this.selectCard.length < (this.gameInfo.currentCard.length === 0 ? 5 : this.gameInfo.currentCard.length )){
                     /* 未超过长度，判断牌是否同一类型，是同一类型加入数组 */
-                    if(this.cardList[this.sortCardList[this.selectCard[0]]].num === this.cardList[cardIndex].num){
+                    if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num){
                         this.selectCard.push(n)
                     }
                     /* 不是则清空数组，重新加入新的牌型 */
@@ -149,7 +149,7 @@ export default {
                 }
                 else{
                     /* 超过长度，判断牌是否同一类型，是同一类型则弹出最后加入的牌 */
-                    if(this.cardList[this.sortCardList[this.selectCard[0]]].num === this.cardList[cardIndex].num){
+                    if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num){
                         this.selectCard.shift()
                         this.selectCard.push(n)
                     }
@@ -197,34 +197,34 @@ export default {
                 this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
                 return
             }
-            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 100 || this.cardList[this.gameInfo.currentCard[0]].num === 100){
+            if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100 || this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 100){
                 //打出的牌是反弹牌，或现有牌池是反弹牌，则无须比较
                 this.sendPlayCard()
                 return
             }
             /* 出的牌号数一样，则比较花色suit大小 */
-            if(this.cardList[this.sortCardList[this.selectCard[0]]].num === this.cardList[this.gameInfo.currentCard[0]].num){
+            if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(this.gameInfo.currentCard[0]).num){
                 let currentCardList = this.gameInfo.currentCard
                 let playCardList = []
                 this.selectCard.forEach( item => { playCardList.push( this.sortCardList[item] )})
                 if(currentCardList.length > 1){
                     currentCardList = currentCardList.sort((a,b) => {
-                        return (this.cardList[a].suit) - (this.cardList[b].suit)
+                        return (this.getIndexOfCardList(a).suit) - (this.getIndexOfCardList(b).suit)
                     })
                 }
                 if(playCardList.length > 1){
                     playCardList = playCardList.sort((a,b) => {
-                        return (this.cardList[a].suit) - (this.cardList[b].suit)
+                        return (this.getIndexOfCardList(a).suit) - (this.getIndexOfCardList(b).suit)
                     })
                 }
                 let largerFlag = false
                 let notSmallerFlag = true
                 for(let i = 0; i < playCardList.length; i++){
-                    if(this.cardList[playCardList[i]].suit > this.cardList[currentCardList[i]].suit ){
+                    if(this.getIndexOfCardList(playCardList[i]).suit > this.getIndexOfCardList(currentCardList[i]).suit ){
                         largerFlag = true
                         continue
                     }
-                    if(this.cardList[playCardList[i]].suit < this.cardList[currentCardList[i]].suit ){
+                    if(this.getIndexOfCardList(playCardList[i]).suit < this.getIndexOfCardList(currentCardList[i]).suit ){
                         notSmallerFlag = false
                         break
                     }
@@ -240,8 +240,8 @@ export default {
 
             /* 出的牌号不一样则分情况比较牌号num大小 */
             /* 都不是师傅的情况下 */
-            if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 30 && this.cardList[this.gameInfo.currentCard[0]].num < 30){
-                if(this.cardList[this.sortCardList[this.selectCard[0]]].num > this.cardList[this.gameInfo.currentCard[0]].num){
+            if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num < 30 && this.getIndexOfCardList(this.gameInfo.currentCard[0]).num < 30){
+                if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num > this.getIndexOfCardList(this.gameInfo.currentCard[0]).num){
                     this.sendPlayCard()
                 }
                 else{
@@ -251,8 +251,8 @@ export default {
             /* 有一方是师傅的情况下 */
             else{
                 /* 打出师傅 */
-                if(this.cardList[this.sortCardList[this.selectCard[0]]].num === 31){
-                    if(this.cardList[this.gameInfo.currentCard[0]].num > 20){
+                if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 31){
+                    if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num > 20){
                         this.sendPlayCard()
                     }
                     else{
@@ -261,8 +261,8 @@ export default {
                     return
                 }
                 /* 台面师傅 */
-                if(this.cardList[this.gameInfo.currentCard[0]].num === 31){
-                    if(this.cardList[this.sortCardList[this.selectCard[0]]].num < 20){
+                if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 31){
+                    if(this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num < 20){
                         this.sendPlayCard()
                     }
                     else{

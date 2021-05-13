@@ -12,6 +12,10 @@
           <span>使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
           <el-slider v-model="gameRoomValidateForm.cardNum" :min="2" :max="10" :step="1" :show-tooltip="false"></el-slider>
         </div>
+        <div>
+          <span>变身牌数：{{ gameRoomValidateForm.metamorphoseNum }}张/副</span>
+          <el-slider v-model="gameRoomValidateForm.metamorphoseNum" :min="0" :max="10" :step="2" :show-tooltip="false"></el-slider>
+        </div>
         <div slot="footer">
             <el-button @click="closeCreateGameRoomDialog" style="margin-right:10%">取消</el-button>
             <el-button type="success" @click="createGameRoom">创建</el-button>
@@ -28,6 +32,7 @@ export default {
                 roomName: '',
                 password: '', 
                 cardNum: 2,
+                metamorphoseNum: 4,
             },
             checkPassword:  (rule, value, callback) => {
                 if (value === '') {
@@ -77,6 +82,7 @@ export default {
                         needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
                         password: this.gameRoomValidateForm.password, 
                         cardNum: this.gameRoomValidateForm.cardNum, 
+                        metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
                         owner: this.$store.state.id, 
                         lastLoser: 0,
                         playerList: { 
@@ -101,6 +107,7 @@ export default {
             this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
             this.gameRoomValidateForm.password = ''
             this.gameRoomValidateForm.cardNum = 2
+            this.gameRoomValidateForm.metamorphoseNum = 4
         },
     }
 }

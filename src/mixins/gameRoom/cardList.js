@@ -60,4 +60,15 @@ export var cardList = {
             ],
         }
     },
+
+    methods:{
+        getIndexOfCardList: function(index){
+            if(index < 100){
+                console.log(this._uid)
+                return this.cardList[index]
+            }
+            console.log(this._uid)
+            return this.cardList[index - 100]
+        }
+    },
 }

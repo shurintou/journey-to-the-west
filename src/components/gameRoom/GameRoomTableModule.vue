@@ -25,15 +25,15 @@
             <div id="game-room-table-horizontal-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block" :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? tablePokerLeftMargin: '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
-                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
+                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
                 </template>
                 <template v-if="gameInfo.jokerCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 15vh; display: inline-block"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 && gameInfo.currentCard.length === 0 ? tablePokerLeftMargin: '0%'}">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
-                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name }}</p>
+                        <el-image style="height: 15vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
                     </div>
                 </template>
@@ -93,8 +93,8 @@
             <div id="game-room-table-vertical-box-top" @click="$emit('playCard')">
                 <template v-if="gameInfo.currentCard.length > 0">
                      <div v-for="(cardIndex, n) in gameInfo.currentCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%" :style="{'margin-left': n === 0 ? ( 50 - 10*gameInfo.currentCard.length ) + '' + '%': '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name  +  (cardList[cardIndex].num === 100? '' : ' (' + cardList[cardIndex].suit + ')') }}</p>
-                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name  +  (getIndexOfCardList(cardIndex).num === 100? '' : ' (' + getIndexOfCardList(cardIndex).suit + ')') }}</p>
+                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}</p>
                     </div>
                 </template>
@@ -102,8 +102,8 @@
             <div id="game-room-table-vertical-box-middle" @click="$emit('playCard')">
                 <template v-if="gameInfo.jokerCard.length > 0">
                     <div v-for="(cardIndex, n) in gameInfo.jokerCard" :key="cardIndex + '' + n" style="text-align:center; height: 10vh; display: inline-block; width: 20%"  :style="{'width': tablePokersWidth, 'margin-left': n === 0 ? ( 50 - 10*gameInfo.jokerCard.length ) + '' + '%': '0%' }">
-                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ cardList[cardIndex].name }}</p>
-                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + cardList[cardIndex].src  +'.png')"></el-image>
+                        <p class="white-color-font" :style="{'font-size': fontSize}">{{ getIndexOfCardList(cardIndex).name }}</p>
+                        <el-image style="height: 10vh" :src="require('@/assets/images/poker/' + getIndexOfCardList(cardIndex).src  +'.png')"></el-image>
                         <p class="white-color-font" :style="{'font-size': fontSize}">来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}</p>
                     </div>
                 </template>
@@ -201,7 +201,7 @@ export default {
             }
             //有反弹牌则优先发出反弹牌的音效
             if(this.gameInfo.jokerCard.length > 0){
-                if(this.cardList[this.gameInfo.jokerCard[0]].suit === 1){
+                if(this.getIndexOfCardList(this.gameInfo.jokerCard[0]).suit === 1){
                     playSound('playCard/guanyin')
                 }
                 else{
@@ -209,20 +209,20 @@ export default {
                 }
                 return
             }
-            if(this.cardList[this.gameInfo.currentCard[0]].num === 21){
+            if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 21){
                 playSound('playCard/shaseng')
             }
-            else if(this.cardList[this.gameInfo.currentCard[0]].num === 22){
+            else if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 22){
                 playSound('playCard/bajie')
             }
-            else if(this.cardList[this.gameInfo.currentCard[0]].num === 23){
+            else if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 23){
                 playSound('playCard/wukong')
             }
-            else if(this.cardList[this.gameInfo.currentCard[0]].num === 31){
+            else if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 31){
                 playSound('playCard/shifu')
             }
-            else if(this.cardList[this.gameInfo.currentCard[0]].num === 100){
-                if(this.cardList[this.gameInfo.currentCard[0]].suit === 1){
+            else if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 100){
+                if(this.getIndexOfCardList(this.gameInfo.currentCard[0]).suit === 1){
                     playSound('playCard/guanyin')
                 }
                 else{
