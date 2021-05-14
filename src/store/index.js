@@ -30,6 +30,7 @@ if ( localSettingStr === null ) {
       { id: 2, music: "2", text: "我等得花儿都谢了"}, 
       { id: 3, music: "3", text: "合作愉快"}, 
     ],
+    announceId: 0,
   }
 }
 else{
