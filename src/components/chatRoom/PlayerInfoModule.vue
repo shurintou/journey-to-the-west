@@ -226,10 +226,6 @@ export default {
             this.helpModuleDialogVisible = true
         },
 
-        handleHelpModuleTabClick: function(tab){
-            console.log(tab.name)
-        },
-
         getPlayerRecord: function(id, avatar_id, nickname){
           if(this.duplicateGetInfoFlag) return;
           this.duplicateGetInfoFlag = true
