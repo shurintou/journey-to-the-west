@@ -36,6 +36,12 @@
                 </el-select>
             </div>
         </div>
+        <div class="setting_item">
+            <div>
+                <span :style="{'font-size': fontSize}">变身牌边框</span>
+                <el-switch style="float: right" v-model="bianshenSwitch" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -183,7 +189,18 @@ export default {
                 setting.textToPlayer  = value
                 this.$store.dispatch('mutateSetting', setting)
             }
-        }
+        },
+
+        bianshenSwitch:{
+            get () {
+                return this.$store.state.setting.bianshenBorder 
+            },
+            set (value) {
+                let setting = this.$store.state.setting
+                setting.bianshenBorder  = value
+                this.$store.dispatch('mutateSetting', setting)
+            }
+        },
     },
 }
 </script>
