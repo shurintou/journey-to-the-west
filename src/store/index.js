@@ -19,6 +19,7 @@ if ( localSettingStr === null ) {
     bgmVolume : 100,
     soundVolume: 100,
     youTurnVoice: false,
+    bianshenBorder: true,
     textToPlayer: 
     [
       { id: 10, music: "10", text: "收"}, 
@@ -35,6 +36,19 @@ if ( localSettingStr === null ) {
 }
 else{
   localSetting = JSON.parse(localSettingStr)
+  let needSetLocal = false
+  //同步本地设置，如果有缺省项目的话则补充设置
+  if(localSetting.announceId === undefined){
+    localSetting.announceId = 0
+    needSetLocal = true
+  }
+  if(localSetting.bianshenBorder === undefined){
+    localSetting.bianshenBorder = true
+    needSetLocal= true
+  }
+  if(needSetLocal){
+    localStorage.setItem('setting', JSON.stringify(localSetting))
+  }
 }
 
 export default new Vuex.Store({
