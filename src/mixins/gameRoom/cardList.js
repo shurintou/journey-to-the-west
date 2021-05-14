@@ -60,4 +60,13 @@ export var cardList = {
             ],
         }
     },
+
+    methods:{
+        getIndexOfCardList: function(index){
+            if(index < 100){
+                return this.cardList[index]
+            }
+            return this.cardList[index - 100]
+        }
+    },
 }

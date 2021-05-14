@@ -76,6 +76,34 @@
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2D.png')"></el-avatar>
             <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2A.png')"></el-avatar>
             <p :style="{'font-size': fontSize}">虽然其中一张♠2比<span style="color: red">♥2</span>大，但<span style="color: red">♦2</span>小于♣2，不满足比较规则，所以不能打出。</p>
+            <h1 :style="{'font-size': fontSize}"><i class="el-icon-magic-stick"></i>变身牌</h1>
+            <hr class="divider-line">
+            <p :style="{'font-size': fontSize}">既然孙悟空有七十二变，那么西游记中自然不能缺少变身元素。</p>
+            <p :style="{'font-size': fontSize}">变身牌，顾名思义，可以改变自身牌面的牌。其规则和用法类似于部分地区斗地主中使用的“癞子牌”。</p>
+            <span :style="{'font-size': fontSize}">在游戏中，带有蓝色边框的牌即是变身牌，如:</span>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/bianshen-example.png')"></el-avatar>
+            <h2 :style="{'font-size': fontSize}">变身规则：</h2>
+            <p :style="{'font-size': fontSize}">1. 变身牌须搭配其他牌(原形牌)使用才有效，单独打出时等同于打出其自身。</p>
+            <span :style="{'font-size': fontSize}">如单独打出:</span>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/bianshen-example.png')"></el-avatar>
+            <br>
+            <span :style="{'font-size': fontSize}">相当于打出: </span>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/2A.png')"></el-avatar>
+            <br>
+            <span :style="{'font-size': fontSize}">如组合打出: </span>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/3D.png')"></el-avatar>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/bianshen-example.png')"></el-avatar>
+            <br>
+            <span :style="{'font-size': fontSize}">相当于打出: </span>
+            <el-avatar shape="square" :size="avatarSize + 40" :src="require('@/assets/images/poker/3D.png')"></el-avatar>
+            <el-avatar shape="square" style="margin-left: 0.5%" :size="avatarSize + 40" :src="require('@/assets/images/poker/3A.png')"></el-avatar>
+            <p :style="{'font-size': fontSize}">上述例子中，<span style="color: red">♦3</span>称为“原形牌”。</p>
+            <p :style="{'font-size': fontSize}">2. 变身牌变身后，牌点变为原形牌的牌点，花色保持自身的花色。</p>
+            <p :style="{'font-size': fontSize}">3. 变身牌不能变身观音或如来(即反弹牌)。</p>
+            <h2 :style="{'font-size': fontSize}">使用方法：</h2>
+            <p :style="{'font-size': fontSize}">1. 要使用变身牌，首先请选择要作为变身对象的原形牌，如上述<span style="color: red">♦3</span>。</p>
+            <p :style="{'font-size': fontSize}">2. 然后点击 <el-tag type="primary" effect="dark">变身</el-tag> 按钮，选择变身牌，如上述♠2。</p>
+            <p :style="{'font-size': fontSize}">3. 选好变身牌后，最后点击出牌即可。</p>
         </el-tab-pane>
 
         <el-tab-pane label="游戏技巧" name="skill" lazy>

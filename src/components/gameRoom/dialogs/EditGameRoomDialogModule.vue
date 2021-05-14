@@ -13,6 +13,10 @@
           <span>使用牌数：{{ gameRoomValidateForm.cardNum }}副</span>
           <el-slider v-model="gameRoomValidateForm.cardNum" :min="2" :max="10" :step="1" :show-tooltip="false" :disabled="notEditableFlag"></el-slider>
         </div>
+        <div>
+          <span>变身牌数：{{ gameRoomValidateForm.metamorphoseNum }}张/副</span>
+          <el-slider v-model="gameRoomValidateForm.metamorphoseNum" :min="0" :max="10" :step="2" :show-tooltip="false" :disabled="notEditableFlag"></el-slider>
+        </div>
         <div slot="footer">
             <template v-if="!notEditableFlag">
                 <el-button @click="closeEditGameRoomDialog" style="margin-right:10%">取消</el-button>
@@ -35,6 +39,7 @@ export default {
                 roomName: '',
                 password: '', 
                 cardNum: 2,
+                metamorphoseNum: 4,
             },
             checkPassword:  (rule, value, callback) => {
                 if (value === '') {
@@ -68,6 +73,7 @@ export default {
                 this.gameRoomValidateForm.roomName = this.playerLocRoom.name
                 this.gameRoomValidateForm.password = this.playerLocRoom.needPassword ? this.playerLocRoom.password : ''
                 this.gameRoomValidateForm.cardNum = this.playerLocRoom.cardNum
+                this.gameRoomValidateForm.metamorphoseNum = this.playerLocRoom.metamorphoseNum
             }
         },
 
@@ -92,7 +98,7 @@ export default {
         editGameRoom: function(){
             this.$refs.gameRoomValidateForm.validate(valid => {
                 if(valid){
-                    if( this.gameRoomValidateForm.roomName === this.playerLocRoom.name && this.gameRoomValidateForm.password === this.playerLocRoom.password && this.gameRoomValidateForm.cardNum === this.playerLocRoom.cardNum ){
+                    if( this.gameRoomValidateForm.roomName === this.playerLocRoom.name && this.gameRoomValidateForm.password === this.playerLocRoom.password && this.gameRoomValidateForm.cardNum === this.playerLocRoom.cardNum && this.gameRoomValidateForm.metamorphoseNum === this.playerLocRoom.metamorphoseNum ){
                         this.closeEditGameRoomDialog()
                         return
                     }
@@ -104,8 +110,11 @@ export default {
                         needPassword: this.gameRoomValidateForm.password.length > 0 ? true: false,
                         password: this.gameRoomValidateForm.password, 
                         cardNum: this.gameRoomValidateForm.cardNum, 
+                        metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
                     }))
-                    this.closeEditGameRoomDialog()
+                    setTimeout(() =>{
+                        this.closeEditGameRoomDialog()
+                    }, 100)
                 }
             })
         },
@@ -116,6 +125,7 @@ export default {
             this.gameRoomValidateForm.roomName = this.playerLocRoom.name
             this.gameRoomValidateForm.password = this.playerLocRoom.needPassword ? this.playerLocRoom.password : ''
             this.gameRoomValidateForm.cardNum = this.playerLocRoom.cardNum
+            this.gameRoomValidateForm.metamorphoseNum = this.playerLocRoom.metamorphoseNum
         },
     }
 }

@@ -33,6 +33,7 @@
                         <el-table-column align="center" sortable prop="shaseng" label="使用沙僧" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="tangseng" label="使用唐僧" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="joker" label="使用反弹" min-width="60"></el-table-column>
+                        <el-table-column align="center" sortable prop="bianshen" label="使用变身" min-width="60"></el-table-column>
                     </el-table>
                 </div>
             </el-tab-pane>
@@ -150,22 +151,22 @@ export default {
             this.selectedLegend = type
             if(type === ''){
                 selectedArray = {
-                    '总收牌' : true, '最大连击' : true, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                    '总收牌' : true, '最大连击' : true, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true, '使用变身': true
                 }
             }
             else if(type === 'all'){
                 selectedArray = {
-                    '总收牌' : true, '最大连击' : false, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                    '总收牌' : true, '最大连击' : false, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false, '使用变身': false
                 }
             }
             else if(type === 'max'){
                 selectedArray = {
-                    '总收牌' : false, '最大连击' : true, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false
+                    '总收牌' : false, '最大连击' : true, '使用悟空' : false, '使用八戒' : false, '使用沙僧' : false, '使用唐僧' : false, '使用反弹' : false, '使用变身': false
                 }
             }
             else if(type === 'func'){
                 selectedArray = {
-                    '总收牌' : false, '最大连击' : false, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true
+                    '总收牌' : false, '最大连击' : false, '使用悟空' : true, '使用八戒' : true, '使用沙僧' : true, '使用唐僧' : true, '使用反弹' : true, '使用变身': true
                 }
             }
             this.myChart.setOption({
@@ -197,7 +198,7 @@ export default {
                     },
                     color: ['#F56C6C', '#E6A23C', '#91cc75', '#5470c6','#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
                     legend: {
-                        data: ['总收牌', '最大连击', '使用悟空','使用八戒','使用沙僧','使用唐僧','使用反弹'],
+                        data: ['总收牌', '最大连击', '使用悟空','使用八戒','使用沙僧','使用唐僧','使用反弹','使用变身'],
                         x: 'left',
                     },
                     grid: {
@@ -270,6 +271,14 @@ export default {
                             type: 'bar',
                             data: this.gamePlayerList.map(function(obj){
                                 return obj.joker
+                            }),
+                            label: seriesLabelStyle
+                        },
+                        {
+                            name: '使用变身',
+                            type: 'bar',
+                            data: this.gamePlayerList.map(function(obj){
+                                return obj.bianshen
                             }),
                             label: seriesLabelStyle
                         },
