@@ -36,6 +36,7 @@
   <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto" :dialogWidth="dialogWidth" :ws="ws" @enterGameRoomDialogVisible="function(value){enterGameRoomDialogVisible = value}"></EnterGameRoomDialogModule>
   <AskChangeSeatDialogModule :askChangeSeatDialogVisible="askChangeSeatDialogVisible" :askChangeSeatInfo="askChangeSeatInfo" :playerList="playerList" :buttonSize="buttonSize" :fontSize="fontSize" :dialogWidth="dialogWidth" :ws="ws" @askChangeSeatDialogVisible="function(value){askChangeSeatDialogVisible= value}"></AskChangeSeatDialogModule>
   <GameResultDialogModule :gameResult="gameResult" :gameResultDialogVisible="gameResultDialogVisible" :avatarSize="avatarSize" :fontSize="fontSize" :tagSize="tagSize" :popupWidth="popupWidth" :buttonSize="buttonSize" :dialogWidth="dialogWidth" :largeDialogWidth="largeDialogWidth" :largeFontSize="largeFontSize" @gameResultDialogVisible="function(value){gameResultDialogVisible= value}"></GameResultDialogModule>
+  <AnnounceDialogModule :announceDialogVisible="announceDialogVisible" :dialogWidth="dialogWidth" :avatarSize="avatarSize" :fontSize="largeFontSize" @announceDialogVisible="announceViewHandler"></AnnounceDialogModule>
 </div>
 </template>
 
@@ -55,6 +56,7 @@ import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameR
 import GameRoomModule from '../components/gameRoom/GameRoomModule'
 import AskChangeSeatDialogModule from '../components/gameRoom/dialogs/AskChangeSeatDialogModule'
 import GameResultDialogModule from '../components/gameRoom/dialogs/GameResultDialogModule'
+import AnnounceDialogModule from '../components/chatRoom/dialogs/AnnounceDialogModule'
 import CardModule from '../components/gameRoom/CardModule'
 
 export default {
@@ -69,6 +71,8 @@ export default {
       enterGameRoomDialogVisible: false,
       askChangeSeatDialogVisible: false,
       gameResultDialogVisible: false,
+      announceDialogVisible: false,
+      announceVersionId: 1, //每次更新公告须修改此处, +1
       playerList: [],
       gameRoomList: [],
       playerLocRoom: null,
@@ -85,6 +89,12 @@ export default {
   mixins:[chatRoomWebSocket, chatRoomResize],
  
   methods:{
+    announceViewHandler: function(value){
+      this.announceDialogVisible = value
+      let setting = this.$store.state.setting
+      setting.announceId = this.announceVersionId
+      this.$store.dispatch('mutateSetting', setting)
+    }
   },
 
   created: function(){
@@ -94,6 +104,14 @@ export default {
       spinner: 'el-icon-loading',
       background: 'rgba(255, 255, 255, 0.7)'
     })
+  },
+
+  mounted: function(){
+    let setting = JSON.parse(localStorage.getItem('setting'))
+    let announceId = setting?.announceId === undefined ? 0 : setting.announceId
+    if(announceId < this.announceVersionId){
+      this.announceDialogVisible = true
+    }
   },
 
   beforeRouteEnter(to, from ,next){
@@ -119,6 +137,7 @@ export default {
     AskChangeSeatDialogModule,
     CardModule,
     GameResultDialogModule,
+    AnnounceDialogModule,
   },
 }
 </script>
