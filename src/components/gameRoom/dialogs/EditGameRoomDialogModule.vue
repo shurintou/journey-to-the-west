@@ -15,7 +15,7 @@
         </div>
         <div>
           <span>变身牌数：{{ gameRoomValidateForm.metamorphoseNum }}张/副</span>
-          <el-slider v-model="gameRoomValidateForm.metamorphoseNum" :min="0" :max="10" :step="2" :show-tooltip="false"></el-slider>
+          <el-slider v-model="gameRoomValidateForm.metamorphoseNum" :min="0" :max="10" :step="2" :show-tooltip="false" :disabled="notEditableFlag"></el-slider>
         </div>
         <div slot="footer">
             <template v-if="!notEditableFlag">
@@ -112,7 +112,9 @@ export default {
                         cardNum: this.gameRoomValidateForm.cardNum, 
                         metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
                     }))
-                    this.closeEditGameRoomDialog()
+                    setTimeout(() =>{
+                        this.closeEditGameRoomDialog()
+                    }, 100)
                 }
             })
         },

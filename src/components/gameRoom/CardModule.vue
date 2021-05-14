@@ -414,7 +414,11 @@ export default {
                 this.$message.warning('无法变身观音或如来')
                 return
             }
-            if(this.gameInfo.currentCard.length > 0 && this.selectCard.length >= this.gameInfo.currentCard.length ){
+            if(this.gameInfo.currentCard.length === 1){
+                this.$message.warning('出1张牌时不能使用变身')
+                return
+            }
+            if(this.gameInfo.currentCard.length > 1 && this.selectCard.length >= this.gameInfo.currentCard.length ){
                 this.$message.warning('选择的原形牌过多')
                 return
             }
