@@ -5,7 +5,6 @@
 [![](https://img.shields.io/badge/Element--UI-2.15-blue)](https://element.eleme.io/#/zh-CN)
 [![](https://img.shields.io/badge/Echarts-5.0-red)](https://echarts.apache.org/zh/index.html)
 
-项目地址: [https://www.jttw.link](https://www.jttw.link)
 
 西游记是一款网页联机式的纸牌类游戏，该项目是西游记的前端部分。后端部分请参考 [https://github.com/shurintou/server-of-jttw](https://github.com/shurintou/server-of-jttw)。
 
