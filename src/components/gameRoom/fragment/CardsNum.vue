@@ -1,5 +1,5 @@
 <template>
-    <span>{{tweeningValue}}</span>
+    <span>{{ tweeningValue }}</span>
 </template>
 
 <script>
@@ -7,25 +7,25 @@ const TWEEN = require('@tweenjs/tween.js')
 
 export default {
     data() {
-        return{
+        return {
             tweeningValue: 0,
         }
     },
 
-    props:{
+    props: {
         value: { type: Number, required: true }
     },
 
-    watch:{
-        value: function (newValue, oldValue){
-            if(newValue > oldValue && newValue > 0){
-                this.$emit( 'increased' )
+    watch: {
+        value: function (newValue, oldValue) {
+            if (newValue > oldValue && newValue > 0) {
+                this.$emit('increased')
             }
             let diff = Math.abs(newValue - oldValue)
-            if(diff > 1){
+            if (diff > 1) {
                 this.tween(oldValue, newValue)
             }
-            else{
+            else {
                 this.tweeningValue = newValue
             }
         }
@@ -38,18 +38,18 @@ export default {
     methods: {
         tween: function (startValue, endValue) {
             var vm = this
-            function animate () {
+            function animate() {
                 if (TWEEN.update()) {
                     requestAnimationFrame(animate)
                 }
             }
 
             new TWEEN.Tween({ tweeningValue: startValue })
-            .to({ tweeningValue: endValue }, 1000)
-            .onUpdate(function (object) {
-            vm.tweeningValue = object.tweeningValue.toFixed(0)
-            })
-            .start()
+                .to({ tweeningValue: endValue }, 1000)
+                .onUpdate(function (object) {
+                    vm.tweeningValue = object.tweeningValue.toFixed(0)
+                })
+                .start()
 
             animate()
         },

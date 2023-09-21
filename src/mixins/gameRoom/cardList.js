@@ -1,5 +1,5 @@
 export var cardList = {
-    data: function(){
+    data: function () {
         return {
             cardList: [
                 /* 行数-6即是下标数 */
@@ -61,9 +61,9 @@ export var cardList = {
         }
     },
 
-    methods:{
-        getIndexOfCardList: function(index){
-            if(index < 100){
+    methods: {
+        getIndexOfCardList: function (index) {
+            if (index < 100) {
                 return this.cardList[index]
             }
             return this.cardList[index - 100]

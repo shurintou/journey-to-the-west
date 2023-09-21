@@ -10,20 +10,20 @@ import { playBgm } from '../../utils/soundHandler'
 
 export default {
     data() {
-        return{
+        return {
 
         }
     },
 
-    methods:{
-        turnOnOffMusic: function(){
+    methods: {
+        turnOnOffMusic: function () {
             let setting = this.$store.state.setting
             let flag = !setting.playBgm
             setting.playBgm = flag
             this.$store.dispatch('mutateSetting', setting)
-            .then( () => {
-                playBgm()
-            })
+                .then(() => {
+                    playBgm()
+                })
         }
     }
 }

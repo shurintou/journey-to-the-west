@@ -1,13 +1,18 @@
 <template>
-     <el-tabs v-if="playerProfile !== null" type="border-card" v-model="activeViewModuleTabName" @tab-click="handleViewModuleTabClick">
+    <el-tabs v-if="playerProfile !== null" type="border-card" v-model="activeViewModuleTabName"
+        @tab-click="handleViewModuleTabClick">
         <el-tab-pane label="个人战绩" name="record">
-            <PlayerProfileModule :playerProfile = "playerProfile"></PlayerProfileModule>
+            <PlayerProfileModule :playerProfile="playerProfile"></PlayerProfileModule>
         </el-tab-pane>
         <el-tab-pane label="过去对局" name="game">
-            <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum" :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage" @pageChanged="getGameRecordsList" @sendGameResultToPlayerInfoTab="function(value){$emit('sendGameResultToPlayerInfo', value)}"></GameResultsListModule>
+            <GameResultsListModule :gameResultsList="gameResultsList" :gameResultsPageNum="gameResultsPageNum"
+                :fontSize="fontSize" :isHorizontal="isHorizontal" :currentPage="gameResultListCurrentPage"
+                @pageChanged="getGameRecordsList"
+                @sendGameResultToPlayerInfoTab="function (value) { $emit('sendGameResultToPlayerInfo', value) }">
+            </GameResultsListModule>
         </el-tab-pane>
         <el-tab-pane label="排行榜" name="rank">
-            <RankModule :playerProfile = "playerProfile" :fontSize="fontSize" :isShowing="isShowing"></RankModule>
+            <RankModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="isShowing"></RankModule>
         </el-tab-pane>
         <el-tab-pane label="设置" name="setting" v-if="playerProfile.id === $store.state.id">
             <SettingModule :fontSize="fontSize"></SettingModule>
@@ -25,50 +30,50 @@ import { getGameRecordsList } from '../../api/infoSearch'
 
 export default {
     data() {
-        return{
+        return {
             gameResultsList: [],
-            gameResultsPageNum : 0,
-            activeViewModuleTabName : 'record',
+            gameResultsPageNum: 0,
+            activeViewModuleTabName: 'record',
             gameResultListCurrentPage: 1,
         }
     },
 
-    props:{
-        playerProfile: {type: Object, default: null},
-        fontSize: {type: String, default: ''},
-        isShowing: {type: Boolean, default: false},
-        isHorizontal: {type: Boolean, default: false},
+    props: {
+        playerProfile: { type: Object, default: null },
+        fontSize: { type: String, default: '' },
+        isShowing: { type: Boolean, default: false },
+        isHorizontal: { type: Boolean, default: false },
     },
 
-    watch:{
-        isShowing: function(newVal){
-            if(newVal){
+    watch: {
+        isShowing: function (newVal) {
+            if (newVal) {
                 this.activeViewModuleTabName = 'record'
             }
         }
     },
 
-    methods:{
-        handleViewModuleTabClick: function(tab){
-            if(tab.name === 'game'){
+    methods: {
+        handleViewModuleTabClick: function (tab) {
+            if (tab.name === 'game') {
                 this.getGameRecordsList(1)
             }
         },
 
-        getGameRecordsList: function(page){
+        getGameRecordsList: function (page) {
             this.gameResultListCurrentPage = page
-            getGameRecordsList({page: page, id: this.playerProfile.id})
-            .then( res=> {
-                this.gameResultsList = res.list
-                this.gameResultsPageNum = res.pageNum
-            })
-            .catch( () =>{
-                this.$message.error('获取数据失败，请稍后重试')
-            })
+            getGameRecordsList({ page: page, id: this.playerProfile.id })
+                .then(res => {
+                    this.gameResultsList = res.list
+                    this.gameResultsPageNum = res.pageNum
+                })
+                .catch(() => {
+                    this.$message.error('获取数据失败，请稍后重试')
+                })
         },
     },
 
-    components:{
+    components: {
         PlayerProfileModule,
         GameResultsListModule,
         SettingModule,

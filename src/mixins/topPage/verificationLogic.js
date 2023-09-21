@@ -1,16 +1,16 @@
 export var verificationLogic = {
-     data: function(){
+    data: function () {
         var vertificationCodeRule = (rule, value, callback) => {
             value = value.toUpperCase()
             if (value === '') {
-              this.vertificationCodeCorrect = false
-              callback(new Error('请输入验证码'))
+                this.vertificationCodeCorrect = false
+                callback(new Error('请输入验证码'))
             } else if (value !== this.identifyCode) {
-              this.vertificationCodeCorrect = false
-              callback(new Error('验证码不正确!'))
+                this.vertificationCodeCorrect = false
+                callback(new Error('验证码不正确!'))
             } else {
-              this.vertificationCodeCorrect = true
-              callback()
+                this.vertificationCodeCorrect = true
+                callback()
             }
         };
 
@@ -22,7 +22,7 @@ export var verificationLogic = {
         }
     },
 
-    methods:{
+    methods: {
         // 生成随机数
         randomNum(min, max) {
             return Math.floor(Math.random() * (max - min) + min)
@@ -41,8 +41,8 @@ export var verificationLogic = {
 
     },
 
-    mounted: function(){
-        this.$nextTick(function(){
+    mounted: function () {
+        this.$nextTick(function () {
             this.createCode(4)
         })
     }

@@ -2,7 +2,7 @@ import request from '../utils/request'
 
 const baseUrl = '/modify'
 
-export function modifyAvatar(data){
+export function modifyAvatar(data) {
     return request({
         url: baseUrl + '/avatar',
         method: 'put',
@@ -10,7 +10,7 @@ export function modifyAvatar(data){
     })
 }
 
-export function modifyNickname(data){
+export function modifyNickname(data) {
     return request({
         url: baseUrl + '/nickname',
         method: 'put',

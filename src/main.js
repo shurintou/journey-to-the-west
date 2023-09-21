@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI);
 
 new Vue({
-  el:'#app',
+  el: '#app',
   router,
   store,
   render: h => h(App)

@@ -28,7 +28,7 @@ const router = new VueRouter({
 })
 
 router.afterEach(() => {
-  window.scrollTo(0,0)
+  window.scrollTo(0, 0)
 })
 
 export default router

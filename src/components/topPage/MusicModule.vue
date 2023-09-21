@@ -5,20 +5,18 @@
             <source :src="require('@/assets/musics/bgm.ogg')" type="audio/ogg">
             <embed :src="require('@/assets/musics/bgm.mp3')">
         </audio>
-        <template v-for="(n, index) in audioPoolSize">
-            <audio class="audio_pool" :id="'audio_' + index" :key="n">
-                <source :id="'mpeg_' + index" :src="require('@/assets/musics/mute.mp3')" type="audio/mpeg">
-                <source :id="'ogg_' + index" :src="require('@/assets/musics/mute.ogg')" type="audio/ogg">
-                <embed :id="'embed_' + index" :src="require('@/assets/musics/mute.mp3')">
-            </audio>
-        </template>
+        <audio class="audio_pool" :id="'audio_' + index" v-for="(n, index) in audioPoolSize" :key="n">
+            <source :id="'mpeg_' + index" :src="require('@/assets/musics/mute.mp3')" type="audio/mpeg">
+            <source :id="'ogg_' + index" :src="require('@/assets/musics/mute.ogg')" type="audio/ogg">
+            <embed :id="'embed_' + index" :src="require('@/assets/musics/mute.mp3')">
+        </audio>
     </div>
 </template>
 
 <script>
 export default {
     data() {
-        return{
+        return {
             audioPoolSize: 8,
         }
     },

@@ -1,5 +1,5 @@
 export var chatRoomResize = {
-    data: function(){
+    data: function () {
         return {
             asideWidth: '',
             subAsideWidth: '',
@@ -20,10 +20,10 @@ export var chatRoomResize = {
         }
     },
 
-    methods:{
-        resizeLogic: function(){
+    methods: {
+        resizeLogic: function () {
             var screen_width = document.body.clientWidth
-            if(screen_width < 400){
+            if (screen_width < 400) {
                 this.asideWidth = '0px'
                 this.footHeight = '180px'
                 this.subAsideWidth = '120px'
@@ -38,7 +38,7 @@ export var chatRoomResize = {
                 this.playerInfoDialogWidth = '95%'
                 this.gameRoomItemWidth = 90
             }
-            else if(screen_width < 800){
+            else if (screen_width < 800) {
                 this.asideWidth = '160px'
                 this.footHeight = '120px'
                 this.subAsideWidth = '150px'
@@ -54,7 +54,7 @@ export var chatRoomResize = {
                 this.gameRoomItemWidth = 70
             }
             /* iphoneX plus横屏880 */
-            else if(screen_width < 900){
+            else if (screen_width < 900) {
                 this.asideWidth = '160px'
                 this.footHeight = '110px'
                 this.subAsideWidth = '150px'
@@ -69,7 +69,7 @@ export var chatRoomResize = {
                 this.playerInfoDialogWidth = '60%'
                 this.gameRoomItemWidth = 65
             }
-            else if(screen_width < 1024){
+            else if (screen_width < 1024) {
                 this.asideWidth = '200px'
                 this.footHeight = '180px'
                 this.subAsideWidth = '200px'
@@ -84,7 +84,7 @@ export var chatRoomResize = {
                 this.playerInfoDialogWidth = '50%'
                 this.gameRoomItemWidth = 60
             }
-            else if(screen_width < 1280){
+            else if (screen_width < 1280) {
                 this.asideWidth = '250px'
                 this.footHeight = '200px'
                 this.subAsideWidth = '200px'
@@ -100,7 +100,7 @@ export var chatRoomResize = {
                 this.gameRoomItemWidth = 55
             }
             /* 电脑 */
-            else{
+            else {
                 this.asideWidth = '300px'
                 this.footHeight = '220px'
                 this.subAsideWidth = '200px'
@@ -118,15 +118,15 @@ export var chatRoomResize = {
         }
     },
 
-    mounted:function(){
-        window.addEventListener("resize",this.resizeLogic,false);
-        this.$nextTick(function(){
+    mounted: function () {
+        window.addEventListener("resize", this.resizeLogic, false);
+        this.$nextTick(function () {
             this.resizeLogic()
         })
     },
 
-    beforeDestroy:function(){
-        window.removeEventListener("resize",this.resizeLogic)
+    beforeDestroy: function () {
+        window.removeEventListener("resize", this.resizeLogic)
     },
 
 }
