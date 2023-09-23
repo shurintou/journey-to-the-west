@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { SystemSetting } from '../type/setting'
 
 Vue.use(Vuex)
-var isMobile = false
+let isMobile = false
 if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
   isMobile = true
 }
@@ -10,8 +11,8 @@ else {
   isMobile = false
 }
 
-var localSettingStr = localStorage.getItem('setting')
-var localSetting = {}
+const localSettingStr = localStorage.getItem('setting')
+let localSetting: SystemSetting
 if (localSettingStr === null) {
   localSetting = {
     playSound: true,

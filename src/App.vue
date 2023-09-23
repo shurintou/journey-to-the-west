@@ -7,11 +7,11 @@
   </div>
 </template>
 
-<script>
-import { playBgm } from './utils/soundHandler'
+<script lang="ts">
+import { playBgm } from './utils/soundHandler.ts'
 import { authorization } from './api/authorization'
-import { getToken } from './utils/cookie'
-import MusicModule from './components/topPage/MusicModule'
+import { getToken } from './utils/cookie.ts'
+import MusicModule from './components/topPage/MusicModule.vue'
 
 export default {
 
@@ -39,7 +39,7 @@ export default {
 
   methods: {
     registerEffectAudio: function () {
-      let audios = document.querySelectorAll('.audio_pool')
+      let audios = document.querySelectorAll('.audio_pool') as NodeListOf<HTMLAudioElement>
       audios.forEach(audio => audio.play())
       playBgm(true) // 第一次调用该方法，参数传true
       window.removeEventListener("click", this.registerEffectAudio)
