@@ -1,9 +1,8 @@
 import request from '../utils/request'
 
-export function authorization(params) {
+export function authorization() {
     return request({
         url: '/authorization',
         method: 'get',
-        params: params
     })
 }
