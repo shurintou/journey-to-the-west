@@ -70,34 +70,38 @@ export default {
   },
   methods: {
     // 生成一个随机数
-    randomNum(min, max) {
+    randomNum(min: number, max: number) {
       return Math.floor(Math.random() * (max - min) + min)
     },
     // 生成一个随机的颜色
-    randomColor(min, max) {
-      var r = this.randomNum(min, max)
-      var g = this.randomNum(min, max)
-      var b = this.randomNum(min, max)
+    randomColor(min: number, max: number) {
+      const r = this.randomNum(min, max)
+      const g = this.randomNum(min, max)
+      const b = this.randomNum(min, max)
       return 'rgb(' + r + ',' + g + ',' + b + ')'
     },
     drawPic() {
-      var canvas = document.getElementById('s-canvas')
-      var ctx = canvas.getContext('2d')
-      ctx.textBaseline = 'bottom'
-      // 绘制背景
-      ctx.fillStyle = this.randomColor(
-        this.backgroundColorMin,
-        this.backgroundColorMax
-      )
-      ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)
-      // 绘制文字
-      for (let i = 0; i < this.identifyCode.length; i++) {
-        this.drawText(ctx, this.identifyCode[i], i)
+      const canvas = document.getElementById('s-canvas') as HTMLCanvasElement
+      if (canvas !== null) {
+        const ctx = canvas.getContext('2d')
+        if (ctx !== null) {
+          ctx.textBaseline = 'bottom'
+          // 绘制背景
+          ctx.fillStyle = this.randomColor(
+            this.backgroundColorMin,
+            this.backgroundColorMax
+          )
+          ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)
+          // 绘制文字
+          for (let i = 0; i < this.identifyCode.length; i++) {
+            this.drawText(ctx, this.identifyCode[i], i)
+          }
+          this.drawLine(ctx)
+          this.drawDot(ctx)
+        }
       }
-      this.drawLine(ctx)
-      this.drawDot(ctx)
     },
-    drawText(ctx, txt, i) {
+    drawText(ctx: CanvasRenderingContext2D, txt: string, i: number) {
       ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)
       ctx.font = this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei'
       var x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1))
@@ -112,7 +116,7 @@ export default {
       ctx.rotate(-deg * Math.PI / 180)
       ctx.translate(-x, -y)
     },
-    drawLine(ctx) {
+    drawLine(ctx: CanvasRenderingContext2D) {
       // 绘制干扰线
       for (let i = 0; i < this.lineNum; i++) {
         ctx.strokeStyle = this.randomColor(
@@ -131,7 +135,7 @@ export default {
         ctx.stroke()
       }
     },
-    drawDot(ctx) {
+    drawDot(ctx: CanvasRenderingContext2D) {
       // 绘制干扰点
       for (let i = 0; i < this.dotNum; i++) {
         ctx.fillStyle = this.randomColor(0, 255)
