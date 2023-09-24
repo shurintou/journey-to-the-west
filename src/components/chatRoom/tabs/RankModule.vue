@@ -139,10 +139,10 @@
     </el-collapse>
 </template>
 
-<script>
-import { getRankInfo } from '../../../api/getRank'
-import RankItem from '../fragments/RankItem'
-import { calExperience } from '../../../utils/calculator'
+<script lang="ts">
+import { getRankInfo } from '@/api/getRank'
+import RankItem from '@/fragments/RankItem'
+import { calExperience } from '@/utils/calculator'
 
 export default {
     data() {

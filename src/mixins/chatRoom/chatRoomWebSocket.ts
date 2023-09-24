@@ -1,4 +1,4 @@
-import { playSound } from '../../utils/soundHandler'
+import { playSound } from '@/utils/soundHandler'
 
 export var chatRoomWebSocket = {
     data: function () {
@@ -23,7 +23,7 @@ export var chatRoomWebSocket = {
 
     computed: {
         /* 判断是否离开了游戏大厅 */
-        isLeave: function () {
+        isLeave: function (): boolean {
             return this.$route.path.indexOf('chatroom') === -1
         },
     },

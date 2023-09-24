@@ -2,7 +2,7 @@
     <span>{{ tweeningValue }}</span>
 </template>
 
-<script>
+<script lang="ts">
 const TWEEN = require('@tweenjs/tween.js')
 
 export default {

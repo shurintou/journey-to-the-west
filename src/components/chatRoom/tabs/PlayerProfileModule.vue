@@ -77,8 +77,8 @@
     </div>
 </template>
 
-<script>
-import { calExperience } from '../../../utils/calculator'
+<script lang="ts">
+import { calExperience } from '@/utils/calculator'
 
 export default {
     data() {
@@ -117,7 +117,7 @@ export default {
 
 <style>
 .player-profile-box {
-    background-image: url('../../../assets/images/icon-select-background.png');
+    background-image: url('@/assets/images/icon-select-background.png');
     background-size: 100% 100%;
 }
 
@@ -134,4 +134,5 @@ export default {
 
 .player-profile-line-right {
     float: right;
-}</style>
+}
+</style>

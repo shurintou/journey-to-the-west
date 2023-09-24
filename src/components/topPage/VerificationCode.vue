@@ -3,7 +3,7 @@
     <canvas id="s-canvas" :width="contentWidth" :height="contentHeight"></canvas>
   </div>
 </template>
-<script>
+<script lang="ts">
 export default {
   name: 'SIdentify',
   props: {

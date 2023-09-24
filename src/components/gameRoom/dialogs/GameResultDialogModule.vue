@@ -10,7 +10,8 @@
                             :style="{ 'font-size': this.largeFontSize }">吃鸡玩家: {{ gameResult.winnerNickname }}</el-tag>
                         <el-tag :size="tagSize" type="success" effect="light" :style="{ 'font-size': this.largeFontSize }"
                             style="margin-right: 2vw">收牌数: {{ gameResult.winnerCards }}</el-tag>
-                        <el-tag :size="tagSize" type="danger" effect="dark" :style="{ 'font-size': this.largeFontSize }">拉跨玩家:
+                        <el-tag :size="tagSize" type="danger" effect="dark"
+                            :style="{ 'font-size': this.largeFontSize }">拉跨玩家:
                             {{ gameResult.loserNickname }}</el-tag>
                         <el-tag :size="tagSize" type="danger" effect="light" :style="{ 'font-size': this.largeFontSize }"
                             style="margin-right: 2vw">收牌数: {{ gameResult.loserCards }}</el-tag>
@@ -25,8 +26,8 @@
                     </div>
                     <el-divider></el-divider>
                     <el-table v-loading="loading" :default-sort="{ prop: 'seatIndex', order: 'ascending' }"
-                        :data="gameResult.gameResultList" style="width: 100%" :row-style="{ 'font-size': this.largeFontSize }"
-                        :header-row-style="{ 'font-size': this.fontSize }">
+                        :data="gameResult.gameResultList" style="width: 100%"
+                        :row-style="{ 'font-size': this.largeFontSize }" :header-row-style="{ 'font-size': this.fontSize }">
                         <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60">
                             <template slot-scope="scope">
                                 <el-avatar shape="square" :size="avatarSize"
@@ -74,7 +75,7 @@
     </el-dialog>
 </template>
 
-<script>
+<script lang="ts">
 import * as echarts from 'echarts/core'
 import { TitleComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { BarChart } from 'echarts/charts'
@@ -321,6 +322,7 @@ export default {
 }
 </script>
 
-<style>.el-table .is-local-player-row {
+<style>
+.el-table .is-local-player-row {
     background: rgb(240, 249, 235);
 }</style>

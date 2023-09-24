@@ -1,5 +1,6 @@
 <template>
-  <el-aside class="hide-scroll-bar" :width="subAsideWidth" :style="{ backgroundImage: 'url(' + verticalBackground + ')' }">
+  <el-aside class="hide-scroll-bar" :width="subAsideWidth"
+    :style="{ backgroundImage: 'url(' + verticalBackground + ')' }">
     <el-tooltip :disabled="$store.state.isMobile" effect="light" content="点击以修改头像" placement="left">
       <div class="player-icon-box" @click="openEditAvatarDialog">
         <el-image v-if="gameInfo === null || gameInfo.currentPlayer === -1" class="aside-icon"
@@ -71,11 +72,11 @@
   </el-aside>
 </template>
 
-<script>
-import { modifyAvatar, modifyNickname } from '../../api/modify'
-import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
-import { getPlayerRecord } from '../../api/infoSearch'
-import AnimatedAvatar from '../gameRoom/fragment/AnimatedAvatar'
+<script lang="ts">
+import { modifyAvatar, modifyNickname } from '@/api/modify'
+import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
+import { getPlayerRecord } from '@/api/infoSearch'
+import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
 import HelpModule from './HelpModule'
 
 export default {
@@ -292,7 +293,7 @@ export default {
   border-width: 5px;
   border-color: #e3e197;
   background-size: 100% 100%;
-  background-image: url('../../assets/images/icon_background-min.png');
+  background-image: url('@/assets/images/icon_background-min.png');
 }
 
 .player-icon-box:hover {
@@ -312,7 +313,7 @@ export default {
   text-align: center;
   padding-top: 5%;
   font-weight: 600;
-  background-image: url('../../assets/images/icon-background-min.png');
+  background-image: url('@/assets/images/icon-background-min.png');
   background-size: cover;
 }
 
@@ -346,12 +347,12 @@ export default {
 }
 
 .icon-select-box {
-  background-image: url('../../assets/images/icon-select-background.png');
+  background-image: url('@/assets/images/icon-select-background.png');
   background-size: 100% 100%;
 }
 
 .icon-is-selected {
-  background-image: url('../../assets/images/icon-select-circle.png');
+  background-image: url('@/assets/images/icon-select-circle.png');
   background-size: 100% 100%;
 }
 
@@ -364,4 +365,5 @@ export default {
 
 .icon-block {
   cursor: pointer;
-}</style>
+}
+</style>

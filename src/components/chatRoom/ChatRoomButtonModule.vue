@@ -10,12 +10,12 @@
             :style="{ 'font-size': largeFontSize, 'padding': '0px 0px' }" @click="emitCancelLeaveDialog" :size="buttonSize"
             round>登出离开</el-button>
         <el-button type="success" class="chat-room-header-button" icon="el-icon-circle-plus"
-            :style="{ 'font-size': largeFontSize, 'padding': '0px 0px' }" @click="emitCreateGameRoomDialog" :size="buttonSize"
-            round>创建房间</el-button>
+            :style="{ 'font-size': largeFontSize, 'padding': '0px 0px' }" @click="emitCreateGameRoomDialog"
+            :size="buttonSize" round>创建房间</el-button>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -73,4 +73,5 @@ export default {
     width: 100%;
     height: 40%;
     margin-bottom: 5%;
-}</style>
+}
+</style>

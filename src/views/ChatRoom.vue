@@ -33,8 +33,10 @@
               @click="playerListVisible = !playerListVisible">{{ playerListVisible ? '收起' : '玩家列表' }}</el-button>
           </el-popover>
           <ChatRoomButtonModule v-if="$store.state.player_loc === 0" :whichPattern="'horizontal'" :buttonSize="buttonSize"
-            :largeFontSize="largeFontSize" @cancelLeaveDialogVisible="function (value) { cancelLeaveDialogVisible = value }"
-            @createGameRoomDialogVisible="function (value) { createGameRoomDialogVisible = value }"></ChatRoomButtonModule>
+            :largeFontSize="largeFontSize"
+            @cancelLeaveDialogVisible="function (value) { cancelLeaveDialogVisible = value }"
+            @createGameRoomDialogVisible="function (value) { createGameRoomDialogVisible = value }">
+          </ChatRoomButtonModule>
           <GameRoomButtonModule v-else :whichPattern="'horizontal'" :buttonSize="buttonSize"
             :largeFontSize="largeFontSize" :playerLocRoom="playerLocRoom" :ws="ws"
             @leaveRoomDialogVisible="function (value) { leaveRoomDialogVisible = value }"></GameRoomButtonModule>
@@ -73,7 +75,8 @@
       :ws="ws" @createGameRoomDialogVisible="function (value) { createGameRoomDialogVisible = value }">
     </CreateGameRoomDialogModule>
     <LeaveRoomDialogModule :leaveRoomDialogVisible="leaveRoomDialogVisible" :dialogWidth="dialogWidth"
-      :playerLocRoom="playerLocRoom" :ws="ws" @leaveRoomDialogVisible="function (value) { leaveRoomDialogVisible = value }">
+      :playerLocRoom="playerLocRoom" :ws="ws"
+      @leaveRoomDialogVisible="function (value) { leaveRoomDialogVisible = value }">
     </LeaveRoomDialogModule>
     <EnterGameRoomDialogModule :enterGameRoomDialogVisible="enterGameRoomDialogVisible" :enterRoomDto="enterRoomDto"
       :dialogWidth="dialogWidth" :ws="ws"
@@ -92,24 +95,24 @@
   </div>
 </template>
 
-<script>
-import { chatRoomWebSocket } from '../mixins/chatRoom/chatRoomWebSocket'
-import { chatRoomResize } from '../mixins/chatRoom/chatRoomResize'
-import PlayerListModule from '../components/chatRoom/PlayerListModule'
-import PlayerInfoModule from '../components/chatRoom/PlayerInfoModule'
-import ChatModule from '../components/chatRoom/ChatModule'
-import GameRoomListModule from '../components/chatRoom/GameRoomListModule'
-import LogoutDialogModule from '../components/chatRoom/dialogs/LogoutDialogModule'
-import CreateGameRoomDialogModule from '../components/chatRoom/dialogs/CreateGameRoomDialogModule'
-import ChatRoomButtonModule from '../components/chatRoom/ChatRoomButtonModule'
-import GameRoomButtonModule from '../components/gameRoom/GameRoomButtonModule'
-import LeaveRoomDialogModule from '../components/gameRoom/dialogs/LeaveRoomDialogModule'
-import EnterGameRoomDialogModule from '../components/chatRoom/dialogs/EnterGameRoomDialogModule'
-import GameRoomModule from '../components/gameRoom/GameRoomModule'
-import AskChangeSeatDialogModule from '../components/gameRoom/dialogs/AskChangeSeatDialogModule'
-import GameResultDialogModule from '../components/gameRoom/dialogs/GameResultDialogModule'
-import AnnounceDialogModule from '../components/chatRoom/dialogs/AnnounceDialogModule'
-import CardModule from '../components/gameRoom/CardModule'
+<script lang="ts">
+import { chatRoomWebSocket } from '@/mixins/chatRoom/chatRoomWebSocket'
+import { chatRoomResize } from '@/mixins/chatRoom/chatRoomResize'
+import PlayerListModule from '@/components/chatRoom/PlayerListModule'
+import PlayerInfoModule from '@/components/chatRoom/PlayerInfoModule'
+import ChatModule from '@/components/chatRoom/ChatModule'
+import GameRoomListModule from '@/components/chatRoom/GameRoomListModule'
+import LogoutDialogModule from '@/components/chatRoom/dialogs/LogoutDialogModule'
+import CreateGameRoomDialogModule from '@/components/chatRoom/dialogs/CreateGameRoomDialogModule'
+import ChatRoomButtonModule from '@/components/chatRoom/ChatRoomButtonModule'
+import GameRoomButtonModule from '@/components/gameRoom/GameRoomButtonModule'
+import LeaveRoomDialogModule from '@/components/gameRoom/dialogs/LeaveRoomDialogModule'
+import EnterGameRoomDialogModule from '@/components/chatRoom/dialogs/EnterGameRoomDialogModule'
+import GameRoomModule from '@/components/gameRoom/GameRoomModule'
+import AskChangeSeatDialogModule from '@/components/gameRoom/dialogs/AskChangeSeatDialogModule'
+import GameResultDialogModule from '@/components/gameRoom/dialogs/GameResultDialogModule'
+import AnnounceDialogModule from '@/components/chatRoom/dialogs/AnnounceDialogModule'
+import CardModule from '@/components/gameRoom/CardModule'
 
 export default {
   name: 'ChatRoom',
@@ -281,4 +284,5 @@ export default {
 
 .fill-height {
   height: 100%;
-}</style>
+}
+</style>

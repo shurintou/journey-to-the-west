@@ -5,8 +5,8 @@
     </el-row>
 </template>
 
-<script>
-import { playBgm } from '../../utils/soundHandler'
+<script lang="ts">
+import { playBgm } from '@/utils/soundHandler'
 
 export default {
     data() {

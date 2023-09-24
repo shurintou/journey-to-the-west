@@ -33,9 +33,9 @@
     </div>
 </template>
 
-<script>
-import { getPlayerRecord } from '../../api/infoSearch'
-import PlayerInfoTabModule from '../chatRoom/PlayerInfoTabModule'
+<script lang="ts">
+import { getPlayerRecord } from '@/api/infoSearch'
+import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
 
 export default {
     name: 'playerListModule',
@@ -173,8 +173,9 @@ export default {
 
 .chat-popover {
     background-size: 100% 100%;
-    background-image: url('../../assets/images/popupBackground.png');
+    background-image: url('@/assets/images/popupBackground.png');
     color: #D3DCE6;
     font-size: 18px;
     font-weight: 500;
-}</style>
+}
+</style>

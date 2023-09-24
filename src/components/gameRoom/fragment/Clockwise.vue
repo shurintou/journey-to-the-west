@@ -17,7 +17,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -98,4 +98,5 @@ export default {
     100% {
         -webkit-transform: rotate(-360deg);
     }
-}</style>
+}
+</style>

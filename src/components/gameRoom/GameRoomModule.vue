@@ -193,9 +193,9 @@
     </div>
 </template>
 
-<script>
-import GameRoomPlayerItemModule from '../gameRoom/GameRoomPlayerItemModule'
-import GameRoomTableModule from '../gameRoom/GameRoomTableModule'
+<script lang="ts">
+import GameRoomPlayerItemModule from '@/components/gameRoom/GameRoomPlayerItemModule'
+import GameRoomTableModule from '@/components/gameRoom/GameRoomTableModule'
 
 export default {
     data() {
@@ -262,12 +262,13 @@ export default {
 }
 </script>
 
-<style>#game-room-box-horizontal {
+<style>
+#game-room-box-horizontal {
     background-size: 60vw 66vh;
     background-repeat: no-repeat;
     background-position-x: 8vw;
     background-position-y: 8vh;
-    background-image: url('../../assets/images/game-table.png');
+    background-image: url('@/assets/images/game-table.png');
     width: 75vw;
     height: 66vh;
 }
@@ -318,7 +319,7 @@ export default {
     background-repeat: no-repeat;
     background-position-x: 16vw;
     background-position-y: 6vh;
-    background-image: url('../../assets/images/game-table-vertical.png');
+    background-image: url('@/assets/images/game-table-vertical.png');
     width: 95vw;
     height: 71vh;
 }
@@ -354,4 +355,5 @@ export default {
     width: 100%;
     height: 31%;
     margin-top: 10%;
-}</style>
+}
+</style>

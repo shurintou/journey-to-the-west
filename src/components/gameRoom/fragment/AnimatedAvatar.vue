@@ -4,8 +4,8 @@
         :src="avatarUrl"></el-image>
 </template>
 
-<script>
-import { playSound } from '../../../utils/soundHandler'
+<script lang="ts">
+import { playSound } from '@/utils/soundHandler'
 
 export default {
     data() {
@@ -441,4 +441,5 @@ export default {
         -webkit-animation-timing-function: ease-out;
         animation-timing-function: ease-out
     }
-}</style>
+}
+</style>

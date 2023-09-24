@@ -16,7 +16,8 @@
                     style="color: red">♥A</span>)的任意张牌；若台面上有上家打出的牌，则下家须根据大小顺序打出 <u>张数相同且牌型“大于”上家牌的牌</u>，依次类推。</p>
             <h2 :style="{ 'font-size': fontSize }">连击：</h2>
             <p :style="{ 'font-size': fontSize }">打出的牌计入连击牌池，计+1。当出牌数大于1时，从第二次连击开始将产生从出牌数起计的倍乘效果。</p>
-            <p :style="{ 'font-size': fontSize }">如连续5人打出2张牌，倍乘从2开始起计，则连击数计为： 2, 6(2+2*2), 12(6+3*2), 20(12+4*2), 30(20+5*2)。
+            <p :style="{ 'font-size': fontSize }">如连续5人打出2张牌，倍乘从2开始起计，则连击数计为： 2, 6(2+2*2), 12(6+3*2), 20(12+4*2),
+                30(20+5*2)。
             </p>
             <p :style="{ 'font-size': fontSize }">如连续5人打出3张牌，倍乘从3开始起计，则连击数计为： 3, 12(3+3*3), 24(12+4*3), 39(24+5*3),
                 57(39+6*3)。 </p>
@@ -112,7 +113,8 @@
             <p :style="{ 'font-size': fontSize }">3. 变身牌不能变身观音或如来(即反弹牌)。</p>
             <h2 :style="{ 'font-size': fontSize }">使用方法：</h2>
             <p :style="{ 'font-size': fontSize }">1. 要使用变身牌，首先请选择要作为变身对象的原形牌，如上述<span style="color: red">♦3</span>。</p>
-            <p :style="{ 'font-size': fontSize }">2. 然后点击 <el-tag type="primary" effect="dark">变身</el-tag> 按钮，选择变身牌，如上述♠2。</p>
+            <p :style="{ 'font-size': fontSize }">2. 然后点击 <el-tag type="primary" effect="dark">变身</el-tag> 按钮，选择变身牌，如上述♠2。
+            </p>
             <p :style="{ 'font-size': fontSize }">3. 选好变身牌后，最后点击出牌即可。</p>
         </el-tab-pane>
 
@@ -289,12 +291,13 @@
             <span :style="{ 'font-size': fontSize }">后端项目：</span><el-link type="warning"
                 href="https://github.com/shurintou/server-of-jttw"
                 target="_blank">https://github.com/shurintou/server-of-jttw</el-link>
-            <p :style="{ 'font-size': fontSize }">如果您觉得本网页体验不错，您还可以在Github上给该项目点星<i class="el-icon-star-off"></i>以支持我们，谢谢。</p>
+            <p :style="{ 'font-size': fontSize }">如果您觉得本网页体验不错，您还可以在Github上给该项目点星<i class="el-icon-star-off"></i>以支持我们，谢谢。
+            </p>
         </el-tab-pane>
     </el-tabs>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -320,7 +323,8 @@ export default {
 }
 </script>
 
-<style scoped>.divider-line {
+<style scoped>
+.divider-line {
     background-color: rgb(233, 233, 235);
     height: 1px;
     border: 0;

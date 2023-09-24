@@ -28,16 +28,17 @@
                 :disabled="timer === null || getGamePlayer.online === false">出牌</el-button>
             <el-button :type="metamorphoseMode ? 'info' : 'primary'" style="float:right; margin-right:2%" :size="buttonSize"
                 :style="{ 'font-size': fontSize, 'padding': paddingSize }" @click="shiftMetamorphoseMode"
-                :disabled="timer === null || getGamePlayer.online === false">{{ metamorphoseMode ? '取消' : '变身' }}</el-button>
+                :disabled="timer === null || getGamePlayer.online === false">{{ metamorphoseMode ? '取消' : '变身'
+                }}</el-button>
         </div>
     </el-main>
 </template>
 
 
 
-<script>
-import { cardList } from '../../mixins/gameRoom/cardList'
-import { playSound } from '../../utils/soundHandler'
+<script lang="ts">
+import { cardList } from '@/mixins/gameRoom/cardList'
+import { playSound } from '@/utils/soundHandler'
 
 export default {
     data() {
@@ -509,4 +510,5 @@ export default {
 
 .cannot-choose-metamorphose {
     filter: brightness(60%);
-}</style>
+}
+</style>

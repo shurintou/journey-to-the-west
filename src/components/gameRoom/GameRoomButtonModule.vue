@@ -5,7 +5,8 @@
             @click="emitStartGame" :size="buttonSize" :disabled="isNotReady || isGamePlaying">开始游戏</el-button>
         <el-button v-else :type="isNotReady && !isGamePlaying ? 'success' : 'info'" class="chat-room-aside-button"
             :icon="!isNotReady ? 'el-icon-circle-check' : 'el-icon-caret-right'" :style="{ 'font-size': largeFontSize }"
-            @click="emitReadyToStartGame" :size="buttonSize" :disabled="isGamePlaying">{{ !isNotReady ? '已' : '' }}准备</el-button>
+            @click="emitReadyToStartGame" :size="buttonSize" :disabled="isGamePlaying">{{ !isNotReady ? '已' : ''
+            }}准备</el-button>
         <el-button :type="isGamePlaying ? 'info' : 'danger'" class="chat-room-aside-button" icon="el-icon-d-arrow-left"
             :style="{ 'font-size': largeFontSize }" @click="emitCancelLeaveDialog" :size="buttonSize"
             :disabled="isGamePlaying">离开房间</el-button>
@@ -26,7 +27,7 @@
 </template>
 
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -143,4 +144,5 @@ export default {
     width: 100%;
     height: 40%;
     margin-bottom: 5%;
-}</style>
+}
+</style>

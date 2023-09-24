@@ -17,8 +17,8 @@
     </div>
 </template>
 
-<script>
-import CardsNum from './CardsNum'
+<script lang="ts">
+import CardsNum from '@/components/gameRoom/fragment/CardsNum'
 
 export default {
     data() {
@@ -619,4 +619,5 @@ export default {
         -webkit-transform: scale3d(1, 1, 1);
         transform: scale3d(1, 1, 1)
     }
-}</style>
+}
+</style>

@@ -277,15 +277,15 @@
   </div>
 </template>
 
-<script>
-import EditGameRoomDialogModule from "./dialogs/EditGameRoomDialogModule";
-import { cardList } from "../../mixins/gameRoom/cardList";
-import RemainCardsNum from "./fragment/RemainCardsNum";
-import ComboCardsNum from "./fragment/ComboCardsNum";
-import Clockwise from "./fragment/Clockwise";
-import CardsNum from "./fragment/CardsNum";
-import { playSound } from "../../utils/soundHandler";
-import QuickChatSelector from "./fragment/QuickChatSelector";
+<script lang="ts">
+import EditGameRoomDialogModule from "@/components/gameRoom/dialogs/EditGameRoomDialogModule";
+import { cardList } from "@/mixins/gameRoom/cardList";
+import RemainCardsNum from "@/components/gameRoom/fragment/RemainCardsNum";
+import ComboCardsNum from "@/components/gameRoom/fragment/ComboCardsNum";
+import Clockwise from "@/components/gameRoom/fragment/Clockwise";
+import CardsNum from "@/components/gameRoom/fragment/CardsNum";
+import { playSound } from "@/utils/soundHandler";
+import QuickChatSelector from "@/components/gameRoom/fragment/QuickChatSelector";
 
 export default {
   data() {

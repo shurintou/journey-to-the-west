@@ -53,8 +53,8 @@
     </div>
 </template>
 
-<script>
-import { playBgm, modifyBgmVolume, modifySoundVolume } from '../../../utils/soundHandler'
+<script lang="ts">
+import { playBgm, modifyBgmVolume, modifySoundVolume } from '@/utils/soundHandler'
 
 export default {
     data() {

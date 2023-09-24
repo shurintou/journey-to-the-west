@@ -68,11 +68,11 @@
   </div>
 </template>
 
-<script>
-import VerificationCodeModule from '../components/topPage/VerificationCode'
-import MusicButton from '../components/topPage/MusicButton'
-import { verificationLogic } from '../mixins/topPage/verificationLogic'
-import { register } from '../api/register'
+<script lang="ts">
+import VerificationCodeModule from '@/components/topPage/VerificationCode'
+import MusicButton from '@/components/topPage/MusicButton'
+import { verificationLogic } from '@/mixins/topPage/verificationLogic'
+import { register } from '@/api/register'
 
 export default {
   name: 'Register',

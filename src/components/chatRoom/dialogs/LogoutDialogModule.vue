@@ -10,9 +10,9 @@
     </el-dialog>
 </template>
 
-<script>
-import { removeToken } from '../../../utils/cookie'
-import { logout } from '../../../api/login'
+<script lang="ts">
+import { removeToken } from '@/utils/cookie'
+import { logout } from '@/api/login'
 
 export default {
     data() {

@@ -29,7 +29,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {
@@ -111,7 +111,7 @@ export default {
     margin-bottom: 2%;
     background-size: 100% 100%;
     border-radius: 10px;
-    background-image: url('../../assets/images/gameroom_background.png');
+    background-image: url('@/assets/images/gameroom_background.png');
 }
 
 .room-list-item:hover {
@@ -141,4 +141,5 @@ export default {
     height: 90%;
     width: 100%;
     display: inline-block;
-}</style>
+}
+</style>

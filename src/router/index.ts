@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
+import Login from '@/views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -13,12 +13,12 @@ const routes = [
   {
     path: '/chatroom',
     name: 'ChatRoom',
-    component: () => import(/* webpackChunkName: "chatroom" */ '../views/ChatRoom.vue')
+    component: () => import(/* webpackChunkName: "chatroom" */ '@/views/ChatRoom.vue')
   },
   {
     path: '/register',
     name: 'Register',
-    component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
+    component: () => import(/* webpackChunkName: "register" */ '@/views/Register.vue')
   },
 ]
 

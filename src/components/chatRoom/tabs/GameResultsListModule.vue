@@ -32,8 +32,10 @@
     </div>
 </template>
 
-<script>
-import { getGameRecord } from '../../../api/infoSearch'
+<script lang="ts">
+import { PropType } from 'vue'
+import { getGameRecord } from '@/api/infoSearch'
+import { GameResultsList } from '@/type/index'
 
 export default {
     data() {
@@ -43,7 +45,7 @@ export default {
     },
 
     props: {
-        gameResultsList: Array,
+        gameResultsList: { type: Array as PropType<GameResultsList[]>, },
         gameResultsPageNum: { type: Number, default: 0 },
         fontSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: false },
@@ -80,7 +82,7 @@ export default {
 .game-result-item {
     width: 100%;
     height: 20%;
-    background-image: url('../../../assets/images/icon-select-background.png');
+    background-image: url('@/assets/images/icon-select-background.png');
     background-size: 100% 100%;
     border-radius: 3%;
     margin-bottom: 3vh;

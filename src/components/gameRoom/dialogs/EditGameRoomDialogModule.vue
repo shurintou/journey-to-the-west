@@ -1,6 +1,7 @@
 <template>
-    <el-dialog :title="(!notEditableFlag ? '修改' : '查看') + '设置'" :visible.sync="editGameRoomDialogVisible" :width="dialogWidth"
-        center :modal="false" :close-on-click-modal="notEditableFlag" :before-close="closeEditGameRoomDialog">
+    <el-dialog :title="(!notEditableFlag ? '修改' : '查看') + '设置'" :visible.sync="editGameRoomDialogVisible"
+        :width="dialogWidth" center :modal="false" :close-on-click-modal="notEditableFlag"
+        :before-close="closeEditGameRoomDialog">
         <el-alert v-if="notEditableFlag" :closable="false" center title="只有房主才能修改设置" :style="{ 'font-size': fontSize }"
             type="info"></el-alert>
         <el-form :model="gameRoomValidateForm" ref="gameRoomValidateForm">
@@ -36,7 +37,7 @@
 </template>
 
 
-<script>
+<script lang="ts">
 export default {
     data() {
         return {

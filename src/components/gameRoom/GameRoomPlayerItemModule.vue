@@ -87,11 +87,11 @@
     </div>
 </template>
 
-<script>
-import CardsNum from './fragment/CardsNum'
-import AnimatedAvatar from './fragment/AnimatedAvatar'
-import QuickChatSelector from './fragment/QuickChatSelector'
-import { playSound } from '../../utils/soundHandler'
+<script lang="ts">
+import CardsNum from '@/components/gameRoom/fragment/CardsNum'
+import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
+import QuickChatSelector from '@/components/gameRoom/fragment/QuickChatSelector'
+import { playSound } from '@/utils/soundHandler'
 
 export default {
     data() {

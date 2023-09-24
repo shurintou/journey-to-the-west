@@ -151,11 +151,11 @@
   </div>
 </template>
 
-<script>
-import VerificationCodeModule from '../components/topPage/VerificationCode'
-import MusicButton from '../components/topPage/MusicButton'
-import { verificationLogic } from '../mixins/topPage/verificationLogic'
-import { login } from '../api/login'
+<script lang="ts">
+import VerificationCodeModule from '@/components/topPage/VerificationCode'
+import MusicButton from '@/components/topPage/MusicButton'
+import { verificationLogic } from '@/mixins/topPage/verificationLogic'
+import { login } from '@/api/login'
 
 export default {
   name: 'Login',
@@ -340,12 +340,14 @@ export default {
 }
 
 .drawer_background {
-  background-image: url('../assets/images/icon-select-background.png');
+  background-image: url('@/assets/images/icon-select-background.png');
   background-size: 100% 100%;
 }
 </style>
 
 
-<style>.el-drawer__body {
+<style>
+.el-drawer__body {
   overflow: auto;
-}</style>
+}
+</style>

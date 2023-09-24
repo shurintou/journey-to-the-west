@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { Message } from 'element-ui'
-import router from '../router/'
-import { removeToken } from '../utils/cookie'
+import router from '@/router/'
+import { removeToken } from '@/utils/cookie'
 
 declare module 'axios' {
     interface AxiosInstance {
