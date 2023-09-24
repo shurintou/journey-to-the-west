@@ -1,4 +1,4 @@
-import vuex from '../store/index.ts'
+import vuex from '../store/index'
 
 export function playSound(path: string) {
     if (!vuex.state.setting.playSound) {

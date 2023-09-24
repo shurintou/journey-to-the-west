@@ -1,7 +1,13 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { Message } from 'element-ui'
 import router from '../router/'
 import { removeToken } from '../utils/cookie'
+
+declare module 'axios' {
+    interface AxiosInstance {
+        (config: AxiosRequestConfig): Promise<any>
+    }
+}
 
 const request = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
@@ -10,16 +16,16 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(
-    config => {
+    (config: AxiosRequestConfig) => {
         return config
     },
-    error => {
+    (error: AxiosError) => {
         return Promise.reject(error)
     }
 )
 
 request.interceptors.response.use(
-    response => {
+    (response: AxiosResponse) => {
         var res = response.data
         if (res.code === 200) {
             return res
@@ -36,8 +42,8 @@ request.interceptors.response.use(
             return Promise.reject('error')
         }
     },
-    error => {
-        Message({ message: error, type: 'error' })
+    (error: AxiosError) => {
+        Message({ message: error.message, type: 'error' })
         return Promise.reject(error)
     }
 )

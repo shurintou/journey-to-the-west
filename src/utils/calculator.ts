@@ -1,6 +1,6 @@
 var levelUpExp = [100, 300, 600, 1000, 1500, 2200, 3000, 3900, 4900, 6000, 7500, 9300, 11500, 14200, 17500, 22500, 30000, 42000, 59000, 85000]
 
-export function calExperience(currentExp) {
+export function calExperience(currentExp: number) {
     let nextLevelExp = 0
     let level = 0
     let expPecent = 0
