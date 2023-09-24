@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts">
-import { playBgm } from './utils/soundHandler.ts'
-import { authorization } from './api/authorization'
-import { getToken } from './utils/cookie.ts'
-import MusicModule from './components/topPage/MusicModule.vue'
+import { playBgm } from '@/utils/soundHandler'
+import { authorization } from '@/api/authorization'
+import { getToken } from '@/utils/cookie'
+import MusicModule from '@/components/topPage/MusicModule.vue'
 
 export default {
 

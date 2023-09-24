@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { SystemSetting } from '../type/setting'
+import { SystemSetting } from '@/type/setting'
+import { Account } from '@/type/account'
+import { PlayerStatus } from '@/type/plugin'
 
 Vue.use(Vuex)
 let isMobile = false
@@ -64,45 +66,45 @@ export default new Vuex.Store({
     setting: localSetting,
   },
   mutations: {
-    initialization(state, payload) {
+    initialization(state, payload: Account) {
       state.id = payload.id
       state.username = payload.username
       state.avatar_id = payload.avatar_id
       state.nickname = payload.nickname
     },
-    mutateNickname(state, payload) {
+    mutateNickname(state, payload: string) {
       state.nickname = payload
     },
-    mutateAvatarId(state, payload) {
+    mutateAvatarId(state, payload: number) {
       state.avatar_id = payload
     },
-    mutatePlayerLoc(state, payload) {
+    mutatePlayerLoc(state, payload: number) {
       state.player_loc = payload
     },
-    mutatePlayerStatus(state, payload) {
+    mutatePlayerStatus(state, payload: PlayerStatus) {
       state.player_status = payload
     },
-    mutateSetting(state, payload) {
+    mutateSetting(state, payload: SystemSetting) {
       state.setting = payload
     },
   },
   actions: {
-    initialization({ commit }, payload) {
+    initialization({ commit }, payload: Account) {
       commit('initialization', payload)
     },
-    mutateNickname({ commit }, payload) {
+    mutateNickname({ commit }, payload: string) {
       commit('mutateNickname', payload)
     },
-    mutateAvatarId({ commit }, payload) {
+    mutateAvatarId({ commit }, payload: number) {
       commit('mutateAvatarId', payload)
     },
-    mutatePlayerLoc({ commit }, payload) {
+    mutatePlayerLoc({ commit }, payload: number) {
       commit('mutatePlayerLoc', payload)
     },
-    mutatePlayerStatus({ commit }, payload) {
+    mutatePlayerStatus({ commit }, payload: PlayerStatus) {
       commit('mutatePlayerStatus', payload)
     },
-    mutateSetting({ commit }, payload) {
+    mutateSetting({ commit }, payload: SystemSetting) {
       commit('mutateSetting', payload)
       localStorage.setItem('setting', JSON.stringify(payload))
     },
