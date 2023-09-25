@@ -152,12 +152,29 @@
 </template>
 
 <script lang="ts">
-import VerificationCodeModule from '@/components/topPage/VerificationCode'
-import MusicButton from '@/components/topPage/MusicButton'
+import { ElLoadingComponent } from 'element-ui/types/loading'
+import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
+import VerificationCodeModule from '@/components/topPage/VerificationCode.vue'
+import MusicButton from '@/components/topPage/MusicButton.vue'
 import { verificationLogic } from '@/mixins/topPage/verificationLogic'
 import { login } from '@/api/login'
 
-export default {
+const checkName: ExecuteValidator = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入用户名'));
+  }
+  else {
+    var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+    if (!uPattern.test(value)) {
+      callback(new Error('用户名须4到16位字母,数字,下划线,减号'));
+    }
+    else {
+      callback();
+    }
+    callback();
+  }
+}
+export default verificationLogic.extend({
   name: 'Login',
   data() {
     return {
@@ -173,22 +190,8 @@ export default {
       left_drawer: false,
       right_drawer: false,
       qrCodeUrl: '',
-      loading: null,
-      checkName: (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入用户名'));
-        }
-        else {
-          var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
-          if (!uPattern.test(value)) {
-            callback(new Error('用户名须4到16位字母,数字,下划线,减号'));
-          }
-          else {
-            callback();
-          }
-          callback();
-        }
-      }
+      checkName: checkName,
+      loading: null as ElLoadingComponent | null,
     }
   },
 
@@ -206,7 +209,8 @@ export default {
     submitForm: function () {
       if (this.duplicateLoginFlag) return;
       this.duplicateLoginFlag = true
-      this.$refs.validateForm.validate(valid => {
+      const validateFormRef = this.$refs.validateForm as Element & ExecuteValidate
+      validateFormRef.validate((valid: boolean) => {
         if (valid) {
           this.loading = this.$loading({
             lock: true,
@@ -221,11 +225,11 @@ export default {
                 this.$store.dispatch('initialization', res.account)
               }
               else {
-                this.loading.close()
+                this?.loading?.close()
               }
             })
             .catch(() => {
-              this.loading.close()
+              this?.loading?.close()
             })
             .finally(() => {
               this.duplicateLoginFlag = false
@@ -247,7 +251,7 @@ export default {
       window.open('https://github.com/shurintou/journey-to-the-west')
     },
 
-    openDialog: function (which) {
+    openDialog: function (which: 'wechat' | 'line') {
       this.qrDialogVisible = true
       if (which === 'wechat') {
         this.qrCodeUrl = require('@/assets/images/wechat-qr-code-min.png')
@@ -257,8 +261,8 @@ export default {
       }
     },
 
-    enterLogin: function (e) {
-      if (e.keyCode === 13) this.submitForm()
+    enterLogin: function (e: KeyboardEvent) {
+      if (e.key === 'Enter') this.submitForm()
     },
   },
 
@@ -268,7 +272,7 @@ export default {
   },
 
   mixins: [verificationLogic]
-}
+})
 </script>
 
 <style scoped>

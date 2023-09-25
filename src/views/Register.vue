@@ -69,53 +69,21 @@
 </template>
 
 <script lang="ts">
-import VerificationCodeModule from '@/components/topPage/VerificationCode'
-import MusicButton from '@/components/topPage/MusicButton'
+import { ElLoadingComponent } from 'element-ui/types/loading'
+import { InternalRuleItem, Value, ExecuteValidate } from '@/type/validator'
+import VerificationCodeModule from '@/components/topPage/VerificationCode.vue'
+import MusicButton from '@/components/topPage/MusicButton.vue'
 import { verificationLogic } from '@/mixins/topPage/verificationLogic'
 import { register } from '@/api/register'
 
-export default {
+export default verificationLogic.extend({
   name: 'Register',
   data() {
-    var checkName = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入用户名'));
-      }
-      else {
-        var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
-        if (!uPattern.test(value)) {
-          callback(new Error('使用4到16位字母,数字,下划线,减号'));
-        }
-        else {
-          callback();
-        }
-        callback();
-      }
-    };
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (this.validateForm.checkPassword !== '') {
-          this.$refs.validateForm.validateField('checkPassword');
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.validateForm.password) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
     return {
       fit: 'fill',
       cancelDialogVisible: false,
       duplicateRegisterFlag: false,
-      loading: null,
+      loading: null as ElLoadingComponent | null,
       validateForm: {
         username: '',
         password: '',
@@ -123,36 +91,6 @@ export default {
         invitationCode: '',
         vertificationCode: ''
       },
-      rules: {
-        username: [
-          { required: true, validator: checkName, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, validator: validatePass, trigger: 'blur' },
-          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
-        ],
-        checkPassword: [
-          { required: true, validator: validatePass2, trigger: 'blur' }
-        ],
-      }
-    }
-  },
-
-  computed: {
-    dialogWidth: function () {
-      var screen_width = document.body.clientWidth
-      if (screen_width < 800) {
-        return '60%'
-      }
-      else if (screen_width < 1024) {
-        return '40%'
-      }
-      else if (screen_width < 1280) {
-        return '30%'
-      }
-      else {
-        return '20%'
-      }
     }
   },
 
@@ -160,7 +98,8 @@ export default {
     submitForm: function () {
       if (this.duplicateRegisterFlag) return;
       this.duplicateRegisterFlag = true
-      this.$refs.validateForm.validate(valid => {
+      const validateFormRef = this.$refs.validateForm as Element & ExecuteValidate
+      validateFormRef.validate(valid => {
         if (valid) {
           this.loading = this.$loading({
             lock: true,
@@ -173,10 +112,10 @@ export default {
               this.$message({ message: '注册成功，请登录', type: 'success' });
               this.$router.push({ name: 'Login' })
             })
-            .catch({})
+            .catch()
             .finally(() => {
               this.duplicateRegisterFlag = false
-              this.loading.close()
+              this?.loading?.close()
             })
         }
         else {
@@ -195,6 +134,78 @@ export default {
       this.$router.push({ name: 'Login' })
       this.cancelDialogVisible = false
     },
+
+    checkName: function (rule: InternalRuleItem, value: Value, callback: (arg0?: Error) => void) {
+      if (value === '') {
+        callback(new Error('请输入用户名'));
+      }
+      else {
+        const uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+        if (!uPattern.test(value)) {
+          callback(new Error('使用4到16位字母,数字,下划线,减号'));
+        }
+        else {
+          callback();
+        }
+        callback();
+      }
+    },
+
+    validatePass: function (rule: InternalRuleItem, value: Value, callback: (arg0?: Error) => void) {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.validateForm.checkPassword !== '') {
+          const validateFormRef = this.$refs.validateForm as Element & ExecuteValidate
+          validateFormRef.validateField('checkPassword');
+        }
+        callback();
+      }
+    },
+
+    validatePass2: function (rule: InternalRuleItem, value: Value, callback: (arg0?: Error) => void) {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.validateForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    },
+
+  },
+
+  computed: {
+    dialogWidth: function () {
+      const screen_width = document.body.clientWidth
+      if (screen_width < 800) {
+        return '60%'
+      }
+      else if (screen_width < 1024) {
+        return '40%'
+      }
+      else if (screen_width < 1280) {
+        return '30%'
+      }
+      else {
+        return '20%'
+      }
+    },
+
+    rules: function () {
+      return {
+        username: [
+          { required: true, validator: this.checkName, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, validator: this.validatePass, trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ],
+        checkPassword: [
+          { required: true, validator: this.validatePass2, trigger: 'blur' }
+        ],
+      }
+    }
   },
 
   components: {
@@ -204,7 +215,7 @@ export default {
 
   mixins: [verificationLogic]
 
-}
+})
 </script>
 
 <style scoped>
