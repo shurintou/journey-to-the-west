@@ -49,8 +49,9 @@
           <GameRoomModule v-else :playerLocRomTypeChatMessageObject="playerLocRomTypeChatMessageObject"
             :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList"
             :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize"
-            :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="$refs.cardModule.playCardEmittedByRef()"
-            @gameTextToPlayerSent="function (seatIndex) { sentGameTextToPlayerObj[seatIndex] = {} }"></GameRoomModule>
+            :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="invokePlayerCardRefPlayCardEmitted"
+            @gameTextToPlayerSent="function (seatIndex: GamePlayerSeatIndex) { sentGameTextToPlayerObj[seatIndex] = {} }">
+          </GameRoomModule>
         </el-main>
         <el-footer :height="footHeight">
           <el-container class="fill-height">
@@ -96,29 +97,42 @@
 </template>
 
 <script lang="ts">
+import Vue, { VueConstructor } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { WebSocketGameRoom, WebSocketChangeSeat } from '@/type/gameRoom'
+import { WebSocketPlayer } from '@/type/player'
+import { GamePlayers, WebSocketGame, WebSocketGameResult } from '@/type/game'
+import { ChatTextInfo, PlayerLocRomTypeChatMessageObject, EnterRoomDto } from '@/type/room'
+import { CardModuleRef } from '@/type/ref'
+import { ElLoadingComponent } from 'element-ui/types/loading'
+import { SystemSetting } from '@/type/setting'
 import { chatRoomWebSocket } from '@/mixins/chatRoom/chatRoomWebSocket'
 import { chatRoomResize } from '@/mixins/chatRoom/chatRoomResize'
-import PlayerListModule from '@/components/chatRoom/PlayerListModule'
-import PlayerInfoModule from '@/components/chatRoom/PlayerInfoModule'
-import ChatModule from '@/components/chatRoom/ChatModule'
-import GameRoomListModule from '@/components/chatRoom/GameRoomListModule'
-import LogoutDialogModule from '@/components/chatRoom/dialogs/LogoutDialogModule'
-import CreateGameRoomDialogModule from '@/components/chatRoom/dialogs/CreateGameRoomDialogModule'
-import ChatRoomButtonModule from '@/components/chatRoom/ChatRoomButtonModule'
-import GameRoomButtonModule from '@/components/gameRoom/GameRoomButtonModule'
-import LeaveRoomDialogModule from '@/components/gameRoom/dialogs/LeaveRoomDialogModule'
-import EnterGameRoomDialogModule from '@/components/chatRoom/dialogs/EnterGameRoomDialogModule'
-import GameRoomModule from '@/components/gameRoom/GameRoomModule'
-import AskChangeSeatDialogModule from '@/components/gameRoom/dialogs/AskChangeSeatDialogModule'
-import GameResultDialogModule from '@/components/gameRoom/dialogs/GameResultDialogModule'
-import AnnounceDialogModule from '@/components/chatRoom/dialogs/AnnounceDialogModule'
-import CardModule from '@/components/gameRoom/CardModule'
+import PlayerListModule from '@/components/chatRoom/PlayerListModule.vue'
+import PlayerInfoModule from '@/components/chatRoom/PlayerInfoModule.vue'
+import ChatModule from '@/components/chatRoom/ChatModule.vue'
+import GameRoomListModule from '@/components/chatRoom/GameRoomListModule.vue'
+import LogoutDialogModule from '@/components/chatRoom/dialogs/LogoutDialogModule.vue'
+import CreateGameRoomDialogModule from '@/components/chatRoom/dialogs/CreateGameRoomDialogModule.vue'
+import ChatRoomButtonModule from '@/components/chatRoom/ChatRoomButtonModule.vue'
+import GameRoomButtonModule from '@/components/gameRoom/GameRoomButtonModule.vue'
+import LeaveRoomDialogModule from '@/components/gameRoom/dialogs/LeaveRoomDialogModule.vue'
+import EnterGameRoomDialogModule from '@/components/chatRoom/dialogs/EnterGameRoomDialogModule.vue'
+import GameRoomModule from '@/components/gameRoom/GameRoomModule.vue'
+import AskChangeSeatDialogModule from '@/components/gameRoom/dialogs/AskChangeSeatDialogModule.vue'
+import GameResultDialogModule from '@/components/gameRoom/dialogs/GameResultDialogModule.vue'
+import AnnounceDialogModule from '@/components/chatRoom/dialogs/AnnounceDialogModule.vue'
+import CardModule from '@/components/gameRoom/CardModule.vue'
 
-export default {
+export default (Vue as VueConstructor<
+  Vue &
+  InstanceType<typeof chatRoomResize> &
+  InstanceType<typeof chatRoomWebSocket>
+>).extend({
   name: 'ChatRoom',
   data() {
     return {
-      chatText: [],
+      chatText: [] as ChatTextInfo[],
       playerListVisible: false,
       cancelLeaveDialogVisible: false,
       createGameRoomDialogVisible: false,
@@ -128,27 +142,32 @@ export default {
       gameResultDialogVisible: false,
       announceDialogVisible: false,
       announceVersionId: 1, //每次更新公告须修改此处, +1
-      playerList: [],
-      gameRoomList: [],
-      playerLocRoom: null,
-      enterRoomDto: {},
-      askChangeSeatInfo: null,
-      gameInfo: null,
-      gameResult: null,
-      sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, },
-      loading: null,
-      playerLocRomTypeChatMessageObject: null,
+      playerList: [] as WebSocketPlayer[],
+      gameRoomList: [] as WebSocketGameRoom[],
+      playerLocRoom: null as WebSocketGameRoom | null,
+      enterRoomDto: null as EnterRoomDto | null,
+      askChangeSeatInfo: null as WebSocketChangeSeat | null,
+      gameInfo: null as WebSocketGame | null,
+      gameResult: null as WebSocketGameResult | null,
+      sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as GamePlayers | { [key in GamePlayerSeatIndex]: {} },
+      loading: null as ElLoadingComponent | null,
+      playerLocRomTypeChatMessageObject: null as PlayerLocRomTypeChatMessageObject | null,
     }
   },
 
   mixins: [chatRoomWebSocket, chatRoomResize],
 
   methods: {
-    announceViewHandler: function (value) {
+    announceViewHandler: function (value: boolean) {
       this.announceDialogVisible = value
       let setting = this.$store.state.setting
       setting.announceId = this.announceVersionId
       this.$store.dispatch('mutateSetting', setting)
+    },
+
+    invokePlayerCardRefPlayCardEmitted: function () {
+      const cardModuleRef = this.$refs.cardModule as Element & CardModuleRef
+      cardModuleRef.playCardEmittedByRef()
     }
   },
 
@@ -162,7 +181,7 @@ export default {
   },
 
   mounted: function () {
-    let setting = JSON.parse(localStorage.getItem('setting'))
+    let setting: SystemSetting = JSON.parse(localStorage.getItem('setting') || '')
     let announceId = setting?.announceId === undefined ? 0 : setting.announceId
     if (announceId < this.announceVersionId) {
       this.announceDialogVisible = true
@@ -172,7 +191,8 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (from.name === 'Login') {
-        vm.loading.close()
+        const selfVm = vm as unknown as { loading: ElLoadingComponent } // this is a workaround for type definition.
+        selfVm.loading.close()
       }
     })
   },
@@ -194,7 +214,7 @@ export default {
     GameResultDialogModule,
     AnnounceDialogModule,
   },
-}
+})
 </script>
 
 
@@ -285,4 +305,4 @@ export default {
 .fill-height {
   height: 100%;
 }
-</style>
+</style>@/type/ref

@@ -1,4 +1,6 @@
-export var chatRoomResize = {
+import Vue from 'vue'
+
+export var chatRoomResize = Vue.extend({
     data: function () {
         return {
             asideWidth: '',
@@ -129,4 +131,4 @@ export var chatRoomResize = {
         window.removeEventListener("resize", this.resizeLogic)
     },
 
-}
+})

@@ -1,6 +1,15 @@
+import Vue from 'vue'
 import { playSound } from '@/utils/soundHandler'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { PlayerLocRomTypeChatMessageObject, ChatTextInfo } from '@/type/room'
+import { WebSocketGame, GamePlayers, WebSocketGameResult } from '@/type/game'
+import { ElLoadingComponent } from 'element-ui/types/loading'
+import { WebSocketPlayer } from '@/type/player'
+import { ChatModuleRef } from '@/type/ref'
+import { WebSocketGameRoom, WebSocketChangeSeat } from '@/type/gameRoom'
+import { WebSocketChangeSeatResponseJsonData, WebSocketChatResponseJsonData, WebSocketExceptionMessageResponseJsonData, WebSocketGameResponseJsonData, WebSocketGameRoomListResponseJsonData, WebSocketMessageResponseJsonData, WebSocketPlayerListResponseJsonData } from '@/type/websocket'
 
-export var chatRoomWebSocket = {
+export const chatRoomWebSocket = Vue.extend({
     data: function () {
         return {
             wsUrl: process.env.VUE_APP_WS_URL,
@@ -8,16 +17,30 @@ export var chatRoomWebSocket = {
             lockReconnect: false,
             /* 重连一定次数失败后不再重连 */
             reconnectTimes: 0,
-            ws: null,
-            timeoutObj: null,
-            serverTimeoutObj: null,
-            reconnectTimeoutObj: null,
+            ws: null as WebSocket | null,
+            timeoutId: -1,
+            serverTimeoutId: -1,
+            reconnectTimeoutId: -1,
             /* 断线重连间隔 */
             wsDelay: process.env.VUE_APP_WS_RECONNECT_PERIOD,
             maxReconnectTImes: process.env.VUE_APP_WS_RECONNECT_MAX_TIMES,
             /* 心跳间隔 */
             timeout: process.env.VUE_APP_WS_HEART_BEAT_PERIOD,
             chatTextId: 0,
+            // 以下为ChatRoom.vue中的属性，但因为要通过typescript的编译所以写在这里。
+            chatText: [] as ChatTextInfo[],
+            playerList: [] as WebSocketPlayer[],
+            playerLocRoom: null as WebSocketGameRoom | null,
+            gameRoomList: [] as WebSocketGameRoom[],
+            gameInfo: null as WebSocketGame | null,
+            gameResult: null as WebSocketGameResult | null,
+            askChangeSeatDialogVisible: false,
+            leaveRoomDialogVisible: false,
+            askChangeSeatInfo: null as WebSocketChangeSeat | null,
+            playerLocRomTypeChatMessageObject: null as PlayerLocRomTypeChatMessageObject | null,
+            loading: null as ElLoadingComponent | null,
+            sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as GamePlayers | { [key in GamePlayerSeatIndex]: {} },
+            gameResultDialogVisible: false,
         }
     },
 
@@ -29,23 +52,23 @@ export var chatRoomWebSocket = {
     },
 
     methods: {
-        createWebSocket: function (url) {
-            var self = this
+        createWebSocket: function (url: string) {
+            const self = this
             this.ws = new WebSocket(url)
             this.ws.onopen = function () {
                 self.start()
-                self.ws.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
+                self?.ws?.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
                 if (self.$store.state.player_loc > 0) {
-                    self.ws.send(JSON.stringify({ type: 'playerList', action: 'get' }))
+                    self?.ws?.send(JSON.stringify({ type: 'playerList', action: 'get' }))
                 }
                 else {
-                    self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
+                    self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
                 }
                 self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'success', 'text': '进入游戏大厅，成功连接服务器' });
             };
 
             this.ws.onmessage = function (data) {
-                let jsonData = JSON.parse(data.data)
+                let jsonData: WebSocketChangeSeatResponseJsonData | WebSocketChatResponseJsonData | WebSocketExceptionMessageResponseJsonData | WebSocketGameResponseJsonData | WebSocketGameRoomListResponseJsonData | WebSocketMessageResponseJsonData | WebSocketPlayerListResponseJsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if (jsonData.type === 'chat') {
                     if (jsonData.player_loc === self.$store.state.player_loc) {
@@ -76,12 +99,11 @@ export var chatRoomWebSocket = {
                     self.askChangeSeatInfo = jsonData.data
                 }
                 else if (jsonData.type === 'playerList') {
-                    let newPlayerList = []
-                    let player = {}
+                    let newPlayerList: WebSocketPlayer[] = []
                     let playerLoc = 0
                     let playerStatus = 0
                     for (let i = 0; i < jsonData.data.length; i++) {
-                        player = JSON.parse(jsonData.data[i])
+                        const player: WebSocketPlayer = JSON.parse(jsonData.data[i])
                         newPlayerList.push(player)
                         /* 获取玩家的位置和状态信息 */
                         if (player.id === self.$store.state.id) {
@@ -106,12 +128,11 @@ export var chatRoomWebSocket = {
                     self.playerList = newPlayerList
                 }
                 else if (jsonData.type === 'gameRoomList') {
-                    let newGameRoomList = []
-                    let room = {} //中间变量
+                    let newGameRoomList: WebSocketGameRoom[] = []
                     let playerLoc = 0 //gameRoomList中玩家所在房间id
-                    let playerLocRoom = null //gameRoomList中玩家所在房间
+                    let playerLocRoom: WebSocketGameRoom | null = null //gameRoomList中玩家所在房间
                     for (let i = 0; i < jsonData.data.length; i++) {
-                        room = JSON.parse(jsonData.data[i])
+                        const room: WebSocketGameRoom = JSON.parse(jsonData.data[i])
                         newGameRoomList.push(room)
                         /* 获取玩家自身在哪个房间 */
                         for (let j = 0; j < Object.keys(room.playerList).length; j++) {
@@ -127,11 +148,11 @@ export var chatRoomWebSocket = {
                         self.playerLocRoom = playerLocRoom
                         /* 如果玩家现在位置和上面获取到的不一样则通过playerList设置为一样，并相应设置玩家状态 */
                         if (self.$store.state.player_loc !== playerLoc) {
-                            self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
+                            self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
                         }
                         /* 如果玩家所在房间正在游戏中且本地没有该游戏信息 */
                         if (playerLocRoom.status === 1 && self.gameInfo === null) {
-                            self.ws.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
+                            self?.ws?.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
                         }
                         /* 如果玩家所在房间游戏已结束且本地还存有游戏 */
                         if (playerLocRoom.status === 0 && self.gameInfo !== null) {
@@ -140,26 +161,28 @@ export var chatRoomWebSocket = {
                     }
                     /* 玩家不在任一房间 */
                     else {
-                        self.ws.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: 0, player_status: 0 }))
+                        self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: 0, player_status: 0 }))
                     }
                     self.gameRoomList = newGameRoomList
                     self.$nextTick(() => {
-                        self.loading.close()
+                        self?.loading?.close()
                     })
                 }
                 else if (jsonData.type === 'game') {
-                    if (jsonData.action === 'initialize' || self.gameInfo === null) {
+                    if (jsonData.action === 'initialize') {
                         self.gameInfo = JSON.parse(jsonData.data)
                         self.leaveRoomDialogVisible = false
                         self.askChangeSeatDialogVisible = false
                     }
                     else if (jsonData.action === 'shiftOnline') {
                         if (self.gameInfo !== null) {
-                            self.gameInfo.gamePlayer[jsonData.seatIndex].online = jsonData.online
+                            const seatIndex: GamePlayerSeatIndex = jsonData.seatIndex
+                            self.gameInfo.gamePlayer[seatIndex].online = jsonData.online
                         }
                     }
                     else if (jsonData.action === 'textToPlayer') {
-                        self.sentGameTextToPlayerObj[jsonData.data.source] = jsonData.data
+                        const seatIndex: GamePlayerSeatIndex = jsonData.data.source
+                        self.sentGameTextToPlayerObj[seatIndex] = jsonData.data
                     }
                     else if (jsonData.action === 'delete') {
                         self.gameInfo = null
@@ -169,17 +192,19 @@ export var chatRoomWebSocket = {
                         self.gameResultDialogVisible = true
                         playSound('game-over-voice')
                         playSound('game-over')
-                        for (let i = 0; i < self.gameResult.playerExpList.length; i++) {
-                            if (self.gameResult.playerExpList[i].id === self.$store.state.id) {
-                                self.$message.success('获得 ' + self.gameResult.playerExpList[i].exp + ' 点经验值')
-                                break
+                        if (self.gameResult !== null) {
+                            for (let i = 0; i < self.gameResult.playerExpList.length; i++) {
+                                if (self.gameResult.playerExpList[i].id === self.$store.state.id) {
+                                    self.$message.success('获得 ' + self.gameResult.playerExpList[i].exp + ' 点经验值')
+                                    break
+                                }
                             }
                         }
                     }
-                    else {
-                        let gameData = JSON.parse(jsonData.data)
+                    else { // 此处 action = 'update', 对应请求动作 'play' 或 'discard'
+                        let gameData: WebSocketGame = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
-                        if (gameData.version > self.gameInfo.version) {
+                        if (gameData.version > (self?.gameInfo?.version || 0)) {
                             self.gameInfo = gameData
                         }
                     }
@@ -189,14 +214,14 @@ export var chatRoomWebSocket = {
 
             this.ws.onclose = function (close) {
                 if (close.code === 1000) {
-                    clearInterval(self.timeoutObj);
-                    clearTimeout(self.serverTimeoutObj);
-                    clearTimeout(self.reconnectTimeoutObj);
+                    clearInterval(self.timeoutId);
+                    clearTimeout(self.serverTimeoutId);
+                    clearTimeout(self.reconnectTimeoutId);
                     self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'error', text: close.reason });
                 }
                 else {
                     if (self.isLeave === false) {
-                        self.reconnect(self.wsUrl)
+                        self.reconnect()
                         self.loading = self.$loading({
                             lock: true,
                             text: '努力连接中',
@@ -215,31 +240,31 @@ export var chatRoomWebSocket = {
                         spinner: 'el-icon-loading',
                         background: 'rgba(255, 255, 255, 0.7)'
                     })
-                    self.reconnect(self.wsUrl)
+                    self.reconnect()
                 }
             };
         },
 
         reset: function () {
-            clearTimeout(this.serverTimeoutObj);
-            clearTimeout(this.reconnectTimeoutObj);
+            clearTimeout(this.serverTimeoutId);
+            clearTimeout(this.reconnectTimeoutId);
         },
 
         start: function () {
-            var self = this
-            this.timeoutObj = setInterval(function () {
-                self.ws.send(JSON.stringify({ type: 'ping' }));
-                self.serverTimeoutObj = setTimeout(function () {
-                    self.ws.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+            const self = this
+            this.timeoutId = setInterval(function () {
+                self?.ws?.send(JSON.stringify({ type: 'ping' }));
+                self.serverTimeoutId = setTimeout(function () {
+                    self?.ws?.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
                 }, self.timeout)
             }, this.timeout)
         },
 
         reconnect: function () {
-            var self = this
+            const self = this
             if (this.lockReconnect) return;
             this.lockReconnect = true;
-            this.reconnectTimeoutObj = setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
+            this.reconnectTimeoutId = setTimeout(function () {     //没连接上会一直重连，设置延迟避免请求过多
                 if (self.isLeave === false) {
                     if (self.reconnectTimes < self.maxReconnectTImes) {//离开页面后则不再刷新心跳
                         self.reconnectTimes = self.reconnectTimes + 1
@@ -250,22 +275,22 @@ export var chatRoomWebSocket = {
                     else {
                         self.$message.error('已与游戏大厅断开连接');
                         self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'error', text: '已与游戏大厅断开连接' });
-                        self.loading.close()
-                        clearInterval(self.timeoutObj);
-                        clearTimeout(self.serverTimeoutObj);
-                        clearTimeout(self.reconnectTimeoutObj);
+                        self?.loading?.close()
+                        clearInterval(self.timeoutId);
+                        clearTimeout(self.serverTimeoutId);
+                        clearTimeout(self.reconnectTimeoutId);
                     }
                 }
                 else {
-                    clearInterval(self.timeoutObj);
-                    clearTimeout(self.serverTimeoutObj);
-                    clearTimeout(self.reconnectTimeoutObj);
+                    clearInterval(self.timeoutId);
+                    clearTimeout(self.serverTimeoutId);
+                    clearTimeout(self.reconnectTimeoutId);
                 }
             }, self.wsDelay);
         },
 
 
-        sendMessageToChatRoom: function (message) {
+        sendMessageToChatRoom: function (message: ChatTextInfo) {
             if (this.gameInfo !== null) return
             if (this.isLeave === false) {
                 this.chatTextId = this.chatTextId + 1
@@ -275,7 +300,8 @@ export var chatRoomWebSocket = {
                 this.$nextTick(function () {
                     /* 通过ref层层深入访问到子组件的聊天框，调节其滚动条高度 */
                     if (!this.$refs.chatModule) return
-                    this.$refs.chatModule.modifyScrollHeight()
+                    const chatModuleRef = this.$refs.chatModule as Element & ChatModuleRef
+                    chatModuleRef.modifyScrollHeight()
                 })
             }
         },
@@ -286,12 +312,12 @@ export var chatRoomWebSocket = {
     },
 
     beforeDestroy: function () {
-        clearInterval(this.timeoutObj);
-        clearTimeout(this.serverTimeoutObj);
-        clearTimeout(this.reconnectTimeoutObj);
+        clearInterval(this.timeoutId);
+        clearTimeout(this.serverTimeoutId);
+        clearTimeout(this.reconnectTimeoutId);
         this.$nextTick(() => {
-            this.ws.close()
+            this?.ws?.close()
         })
     }
-}
+})
 
