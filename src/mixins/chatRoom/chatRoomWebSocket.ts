@@ -201,7 +201,7 @@ export const chatRoomWebSocket = Vue.extend({
                             }
                         }
                     }
-                    else { // 此处 action = 'update', 对应请求动作 'play' 或 'discard'
+                    else { // 此处 action = 'get'或'update', 'update'时对应请求动作 'play' 或 'discard'
                         let gameData: WebSocketGame = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
                         if (gameData.version > (self?.gameInfo?.version || 0)) {
