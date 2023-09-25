@@ -8,3 +8,6 @@ export interface GameResultsList {
     gameId: number,
     max_combo: number,
 }
+
+/** @typedef {0|1|2|3|4|5|6|7} GamePlayerSeatIndex */
+export type GamePlayerSeatIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
