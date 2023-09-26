@@ -120,6 +120,7 @@ export type ExecuteValidator = (
 export interface ExecuteValidate {
     validate: (arg0: ExecuteValidateCallback) => void,
     validateField: (arg0: string) => void,
+    clearValidate: () => void,
 }
 
 type ExecuteValidateCallback = (valid: boolean) => void
