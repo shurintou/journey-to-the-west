@@ -33,11 +33,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { PropType } from 'vue'
 import { getGameRecord } from '@/api/infoSearch'
 import { GameResultsList } from '@/type/index'
 
-export default {
+export default Vue.extend({
     data() {
         return {
 
@@ -75,7 +76,7 @@ export default {
                 })
         },
     }
-}
+})
 </script>
 
 <style>

@@ -88,12 +88,13 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import CardsNum from '@/components/gameRoom/fragment/CardsNum'
 import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
 import QuickChatSelector from '@/components/gameRoom/fragment/QuickChatSelector'
 import { playSound } from '@/utils/soundHandler'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             isTooltipShow: false,
@@ -280,7 +281,7 @@ export default {
         AnimatedAvatar,
         QuickChatSelector,
     }
-}
+})
 </script>
 
 <style scoped>

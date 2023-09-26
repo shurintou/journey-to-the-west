@@ -18,7 +18,8 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue'
+export default Vue.extend({
     data() {
         return {
 
@@ -30,7 +31,7 @@ export default {
         fontSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: false },
     },
-}
+})
 </script>
 
 <style scoped>

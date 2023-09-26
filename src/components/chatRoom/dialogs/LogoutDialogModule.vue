@@ -11,10 +11,11 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { removeToken } from '@/utils/cookie'
 import { logout } from '@/api/login'
 
-export default {
+export default Vue.extend({
     data() {
         return {
 
@@ -38,5 +39,5 @@ export default {
             this.closeLeaveDialog()
         },
     }
-}
+})
 </script>

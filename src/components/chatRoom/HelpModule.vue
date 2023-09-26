@@ -298,7 +298,8 @@
 </template>
 
 <script lang="ts">
-export default {
+import Vue from 'vue'
+export default Vue.extend({
     data() {
         return {
             activeHelpModuleTabName: 'rule',
@@ -320,7 +321,7 @@ export default {
             }
         }
     },
-}
+})
 </script>
 
 <style scoped>
@@ -328,4 +329,5 @@ export default {
     background-color: rgb(233, 233, 235);
     height: 1px;
     border: 0;
-}</style>
+}
+</style>

@@ -8,12 +8,13 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { playBgm } from '@/utils/soundHandler'
 import { authorization } from '@/api/authorization'
 import { getToken } from '@/utils/cookie'
 import MusicModule from '@/components/topPage/MusicModule.vue'
 
-export default {
+export default Vue.extend({
 
   created: function () {
     if (!getToken()) {
@@ -49,5 +50,5 @@ export default {
   components: {
     MusicModule,
   },
-}
+})
 </script>

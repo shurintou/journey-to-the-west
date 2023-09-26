@@ -54,9 +54,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { playBgm, modifyBgmVolume, modifySoundVolume } from '@/utils/soundHandler'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             messageGroups: [
@@ -210,7 +211,7 @@ export default {
             }
         },
     },
-}
+})
 </script>
 
 <style scoped>

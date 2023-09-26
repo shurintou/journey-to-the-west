@@ -6,9 +6,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { playBgm } from '@/utils/soundHandler'
 
-export default {
+export default Vue.extend({
     data() {
         return {
 
@@ -26,5 +27,5 @@ export default {
                 })
         }
     }
-}
+})
 </script>

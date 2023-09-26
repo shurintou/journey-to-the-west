@@ -194,10 +194,11 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import GameRoomPlayerItemModule from '@/components/gameRoom/GameRoomPlayerItemModule'
 import GameRoomTableModule from '@/components/gameRoom/GameRoomTableModule'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             sentPlayerLocRomTypeChatMessageObject: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, },
@@ -259,7 +260,7 @@ export default {
         GameRoomTableModule
     },
 
-}
+})
 </script>
 
 <style>

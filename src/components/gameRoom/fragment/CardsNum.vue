@@ -3,9 +3,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 const TWEEN = require('@tweenjs/tween.js')
 
-export default {
+export default Vue.extend({
     data() {
         return {
             tweeningValue: 0,
@@ -54,5 +55,5 @@ export default {
             animate()
         },
     }
-}
+})
 </script>

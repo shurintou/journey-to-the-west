@@ -78,9 +78,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { calExperience } from '@/utils/calculator'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             level: 0,
@@ -112,7 +113,7 @@ export default {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
     },
-}
+})
 </script>
 
 <style>

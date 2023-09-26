@@ -278,6 +278,7 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import EditGameRoomDialogModule from "@/components/gameRoom/dialogs/EditGameRoomDialogModule";
 import { cardList } from "@/mixins/gameRoom/cardList";
 import RemainCardsNum from "@/components/gameRoom/fragment/RemainCardsNum";
@@ -287,7 +288,7 @@ import CardsNum from "@/components/gameRoom/fragment/CardsNum";
 import { playSound } from "@/utils/soundHandler";
 import QuickChatSelector from "@/components/gameRoom/fragment/QuickChatSelector";
 
-export default {
+export default Vue.extend({
   data() {
     return {
       isTooltipShow: false,

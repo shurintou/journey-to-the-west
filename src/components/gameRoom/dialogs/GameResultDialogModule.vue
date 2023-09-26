@@ -76,11 +76,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import * as echarts from 'echarts/core'
 import { TitleComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { BarChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
-export default {
+export default Vue.extend({
     data() {
         return {
             activeGameResultModuleTabName: 'gameRecord',
@@ -319,10 +320,11 @@ export default {
         this.selectedLegend = ''
         window.removeEventListener("resize", this.echartResizeLogic)
     }
-}
+})
 </script>
 
 <style>
 .el-table .is-local-player-row {
     background: rgb(240, 249, 235);
-}</style>
+}
+</style>

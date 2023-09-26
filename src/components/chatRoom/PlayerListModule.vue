@@ -34,10 +34,11 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { getPlayerRecord } from '@/api/infoSearch'
 import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
 
-export default {
+export default Vue.extend({
     name: 'playerListModule',
     data() {
         var isPlayerListNull = true
@@ -155,7 +156,7 @@ export default {
     components: {
         PlayerInfoTabModule,
     }
-}
+})
 </script>
 
 <style>

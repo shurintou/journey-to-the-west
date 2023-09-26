@@ -37,10 +37,11 @@
 
 
 <script lang="ts">
+import Vue from 'vue'
 import { cardList } from '@/mixins/gameRoom/cardList'
 import { playSound } from '@/utils/soundHandler'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             selectCard: [],
@@ -443,7 +444,7 @@ export default {
     },
 
     mixins: [cardList],
-}
+})
 </script>
 
 <style>

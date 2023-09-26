@@ -4,7 +4,8 @@
   </div>
 </template>
 <script lang="ts">
-export default {
+import Vue from 'vue'
+export default Vue.extend({
   name: 'SIdentify',
   props: {
     identifyCode: {
@@ -159,5 +160,5 @@ export default {
   mounted() {
     this.drawPic()
   }
-}
+})
 </script>

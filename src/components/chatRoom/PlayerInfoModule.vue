@@ -73,13 +73,14 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { modifyAvatar, modifyNickname } from '@/api/modify'
 import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
 import { getPlayerRecord } from '@/api/infoSearch'
 import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
-import HelpModule from './HelpModule'
+import HelpModule from '@components/chatRoom/HelpModule'
 
-export default {
+export default Vue.extend({
 
   data() {
     return {
@@ -280,7 +281,7 @@ export default {
     AnimatedAvatar,
     HelpModule,
   }
-}
+})
 </script>
 
 <style>

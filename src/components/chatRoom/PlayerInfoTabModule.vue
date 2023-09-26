@@ -22,13 +22,14 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import PlayerProfileModule from '@/components/chatRoom/tabs/PlayerProfileModule'
 import GameResultsListModule from '@/components/chatRoom/tabs/GameResultsListModule'
 import SettingModule from '@/components/chatRoom/tabs/SettingModule'
 import RankModule from '@/components/chatRoom/tabs/RankModule'
 import { getGameRecordsList } from '@/api/infoSearch'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             gameResultsList: [],
@@ -79,5 +80,5 @@ export default {
         SettingModule,
         RankModule,
     },
-}
+})
 </script>

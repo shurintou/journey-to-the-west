@@ -140,11 +140,12 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import { getRankInfo } from '@/api/getRank'
 import RankItem from '@/fragments/RankItem'
 import { calExperience } from '@/utils/calculator'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             activeName: '',
@@ -208,6 +209,6 @@ export default {
     components: {
         RankItem,
     },
-}
+})
 </script>
 

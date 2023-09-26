@@ -18,9 +18,10 @@
 </template>
 
 <script lang="ts">
+import Vue from 'vue'
 import CardsNum from '@/components/gameRoom/fragment/CardsNum'
 
-export default {
+export default Vue.extend({
     data() {
         return {
             vibrateFlag: false,
@@ -115,7 +116,7 @@ export default {
     components: {
         CardsNum
     }
-}
+})
 </script>
 
 <style scoped>
