@@ -124,12 +124,12 @@ export default Vue.extend({
 
         backgroundMusic: {
             get() {
-                return this.$store.state.setting.playBgm
+                return this.$stock.state.setting.playBgm
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.playBgm = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
                         playBgm()
                     })
@@ -138,26 +138,26 @@ export default Vue.extend({
 
         soundEffect: {
             get() {
-                return this.$store.state.setting.playSound
+                return this.$stock.state.setting.playSound
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.playSound = value
                 if (value === false) {
                     setting.youTurnVoice = value
                 }
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
             }
         },
 
         bgmVolume: {
             get() {
-                return this.$store.state.setting.bgmVolume
+                return this.$stock.state.setting.bgmVolume
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.bgmVolume = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
                         modifyBgmVolume((value / 100).toFixed(1))
                     })
@@ -166,12 +166,12 @@ export default Vue.extend({
 
         soundVolume: {
             get() {
-                return this.$store.state.setting.soundVolume
+                return this.$stock.state.setting.soundVolume
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.soundVolume = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
                         modifySoundVolume((value / 100).toFixed(1))
                     })
@@ -180,34 +180,34 @@ export default Vue.extend({
 
         youTurnVoice: {
             get() {
-                return this.$store.state.setting.youTurnVoice
+                return this.$stock.state.setting.youTurnVoice
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.youTurnVoice = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
             }
         },
 
         quickChat: {
             get() {
-                return this.$store.state.setting.textToPlayer
+                return this.$stock.state.setting.textToPlayer
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.textToPlayer = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
             }
         },
 
         bianshenSwitch: {
             get() {
-                return this.$store.state.setting.bianshenBorder
+                return this.$stock.state.setting.bianshenBorder
             },
             set(value) {
-                let setting = this.$store.state.setting
+                let setting = this.$stock.state.setting
                 setting.bianshenBorder = value
-                this.$store.dispatch('mutateSetting', setting)
+                this.$stock.dispatch('mutateSetting', setting)
             }
         },
     },

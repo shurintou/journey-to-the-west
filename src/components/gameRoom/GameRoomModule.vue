@@ -234,7 +234,7 @@ export default Vue.extend({
     computed: {
         playerSeatIndex: function () {
             for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                if (this.playerLocRoom.playerList[i].id === this.$store.state.id) {
+                if (this.playerLocRoom.playerList[i].id === this.$stock.state.id) {
                     return i
                 }
             }

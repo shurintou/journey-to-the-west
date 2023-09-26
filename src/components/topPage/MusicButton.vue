@@ -18,10 +18,10 @@ export default Vue.extend({
 
     methods: {
         turnOnOffMusic: function () {
-            let setting = this.$store.state.setting
+            let setting = this.$stock.state.setting
             let flag = !setting.playBgm
             setting.playBgm = flag
-            this.$store.dispatch('mutateSetting', setting)
+            this.$stock.dispatch('mutateSetting', setting)
                 .then(() => {
                     playBgm()
                 })

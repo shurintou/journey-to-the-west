@@ -58,11 +58,11 @@ export const chatRoomWebSocket = Vue.extend({
             this.ws.onopen = function () {
                 self.start()
                 self?.ws?.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
-                if (self.$store.state.player_loc > 0) {
+                if (self.$stock.state.player_loc > 0) {
                     self?.ws?.send(JSON.stringify({ type: 'playerList', action: 'get' }))
                 }
                 else {
-                    self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: self.$store.state.player_loc, player_status: self.$store.state.player_status }))
+                    self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: self.$stock.state.player_loc, player_status: self.$stock.state.player_status }))
                 }
                 self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'success', 'text': '进入游戏大厅，成功连接服务器' });
             };
@@ -71,25 +71,25 @@ export const chatRoomWebSocket = Vue.extend({
                 let jsonData: WebSocketChangeSeatResponseJsonData | WebSocketChatResponseJsonData | WebSocketExceptionMessageResponseJsonData | WebSocketGameResponseJsonData | WebSocketGameRoomListResponseJsonData | WebSocketMessageResponseJsonData | WebSocketPlayerListResponseJsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if (jsonData.type === 'chat') {
-                    if (jsonData.player_loc === self.$store.state.player_loc) {
-                        self.sendMessageToChatRoom({ 'id': 0, name: jsonData.userId === self.$store.state.id ? '你' : jsonData.nickname, type: 'info', 'text': jsonData.text })
+                    if (jsonData.player_loc === self.$stock.state.player_loc) {
+                        self.sendMessageToChatRoom({ 'id': 0, name: jsonData.userId === self.$stock.state.id ? '你' : jsonData.nickname, type: 'info', 'text': jsonData.text })
                         if (jsonData.player_loc > 0) {
                             self.playerLocRomTypeChatMessageObject = { id: jsonData.userId, nickname: jsonData.nickname, text: jsonData.text }
                         }
                     }
                 }
                 else if (jsonData.type === 'system') {//聊天框显示系统信息
-                    if (jsonData.player_loc === self.$store.state.player_loc) {
+                    if (jsonData.player_loc === self.$stock.state.player_loc) {
                         self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'warning', 'text': jsonData.text })
                     }
                 }
                 else if (jsonData.type === 'message') {//上方弹窗显示系统信息
-                    if (jsonData.player_loc === self.$store.state.player_loc) {
+                    if (jsonData.player_loc === self.$stock.state.player_loc) {
                         self.$message({ message: jsonData.text, type: jsonData.subType })
                     }
                 }
                 else if (jsonData.type === 'error') {
-                    if (jsonData.player_loc === self.$store.state.player_loc) {
+                    if (jsonData.player_loc === self.$stock.state.player_loc) {
                         self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'error', 'text': jsonData.text })
                         self.$message.error(jsonData.text)
                     }
@@ -106,7 +106,7 @@ export const chatRoomWebSocket = Vue.extend({
                         const player: WebSocketPlayer = JSON.parse(jsonData.data[i])
                         newPlayerList.push(player)
                         /* 获取玩家的位置和状态信息 */
-                        if (player.id === self.$store.state.id) {
+                        if (player.id === self.$stock.state.id) {
                             playerLoc = player.player_loc
                             playerStatus = player.player_status
                         }
@@ -114,17 +114,17 @@ export const chatRoomWebSocket = Vue.extend({
                     if (playerLoc !== 0) {
                         /* 此设定暂时摒弃：在大厅则获取所有玩家信息，不在大厅，但在同一房间，也获取该玩家信息。*/
                         // newPlayerList = newPlayerList.filter( player => player.player_loc === playerLoc )
-                        if (self.$store.state.player_loc === 0) {
+                        if (self.$stock.state.player_loc === 0) {
                             self.$message.success('成功进入房间')
                         }
                     }
                     else {
-                        if (self.$store.state.player_loc !== 0) {
+                        if (self.$stock.state.player_loc !== 0) {
                             self.$message.info('已离开房间，回到游戏大厅')
                         }
                     }
-                    self.$store.dispatch('mutatePlayerLoc', playerLoc)
-                    self.$store.dispatch('mutatePlayerStatus', playerStatus)
+                    self.$stock.dispatch('mutatePlayerLoc', playerLoc)
+                    self.$stock.dispatch('mutatePlayerStatus', playerStatus)
                     self.playerList = newPlayerList
                 }
                 else if (jsonData.type === 'gameRoomList') {
@@ -136,7 +136,7 @@ export const chatRoomWebSocket = Vue.extend({
                         newGameRoomList.push(room)
                         /* 获取玩家自身在哪个房间 */
                         for (let j = 0; j < Object.keys(room.playerList).length; j++) {
-                            if (self.$store.state.id === room.playerList[j].id) {
+                            if (self.$stock.state.id === room.playerList[j].id) {
                                 playerLoc = room.id
                                 playerLocRoom = room
                                 break
@@ -147,8 +147,8 @@ export const chatRoomWebSocket = Vue.extend({
                     if (playerLocRoom !== null) {
                         self.playerLocRoom = playerLocRoom
                         /* 如果玩家现在位置和上面获取到的不一样则通过playerList设置为一样，并相应设置玩家状态 */
-                        if (self.$store.state.player_loc !== playerLoc) {
-                            self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
+                        if (self.$stock.state.player_loc !== playerLoc) {
+                            self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
                         }
                         /* 如果玩家所在房间正在游戏中且本地没有该游戏信息 */
                         if (playerLocRoom.status === 1 && self.gameInfo === null) {
@@ -161,7 +161,7 @@ export const chatRoomWebSocket = Vue.extend({
                     }
                     /* 玩家不在任一房间 */
                     else {
-                        self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$store.state.nickname, avatar_id: self.$store.state.avatar_id, player_loc: 0, player_status: 0 }))
+                        self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: 0, player_status: 0 }))
                     }
                     self.gameRoomList = newGameRoomList
                     self.$nextTick(() => {
@@ -194,7 +194,7 @@ export const chatRoomWebSocket = Vue.extend({
                         playSound('game-over')
                         if (self.gameResult !== null) {
                             for (let i = 0; i < self.gameResult.playerExpList.length; i++) {
-                                if (self.gameResult.playerExpList[i].id === self.$store.state.id) {
+                                if (self.gameResult.playerExpList[i].id === self.$stock.state.id) {
                                     self.$message.success('获得 ' + self.gameResult.playerExpList[i].exp + ' 点经验值')
                                     break
                                 }

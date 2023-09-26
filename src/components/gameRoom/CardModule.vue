@@ -71,7 +71,7 @@ export default Vue.extend({
             immediate: true,
             handler: function (newVal) {
                 if (this.gameInfo === null || this.getGamePlayer.online === false || this.gameInfo.currentPlayer === -1) return
-                if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id) {
+                if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
                     this.time = 100
                     this.metamorphoseMode = false
                     this.selectMetamorphoseCard = []
@@ -80,7 +80,7 @@ export default Vue.extend({
                         clearInterval(this.timer)
                     }
                     this.$nextTick(function () {
-                        if (this.$store.state.setting.youTurnVoice) {
+                        if (this.$stock.state.setting.youTurnVoice) {
                             if (this.gameInfo.currentCard.length > 0 || newVal === 0) {
                                 setTimeout(function () {
                                     playSound('youturn')
@@ -106,7 +106,7 @@ export default Vue.extend({
         getSeatIndex: function () {
             if (!this.gameInfo) return 10
             for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
-                if (this.gameInfo.gamePlayer[i].id === this.$store.state.id) {
+                if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
                     return i
                 }
             }
@@ -116,7 +116,7 @@ export default Vue.extend({
         getGamePlayer: function () {
             if (!this.gameInfo) return null
             for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
-                if (this.gameInfo.gamePlayer[i].id === this.$store.state.id) {
+                if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
                     return this.gameInfo.gamePlayer[i]
                 }
             }
@@ -231,7 +231,7 @@ export default Vue.extend({
                 return
             }
             if (this.timer === null) {
-                if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$store.state.id) {
+                if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
                     this.$message.warning('出牌时间超时了')
                 }
                 else {

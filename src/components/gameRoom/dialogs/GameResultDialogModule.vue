@@ -156,7 +156,7 @@ export default Vue.extend({
 
         /* 17行el-table加上 :row-class-name="tableRowClassName" 可以给玩家行加颜色 */
         tableRowClassName: function ({ row }) {
-            if (row.id === this.$store.state.id)
+            if (row.id === this.$stock.state.id)
                 return 'is-local-player-row'
         },
 

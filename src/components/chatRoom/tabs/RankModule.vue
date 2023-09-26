@@ -163,12 +163,12 @@ export default Vue.extend({
         showPlayerName: function () {
             if (this.playerProfile === null) return ''
             if (this.rankInfo.playerInfo === null) {
-                if (this.playerProfile.id === this.$store.state.id) {
+                if (this.playerProfile.id === this.$stock.state.id) {
                     return '你尚未拥有排名'
                 }
                 return '玩家尚未拥有排名'
             }
-            if (this.playerProfile.id === this.$store.state.id) {
+            if (this.playerProfile.id === this.$stock.state.id) {
                 return '你的排名'
             }
             return '玩家排名'

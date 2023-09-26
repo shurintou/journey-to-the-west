@@ -416,7 +416,7 @@ export default Vue.extend({
       )
         return;
       this.$emit("gameTextToPlayerSent", this.seatIndex);
-      if (newVal.sourceId === this.$store.state.id) {
+      if (newVal.sourceId === this.$stock.state.id) {
         if (newVal.target === -1) {
           this.gameTextFromPlayer.push("你说: " + newVal.text);
         } else {
@@ -529,7 +529,7 @@ export default Vue.extend({
           source: this.seatIndex,
           target: -1,
           targetId: -1,
-          sourceId: this.$store.state.id,
+          sourceId: this.$stock.state.id,
           text: item.text,
           soundSrc: item.music,
         })

@@ -119,7 +119,7 @@ export default Vue.extend({
         if (value === '') {
           callback(new Error('请输入昵称'));
         }
-        else if (value === this.$store.state.nickname) {
+        else if (value === this.$stock.state.nickname) {
           callback(new Error('修改前后昵称一致'));
         }
         callback()
@@ -145,7 +145,7 @@ export default Vue.extend({
     getGamePlayer: function () {
       if (this.gameInfo === null) return null
       for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
-        if (this.gameInfo.gamePlayer[i].id === this.$store.state.id) {
+        if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
           return this.gameInfo.gamePlayer[i]
         }
       }
@@ -166,7 +166,7 @@ export default Vue.extend({
       }
       if (this.duplicateSubmitAvatarFlag) return;
       this.duplicateSubmitAvatarFlag = true
-      if (this.temAvatarId === this.$store.state.avatar_id) {
+      if (this.temAvatarId === this.$stock.state.avatar_id) {
         this.$message.error('修改前后头像一致，请重新选择')
         this.duplicateSubmitAvatarFlag = false
       }
@@ -174,9 +174,9 @@ export default Vue.extend({
         modifyAvatar({ avatar_id: this.temAvatarId })
           .then((res) => {
             if (res.code === 200) {
-              this.$store.dispatch('mutateAvatarId', this.temAvatarId)
+              this.$stock.dispatch('mutateAvatarId', this.temAvatarId)
                 .then(() => {
-                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id, player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
+                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
                 })
               this.$message.success('成功修改头像')
             }
@@ -207,9 +207,9 @@ export default Vue.extend({
           modifyNickname({ nickname: this.nicknameForm.name })
             .then((res) => {
               if (res.code === 200) {
-                this.$store.dispatch('mutateNickname', this.nicknameForm.name).then(() => {
-                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$store.state.nickname, avatar_id: this.$store.state.avatar_id, player_loc: this.$store.state.player_loc, player_status: this.$store.state.player_status }))
-                  this.nicknameForm.name = this.$store.state.nickname
+                this.$stock.dispatch('mutateNickname', this.nicknameForm.name).then(() => {
+                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
+                  this.nicknameForm.name = this.$stock.state.nickname
                 })
                 this.$message.success('成功修改昵称')
               }
@@ -233,7 +233,7 @@ export default Vue.extend({
 
     openViewModule: function () {
       this.viewModuleDialogVisible = true
-      this.getPlayerRecord(this.$store.state.id, this.$store.state.avatar_id, this.$store.state.nickname)
+      this.getPlayerRecord(this.$stock.state.id, this.$stock.state.avatar_id, this.$stock.state.nickname)
     },
 
     openHelpModule: function () {
@@ -262,7 +262,7 @@ export default Vue.extend({
         return
       }
       this.avatarDialogVisible = true
-      this.temAvatarId = this.$store.state.avatar_id
+      this.temAvatarId = this.$stock.state.avatar_id
     },
 
     openEditNicknameDialog: function () {
@@ -271,7 +271,7 @@ export default Vue.extend({
         return
       }
       this.nicknameDialogVisible = true
-      this.nicknameForm.name = this.$store.state.nickname
+      this.nicknameForm.name = this.$stock.state.nickname
       this.$nextTick(() => { this.$refs.nicknameForm.clearValidate() })
     }
   },

@@ -70,14 +70,14 @@ export default Vue.extend({
     watch: {
         createGameRoomDialogVisible: function (newVal) {
             if (newVal === true) {
-                this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
+                this.gameRoomValidateForm.roomName = this.$stock.state.nickname + ' 的房间'
             }
         }
     },
 
     methods: {
         createGameRoom: function () {
-            if (this.$store.state.avatar_id === 0) {
+            if (this.$stock.state.avatar_id === 0) {
                 this.$message.warning('请先设置头像和昵称')
                 return
             }
@@ -93,10 +93,10 @@ export default Vue.extend({
                         password: this.gameRoomValidateForm.password,
                         cardNum: this.gameRoomValidateForm.cardNum,
                         metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
-                        owner: this.$store.state.id,
+                        owner: this.$stock.state.id,
                         lastLoser: 0,
                         playerList: {
-                            0: { id: this.$store.state.id, cards: 0, win: 0, loss: 0, ready: false },
+                            0: { id: this.$stock.state.id, cards: 0, win: 0, loss: 0, ready: false },
                             1: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
                             2: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
                             3: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
@@ -115,7 +115,7 @@ export default Vue.extend({
             this.$emit('createGameRoomDialogVisible', false)
             const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
             gameRoomValidateFormRef.clearValidate()
-            this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
+            this.gameRoomValidateForm.roomName = this.$stock.state.nickname + ' 的房间'
             this.gameRoomValidateForm.password = ''
             this.gameRoomValidateForm.cardNum = 2
             this.gameRoomValidateForm.metamorphoseNum = 4

@@ -53,7 +53,7 @@ export default Vue.extend({
         },
 
         disagreeChangeSeat: function () {
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$store.state.nickname }))
+            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$stock.state.nickname }))
             this.$emit('askChangeSeatDialogVisible', false)
         }
 

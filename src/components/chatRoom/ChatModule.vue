@@ -36,7 +36,7 @@ export default Vue.extend({
 
         sendTextToServe: function () {
             if (this.inputText.length > 0) {
-                this.ws.send(JSON.stringify({ type: 'chat', nickname: this.$store.state.nickname, text: this.inputText, player_loc: this.$store.state.player_loc }))
+                this.ws.send(JSON.stringify({ type: 'chat', nickname: this.$stock.state.nickname, text: this.inputText, player_loc: this.$stock.state.player_loc }))
                 this.inputText = ""
             }
         },

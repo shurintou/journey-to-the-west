@@ -25,7 +25,7 @@ export default Vue.extend({
     }
     authorization()
       .then((res) => {
-        this.$store.dispatch('initialization', res.account)
+        this.$stock.dispatch('initialization', res.account)
         if (this.$route.path === '/chatroom') {
           return
         }

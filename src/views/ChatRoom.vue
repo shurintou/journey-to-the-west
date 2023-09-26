@@ -160,9 +160,9 @@ export default (Vue as VueConstructor<
   methods: {
     announceViewHandler: function (value: boolean) {
       this.announceDialogVisible = value
-      let setting = this.$store.state.setting
+      let setting = this.$stock.state.setting
       setting.announceId = this.announceVersionId
-      this.$store.dispatch('mutateSetting', setting)
+      this.$stock.dispatch('mutateSetting', setting)
     },
 
     invokePlayerCardRefPlayCardEmitted: function () {

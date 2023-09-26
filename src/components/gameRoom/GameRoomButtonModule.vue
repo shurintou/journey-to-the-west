@@ -59,7 +59,7 @@ export default Vue.extend({
 
         isNotReady: function () {
             /* 房主的情况下 */
-            if (this.playerLocRoom.owner === this.$store.state.id) {
+            if (this.playerLocRoom.owner === this.$stock.state.id) {
                 var isAllReady = true
                 /* 至少两人才能开游戏 */
                 var playerNum = 0
@@ -79,7 +79,7 @@ export default Vue.extend({
                     if (this.playerLocRoom.playerList[i].id === 0) {
                         continue
                     }
-                    else if (this.playerLocRoom.playerList[i].id !== this.$store.state.id && this.playerLocRoom.playerList[i].ready === false) {
+                    else if (this.playerLocRoom.playerList[i].id !== this.$stock.state.id && this.playerLocRoom.playerList[i].ready === false) {
                         isAllReady = false
                         break
                     }
@@ -88,7 +88,7 @@ export default Vue.extend({
             }
             else {
                 for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                    if (this.playerLocRoom.playerList[i].id === this.$store.state.id) {
+                    if (this.playerLocRoom.playerList[i].id === this.$stock.state.id) {
                         return this.playerLocRoom.playerList[i].ready ? false : true
                     }
                 }

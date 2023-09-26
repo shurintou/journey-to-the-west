@@ -132,7 +132,7 @@ export default Vue.extend({
             if (newVal.targetId === -1) {
                 this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 说: ' + newVal.text)
             }
-            else if (newVal.targetId === this.$store.state.id) {
+            else if (newVal.targetId === this.$stock.state.id) {
                 this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 对你说: ' + newVal.text)
             }
             else {
@@ -246,13 +246,13 @@ export default Vue.extend({
         },
 
         changeSeat: function () {
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$store.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex, confirm: false }))
+            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$stock.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex, confirm: false }))
             this.isPopoverVisible = false
         },
 
         sentSelectedTextToPlayer: function (item) {
             this.isPopoverVisible = false
-            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$store.state.id, text: item.text, soundSrc: item.music }))
+            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$stock.state.id, text: item.text, soundSrc: item.music }))
         },
 
         increasedHandler: function (whichFlag) {

@@ -92,7 +92,7 @@ export default Vue.extend({
                     this.notEditableFlag = true
                     return
                 }
-                if (newVal === this.$store.state.id) {
+                if (newVal === this.$stock.state.id) {
                     this.notEditableFlag = false
                 }
                 else {
