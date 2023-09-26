@@ -162,3 +162,15 @@ export interface GameResult {
     playerExpList: PlayerExp[]
 }
 
+interface GameResults {
+    id: number,
+    nickname: string,
+    cards: number,
+    avatar_id: number,
+    seat_index: number,
+    createdAt: string,
+    gameId: number,
+    max_combo: number,
+}
+
+export type GameResultsList = GameResults[]

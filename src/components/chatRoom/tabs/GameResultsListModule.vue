@@ -36,7 +36,7 @@
 import Vue from 'vue'
 import { PropType } from 'vue'
 import { getGameRecord } from '@/api/infoSearch'
-import { GameResultsList } from '@/type/index'
+import { GameResultsList } from '@/type/game'
 
 export default Vue.extend({
     data() {
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
 
     props: {
-        gameResultsList: { type: Array as PropType<GameResultsList[]>, },
+        gameResultsList: { type: Array as PropType<GameResultsList>, },
         gameResultsPageNum: { type: Number, default: 0 },
         fontSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: false },
@@ -54,19 +54,19 @@ export default Vue.extend({
     },
 
     methods: {
-        getGameDate: function (data) {
+        getGameDate: function (data: Date) {
             return data.getFullYear() + '年' + (data.getMonth() + 1) + '月' + data.getDate() + '日 ' + data.getHours() + '时' + data.getMinutes() + '分'
         },
 
-        getAvatarUrl: function (n) {
-            return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+        getAvatarUrl: function (avatarId: number) {
+            return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
-        emitPageChanged: function (n) {
-            this.$emit('pageChanged', n)
+        emitPageChanged: function (pageNum: number) {
+            this.$emit('pageChanged', pageNum)
         },
 
-        getGameResultInfo: function (id) {
+        getGameResultInfo: function (id: number) {
             getGameRecord({ id: id })
                 .then(res => {
                     this.$emit('sendGameResultToPlayerInfoTab', { gameResult: res.gameResult })
