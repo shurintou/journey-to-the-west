@@ -75,7 +75,7 @@ export default Vue.extend({
     },
 
     methods: {
-        getAvatarUrl: function (avatarId) {
+        getAvatarUrl: function (avatarId: number) {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
     },
