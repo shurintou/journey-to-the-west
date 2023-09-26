@@ -55,6 +55,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { TextToPlayer } from '@/type/setting'
 import { playBgm, modifyBgmVolume, modifySoundVolume } from '@/utils/soundHandler'
 
 export default Vue.extend({
@@ -123,10 +124,10 @@ export default Vue.extend({
         },
 
         backgroundMusic: {
-            get() {
+            get(): boolean {
                 return this.$stock.state.setting.playBgm
             },
-            set(value) {
+            set(value: boolean): void {
                 let setting = this.$stock.state.setting
                 setting.playBgm = value
                 this.$stock.dispatch('mutateSetting', setting)
@@ -137,10 +138,10 @@ export default Vue.extend({
         },
 
         soundEffect: {
-            get() {
+            get(): boolean {
                 return this.$stock.state.setting.playSound
             },
-            set(value) {
+            set(value: boolean): void {
                 let setting = this.$stock.state.setting
                 setting.playSound = value
                 if (value === false) {
@@ -151,38 +152,38 @@ export default Vue.extend({
         },
 
         bgmVolume: {
-            get() {
+            get(): number {
                 return this.$stock.state.setting.bgmVolume
             },
-            set(value) {
+            set(value: number): void {
                 let setting = this.$stock.state.setting
                 setting.bgmVolume = value
                 this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
-                        modifyBgmVolume((value / 100).toFixed(1))
+                        modifyBgmVolume(parseFloat((value / 100).toFixed(1)))
                     })
             }
         },
 
         soundVolume: {
-            get() {
+            get(): number {
                 return this.$stock.state.setting.soundVolume
             },
-            set(value) {
+            set(value: number): void {
                 let setting = this.$stock.state.setting
                 setting.soundVolume = value
                 this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
-                        modifySoundVolume((value / 100).toFixed(1))
+                        modifySoundVolume(parseFloat((value / 100).toFixed(1)))
                     })
             }
         },
 
         youTurnVoice: {
-            get() {
+            get(): boolean {
                 return this.$stock.state.setting.youTurnVoice
             },
-            set(value) {
+            set(value: boolean): void {
                 let setting = this.$stock.state.setting
                 setting.youTurnVoice = value
                 this.$stock.dispatch('mutateSetting', setting)
@@ -190,10 +191,10 @@ export default Vue.extend({
         },
 
         quickChat: {
-            get() {
+            get(): TextToPlayer[] {
                 return this.$stock.state.setting.textToPlayer
             },
-            set(value) {
+            set(value: TextToPlayer[]): void {
                 let setting = this.$stock.state.setting
                 setting.textToPlayer = value
                 this.$stock.dispatch('mutateSetting', setting)
@@ -201,10 +202,10 @@ export default Vue.extend({
         },
 
         bianshenSwitch: {
-            get() {
+            get(): boolean {
                 return this.$stock.state.setting.bianshenBorder
             },
-            set(value) {
+            set(value: boolean): void {
                 let setting = this.$stock.state.setting
                 setting.bianshenBorder = value
                 this.$stock.dispatch('mutateSetting', setting)
