@@ -1,5 +1,4 @@
-import { WebSocketChat } from '@/type/room'
-import { WebSocketChangeSeat } from '@/type/gameRoom'
+import { WebSocketChat, WebSocketChangeSeat } from '@/type/room'
 import { GamePlayerSeatIndex } from '@/type/index'
 
 

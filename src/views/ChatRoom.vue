@@ -99,10 +99,9 @@
 <script lang="ts">
 import Vue, { VueConstructor } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
-import { WebSocketGameRoom, WebSocketChangeSeat } from '@/type/gameRoom'
+import { WebSocketGameRoom, WebSocketChangeSeat, ChatTextInfo, PlayerLocRomTypeChatMessageObject, EnterRoomDto } from '@/type/room'
 import { WebSocketPlayer } from '@/type/player'
 import { GamePlayers, WebSocketGame, GameResult } from '@/type/game'
-import { ChatTextInfo, PlayerLocRomTypeChatMessageObject, EnterRoomDto } from '@/type/room'
 import { CardModuleRef } from '@/type/ref'
 import { ElLoadingComponent } from 'element-ui/types/loading'
 import { SystemSetting } from '@/type/setting'

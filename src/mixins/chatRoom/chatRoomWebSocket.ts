@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import { playSound } from '@/utils/soundHandler'
 import { GamePlayerSeatIndex } from '@/type/index'
-import { PlayerLocRomTypeChatMessageObject, ChatTextInfo } from '@/type/room'
+import { PlayerLocRomTypeChatMessageObject, ChatTextInfo, WebSocketGameRoom, WebSocketChangeSeat } from '@/type/room'
 import { WebSocketGame, GamePlayers, GameResult } from '@/type/game'
 import { ElLoadingComponent } from 'element-ui/types/loading'
 import { WebSocketPlayer } from '@/type/player'
 import { ChatModuleRef } from '@/type/ref'
-import { WebSocketGameRoom, WebSocketChangeSeat } from '@/type/gameRoom'
 import { WebSocketChangeSeatResponseJsonData, WebSocketChatResponseJsonData, WebSocketExceptionMessageResponseJsonData, WebSocketGameResponseJsonData, WebSocketGameRoomListResponseJsonData, WebSocketMessageResponseJsonData, WebSocketPlayerListResponseJsonData } from '@/type/websocket'
 
 export const chatRoomWebSocket = Vue.extend({
