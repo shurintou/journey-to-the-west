@@ -17,7 +17,8 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { EnterRoomDto } from '@/type/room'
 import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
 
 const checkPassword: ExecuteValidator = (rule, value, callback) => {
@@ -48,7 +49,7 @@ export default Vue.extend({
     props: {
         enterGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        enterRoomDto: { type: Object, default: null },
+        enterRoomDto: { type: Object as PropType<EnterRoomDto>, default: null },
         ws: { type: WebSocket, default: null },
     },
 
