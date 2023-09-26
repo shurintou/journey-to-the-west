@@ -18,27 +18,30 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
+
+const checkPassword: ExecuteValidator = (rule, value, callback) => {
+    if (value === '') {
+        callback(new Error('密码不能为空'));
+    }
+    else {
+        var uPattern = /^[0-9]{4,8}$/
+        if (!uPattern.test(value)) {
+            callback(new Error('密码须4到8位数字'));
+        }
+        else {
+            callback();
+        }
+        callback();
+    }
+}
 export default Vue.extend({
     data() {
         return {
             gameRoomValidateForm: {
                 password: '',
             },
-            checkPassword: (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('密码不能为空'));
-                }
-                else {
-                    var uPattern = /^[0-9]{4,8}$/
-                    if (!uPattern.test(value)) {
-                        callback(new Error('密码须4到8位数字'));
-                    }
-                    else {
-                        callback();
-                    }
-                    callback();
-                }
-            },
+            checkPassword: checkPassword,
         }
     },
 
@@ -54,7 +57,8 @@ export default Vue.extend({
             if (!this.$refs.gameRoomValidateForm) return
             if (newVal === true) {
                 this.gameRoomValidateForm.password = ''
-                this.$refs.gameRoomValidateForm.clearValidate()
+                const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+                gameRoomValidateFormRef.clearValidate()
             }
         }
     },
@@ -65,9 +69,10 @@ export default Vue.extend({
                 this.$message.warning('请先设置头像和昵称')
                 return
             }
-            this.$refs.gameRoomValidateForm.validate(valid => {
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.validate(valid => {
                 if (valid) {
-                    this.ws.send(JSON.stringify({
+                    this?.ws?.send(JSON.stringify({
                         type: 'gameRoomList',
                         id: this.enterRoomDto.id,
                         seatIndex: this.enterRoomDto.seatIndex,
@@ -82,7 +87,8 @@ export default Vue.extend({
         closeEnterGameRoomDialog: function () {
             this.$emit('enterGameRoomDialogVisible', false)
             this.gameRoomValidateForm.password = ''
-            this.$refs.gameRoomValidateForm.clearValidate()
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.clearValidate()
         },
     }
 })
