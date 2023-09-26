@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { playSound } from '@/utils/soundHandler'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { PlayerLocRomTypeChatMessageObject, ChatTextInfo } from '@/type/room'
-import { WebSocketGame, GamePlayers, WebSocketGameResult } from '@/type/game'
+import { WebSocketGame, GamePlayers, GameResult } from '@/type/game'
 import { ElLoadingComponent } from 'element-ui/types/loading'
 import { WebSocketPlayer } from '@/type/player'
 import { ChatModuleRef } from '@/type/ref'
@@ -33,7 +33,7 @@ export const chatRoomWebSocket = Vue.extend({
             playerLocRoom: null as WebSocketGameRoom | null,
             gameRoomList: [] as WebSocketGameRoom[],
             gameInfo: null as WebSocketGame | null,
-            gameResult: null as WebSocketGameResult | null,
+            gameResult: null as GameResult | null,
             askChangeSeatDialogVisible: false,
             leaveRoomDialogVisible: false,
             askChangeSeatInfo: null as WebSocketChangeSeat | null,

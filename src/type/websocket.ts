@@ -86,7 +86,7 @@ interface DeleteGameResponseJsonData extends WebSocketResponseRawData {
 interface ResultGameResponseJsonData extends WebSocketResponseRawData {
     type: 'game',
     action: 'result',
-    data: string, // turned to be WebSocketGameResult after Json.parse
+    data: string, // turned to be GameResult after Json.parse
 }
 
 interface GetGameResponseJsonData extends WebSocketResponseRawData {

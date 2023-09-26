@@ -134,7 +134,7 @@ export interface PlayerExp {
 
 /**
  * @description WebSocket传来的游戏结果数据。
- * @typedef WebSocketGameResult
+ * @typedef GameResult
  * @type {object}
  * @property {number} id - 游戏id。
  * @property {string} winnerNickname -  吃鸡玩家昵称。
@@ -148,7 +148,7 @@ export interface PlayerExp {
  * @property {PlayerRecordInGameResult[]} gameResultList - 玩家各项数据列表。
  * @property {PlayerExp[]} playerExpList - 玩家获得经验值列表。
  */
-export interface WebSocketGameResult {
+export interface GameResult {
     id: number,
     winnerNickname: string,
     winnerCards: number,

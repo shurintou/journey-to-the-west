@@ -101,7 +101,7 @@ import Vue, { VueConstructor } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketGameRoom, WebSocketChangeSeat } from '@/type/gameRoom'
 import { WebSocketPlayer } from '@/type/player'
-import { GamePlayers, WebSocketGame, WebSocketGameResult } from '@/type/game'
+import { GamePlayers, WebSocketGame, GameResult } from '@/type/game'
 import { ChatTextInfo, PlayerLocRomTypeChatMessageObject, EnterRoomDto } from '@/type/room'
 import { CardModuleRef } from '@/type/ref'
 import { ElLoadingComponent } from 'element-ui/types/loading'
@@ -148,7 +148,7 @@ export default (Vue as VueConstructor<
       enterRoomDto: null as EnterRoomDto | null,
       askChangeSeatInfo: null as WebSocketChangeSeat | null,
       gameInfo: null as WebSocketGame | null,
-      gameResult: null as WebSocketGameResult | null,
+      gameResult: null as GameResult | null,
       sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as GamePlayers | { [key in GamePlayerSeatIndex]: {} },
       loading: null as ElLoadingComponent | null,
       playerLocRomTypeChatMessageObject: null as PlayerLocRomTypeChatMessageObject | null,
