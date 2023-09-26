@@ -1,6 +1,7 @@
 import { Account } from '@/type/account'
 import { GameResult } from '@/type/game'
 import { Player, PlayerRecord } from '@/type/player'
+import { RankInfo, RankType } from '@/type/rank'
 
 export interface ResponseDataCommon {
     code: number,
@@ -22,4 +23,9 @@ export interface GameRecordsListResponse extends ResponseDataCommon {
 
 export interface GameRecordResponse extends ResponseDataCommon {
     gameResult: GameResult,
+}
+
+export interface RankResponse extends ResponseDataCommon {
+    type: RankType,
+    rank: RankInfo,
 }

@@ -140,29 +140,31 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { PlayerProfile } from '@/type/player'
+import { RankInfo, RankType } from '@/type/rank'
 import { getRankInfo } from '@/api/getRank'
-import RankItem from '@/fragments/RankItem'
+import RankItem from '@/components/chatRoom/fragments/RankItem.vue'
 import { calExperience } from '@/utils/calculator'
 
 export default Vue.extend({
     data() {
         return {
-            activeName: '',
-            rankInfo: null,
+            activeName: '' as RankType | '',
+            rankInfo: null as RankInfo | null,
         }
     },
 
     props: {
         fontSize: { type: String, default: '' },
-        playerProfile: { type: Object, default: null },
+        playerProfile: { type: Object as PropType<PlayerProfile>, default: null },
         isShowing: { type: Boolean, default: false },
     },
 
     computed: {
         showPlayerName: function () {
             if (this.playerProfile === null) return ''
-            if (this.rankInfo.playerInfo === null) {
+            if (this.rankInfo === null || this.rankInfo.playerInfo === null) {
                 if (this.playerProfile.id === this.$stock.state.id) {
                     return '你尚未拥有排名'
                 }
@@ -182,7 +184,7 @@ export default Vue.extend({
     },
 
     watch: {
-        isShowing: function (newVal) {
+        isShowing: function (newVal: boolean) {
             if (!newVal) {
                 this.activeName = ''
             }
@@ -190,8 +192,8 @@ export default Vue.extend({
     },
 
     methods: {
-        changeHandler: function (activeName) {
-            if (activeName === '') return
+        changeHandler: function (activeName: RankType) {
+            if (activeName.length === 0) return
             getRankInfo({ type: activeName, id: this.playerProfile.id })
                 .then((res) => {
                     this.rankInfo = res.rank
@@ -200,7 +202,7 @@ export default Vue.extend({
                 })
         },
 
-        calLevel: function (exp) {
+        calLevel: function (exp: number) {
             let result = calExperience(exp)
             return result.level
         }
