@@ -78,7 +78,8 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { PlayerProfile } from '@/type/player'
 import { calExperience } from '@/utils/calculator'
 
 export default Vue.extend({
@@ -105,11 +106,11 @@ export default Vue.extend({
     },
 
     props: {
-        playerProfile: { type: Object, default: null },
+        playerProfile: { type: Object as PropType<PlayerProfile>, default: null },
     },
 
     methods: {
-        getAvatarUrl: function (avatarId) {
+        getAvatarUrl: function (avatarId: number) {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
     },
