@@ -31,6 +31,23 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
+
+const checkPassword: ExecuteValidator = (rule, value, callback) => {
+    if (value === '') {
+        callback();
+    }
+    else {
+        var uPattern = /^[0-9]{4,8}$/
+        if (!uPattern.test(value)) {
+            callback(new Error('密码须4到8位数字'));
+        }
+        else {
+            callback();
+        }
+        callback();
+    }
+}
 export default Vue.extend({
     data() {
         return {
@@ -40,21 +57,7 @@ export default Vue.extend({
                 cardNum: 2,
                 metamorphoseNum: 4,
             },
-            checkPassword: (rule, value, callback) => {
-                if (value === '') {
-                    callback();
-                }
-                else {
-                    var uPattern = /^[0-9]{4,8}$/
-                    if (!uPattern.test(value)) {
-                        callback(new Error('密码须4到8位数字'));
-                    }
-                    else {
-                        callback();
-                    }
-                    callback();
-                }
-            },
+            checkPassword: checkPassword,
         }
     },
 
@@ -78,9 +81,10 @@ export default Vue.extend({
                 this.$message.warning('请先设置头像和昵称')
                 return
             }
-            this.$refs.gameRoomValidateForm.validate(valid => {
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.validate(valid => {
                 if (valid) {
-                    this.ws.send(JSON.stringify({
+                    this?.ws?.send(JSON.stringify({
                         type: 'gameRoomList',
                         id: NaN,
                         name: this.gameRoomValidateForm.roomName,
@@ -109,7 +113,8 @@ export default Vue.extend({
 
         closeCreateGameRoomDialog: function () {
             this.$emit('createGameRoomDialogVisible', false)
-            this.$refs.gameRoomValidateForm.clearValidate()
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.clearValidate()
             this.gameRoomValidateForm.roomName = this.$store.state.nickname + ' 的房间'
             this.gameRoomValidateForm.password = ''
             this.gameRoomValidateForm.cardNum = 2
