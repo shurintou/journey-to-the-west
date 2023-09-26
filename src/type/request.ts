@@ -1,6 +1,5 @@
-import { Account } from '@/type/account'
+import { Account, Player } from '@/type/player'
 import { GameResult } from '@/type/game'
-import { Player } from '@/type/player'
 import { PlayerRecord } from '@/type/record'
 import { RankInfo, RankType } from '@/type/rank'
 

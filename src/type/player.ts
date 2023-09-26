@@ -1,5 +1,12 @@
 import { GamePlayerSeatIndex, DbCommon } from '@/type/index'
 
+export interface Account {
+    id: number,
+    username: string,
+    avatar_id: number,
+    nickname: string
+}
+
 /**
  * @description WebSocket传来的玩家信息。对应key:player。
  * @typedef WebSocketPlayer
