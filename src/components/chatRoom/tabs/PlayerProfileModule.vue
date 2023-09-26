@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { PlayerProfile } from '@/type/player'
+import { PlayerProfile } from '@/type/record'
 import { calExperience } from '@/utils/calculator'
 
 export default Vue.extend({

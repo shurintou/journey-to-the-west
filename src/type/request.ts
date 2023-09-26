@@ -1,6 +1,7 @@
 import { Account } from '@/type/account'
 import { GameResult } from '@/type/game'
-import { Player, PlayerRecord } from '@/type/player'
+import { Player } from '@/type/player'
+import { PlayerRecord } from '@/type/record'
 import { RankInfo, RankType } from '@/type/rank'
 
 export interface ResponseDataCommon {

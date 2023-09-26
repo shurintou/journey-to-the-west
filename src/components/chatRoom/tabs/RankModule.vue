@@ -141,7 +141,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
-import { PlayerProfile } from '@/type/player'
+import { PlayerProfile } from '@/type/record'
 import { RankInfo, RankType } from '@/type/rank'
 import { getRankInfo } from '@/api/getRank'
 import RankItem from '@/components/chatRoom/fragments/RankItem.vue'
