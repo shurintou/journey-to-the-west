@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { SystemSetting } from '@/type/setting'
 import { Account } from '@/type/player'
-import { PlayerStatus } from '@/type/plugin'
+import { PlayerStatus } from '@/type/index'
 
 Vue.use(Vuex)
 let isMobile = false
