@@ -30,7 +30,7 @@ export interface WebSocketChat {
 
 export interface EnterRoomDto {
     id: number,
-    seatIndex: GamePlayerSeatIndex,
+    seatIndex: GamePlayerSeatIndex | -1, // 不指定座位号时seatIndex为-1
 }
 
 /**
