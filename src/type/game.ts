@@ -1,4 +1,5 @@
 import { GamePlayerSeatIndex } from '@/type/index'
+import { Player } from '@/type/player'
 
 /**
  * @description WebSocket传来的在游戏中的玩家信息。对应key:game
@@ -162,15 +163,4 @@ export interface GameResult {
     playerExpList: PlayerExp[]
 }
 
-interface GameResults {
-    id: number,
-    nickname: string,
-    cards: number,
-    avatar_id: number,
-    seat_index: number,
-    createdAt: string,
-    gameId: number,
-    max_combo: number,
-}
-
-export type GameResultsList = GameResults[]
+export type GameResultsList = Player[]
