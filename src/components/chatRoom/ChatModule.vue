@@ -14,7 +14,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { ChatTextInfo } from '@/type/room'
+
 export default Vue.extend({
     data() {
         return {
@@ -23,15 +25,15 @@ export default Vue.extend({
     },
 
     props: {
-        chatText: { type: Array },
+        chatText: { type: Array as PropType<ChatTextInfo[]>, default: [] },
         horizontalBackground: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
     },
 
     methods: {
-        enterSendText: function (e) {
-            if (e.keyCode === 13) this.sendTextToServe()
+        enterSendText: function (e: KeyboardEvent) {
+            if (e.key === 'Enter') this.sendTextToServe()
         },
 
         sendTextToServe: function () {
@@ -42,7 +44,7 @@ export default Vue.extend({
         },
 
         modifyScrollHeight: function () {
-            var e = this.$refs.chatBox
+            var e = this.$refs.chatBox as Element
             e.scrollTop = e.scrollHeight
         },
     }
