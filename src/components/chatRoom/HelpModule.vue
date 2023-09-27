@@ -314,7 +314,7 @@ export default Vue.extend({
     },
 
     watch: {
-        isShowing: function (newVal) {
+        isShowing: function (newVal: boolean) {
             if (newVal) {
                 this.activeHelpModuleTabName = 'rule'
                 this.activeQuestionNames = ['0']
