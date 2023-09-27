@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
 export default Vue.extend({
     data() {
         return {
@@ -26,7 +26,7 @@ export default Vue.extend({
 
     props: {
         whichPattern: {
-            type: String,
+            type: String as PropType<'horizontal' | 'vertical'>,
             default: function () {
                 if (document.body.clientWidth < 400) {
                     return 'horizontal'
