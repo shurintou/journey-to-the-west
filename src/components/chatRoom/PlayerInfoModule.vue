@@ -6,7 +6,7 @@
         <el-image v-if="gameInfo === null || gameInfo.currentPlayer === -1" class="aside-icon"
           :src="getAvatarUrl($store.state.avatar_id)"></el-image>
         <AnimatedAvatar v-else :avatarClass="'aside-icon'" :avatarUrl="getAvatarUrl($store.state.avatar_id)"
-          :currentPlayerCards="getGamePlayer.cards"
+          :currentPlayerCards="getGamePlayer?.cards || 0"
           :isCurrentPlayer="gameInfo.gamePlayer[gameInfo.currentPlayer].id === $store.state.id"
           :currentGameCombo="gameInfo.currentCombo"></AnimatedAvatar>
       </div>
@@ -47,8 +47,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer">
-        <el-button @click="nicknameDialogVisible = false; $refs.nicknameForm.clearValidate()"
-          style="margin-right:10%">取消</el-button>
+        <el-button @click="cancelNicknameEdit" style="margin-right:10%">取消</el-button>
         <el-button type="primary" @click.stop.prevent="submitNewNickname">修改</el-button>
       </div>
     </el-dialog>
@@ -73,12 +72,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketGameRoom } from '@/type/room'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { PlayerProfile } from '@/type/record'
+import { WebSocketGame, WebSocketPlayerInGame } from '@/type/game'
+import { InternalRuleItem, Value, ExecuteValidate } from '@/type/validator'
 import { modifyAvatar, modifyNickname } from '@/api/modify'
-import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
+import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule.vue'
 import { getPlayerRecord } from '@/api/infoSearch'
-import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
-import HelpModule from '@components/chatRoom/HelpModule'
+import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar.vue'
+import HelpModule from '@components/chatRoom/HelpModule.vue'
 
 export default Vue.extend({
 
@@ -114,8 +118,8 @@ export default Vue.extend({
           least_cards: 0,
           most_cards: 0,
         }
-      },
-      checkNickname: (rule, value, callback) => {
+      } as PlayerProfile,
+      checkNickname: (rule: InternalRuleItem, value: Value, callback: (arg0?: Error) => void) => {
         if (value === '') {
           callback(new Error('请输入昵称'));
         }
@@ -128,23 +132,23 @@ export default Vue.extend({
   },
 
   props: {
-    gameInfo: { type: Object, default: null },
+    gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
     subAsideWidth: { type: String, default: '' },
     verticalBackground: { type: String, default: '' },
     fontSize: { type: String, default: '' },
     dialogWidth: { type: String, default: '' },
     playerInfoDialogWidth: { type: String, default: '' },
-    playerLocRoom: { type: Object, default: null },
-    ws: { type: WebSocket, default: null },
+    playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
+    ws: { type: Object as PropType<WebSocket>, default: null },
     isHorizontal: { type: Boolean, default: false },
     buttonSize: { type: String, default: '' },
     avatarSize: { type: Number, default: 20 },
   },
 
   computed: {
-    getGamePlayer: function () {
+    getGamePlayer: function (): WebSocketPlayerInGame | null {
       if (this.gameInfo === null) return null
-      for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
+      for (let i = 0 as GamePlayerSeatIndex; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
         if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
           return this.gameInfo.gamePlayer[i]
         }
@@ -154,8 +158,8 @@ export default Vue.extend({
   },
 
   methods: {
-    getAvatarUrl: function (n) {
-      return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+    getAvatarUrl: function (avatarId: number) {
+      return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
     },
 
     submitNewAvatar: function () {
@@ -194,6 +198,12 @@ export default Vue.extend({
       }
     },
 
+    cancelNicknameEdit: function () {
+      this.nicknameDialogVisible = false
+      const nicknameFormRef = this.$refs.nicknameForm as Element & ExecuteValidate
+      nicknameFormRef.clearValidate()
+    },
+
     submitNewNickname: function () {
       if (this.playerLocRoom && this.playerLocRoom.status === 1) {
         this.$message.warning('游戏中，请勿修改昵称')
@@ -202,7 +212,8 @@ export default Vue.extend({
       }
       if (this.duplicateSubmitNicknameFlag) return
       this.duplicateSubmitNicknameFlag = true
-      this.$refs.nicknameForm.validate(valid => {
+      const nicknameFormRef = this.$refs.nicknameForm as Element & ExecuteValidate
+      nicknameFormRef.validate(valid => {
         if (valid) {
           modifyNickname({ nickname: this.nicknameForm.name })
             .then((res) => {
@@ -240,7 +251,7 @@ export default Vue.extend({
       this.helpModuleDialogVisible = true
     },
 
-    getPlayerRecord: function (id, avatar_id, nickname) {
+    getPlayerRecord: function (id: number, avatar_id: number, nickname: string) {
       if (this.duplicateGetInfoFlag) return;
       this.duplicateGetInfoFlag = true
       this.playerProfile.id = id
@@ -250,7 +261,7 @@ export default Vue.extend({
         .then((res) => {
           this.playerProfile.record = res.record
         })
-        .catch({})
+        .catch()
         .finally(() => {
           this.duplicateGetInfoFlag = false
         })
@@ -272,7 +283,10 @@ export default Vue.extend({
       }
       this.nicknameDialogVisible = true
       this.nicknameForm.name = this.$stock.state.nickname
-      this.$nextTick(() => { this.$refs.nicknameForm.clearValidate() })
+      this.$nextTick(() => {
+        const nicknameFormRef = this.$refs.nicknameForm as Element & ExecuteValidate
+        nicknameFormRef.clearValidate()
+      })
     }
   },
 
