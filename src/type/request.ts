@@ -13,7 +13,7 @@ export interface AuthorizationResponse extends ResponseDataCommon {
 }
 
 export interface PlayerRecordResponse extends ResponseDataCommon {
-    record: PlayerRecord[]
+    record: PlayerRecord
 }
 
 export interface GameRecordsListResponse extends ResponseDataCommon {
