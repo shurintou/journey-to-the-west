@@ -24,6 +24,14 @@ export interface AuthorizationResponse extends ResponseDataCommon {
 
 /** 
  * @type {object}
+ * @property {Account} account。
+ */
+export interface LoginResponse extends ResponseDataCommon {
+    account: Account,
+}
+
+/** 
+ * @type {object}
  * @property {PlayerRecord} record
  */
 export interface PlayerRecordResponse extends ResponseDataCommon {
