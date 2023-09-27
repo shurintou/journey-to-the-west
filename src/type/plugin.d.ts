@@ -2,6 +2,7 @@ import { ElMessage } from 'element-ui/types/message'
 import VueRouter from 'vue-router'
 import { Store } from 'vuex'
 import { SystemSetting } from '@/type/setting'
+import { PlayerStatus } from '@/type/index'
 
 type State = {
     id: number,
@@ -37,5 +38,3 @@ declare module '@vue/runtime-core' {
         $store: Store<State>
     }
 }
-
-export type PlayerStatus = 0 | 1 | 2 

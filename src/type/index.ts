@@ -12,3 +12,6 @@ export interface DbCommon {
     createdAt: string,
     updatedAt: string,
 }
+
+/** @summary 0: 空闲，1: 房间中等待，2: 游戏中 */
+export type PlayerStatus = 0 | 1 | 2 
