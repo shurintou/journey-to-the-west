@@ -1,6 +1,14 @@
 import { GamePlayerSeatIndex, DbCommon } from '@/type/index'
 import { PlayerStatus } from '@/type/index'
 
+/**
+ * @summary authorization返回的数据类型，不包括password和DbCommon中的属性。
+ * @type {object}
+ * @property {number} id - 账号id。主key。
+ * @property {string} username -  用户名
+ * @property {string} nickname - 昵称
+ * @property {number} avatar_id - 玩家头像id
+ */
 export interface Account {
     id: number,
     username: string,

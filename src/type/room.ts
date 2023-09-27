@@ -1,5 +1,13 @@
 import { GamePlayerSeatIndex } from '@/type/index'
 
+/** 
+ * @summary 在游戏房间中聊天框显示的信息。
+ * @type {object}
+ * @property {number} id 信息id。
+ * @property {string} name - 玩家昵称。
+ * @property {'success' | 'info' | 'warning' | 'error'} type - 信息类型。
+ * @property {string} text - 聊天信息。
+ */
 export interface ChatTextInfo {
     id: number,
     name: string,
@@ -7,7 +15,13 @@ export interface ChatTextInfo {
     text: string,
 }
 
-/** 玩家在游戏房间中方信息时会在头上显示的信息。 */
+/** 
+ * @summary 玩家在游戏房间中发信息时会在头上显示的信息。
+ * @type {object}
+ * @property {number} id 信息id。
+ * @property {string} nickname - 玩家昵称。
+ * @property {string} text - 聊天信息。
+ */
 export interface PlayerLocRomTypeChatMessageObject {
     id: number,
     nickname: string,
@@ -27,6 +41,12 @@ export interface WebSocketChat {
     player_loc: number,
 }
 
+/** 
+ * @summary 进入游戏房间的信息。
+ * @type {object} 
+ * @property {number} id - 房间id。
+ * @property {number} seatIndex - 房间座位号。
+ */
 export interface EnterRoomDto {
     id: number,
     seatIndex: GamePlayerSeatIndex | -1, // 不指定座位号时seatIndex为-1

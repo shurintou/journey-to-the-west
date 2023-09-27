@@ -158,4 +158,5 @@ export interface GameResult {
     playerExpList: PlayerExp[]
 }
 
+/** @summary 一场游戏中所有玩家的战绩。*/
 export type GameResultsList = Player[]
