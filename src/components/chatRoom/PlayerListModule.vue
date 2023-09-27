@@ -3,20 +3,16 @@
         <el-table v-loading="loading" :height="isHorizontal ? '70vh' : null" :data="playerList" style="width: 100%"
             :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle"
             @row-click="getRowPlayerInfo">
-            <el-table-column prop="avatar_id" label="头像" min-width="30">
-                <template slot-scope="scope">
-                    <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
-                </template>
+            <el-table-column prop="avatar_id" label="头像" min-width="30" v-slot="scope">
+                <el-avatar shape="square" :size="avatarSize" :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
             </el-table-column>
-            <el-table-column prop="nickname" label="玩家" min-width="80">
-                <template slot-scope="scope">
-                    <div slot="reference" class="name-wrapper">
-                        <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
-                            {{ getStatus(scope.row.player_status) }}
-                        </el-tag>
-                        <span>{{ ' ' + scope.row.nickname }}</span>
-                    </div>
-                </template>
+            <el-table-column prop="nickname" label="玩家" min-width="80" v-slot="scope">
+                <div slot="reference" class="name-wrapper">
+                    <el-tag :type="getType(scope.row.player_status)" effect="dark" :style="rowStyle" :size="tagSize">
+                        {{ getStatus(scope.row.player_status) }}
+                    </el-tag>
+                    <span>{{ ' ' + scope.row.nickname }}</span>
+                </div>
             </el-table-column>
         </el-table>
         <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth"
@@ -34,9 +30,12 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { PlayerStatus } from '@/type/index'
+import { WebSocketPlayer } from '@/type/player'
+import { PlayerProfile } from '@/type/record'
 import { getPlayerRecord } from '@/api/infoSearch'
-import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule'
+import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule.vue'
 
 export default Vue.extend({
     name: 'playerListModule',
@@ -66,7 +65,7 @@ export default Vue.extend({
                     min_card: 0,
                     min_card_amount: 0,
                 }
-            },
+            } as PlayerProfile,
             loading: isPlayerListNull,
         }
     },
@@ -85,7 +84,7 @@ export default Vue.extend({
     },
 
     props: {
-        playerList: Array,
+        playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         avatarSize: { type: Number, default: 20 },
         fontSize: { type: String, default: '14px' },
         largeFontSize: { type: String, default: '16px' },
@@ -99,15 +98,15 @@ export default Vue.extend({
     },
 
     methods: {
-        tableRowClassName: function ({ row }) {
+        tableRowClassName: function ({ row }: { row: WebSocketPlayer }) {
             return this.getType(row.player_status) + '-row'
         },
 
-        getAvatarUrl: function (avatarId) {
+        getAvatarUrl: function (avatarId: number) {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
-        getStatus: function (player_status) {
+        getStatus: function (player_status: PlayerStatus) {
             if (player_status === 2) {
                 return '忙碌'
             }
@@ -119,7 +118,7 @@ export default Vue.extend({
             }
         },
 
-        getType: function (player_status) {
+        getType: function (player_status: PlayerStatus) {
             if (player_status === 2) {
                 return 'danger'
             }
@@ -131,7 +130,7 @@ export default Vue.extend({
             }
         },
 
-        getPlayerRecord: function (id, avatar_id, nickname) {
+        getPlayerRecord: function (id: number, avatar_id: number, nickname: string) {
             if (this.duplicateGetInfoFlag) return;
             this.duplicateGetInfoFlag = true
             this.playerProfile.id = id
@@ -142,13 +141,13 @@ export default Vue.extend({
                 .then((res) => {
                     this.playerProfile.record = res.record
                 })
-                .catch({})
+                .catch()
                 .finally(() => {
                     this.duplicateGetInfoFlag = false
                 })
         },
 
-        getRowPlayerInfo: function (row) {
+        getRowPlayerInfo: function (row: WebSocketPlayer) {
             this.getPlayerRecord(row.id, row.avatar_id, row.nickname)
         },
     },
