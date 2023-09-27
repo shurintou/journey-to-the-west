@@ -22,17 +22,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import PlayerProfileModule from '@/components/chatRoom/tabs/PlayerProfileModule'
-import GameResultsListModule from '@/components/chatRoom/tabs/GameResultsListModule'
-import SettingModule from '@/components/chatRoom/tabs/SettingModule'
-import RankModule from '@/components/chatRoom/tabs/RankModule'
+import Vue, { PropType } from 'vue'
+import { PlayerProfile } from '@/type/record'
+import { GameResultsList } from '@/type/game'
+import PlayerProfileModule from '@/components/chatRoom/tabs/PlayerProfileModule.vue'
+import GameResultsListModule from '@/components/chatRoom/tabs/GameResultsListModule.vue'
+import SettingModule from '@/components/chatRoom/tabs/SettingModule.vue'
+import RankModule from '@/components/chatRoom/tabs/RankModule.vue'
 import { getGameRecordsList } from '@/api/infoSearch'
 
 export default Vue.extend({
     data() {
         return {
-            gameResultsList: [],
+            gameResultsList: [] as GameResultsList,
             gameResultsPageNum: 0,
             activeViewModuleTabName: 'record',
             gameResultListCurrentPage: 1,
@@ -40,7 +42,7 @@ export default Vue.extend({
     },
 
     props: {
-        playerProfile: { type: Object, default: null },
+        playerProfile: { type: Object as PropType<PlayerProfile>, default: null },
         fontSize: { type: String, default: '' },
         isShowing: { type: Boolean, default: false },
         isHorizontal: { type: Boolean, default: false },
@@ -55,13 +57,13 @@ export default Vue.extend({
     },
 
     methods: {
-        handleViewModuleTabClick: function (tab) {
+        handleViewModuleTabClick: function (tab: { name: 'record' | 'game' | 'rank' | 'setting' }) {
             if (tab.name === 'game') {
                 this.getGameRecordsList(1)
             }
         },
 
-        getGameRecordsList: function (page) {
+        getGameRecordsList: function (page: number) {
             this.gameResultListCurrentPage = page
             getGameRecordsList({ page: page, id: this.playerProfile.id })
                 .then(res => {
