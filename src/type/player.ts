@@ -9,8 +9,7 @@ export interface Account {
 }
 
 /**
- * @description WebSocket传来的玩家信息。对应key:player。
- * @typedef WebSocketPlayer
+ * @summary WebSocket传来的玩家信息。对应key:player。
  * @type {object}
  * @property {number} id - 玩家id
  * @property {string} username -  玩家用户名
@@ -30,8 +29,7 @@ export interface WebSocketPlayer {
 
 
 /**
- * @description 数据库中的游戏中玩家信息。对应table:players。
- * @typedef Player
+ * @summary 数据库中的游戏中玩家信息。对应table:players。
  * @type {object}
  * @property {number} id - 游戏中玩家id。主key。
  * @property {string} nickname - 昵称。

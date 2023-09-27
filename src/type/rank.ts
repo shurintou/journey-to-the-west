@@ -1,13 +1,11 @@
 /**
- * @description rank种类。
- * @typedef RankType
+ * @summary rank种类。
  * @type {'level'|'winner'|'loser'|'sum'|'combo'|'highest_rate'|'lowest_rate'|'least_cards'|'most_cards'}
  */
 export type RankType = 'level' | 'winner' | 'loser' | 'sum' | 'combo' | 'highest_rate' | 'lowest_rate' | 'least_cards' | 'most_cards'
 
 /**
- * @description Rank response中的的rank属性值中的playerInfo属性值类型。
- * @typedef RankPlayerInfo
+ * @summary Rank response中的的rank属性值中的playerInfo属性值类型。
  * @type {object}
  * @property {number} id - 玩家id。
  * @property {number} record - 分数。
@@ -20,8 +18,7 @@ export interface RankPlayerInfo {
 }
 
 /**
- * @description Rank response中的的rank属性值中的rankList属性值类型。
- * @typedef RankTopPlayerInfo
+ * @summary Rank response中的的rank属性值中的rankList属性值类型。
  * @type {object}
  * @property {number} id - 玩家id。
  * @property {number} record - 分数。
@@ -38,8 +35,7 @@ export interface RankTopPlayerInfo {
 }
 
 /**
- * @description Rank response中的的rank属性值类型。
- * @typedef RankInfo
+ * @summary Rank response中的的rank属性值类型。
  * @type {object}
  * @property {RankPlayerInfo} playerInfo - 请求玩家的排名信息。
  * @property {RankTopPlayerInfo[]} rankList - 排行玩家信息列表。

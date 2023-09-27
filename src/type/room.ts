@@ -15,8 +15,7 @@ export interface PlayerLocRomTypeChatMessageObject {
 }
 
 /** 
- * @description 游戏房间聊天的websocket请求信息。
- * @typedef WebSocketChat
+ * @summary 游戏房间聊天的websocket请求信息。
  * @type {object} 
  * @property {string} nickname - 发送信息玩家昵称。
  * @property {string} text - 聊天信息。
@@ -34,8 +33,7 @@ export interface EnterRoomDto {
 }
 
 /**
- * @description WebSocket传来的的房间信息。对应key:room
- * @typedef WebSocketGameRoom
+ * @summary WebSocket传来的的房间信息。对应key:room
  * @type {object}
  * @property {number} id - 房间id
  * @property {string} name -  房间名 
@@ -62,8 +60,7 @@ export interface WebSocketGameRoom {
 }
 
 /**
- * @description WebSocket传来的在房间中的玩家信息。对应key:room
- * @typedef WebSocketPlayerInRoom
+ * @summary WebSocket传来的在房间中的玩家信息。对应key:room
  * @type {object}
  * @property {number} id - 玩家id
  * @property {number} cards -  总收牌数
@@ -80,8 +77,7 @@ export interface WebSocketPlayerInRoom {
 }
 
 /**
- * @description 交换座位信息。
- * @typedef WebSocketChangeSeat
+ * @summary 交换座位信息。
  * @type {object} 
  * @property {number} id - 目标房间id。
  * @property {'changeSeat'} action - 对目标房间操作的动作。id>0时不为空。
@@ -102,8 +98,7 @@ export interface WebSocketChangeSeat {
 }
 
 /**
- * @description 交换座位信息。
- * @typedef WebSocketDisagreeChangeSeat
+ * @summary 交换座位信息。
  * @type {object} 
  * @property {number} id - 目标房间id。
  * @property {'disagreeChangeSeat'} action - 对目标房间操作的动作。id>0时不为空。

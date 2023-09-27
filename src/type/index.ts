@@ -1,9 +1,8 @@
-/** @typedef {0|1|2|3|4|5|6|7} GamePlayerSeatIndex */
+/** 玩家座位号 */
 export type GamePlayerSeatIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 /**
- * @description 共通列名
- * @typedef DbCommon
+ * @summary 共通列名
  * @type {object}
  * @property {string} createdAt - 创建时间
  * @property {string} updatedAt - 更新时间

@@ -3,8 +3,7 @@ import { GamePlayerSeatIndex } from '@/type/index'
 
 
 /** 
- * @description WebSocket共通响应的信息。
- * @typedef WebSocketResponseRawData
+ * @summary WebSocket共通响应的信息。
  * @type {object}
  * @property {number} userId - 发送请求的玩家id。
  */
@@ -51,7 +50,6 @@ interface InitializeGameResponseJsonData extends WebSocketResponseRawData {
 }
 
 /** 
- * @typedef ShiftOnlineGameResponseJsonData
  * @type {object} 
  * @property {GamePlayerSeatIndex} seatIndex - 玩家的座位号。
  * @property {boolean} online - 玩家是否在线。

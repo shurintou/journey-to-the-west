@@ -2,8 +2,7 @@
 import { DbCommon } from '@/type/index'
 
 /**
- * @description 玩家战绩信息。对应key:playerRecord
- * @typedef PlayerRecord
+ * @summary 玩家战绩信息。对应key:playerRecord
  * @type {object}
  * @property {number} id - 玩家战绩id。主key。
  * @property {number} num_of_game -  玩家总局数 
@@ -38,8 +37,7 @@ export interface PlayerRecord extends DbCommon {
 }
 
 /**
- * @description 玩家战绩介绍。
- * @typedef PlayerProfile
+ * @summary 玩家战绩介绍。
  * @type {object}
  * @property {number} id - 玩家战绩id。
  * @property {string} avatar_id - 玩家头像id。
@@ -53,8 +51,7 @@ export interface PlayerProfile {
 }
 
 /**
- * @description 玩家战绩。
- * @typedef PlayerProfileRecord
+ * @summary 玩家战绩。
  * @type {object}
  * @property {number} num_of_game -  玩家总局数 
  * @property {number} most_game - 拉跨局数

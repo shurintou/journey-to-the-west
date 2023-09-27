@@ -2,8 +2,7 @@ import { GamePlayerSeatIndex } from '@/type/index'
 import { Player } from '@/type/player'
 
 /**
- * @description WebSocket传来的在游戏中的玩家信息。对应key:game
- * @typedef WebSocketPlayerInGame
+ * @summary WebSocket传来的在游戏中的玩家信息。对应key:game
  * @type {object}
  * @property {number} id - 玩家id。
  * @property {string} nickname - 昵称。
@@ -40,15 +39,13 @@ export interface WebSocketPlayerInGame {
 }
 
 /**
- * @description 游戏中所有玩家状态。
- * @typedef GamePlayers
+ * @summary 游戏中所有玩家状态。
  * @type { [key in GamePlayerSeatIndex]: WebSocketPlayerInGame }
 */
 export type GamePlayers = { [key in GamePlayerSeatIndex]: WebSocketPlayerInGame }
 
 /**
- * @description Redis中的游戏信息。对应key:game。
- * @typedef WebSocketGame
+ * @summary Redis中的游戏信息。对应key:game。
  * @type {object}
  * @property {number} id - 游戏id
  * @property {boolean} clockwise - 游戏进行方向：true为顺时针，false为逆时针。
@@ -90,8 +87,7 @@ export interface WebSocketGame {
 }
 
 /**
- * @description 游戏结果的websocket响应信息。
- * @typedef PlayerRecordInGameResult
+ * @summary 游戏结果的websocket响应信息。
  * @type {object}
  * @property {number} id - 游戏中玩家id。
  * @property {string} nickname - 昵称。
@@ -123,7 +119,7 @@ export interface PlayerRecordInGameResult {
 }
 
 /** 
- * @typedef PlayerExp 玩家获得经验值，id：玩家id, exp：获得经验值。
+ * @summary 玩家获得经验值，id：玩家id, exp：获得经验值。
  * @type {object}
  * @property {number} id 玩家id。
  * @property {number} exp 玩家获得经验值。
@@ -134,8 +130,7 @@ export interface PlayerExp {
 }
 
 /**
- * @description WebSocket传来的游戏结果数据。
- * @typedef GameResult
+ * @summary WebSocket传来的游戏结果数据。
  * @type {object}
  * @property {number} id - 游戏id。
  * @property {string} winnerNickname -  吃鸡玩家昵称。
