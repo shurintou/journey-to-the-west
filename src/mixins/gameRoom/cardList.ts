@@ -1,4 +1,6 @@
-export var cardList = {
+import Vue from 'vue'
+
+export const cardList = Vue.extend({
     data: function () {
         return {
             cardList: [
@@ -62,11 +64,11 @@ export var cardList = {
     },
 
     methods: {
-        getIndexOfCardList: function (index) {
+        getIndexOfCardList: function (index: number) {
             if (index < 100) {
                 return this.cardList[index]
             }
             return this.cardList[index - 100]
         }
     },
-}
+})
