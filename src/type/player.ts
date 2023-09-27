@@ -50,7 +50,7 @@ export interface WebSocketPlayer {
 export interface Player extends DbCommon {
     id: number,
     nickname: string,
-    avatar_id: string,
+    avatar_id: number,
     seat_index: GamePlayerSeatIndex,
     cards: number,
     max_combo: number,
