@@ -19,10 +19,10 @@
                     <el-image class="room-list-avatar" :fit="'cover'"
                         :src="getAvatarUrl(getPlayer(player.id).avatar_id)"></el-image>
                 </el-tooltip>
-                <el-tooltip v-else effect="light" :content="getPlayer(player.id).nickname + (parseInt(seatIndex) + 1)"
+                <el-tooltip v-else effect="light" :content="getPlayer(player.id).nickname + (seatIndex + 1)"
                     placement="bottom">
                     <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)"
-                        @click="enterGameRoom(gameRoom, seatIndex)"></el-image>
+                        @click="enterGameRoom(gameRoom, seatIndex as GamePlayerSeatIndex)"></el-image>
                 </el-tooltip>
             </div>
         </div>
@@ -30,7 +30,11 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { WebSocketPlayer } from '@/type/player'
+import { WebSocketGameRoom, WebSocketPlayerInRoom } from '@/type/room'
+
 export default Vue.extend({
     data() {
         return {
@@ -39,15 +43,15 @@ export default Vue.extend({
     },
 
     props: {
-        playerList: { type: Array, default: null },
+        playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         gameRoomItemWidth: { type: Number, default: 90 },
-        gameRoomList: { type: Array, default: null }, //gameRoomList: [{id : 1, name: '', status: 0, needPassword: false, owner: 3, playerList: [ 3, 10 ], },
+        gameRoomList: { type: Array as PropType<WebSocketGameRoom[]>, default: [] },
         largeFontSize: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
     },
 
     methods: {
-        getPlayer: function (n) {
+        getPlayer: function (n: number): WebSocketPlayer | { nickname: '空位', avatar_id: 0 } {
             for (var i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === n) {
                     return this.playerList[i]
@@ -56,11 +60,11 @@ export default Vue.extend({
             return { nickname: '空位', avatar_id: 0 }
         },
 
-        getAvatarUrl: function (n) {
-            return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+        getAvatarUrl: function (avatarId: number) {
+            return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
-        isRoomFull: function (playerList) {
+        isRoomFull: function (playerList: WebSocketPlayerInRoom[]): boolean {
             let flag = true
             for (let i = 0; i < Object.keys(playerList).length; i++) {
                 if (playerList[i].id === 0) {
@@ -71,7 +75,7 @@ export default Vue.extend({
             return flag
         },
 
-        enterGameRoom: function (gameRoom, seatIndex) {
+        enterGameRoom: function (gameRoom: WebSocketGameRoom, seatIndex: GamePlayerSeatIndex | -1): void {
             if (this.$stock.state.avatar_id === 0) {
                 this.$message.warning('请先设置头像和昵称')
                 return
