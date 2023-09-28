@@ -28,7 +28,7 @@ export default Vue.extend({
     },
 
     watch: {
-        currentPlayerCards: function (newVal, oldVal) {
+        currentPlayerCards: function (newVal: number, oldVal: number | null) {
             if (oldVal === null) return
             let vm = this
             let diffVal = newVal - oldVal
@@ -46,7 +46,7 @@ export default Vue.extend({
             }
         },
 
-        isCurrentPlayer: function (newVal) {
+        isCurrentPlayer: function (newVal: boolean) {
             if (newVal === true) {
                 if (this.currentGameCombo > this.actionBoundryList[0] && this.currentGameCombo <= this.actionBoundryList[2]) {
                     this.heartbeatFlag = false
