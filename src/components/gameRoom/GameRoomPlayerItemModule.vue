@@ -88,10 +88,16 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CardsNum from '@/components/gameRoom/fragment/CardsNum'
-import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar'
-import QuickChatSelector from '@/components/gameRoom/fragment/QuickChatSelector'
+import Vue, { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { WebSocketPlayer } from '@/type/player'
+import { TextToPlayer } from '@/type/setting'
+import { WebSocketGame } from '@/type/game'
+import { TextToPlayerGameData } from '@/type/websocket'
+import { PlayerLocRomTypeChatMessageObject, WebSocketGameRoom, WebSocketPlayerInRoom } from '@/type/room'
+import CardsNum from '@/components/gameRoom/fragment/CardsNum.vue'
+import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar.vue'
+import QuickChatSelector from '@/components/gameRoom/fragment/QuickChatSelector.vue'
 import { playSound } from '@/utils/soundHandler'
 
 export default Vue.extend({
@@ -99,8 +105,7 @@ export default Vue.extend({
         return {
             isTooltipShow: false,
             isPopoverVisible: false,
-            gameTextFromPlayer: [],
-            timer: 0,
+            gameTextFromPlayer: [] as string[],
             showColorChanging: false,
             allCardsFlag: false,
             comboFlag: false,
@@ -108,23 +113,23 @@ export default Vue.extend({
     },
 
     props: {
-        player: { type: Object, default: null },
-        playerList: Array,
+        player: { type: Object as PropType<WebSocketPlayerInRoom>, default: null },
+        playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         tooltipPlacement: { type: String, default: 'top' },
         tagSize: { type: String, default: '' },
         fontSize: { type: String, default: '' },
         isItemHorizontal: { type: Boolean, default: false },
-        playerLocRoom: { type: Object, default: null },
-        ws: { type: WebSocket, default: null },
-        seatIndex: { type: Number },
-        gameInfo: { type: Object, default: null },
-        localPlayerSeatIndex: { type: Number },
-        sentGameTextToPlayer: { type: Object, default: null },
-        sentPlayerLocRomTypeChatMessage: { type: Object, default: null },
+        playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
+        seatIndex: { type: Number as PropType<GamePlayerSeatIndex> },
+        gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
+        localPlayerSeatIndex: { type: Number as PropType<GamePlayerSeatIndex> },
+        sentGameTextToPlayer: { type: Object as PropType<TextToPlayerGameData>, default: null },
+        sentPlayerLocRomTypeChatMessage: { type: Object as PropType<PlayerLocRomTypeChatMessageObject>, default: null },
     },
 
     watch: {
-        sentGameTextToPlayer: function (newVal) {
+        sentGameTextToPlayer: function (newVal: TextToPlayerGameData): void {
             if (this.gameInfo === null) return
             if (newVal.source === undefined || newVal.text === undefined || newVal.target === undefined) return
             if (this.gameInfo.gamePlayer[newVal.source] === undefined) return
@@ -142,17 +147,11 @@ export default Vue.extend({
             this.$nextTick(function () {
                 if (this.gameTextFromPlayer.length > 0) {
                     this.isTooltipShow = true
-                    this.gameTextFromPlayerTimer = setTimeout(() => {
-                        this.gameTextFromPlayer.shift()
-                        if (this.gameTextFromPlayer.length === 0) {
-                            this.isTooltipShow = false
-                        }
-                    }, 6000)
                 }
             })
         },
 
-        sentPlayerLocRomTypeChatMessage: function (newVal) {
+        sentPlayerLocRomTypeChatMessage: function (newVal: PlayerLocRomTypeChatMessageObject) {
             if (this.gameInfo !== null) return
             if (newVal === undefined || newVal.nickname === undefined || newVal === null || newVal.text === undefined || newVal.text === '') return
             this.$emit('typeChatMessageSent', this.seatIndex)
@@ -160,12 +159,6 @@ export default Vue.extend({
             this.$nextTick(function () {
                 if (this.gameTextFromPlayer.length > 0) {
                     this.isTooltipShow = true
-                    this.gameTextFromPlayerTimer = setTimeout(() => {
-                        this.gameTextFromPlayer.shift()
-                        if (this.gameTextFromPlayer.length === 0) {
-                            this.isTooltipShow = false
-                        }
-                    }, 6000)
                 }
             })
         },
@@ -204,7 +197,7 @@ export default Vue.extend({
                 }
             }
             else {
-                if (this.getGamePlayer.online) {
+                if (this?.getGamePlayer?.online) {
                     return 'primary'
                 }
                 else {
@@ -223,7 +216,7 @@ export default Vue.extend({
     },
 
     methods: {
-        getPlayer: function () {
+        getPlayer: function (): WebSocketPlayer | { nickname: string, avatar_id: number } {
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === this.player.id) {
                     return this.playerList[i]
@@ -232,8 +225,8 @@ export default Vue.extend({
             return { nickname: '空位' + (this.seatIndex + 1), avatar_id: 0 }
         },
 
-        getAvatarUrl: function (n) {
-            return require("@/assets/images/avatar/avatar_" + n + "-min.png")
+        getAvatarUrl: function (avatarId: number) {
+            return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
         kickPlayerOff: function () {
@@ -250,12 +243,12 @@ export default Vue.extend({
             this.isPopoverVisible = false
         },
 
-        sentSelectedTextToPlayer: function (item) {
+        sentSelectedTextToPlayer: function (item: TextToPlayer) {
             this.isPopoverVisible = false
             this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$stock.state.id, text: item.text, soundSrc: item.music }))
         },
 
-        increasedHandler: function (whichFlag) {
+        increasedHandler: function (whichFlag: 'all' | 'combo') {
             let vm = this
             if (whichFlag === 'all') {
                 this.allCardsFlag = false
