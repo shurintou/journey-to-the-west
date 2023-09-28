@@ -90,7 +90,7 @@ export interface WebSocketGameRoom {
  */
 export interface WebSocketPlayerInRoom {
     id: number,
-    card: number,
+    cards: number,
     win: number,
     loss: number,
     ready: boolean,
