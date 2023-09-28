@@ -60,9 +60,9 @@ export default Vue.extend({
         isNotReady: function () {
             /* 房主的情况下 */
             if (this.playerLocRoom.owner === this.$stock.state.id) {
-                var isAllReady = true
+                let isAllReady = true
                 /* 至少两人才能开游戏 */
-                var playerNum = 0
+                let playerNum = 0
                 for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
                     if (this.playerLocRoom.playerList[i].id === 0) {
                         continue

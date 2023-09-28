@@ -52,7 +52,7 @@ export default Vue.extend({
 
     methods: {
         getPlayer: function (n: number): WebSocketPlayer | { nickname: '空位', avatar_id: 0 } {
-            for (var i = 0; i < this.playerList.length; i++) {
+            for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === n) {
                     return this.playerList[i]
                 }

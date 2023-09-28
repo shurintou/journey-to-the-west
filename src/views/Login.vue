@@ -164,7 +164,7 @@ const checkName: ExecuteValidator = (rule, value, callback) => {
     callback(new Error('请输入用户名'));
   }
   else {
-    var uPattern = /^[a-zA-Z0-9_-]{4,16}$/
+    const uPattern = /^[a-zA-Z0-9_-]{4,16}$/
     if (!uPattern.test(value)) {
       callback(new Error('用户名须4到16位字母,数字,下划线,减号'));
     }

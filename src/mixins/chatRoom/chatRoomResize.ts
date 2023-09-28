@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export var chatRoomResize = Vue.extend({
+export const chatRoomResize = Vue.extend({
     data: function () {
         return {
             asideWidth: '',
@@ -24,7 +24,7 @@ export var chatRoomResize = Vue.extend({
 
     methods: {
         resizeLogic: function () {
-            var screen_width = document.body.clientWidth
+            const screen_width = document.body.clientWidth
             if (screen_width < 400) {
                 this.asideWidth = '0px'
                 this.footHeight = '180px'

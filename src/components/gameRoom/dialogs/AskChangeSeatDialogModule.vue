@@ -38,7 +38,7 @@ export default Vue.extend({
 
         getPlayerNickname: function () {
             if (this.askChangeSeatInfo) {
-                for (var i = 0; i < this.playerList.length; i++) {
+                for (let i = 0; i < this.playerList.length; i++) {
                     if (this.playerList[i].id === this.askChangeSeatInfo.sourceId) {
                         return this.playerList[i].nickname
                     }

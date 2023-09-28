@@ -44,7 +44,7 @@ export default Vue.extend({
         },
 
         modifyScrollHeight: function () {
-            var e = this.$refs.chatBox as Element
+            const e = this.$refs.chatBox as Element
             e.scrollTop = e.scrollHeight
         },
     }

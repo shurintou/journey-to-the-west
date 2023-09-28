@@ -202,7 +202,7 @@ export default Vue.extend({
             if (tab.name === 'visualData' && this.echartDrawed === false) {
                 this.echartDrawed = true
                 echarts.use([TitleComponent, TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer])
-                var chartDom = document.getElementById('main')
+                const chartDom = document.getElementById('main')
                 this.myChart = echarts.init(chartDom)
                 window.addEventListener("resize", this.echartResizeLogic, false)
                 let seriesLabelStyle = {
@@ -210,8 +210,7 @@ export default Vue.extend({
                     fontWeight: 'bold',
                     fontSize: parseInt(this.largeFontSize.split('px')[0])
                 }
-                var option
-                option = {
+                const option = {
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: {

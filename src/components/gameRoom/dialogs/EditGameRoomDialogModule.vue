@@ -47,7 +47,7 @@ const checkPassword: ExecuteValidator = (rule, value, callback) => {
         callback();
     }
     else {
-        var uPattern = /^[0-9]{4,8}$/
+        const uPattern = /^[0-9]{4,8}$/
         if (!uPattern.test(value)) {
             callback(new Error('密码须4到8位数字'));
         }

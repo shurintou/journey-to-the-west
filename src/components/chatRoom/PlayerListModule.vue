@@ -40,7 +40,7 @@ import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule.vue'
 export default Vue.extend({
     name: 'playerListModule',
     data() {
-        var isPlayerListNull = true
+        let isPlayerListNull = true
         if (this.playerList === undefined || this.playerList.length === 0) {
             isPlayerListNull = true
         }

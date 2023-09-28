@@ -174,7 +174,7 @@ export default Vue.extend({
             if (newVal === null) return
             if (newVal.currentPlayer === this.seatIndex) {
                 this.showColorChanging = false
-                var vm = this
+                const vm = this
                 //牌池有牌时不出牌，刷新玩家背景框颜色动画的逻辑
                 window.requestAnimationFrame(function () {
                     window.requestAnimationFrame(function () {
@@ -224,7 +224,7 @@ export default Vue.extend({
 
     methods: {
         getPlayer: function () {
-            for (var i = 0; i < this.playerList.length; i++) {
+            for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === this.player.id) {
                     return this.playerList[i]
                 }
