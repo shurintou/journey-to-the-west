@@ -23,7 +23,7 @@ import { Player } from '@/type/player'
 export interface WebSocketPlayerInGame {
     id: number,
     nickname: string,
-    avatar_id: string,
+    avatar_id: number,
     cards: number
     remainCards: number[],
     maxCombo: number,
