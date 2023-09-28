@@ -108,7 +108,7 @@ export interface PlayerRecordInGameResult {
     nickname: string,
     avatar_id: number,
     cards: number
-    seat_index: GamePlayerSeatIndex,
+    seatIndex: GamePlayerSeatIndex,
     maxCombo: number,
     wukong: number,
     bajie: number,
