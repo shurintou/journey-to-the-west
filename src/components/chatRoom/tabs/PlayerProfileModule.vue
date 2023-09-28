@@ -95,7 +95,7 @@ export default Vue.extend({
     watch: {
         'playerProfile.record.experience': {
             immediate: true,
-            handler: function (newVal) {
+            handler: function (newVal: number) {
                 let result = calExperience(newVal)
                 this.currentExp = result.currentExp
                 this.nextLevelExp = result.nextLevelExp

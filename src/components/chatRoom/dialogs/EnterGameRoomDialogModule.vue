@@ -54,7 +54,7 @@ export default Vue.extend({
     },
 
     watch: {
-        enterGameRoomDialogVisible: function (newVal) {
+        enterGameRoomDialogVisible: function (newVal: boolean) {
             if (!this.$refs.gameRoomValidateForm) return
             if (newVal === true) {
                 this.gameRoomValidateForm.password = ''

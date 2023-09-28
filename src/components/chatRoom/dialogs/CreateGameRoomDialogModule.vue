@@ -68,7 +68,7 @@ export default Vue.extend({
     },
 
     watch: {
-        createGameRoomDialogVisible: function (newVal) {
+        createGameRoomDialogVisible: function (newVal: boolean) {
             if (newVal === true) {
                 this.gameRoomValidateForm.roomName = this.$stock.state.nickname + ' 的房间'
             }
