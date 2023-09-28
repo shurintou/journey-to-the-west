@@ -173,6 +173,21 @@ export default verificationLogic.extend({
       }
     },
 
+    rules: function () {
+      return {
+        username: [
+          { required: true, validator: this.checkName, trigger: 'blur' }
+        ],
+        password: [
+          { required: true, validator: this.validatePass, trigger: 'blur' },
+          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
+        ],
+        checkPassword: [
+          { required: true, validator: this.validatePass2, trigger: 'blur' }
+        ],
+      }
+    },
+
   },
 
   computed: {
@@ -191,21 +206,6 @@ export default verificationLogic.extend({
         return '20%'
       }
     },
-
-    rules: function () {
-      return {
-        username: [
-          { required: true, validator: this.checkName, trigger: 'blur' }
-        ],
-        password: [
-          { required: true, validator: this.validatePass, trigger: 'blur' },
-          { min: 6, max: 15, message: '长度在 6 到 15 个字符', trigger: 'blur' }
-        ],
-        checkPassword: [
-          { required: true, validator: this.validatePass2, trigger: 'blur' }
-        ],
-      }
-    }
   },
 
   components: {
