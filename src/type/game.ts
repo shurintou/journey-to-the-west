@@ -160,3 +160,18 @@ export interface GameResult {
 
 /** @summary 一场游戏中所有玩家的战绩。*/
 export type GameResultsList = Player[]
+
+
+/**
+ * @type {object}
+ * @property {number} num - 牌点：如红桃2，为牌点为2。
+ * @property {1|2|3|4} suit -  花色点数：黑桃4，红桃3，梅花或大王2，方块或小王1。
+ * @property {string} src -  对应图片的source名：数字+字母，其中字母为黑桃A，红桃B，梅花C，方块D。
+ * @property {string} name - 扑克牌名。
+ */
+export interface Card {
+    num: number,
+    suit: 1 | 2 | 3 | 4,
+    src: string,
+    name: string,
+}
