@@ -52,7 +52,7 @@ export type GamePlayers = { [key in GamePlayerSeatIndex]: WebSocketPlayerInGame 
  * @property {GamePlayerSeatIndex | -1} currentPlayer - 现在出牌玩家的座位号：0~7，初始为-1。
  * @property {number[]} currentCard - 现在牌池中的牌。
  * @property {GamePlayerSeatIndex | -1} currentCardPlayer - 打出现在牌池中的牌的玩家的座位号：0~7，初始为-1。
- * @property {number} jokerCard - 现在牌池中的反弹牌。
+ * @property {number[]} jokerCard - 现在牌池中的反弹牌。
  * @property {GamePlayerSeatIndex | -1} jokerCardPlayer - 打出现在牌池中的反弹牌的玩家的座位号：0~7，初始为-1。
  * @property {number} cardNum - 使用牌副数。
  * @property {number} metamorphoseNum - 每副牌中变身牌数量。
@@ -72,7 +72,7 @@ export interface WebSocketGame {
     currentPlayer: GamePlayerSeatIndex | -1,
     currentCard: number[],
     currentCardPlayer: GamePlayerSeatIndex | -1,
-    jokerCard: number,
+    jokerCard: number[],
     jokerCardPlayer: GamePlayerSeatIndex | -1,
     cardNum: number,
     metamorphoseNum: number,
