@@ -18,8 +18,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import CardsNum from '@/components/gameRoom/fragment/CardsNum'
+import Vue, { PropType } from 'vue'
+import { WebSocketGame } from '@/type/game'
+import CardsNum from '@/components/gameRoom/fragment/CardsNum.vue'
 
 export default Vue.extend({
     data() {
@@ -35,14 +36,14 @@ export default Vue.extend({
     },
 
     props: {
-        gameInfo: { type: Object, default: null },
+        gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
         fontSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: false },
     },
 
     watch: {
-        'gameInfo.currentCombo': function (newVal, oldVal) {
-            var vm = this
+        'gameInfo.currentCombo': function (newVal: number, oldVal: number) {
+            const vm = this
             if (newVal > oldVal) {
                 if (newVal > this.actionBoundryList[0] && newVal <= this.actionBoundryList[1]) {
                     this.vibrateFlag = false
