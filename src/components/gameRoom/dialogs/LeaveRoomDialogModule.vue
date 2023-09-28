@@ -12,7 +12,8 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketGameRoom } from '@/type/room'
 
 export default Vue.extend({
     data() {
@@ -24,8 +25,9 @@ export default Vue.extend({
     props: {
         leaveRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        playerLocRoom: { type: Object, default: null },
-        ws: { type: WebSocket, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
+        playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
+
     },
 
     methods: {
@@ -41,7 +43,7 @@ export default Vue.extend({
                     break
                 }
             }
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$stock.state.nickname, seatIndex: seatIndex }))
+            this?.ws?.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$stock.state.nickname, seatIndex: seatIndex }))
             this.$emit('leaveRoomDialogVisible', false)
         }
 
