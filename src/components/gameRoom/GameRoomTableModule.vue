@@ -65,7 +65,7 @@
                   '.png')
                 "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer as GamePlayerSeatIndex].nickname }}
             </p>
           </div>
         </template>
@@ -86,7 +86,7 @@
               '.png')
               "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer as GamePlayerSeatIndex].nickname }}
             </p>
           </div>
         </template>
@@ -110,21 +110,22 @@
           <template slot="reference">
             <div id="game-room-table-horizontal-box-bottom">
               <transition leave-active-class="scale-out-top">
-                <el-tag v-show="getGamePlayer.remainCards.length > 0" class="game-room-table-horizontal-record-item"
-                  type="success" effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">
-                  {{ "手牌数： " + getGamePlayer.remainCards.length + " 张" }}
+                <el-tag v-show="(getGamePlayer?.remainCards?.length || 0) > 0"
+                  class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize"
+                  :style="{ 'font-size': fontSize }">
+                  {{ "手牌数： " + getGamePlayer?.remainCards.length + " 张" }}
                 </el-tag>
               </transition>
               <el-tag :class="{ 'increase-num': allCardsFlag }" class="game-room-table-horizontal-record-item" type="info"
                 effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">
                 {{ "总收牌： " }}
-                <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum>
+                <CardsNum :value="getGamePlayer?.cards" @increased="increasedHandler('all')"></CardsNum>
                 {{ " 张" }}
               </el-tag>
               <el-tag :class="{ 'increase-num': comboFlag }" class="game-room-table-horizontal-record-item" type="danger"
                 effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">
                 {{ "最大连击： " }}
-                <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
+                <CardsNum :value="getGamePlayer?.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
                 {{ " 张" }}
               </el-tag>
             </div>
@@ -203,7 +204,7 @@
                   '.png')
                 "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer as GamePlayerSeatIndex].nickname }}
             </p>
           </div>
         </template>
@@ -224,7 +225,7 @@
               '.png')
               "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer as GamePlayerSeatIndex].nickname }}
             </p>
           </div>
         </template>
@@ -240,9 +241,9 @@
         </div>
         <div id="game-room-table-vertical-info-box-bottom">
           <transition leave-active-class="scale-out-top">
-            <el-tag v-show="getGamePlayer.remainCards.length > 0" class="game-room-table-horizontal-record-item"
+            <el-tag v-show="(getGamePlayer?.remainCards?.length || 0) > 0" class="game-room-table-horizontal-record-item"
               type="success" effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "手牌数： " +
-                getGamePlayer.remainCards.length + " 张" }}</el-tag>
+                getGamePlayer?.remainCards.length + " 张" }}</el-tag>
           </transition>
         </div>
       </el-tooltip>
@@ -255,15 +256,15 @@
           <div id="game-room-table-vertical-info-box-bottom">
             <el-tag :class="{ 'increase-num': allCardsFlag }" class="game-room-table-horizontal-record-item" type="info"
               effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "总收牌： " }}
-              <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum>
+              <CardsNum :value="getGamePlayer?.cards" @increased="increasedHandler('all')"></CardsNum>
               {{ " 张" }}
             </el-tag>
           </div>
           <div id="game-room-table-vertical-info-box-bottom">
             <el-tag :class="{ 'increase-num': comboFlag }" class="game-room-table-horizontal-record-item" type="danger"
               effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "最大连击： " }}
-              <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
-              {{ 张 }}
+              <CardsNum :value="getGamePlayer?.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
+              {{ '张' }}
             </el-tag>
           </div>
         </template>
@@ -278,30 +279,35 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import EditGameRoomDialogModule from "@/components/gameRoom/dialogs/EditGameRoomDialogModule";
-import { cardList } from "@/mixins/gameRoom/cardList";
-import RemainCardsNum from "@/components/gameRoom/fragment/RemainCardsNum";
-import ComboCardsNum from "@/components/gameRoom/fragment/ComboCardsNum";
-import Clockwise from "@/components/gameRoom/fragment/Clockwise";
-import CardsNum from "@/components/gameRoom/fragment/CardsNum";
-import { playSound } from "@/utils/soundHandler";
-import QuickChatSelector from "@/components/gameRoom/fragment/QuickChatSelector";
+import { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { TextToPlayer } from '@/type/setting'
+import { WebSocketGame } from '@/type/game'
+import { TextToPlayerGameData } from '@/type/websocket'
+import { PlayerLocRomTypeChatMessageObject, WebSocketGameRoom, WebSocketPlayerInRoom } from '@/type/room'
+import EditGameRoomDialogModule from "@/components/gameRoom/dialogs/EditGameRoomDialogModule.vue"
+import { cardList } from "@/mixins/gameRoom/cardList"
+import RemainCardsNum from "@/components/gameRoom/fragment/RemainCardsNum.vue"
+import ComboCardsNum from "@/components/gameRoom/fragment/ComboCardsNum.vue"
+import Clockwise from "@/components/gameRoom/fragment/Clockwise.vue"
+import CardsNum from "@/components/gameRoom/fragment/CardsNum.vue"
+import { playSound } from "@/utils/soundHandler"
+import QuickChatSelector from "@/components/gameRoom/fragment/QuickChatSelector.vue"
 
-export default Vue.extend({
+export default cardList.extend({
   data() {
     return {
       isTooltipShow: false,
       editGameRoomDialogVisible: false,
-      gameTableTexts: [],
-      gameTextFromPlayer: [],
+      gameTableTexts: [] as string[],
+      gameTextFromPlayer: [] as string[],
       timer: 0,
       gameTextFromPlayerTimer: 0,
       isPopoverVisible: false,
       textFontSize: "",
       allCardsFlag: false,
       comboFlag: false,
-    };
+    }
   },
 
   props: {
@@ -326,30 +332,30 @@ export default Vue.extend({
       default: false,
     },
     playerLocRoom: {
-      type: Object,
+      type: Object as PropType<WebSocketGameRoom>,
       default: null,
     },
     player: {
-      type: Object,
+      type: Object as PropType<WebSocketPlayerInRoom>,
       default: null,
     },
     gameInfo: {
-      type: Object,
+      type: Object as PropType<WebSocketGame>,
       default: null,
     },
     seatIndex: {
-      type: Number,
+      type: Number as PropType<GamePlayerSeatIndex>,
     },
     ws: {
-      type: WebSocket,
+      type: Object as PropType<WebSocket>,
       default: null,
     },
     sentGameTextToPlayer: {
-      type: Object,
+      type: Object as PropType<TextToPlayerGameData>,
       default: null,
     },
     sentPlayerLocRomTypeChatMessage: {
-      type: Object,
+      type: Object as PropType<PlayerLocRomTypeChatMessageObject>,
       default: null,
     },
   },
@@ -357,93 +363,93 @@ export default Vue.extend({
   watch: {
     "gameInfo.messages": {
       immediate: true,
-      handler: function (newVal) {
-        if (this.gameInfo === null) return;
-        clearTimeout(this.timer);
-        this.gameTableTexts = newVal;
+      handler: function (newVal: string[]) {
+        if (this.gameInfo === null) return
+        clearTimeout(this.timer)
+        this.gameTableTexts = newVal
       },
     },
 
-    "gameInfo.currentPlayer": function (newVal, oldVal) {
-      if (this.gameInfo === null || newVal === -1) return;
+    "gameInfo.currentPlayer": function (newVal: GamePlayerSeatIndex | -1, oldVal: GamePlayerSeatIndex | -1) {
+      if (this.gameInfo === null || newVal === -1) return
       if (oldVal === undefined) {
-        playSound("game-start-voice");
-        playSound("card-shuffle");
-        return;
+        playSound("game-start-voice")
+        playSound("card-shuffle")
+        return
       }
       //有反弹牌则优先发出反弹牌的音效
       if (this.gameInfo.jokerCard.length > 0) {
         if (this.getIndexOfCardList(this.gameInfo.jokerCard[0]).suit === 1) {
-          playSound("playCard/guanyin");
+          playSound("playCard/guanyin")
         } else {
-          playSound("playCard/rulai");
+          playSound("playCard/rulai")
         }
-        return;
+        return
       }
       if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 21) {
-        playSound("playCard/shaseng");
+        playSound("playCard/shaseng")
       } else if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 22) {
-        playSound("playCard/bajie");
+        playSound("playCard/bajie")
       } else if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 23) {
-        playSound("playCard/wukong");
+        playSound("playCard/wukong")
       } else if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 31) {
-        playSound("playCard/shifu");
+        playSound("playCard/shifu")
       } else if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 100) {
         if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).suit === 1) {
-          playSound("playCard/guanyin");
+          playSound("playCard/guanyin")
         } else {
-          playSound("playCard/rulai");
+          playSound("playCard/rulai")
         }
       } else {
-        playSound("playCard/card-drop");
+        playSound("playCard/card-drop")
       }
     },
 
     gameTableTexts: function () {
       if (this.gameTableTexts && this.gameTableTexts.length > 1) {
         this.timer = setTimeout(() => {
-          this.gameTableTexts.shift();
-        }, 2000);
+          this.gameTableTexts.shift()
+        }, 2000)
       }
     },
 
-    sentGameTextToPlayer: function (newVal) {
-      if (this.gameInfo === null) return;
+    sentGameTextToPlayer: function (newVal: TextToPlayerGameData) {
+      if (this.gameInfo === null) return
       if (
         newVal.source === undefined ||
         newVal.text === undefined ||
         newVal.target === undefined
       )
-        return;
-      this.$emit("gameTextToPlayerSent", this.seatIndex);
+        return
+      this.$emit("gameTextToPlayerSent", this.seatIndex)
       if (newVal.sourceId === this.$stock.state.id) {
         if (newVal.target === -1) {
-          this.gameTextFromPlayer.push("你说: " + newVal.text);
+          this.gameTextFromPlayer.push("你说: " + newVal.text)
         } else {
           this.gameTextFromPlayer.push(
             "你对 " +
             this.gameInfo.gamePlayer[newVal.target].nickname +
             " 说: " +
             newVal.text
-          );
+          )
         }
-        playSound("quickChat/" + newVal.soundSrc);
+        playSound("quickChat/" + newVal.soundSrc)
         this.$nextTick(function () {
           if (this.gameTextFromPlayer.length > 0) {
-            this.isTooltipShow = true;
+            this.isTooltipShow = true
             this.gameTextFromPlayerTimer = setTimeout(() => {
-              this.gameTextFromPlayer.shift();
+              this.gameTextFromPlayer.shift()
               if (this.gameTextFromPlayer.length === 0) {
-                this.isTooltipShow = false;
+                this.isTooltipShow = false
               }
-            }, 6000);
+            }, 6000)
           }
-        });
+        })
       }
     },
 
-    sentPlayerLocRomTypeChatMessage: function (newVal) {
-      if (this.gameInfo !== null) return;
+    sentPlayerLocRomTypeChatMessage: function (newVal: PlayerLocRomTypeChatMessageObject) {
+      if (this.gameInfo !== null) return
       if (
         newVal === undefined ||
         newVal.nickname === undefined ||
@@ -451,28 +457,28 @@ export default Vue.extend({
         newVal.text === undefined ||
         newVal.text === ""
       )
-        return;
-      this.$emit("typeChatMessageSent", this.seatIndex);
-      this.gameTextFromPlayer.push("你说: " + newVal.text);
+        return
+      this.$emit("typeChatMessageSent", this.seatIndex)
+      this.gameTextFromPlayer.push("你说: " + newVal.text)
       this.$nextTick(function () {
         if (this.gameTextFromPlayer.length > 0) {
-          this.isTooltipShow = true;
+          this.isTooltipShow = true
           this.gameTextFromPlayerTimer = setTimeout(() => {
-            this.gameTextFromPlayer.shift();
+            this.gameTextFromPlayer.shift()
             if (this.gameTextFromPlayer.length === 0) {
-              this.isTooltipShow = false;
+              this.isTooltipShow = false
             }
-          }, 6000);
+          }, 6000)
         }
-      });
+      })
     },
 
     largeFontSize: {
       immediate: true,
-      handler: function (newVal) {
-        let str = newVal.split("px")[0];
-        let i = parseInt(str);
-        this.textFontSize = i + 2 + "" + "px";
+      handler: function (newVal: string) {
+        let str = newVal.split("px")[0]
+        let i = parseInt(str)
+        this.textFontSize = i + 2 + "" + "px"
       },
     },
   },
@@ -481,16 +487,16 @@ export default Vue.extend({
     tablePokersWidth: function () {
       if (this.isItemHorizontal) {
         if (this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length <= 5) {
-          return "20%";
+          return "20%"
         } else {
           return (
             100 / (this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length) +
             "" +
             "%"
-          );
+          )
         }
       }
-      return "20%";
+      return "20%"
     },
 
     tablePokerLeftMargin: function () {
@@ -501,26 +507,26 @@ export default Vue.extend({
             10 * (this.gameInfo.currentCard.length + this.gameInfo.jokerCard.length) +
             "" +
             "%"
-          );
+          )
         } else {
-          return "0%";
+          return "0%"
         }
       }
-      return "0%";
+      return "0%"
     },
 
     getGamePlayer: function () {
-      if (this.gameInfo === null) return null;
+      if (this.gameInfo === null) return null
       if (this.gameInfo.gamePlayer[this.seatIndex].id > 0) {
-        return this.gameInfo.gamePlayer[this.seatIndex];
+        return this.gameInfo.gamePlayer[this.seatIndex]
       }
-      return null;
+      return null
     },
   },
 
   methods: {
-    sentSelectedTextToPlayer: function (item) {
-      this.isPopoverVisible = false;
+    sentSelectedTextToPlayer: function (item: TextToPlayer) {
+      this.isPopoverVisible = false
       this.ws.send(
         JSON.stringify({
           type: "game",
@@ -533,25 +539,25 @@ export default Vue.extend({
           text: item.text,
           soundSrc: item.music,
         })
-      );
+      )
     },
 
-    increasedHandler: function (whichFlag) {
-      let vm = this;
+    increasedHandler: function (whichFlag: 'all' | 'combo') {
+      let vm = this
       if (whichFlag === "all") {
-        this.allCardsFlag = false;
+        this.allCardsFlag = false
         window.requestAnimationFrame(function () {
           window.requestAnimationFrame(function () {
-            vm.allCardsFlag = true;
-          });
-        });
+            vm.allCardsFlag = true
+          })
+        })
       } else if (whichFlag === "combo") {
-        this.comboFlag = false;
+        this.comboFlag = false
         window.requestAnimationFrame(function () {
           window.requestAnimationFrame(function () {
-            vm.comboFlag = true;
-          });
-        });
+            vm.comboFlag = true
+          })
+        })
       }
     },
   },
@@ -566,7 +572,7 @@ export default Vue.extend({
   },
 
   mixins: [cardList],
-};
+}
 </script>
 
 <style>
