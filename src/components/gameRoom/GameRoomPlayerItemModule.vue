@@ -141,7 +141,7 @@ export default Vue.extend({
                 this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 对你说: ' + newVal.text)
             }
             else {
-                this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 对' + this.gameInfo.gamePlayer[newVal.target].nickname + ' 说: ' + newVal.text)
+                this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 对' + this.gameInfo.gamePlayer[newVal.target as GamePlayerSeatIndex].nickname + ' 说: ' + newVal.text)
             }
             playSound('quickChat/' + newVal.soundSrc)
             this.$nextTick(function () {
