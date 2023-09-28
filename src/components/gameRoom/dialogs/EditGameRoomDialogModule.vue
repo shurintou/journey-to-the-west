@@ -38,7 +38,25 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketGameRoom } from '@/type/room'
+import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
+
+const checkPassword: ExecuteValidator = (rule, value, callback) => {
+    if (value === '') {
+        callback();
+    }
+    else {
+        var uPattern = /^[0-9]{4,8}$/
+        if (!uPattern.test(value)) {
+            callback(new Error('密码须4到8位数字'));
+        }
+        else {
+            callback();
+        }
+        callback();
+    }
+}
 export default Vue.extend({
     data() {
         return {
@@ -49,34 +67,20 @@ export default Vue.extend({
                 cardNum: 2,
                 metamorphoseNum: 4,
             },
-            checkPassword: (rule, value, callback) => {
-                if (value === '') {
-                    callback();
-                }
-                else {
-                    var uPattern = /^[0-9]{4,8}$/
-                    if (!uPattern.test(value)) {
-                        callback(new Error('密码须4到8位数字'));
-                    }
-                    else {
-                        callback();
-                    }
-                    callback();
-                }
-            },
+            checkPassword: checkPassword,
         }
     },
 
     props: {
         editGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
-        playerLocRoom: { type: Object, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
+        playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
         fontSize: { type: String, default: '' },
     },
 
     watch: {
-        editGameRoomDialogVisible: function (newVal) {
+        editGameRoomDialogVisible: function (newVal: boolean) {
             if (newVal === true) {
                 this.gameRoomValidateForm.roomName = this.playerLocRoom.name
                 this.gameRoomValidateForm.password = this.playerLocRoom.needPassword ? this.playerLocRoom.password : ''
@@ -104,13 +108,14 @@ export default Vue.extend({
 
     methods: {
         editGameRoom: function () {
-            this.$refs.gameRoomValidateForm.validate(valid => {
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.validate(valid => {
                 if (valid) {
                     if (this.gameRoomValidateForm.roomName === this.playerLocRoom.name && this.gameRoomValidateForm.password === this.playerLocRoom.password && this.gameRoomValidateForm.cardNum === this.playerLocRoom.cardNum && this.gameRoomValidateForm.metamorphoseNum === this.playerLocRoom.metamorphoseNum) {
                         this.closeEditGameRoomDialog()
                         return
                     }
-                    this.ws.send(JSON.stringify({
+                    this?.ws?.send(JSON.stringify({
                         type: 'gameRoomList',
                         action: 'edit',
                         id: this.playerLocRoom.id,
@@ -129,7 +134,8 @@ export default Vue.extend({
 
         closeEditGameRoomDialog: function () {
             this.$emit('editGameRoomDialogVisible', false)
-            this.$refs.gameRoomValidateForm.clearValidate()
+            const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
+            gameRoomValidateFormRef.clearValidate()
             this.gameRoomValidateForm.roomName = this.playerLocRoom.name
             this.gameRoomValidateForm.password = this.playerLocRoom.needPassword ? this.playerLocRoom.password : ''
             this.gameRoomValidateForm.cardNum = this.playerLocRoom.cardNum
