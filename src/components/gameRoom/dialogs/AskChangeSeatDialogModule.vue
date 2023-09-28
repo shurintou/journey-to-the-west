@@ -10,7 +10,9 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketChangeSeat } from '@/type/room'
+import { WebSocketPlayer } from '@/type/player'
 
 export default Vue.extend({
     data() {
@@ -22,11 +24,11 @@ export default Vue.extend({
     props: {
         askChangeSeatDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        askChangeSeatInfo: { type: Object, default: null },
-        playerList: Array,
+        askChangeSeatInfo: { type: Object as PropType<WebSocketChangeSeat>, default: null },
+        playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         fontSize: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
     },
 
     methods: {
@@ -48,12 +50,12 @@ export default Vue.extend({
         agreeChangeSeat: function () {
             let agreeChangeSeatDto = this.askChangeSeatInfo
             agreeChangeSeatDto.confirm = true
-            this.ws.send(JSON.stringify(agreeChangeSeatDto))
+            this?.ws?.send(JSON.stringify(agreeChangeSeatDto))
             this.$emit('askChangeSeatDialogVisible', false)
         },
 
         disagreeChangeSeat: function () {
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$stock.state.nickname }))
+            this?.ws?.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$stock.state.nickname }))
             this.$emit('askChangeSeatDialogVisible', false)
         }
 
