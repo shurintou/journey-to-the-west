@@ -6,39 +6,34 @@
             <el-tab-pane label="表格数据" name="gameRecord">
                 <div style="width: 100%">
                     <div>
-                        <el-tag :size="tagSize" type="success" effect="dark"
-                            :style="{ 'font-size': this.largeFontSize }">吃鸡玩家: {{ gameResult.winnerNickname }}</el-tag>
-                        <el-tag :size="tagSize" type="success" effect="light" :style="{ 'font-size': this.largeFontSize }"
+                        <el-tag :size="tagSize" type="success" effect="dark" :style="{ 'font-size': largeFontSize }">吃鸡玩家:
+                            {{ gameResult.winnerNickname }}</el-tag>
+                        <el-tag :size="tagSize" type="success" effect="light" :style="{ 'font-size': largeFontSize }"
                             style="margin-right: 2vw">收牌数: {{ gameResult.winnerCards }}</el-tag>
-                        <el-tag :size="tagSize" type="danger" effect="dark"
-                            :style="{ 'font-size': this.largeFontSize }">拉跨玩家:
+                        <el-tag :size="tagSize" type="danger" effect="dark" :style="{ 'font-size': largeFontSize }">拉跨玩家:
                             {{ gameResult.loserNickname }}</el-tag>
-                        <el-tag :size="tagSize" type="danger" effect="light" :style="{ 'font-size': this.largeFontSize }"
+                        <el-tag :size="tagSize" type="danger" effect="light" :style="{ 'font-size': largeFontSize }"
                             style="margin-right: 2vw">收牌数: {{ gameResult.loserCards }}</el-tag>
-                        <el-tag :size="tagSize" type="warning" effect="dark"
-                            :style="{ 'font-size': this.largeFontSize }">最大连击玩家: {{ gameResult.maxComboPlayer }}</el-tag>
-                        <el-tag :size="tagSize" type="warning" effect="light" :style="{ 'font-size': this.largeFontSize }"
+                        <el-tag :size="tagSize" type="warning" effect="dark" :style="{ 'font-size': largeFontSize }">最大连击玩家:
+                            {{ gameResult.maxComboPlayer }}</el-tag>
+                        <el-tag :size="tagSize" type="warning" effect="light" :style="{ 'font-size': largeFontSize }"
                             style="margin-right: 2vw">连击数: {{ gameResult.maxCombo }}</el-tag>
-                        <el-tag :size="tagSize" type="info" effect="dark" :style="{ 'font-size': this.largeFontSize }">使用牌数:
+                        <el-tag :size="tagSize" type="info" effect="dark" :style="{ 'font-size': largeFontSize }">使用牌数:
                             {{ gameResult.cardsNum }}副</el-tag>
-                        <el-tag :size="tagSize" type="info" effect="light" :style="{ 'font-size': this.largeFontSize }">玩家数:
+                        <el-tag :size="tagSize" type="info" effect="light" :style="{ 'font-size': largeFontSize }">玩家数:
                             {{ gameResult.playersNum }}</el-tag>
                     </div>
                     <el-divider></el-divider>
                     <el-table v-loading="loading" :default-sort="{ prop: 'seatIndex', order: 'ascending' }"
-                        :data="gameResult.gameResultList" style="width: 100%"
-                        :row-style="{ 'font-size': this.largeFontSize }" :header-row-style="{ 'font-size': this.fontSize }">
-                        <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60">
-                            <template slot-scope="scope">
-                                <el-avatar shape="square" :size="avatarSize"
-                                    :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
-                            </template>
+                        :data="gameResult.gameResultList" style="width: 100%" :row-style="{ 'font-size': largeFontSize }"
+                        :header-row-style="{ 'font-size': fontSize }">
+                        <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60" v-slot="scope">
+                            <el-avatar shape="square" :size="avatarSize"
+                                :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
                         </el-table-column>
                         <el-table-column align="center" fixed prop="nickname" label="昵称" min-width="80"></el-table-column>
-                        <el-table-column align="center" sortable prop="seatIndex" label="座位号" min-width="60">
-                            <template slot-scope="scope">
-                                <span>{{ scope.row.seatIndex + 1 }}</span>
-                            </template>
+                        <el-table-column align="center" sortable prop="seatIndex" label="座位号" min-width="60" v-slot="scope">
+                            <span>{{ scope.row.seatIndex + 1 }}</span>
                         </el-table-column>
                         <el-table-column align="center" sortable prop="cards" label="总收牌" min-width="60"></el-table-column>
                         <el-table-column align="center" sortable prop="maxCombo" label="最大连击"
@@ -76,17 +71,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { PlayerRecordInGameResult, GameResult } from '@/type/game'
 import * as echarts from 'echarts/core'
+import { EChartsType } from 'echarts/types/dist/shared'
 import { TitleComponent, TooltipComponent, GridComponent, LegendComponent } from 'echarts/components'
 import { BarChart } from 'echarts/charts'
 import { CanvasRenderer } from 'echarts/renderers'
+
 export default Vue.extend({
     data() {
         return {
             activeGameResultModuleTabName: 'gameRecord',
             echartDrawed: false,
-            myChart: null,
+            myChart: null as EChartsType | null,
             selectedLegend: '',
             loading: true,
         }
@@ -103,7 +101,7 @@ export default Vue.extend({
         },
 
         gamePlayerList: function () {
-            let list = []
+            let list: PlayerRecordInGameResult[] = []
             this.gameResult.gameResultList.forEach(gamePlayer => {
                 list.push(gamePlayer)
             })
@@ -115,7 +113,7 @@ export default Vue.extend({
     },
 
     watch: {
-        gameResult: function (newVal) {
+        gameResult: function (newVal: GameResult | null) {
             if (newVal !== null) {
                 this.echartDrawed = false
                 this.selectedLegend = ''
@@ -123,7 +121,7 @@ export default Vue.extend({
             }
         },
 
-        gameResultDialogVisible: function (newVal) {
+        gameResultDialogVisible: function (newVal: boolean) {
             if (!newVal) {
                 this.activeGameResultModuleTabName = 'gameRecord'
                 if (this.myChart !== null) {
@@ -137,7 +135,7 @@ export default Vue.extend({
     },
 
     props: {
-        gameResult: { type: Object, default: null },
+        gameResult: { type: Object as PropType<GameResult>, default: null },
         gameResultDialogVisible: { type: Boolean, default: false },
         avatarSize: { type: Number, default: 20 },
         fontSize: { type: String, default: '14px' },
@@ -150,12 +148,12 @@ export default Vue.extend({
     },
 
     methods: {
-        getAvatarUrl: function (avatarId) {
+        getAvatarUrl: function (avatarId: number) {
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
-        /* 17行el-table加上 :row-class-name="tableRowClassName" 可以给玩家行加颜色 */
-        tableRowClassName: function ({ row }) {
+        /* 给el-table加上 :row-class-name="tableRowClassName" 可以给玩家行加颜色 */
+        tableRowClassName: function ({ row }: { row: PlayerRecordInGameResult }) {
             if (row.id === this.$stock.state.id)
                 return 'is-local-player-row'
         },
@@ -167,10 +165,10 @@ export default Vue.extend({
         },
 
         echartResizeLogic: function () {
-            this.myChart.resize()
+            this?.myChart?.resize()
         },
 
-        changeEchartSelected: function (type) {
+        changeEchartSelected: function (type: '' | 'all' | 'max' | 'func') {
             let selectedArray = null
             this.selectedLegend = type
             if (type === '') {
@@ -193,14 +191,14 @@ export default Vue.extend({
                     '总收牌': false, '最大连击': false, '使用悟空': true, '使用八戒': true, '使用沙僧': true, '使用唐僧': true, '使用反弹': true, '使用变身': true
                 }
             }
-            this.myChart.setOption({
+            this?.myChart?.setOption({
                 legend: {
                     selected: selectedArray
                 },
             })
         },
 
-        handleGameResultModuleTabClick: function (tab) {
+        handleGameResultModuleTabClick: function (tab: { name: 'visualData' | 'gameRecord' }) {
             if (tab.name === 'visualData' && this.echartDrawed === false) {
                 this.echartDrawed = true
                 echarts.use([TitleComponent, TooltipComponent, GridComponent, LegendComponent, BarChart, CanvasRenderer])
