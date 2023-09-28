@@ -37,16 +37,18 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { WebSocketGame, WebSocketPlayerInGame } from '@/type/game'
 import { cardList } from '@/mixins/gameRoom/cardList'
 import { playSound } from '@/utils/soundHandler'
 
-export default Vue.extend({
+export default cardList.extend({
     data() {
         return {
-            selectCard: [],
-            selectMetamorphoseCard: [],
-            timer: null,
+            selectCard: [] as number[],
+            selectMetamorphoseCard: [] as number[],
+            timer: null as number | null,
             time: 100,
             metamorphoseMode: false,
             customColors: [
@@ -59,24 +61,24 @@ export default Vue.extend({
     },
 
     props: {
-        gameInfo: { type: Object, default: null },
+        gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
         horizontalBackground: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
         fontSize: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
     },
 
     watch: {
         'gameInfo.version': {
             immediate: true,
-            handler: function (newVal) {
-                if (this.gameInfo === null || this.getGamePlayer.online === false || this.gameInfo.currentPlayer === -1) return
+            handler: function (newVal: number) {
+                if (this.gameInfo === null || this?.getGamePlayer?.online === false || this.gameInfo.currentPlayer === -1) return
                 if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
                     this.time = 100
                     this.metamorphoseMode = false
                     this.selectMetamorphoseCard = []
                     this.selectCard = []
-                    if (this.timer > 0) {
+                    if (this.timer !== null && this.timer > 0) {
                         clearInterval(this.timer)
                     }
                     this.$nextTick(function () {
@@ -95,7 +97,7 @@ export default Vue.extend({
             }
         },
 
-        time: function (newVal, oldVal) {
+        time: function (newVal: number, oldVal: number) {
             if (newVal === 0 && oldVal === 1) {
                 this.destroyTimer()
             }
@@ -105,7 +107,7 @@ export default Vue.extend({
     computed: {
         getSeatIndex: function () {
             if (!this.gameInfo) return 10
-            for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
+            for (let i = 0 as GamePlayerSeatIndex; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
                 if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
                     return i
                 }
@@ -113,9 +115,9 @@ export default Vue.extend({
             return 10
         },
 
-        getGamePlayer: function () {
+        getGamePlayer: function (): WebSocketPlayerInGame | null {
             if (!this.gameInfo) return null
-            for (let i = 0; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
+            for (let i = 0 as GamePlayerSeatIndex; i < Object.keys(this.gameInfo.gamePlayer).length; i++) {
                 if (this.gameInfo.gamePlayer[i].id === this.$stock.state.id) {
                     return this.gameInfo.gamePlayer[i]
                 }
@@ -123,7 +125,7 @@ export default Vue.extend({
             return null
         },
 
-        sortCardList: function () {
+        sortCardList: function (): number[] | null {
             if (this.getGamePlayer === null) return null
             let sortedList = this.getGamePlayer.remainCards
             return sortedList.sort((a, b) => {
@@ -151,14 +153,14 @@ export default Vue.extend({
 
     methods: {
         destroyTimer: function () {
-            clearInterval(this.timer)
+            if (this.timer !== null) clearInterval(this.timer)
             this.timer = null
             this.time = 100
             this.metamorphoseMode = false
             this.selectMetamorphoseCard = []
         },
 
-        addSelectCard: function (n, cardIndex) {
+        addSelectCard: function (n: number, cardIndex: number) {
             playSound('click')
             /* 变身模式 */
             if (this.metamorphoseMode) {
@@ -196,7 +198,7 @@ export default Vue.extend({
                 /* 判断是否超过长度 */
                 if (this.selectCard.length < (this.gameInfo.currentCard.length === 0 ? 5 : this.gameInfo.currentCard.length)) {
                     /* 未超过长度，判断牌是否同一类型，是同一类型加入数组 */
-                    if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num) {
+                    if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num) {
                         this.selectCard.push(n)
                     }
                     /* 不是则清空数组，重新加入新的牌型 */
@@ -209,7 +211,7 @@ export default Vue.extend({
                 }
                 else {
                     /* 超过长度，判断牌是否同一类型，是同一类型则弹出最后加入的牌 */
-                    if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num) {
+                    if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(cardIndex).num) {
                         this.selectCard.shift()
                         this.selectCard.push(n)
                     }
@@ -225,13 +227,13 @@ export default Vue.extend({
         },
 
         playCardEmittedByRef: function () {
-            if (this.getGamePlayer.online === false) {
+            if (this?.getGamePlayer?.online === false) {
                 this.$message.warning('请先取消托管')
                 playSound('click')
                 return
             }
             if (this.timer === null) {
-                if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
+                if (this.gameInfo.currentPlayer !== -1 && this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
                     this.$message.warning('出牌时间超时了')
                 }
                 else {
@@ -261,18 +263,18 @@ export default Vue.extend({
                 this.$message.warning('须打出 ' + this.gameInfo.currentCard.length + ' 张牌')
                 return
             }
-            if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100 || this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 100) {
+            if ((this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100) || this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 100) {
                 //打出的牌是反弹牌，或现有牌池是反弹牌，则无须比较
                 this.sendPlayCard()
                 return
             }
             /* 出的牌号数一样，则比较花色suit大小 */
-            if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(this.gameInfo.currentCard[0]).num) {
+            if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(this.gameInfo.currentCard[0]).num) {
                 let currentCardList = this.gameInfo.currentCard
-                let playCardList = []
-                this.selectCard.forEach(item => { playCardList.push(this.sortCardList[item]) })
+                let playCardList: number[] = []
+                this.selectCard.forEach(item => { if (this.sortCardList !== null) playCardList.push(this.sortCardList[item]) })
                 if (this.metamorphoseMode) {
-                    this.selectMetamorphoseCard.forEach(item => { playCardList.push(this.sortCardList[item]) })
+                    this.selectMetamorphoseCard.forEach(item => { if (this.sortCardList !== null) playCardList.push(this.sortCardList[item]) })
                 }
                 if (currentCardList.length > 1) {
                     currentCardList = currentCardList.sort((a, b) => {
@@ -307,7 +309,7 @@ export default Vue.extend({
 
             /* 出的牌号不一样则分情况比较牌号num大小 */
             /* 都不是师傅的情况下 */
-            if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num < 30 && this.getIndexOfCardList(this.gameInfo.currentCard[0]).num < 30) {
+            if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num < 30 && this.getIndexOfCardList(this.gameInfo.currentCard[0]).num < 30) {
                 if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num > this.getIndexOfCardList(this.gameInfo.currentCard[0]).num) {
                     this.sendPlayCard()
                 }
@@ -318,7 +320,7 @@ export default Vue.extend({
             /* 有一方是师傅的情况下 */
             else {
                 /* 打出师傅 */
-                if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 31) {
+                if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 31) {
                     if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num > 20) {
                         this.sendPlayCard()
                     }
@@ -328,7 +330,7 @@ export default Vue.extend({
                     return
                 }
                 /* 台面师傅 */
-                if (this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 31) {
+                if (this.sortCardList !== null && this.getIndexOfCardList(this.gameInfo.currentCard[0]).num === 31) {
                     if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num < 20) {
                         this.sendPlayCard()
                     }
@@ -341,20 +343,21 @@ export default Vue.extend({
         },
 
         sendPlayCard: function () {
-            let playCardListValue = []
-            this.selectCard.forEach(n => { playCardListValue.push(this.sortCardList[n]) })
+            let playCardListValue: number[] = []
+            this.selectCard.forEach(n => { if (this.sortCardList !== null) playCardListValue.push(this.sortCardList[n]) })
             let originLength = playCardListValue.length //原形牌长度
             let originIndex = playCardListValue[0]//原形牌牌面
             if (this.metamorphoseMode) {
-                this.selectMetamorphoseCard.forEach(n => { playCardListValue.push(this.sortCardList[n]) })
+                this.selectMetamorphoseCard.forEach(n => { if (this.sortCardList !== null) playCardListValue.push(this.sortCardList[n]) })
             }
             playCardListValue.forEach(value => {
-                for (let i = 0; i < this.getGamePlayer.remainCards.length; i++) {
-                    if (this.getGamePlayer.remainCards[i] === value) {
-                        this.getGamePlayer.remainCards.splice(i, 1)
-                        break
+                if (this.getGamePlayer !== null)
+                    for (let i = 0; i < this.getGamePlayer.remainCards.length; i++) {
+                        if (this.getGamePlayer.remainCards[i] === value) {
+                            this.getGamePlayer.remainCards.splice(i, 1)
+                            break
+                        }
                     }
-                }
             })
             for (let i = 0; i < originLength; i++) {//对原形牌处理，大于100则减100
                 if (playCardListValue[i] >= 100) {
@@ -377,7 +380,7 @@ export default Vue.extend({
                 id: this.gameInfo.id,
                 seatIndex: this.getSeatIndex,
                 playCard: playCardListValue,
-                remainCards: this.getGamePlayer.remainCards
+                remainCards: this?.getGamePlayer?.remainCards
             }))
             this.destroyTimer()
         },
@@ -418,16 +421,15 @@ export default Vue.extend({
                 this.$message.warning('请先选择原形牌')
                 return
             }
-            let unSelectedCardIndexList = this.sortCardList
-            unSelectedCardIndexList = unSelectedCardIndexList.filter((val, index) => {
+            const unSelectedCardIndexList = this?.sortCardList?.filter((val, index) => {
                 return !this.selectCard.includes(index)
             })
-            const hasMetamorphoseCard = unSelectedCardIndexList.some(val => val >= 100)
+            const hasMetamorphoseCard = unSelectedCardIndexList?.some(val => val >= 100)
             if (!hasMetamorphoseCard) {
                 this.$message.warning('没有可用的变身牌')
                 return
             }
-            if (this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100) {
+            if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === 100) {
                 this.$message.warning('无法变身观音或如来')
                 return
             }
