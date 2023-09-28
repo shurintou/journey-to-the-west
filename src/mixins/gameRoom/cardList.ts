@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { Card } from '@/type/game'
 
 export const cardList = Vue.extend({
     data: function () {
@@ -59,7 +60,7 @@ export const cardList = Vue.extend({
                 { num: 31, suit: 1, src: '10D', name: '唐僧' },
                 { num: 100, suit: 1, src: 'black-joker', name: '反弹' },
                 { num: 100, suit: 2, src: 'red-joker', name: '反弹' },
-            ],
+            ] as Card[],
         }
     },
 
