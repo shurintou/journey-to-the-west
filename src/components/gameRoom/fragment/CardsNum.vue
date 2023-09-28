@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-const TWEEN = require('@tweenjs/tween.js')
+import TWEEN from '@tweenjs/tween.js'
 
 export default Vue.extend({
     data() {
@@ -37,8 +37,8 @@ export default Vue.extend({
     },
 
     methods: {
-        tween: function (startValue, endValue) {
-            var vm = this
+        tween: function (startValue: number, endValue: number) {
+            const vm = this
             function animate() {
                 if (TWEEN.update()) {
                     requestAnimationFrame(animate)
@@ -48,7 +48,7 @@ export default Vue.extend({
             new TWEEN.Tween({ tweeningValue: startValue })
                 .to({ tweeningValue: endValue }, 1000)
                 .onUpdate(function (object) {
-                    vm.tweeningValue = object.tweeningValue.toFixed(0)
+                    vm.tweeningValue = Math.round(object.tweeningValue)
                 })
                 .start()
 
