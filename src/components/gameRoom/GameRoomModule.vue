@@ -5,7 +5,7 @@
                 <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize"
                     :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                     @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(5)]"
                     :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(5)"
                     :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]"
@@ -16,7 +16,7 @@
                 <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize"
                     :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                     @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(4)]"
                     :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(4)"
                     :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]"
@@ -27,7 +27,7 @@
                 <GameRoomPlayerItemModule :tooltipPlacement="'bottom'" :playerList="playerList" :tagSize="tagSize"
                     :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                     @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(3)]"
                     :gameInfo="gameInfo" :isItemHorizontal="true" :seatIndex="calPlayersSeat(3)"
                     :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]"
@@ -41,7 +41,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(6)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]"
@@ -52,7 +52,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(7)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]"
@@ -63,7 +63,7 @@
             <div id="game-room-box-horizontal-body-table" style="float: left;">
                 <GameRoomTableModule :isItemHorizontal="true" :playerLocRoom="playerLocRoom"
                     @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(0)]"
                     :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws"
                     :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)"
@@ -76,7 +76,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(2)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(2)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]"
@@ -87,7 +87,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(1)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(1)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]"
@@ -103,7 +103,7 @@
                 <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                     :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                     @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(4)]"
                     :gameInfo="gameInfo" :isItemHorizontal="false" :seatIndex="calPlayersSeat(4)"
                     :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(4)]"
@@ -117,7 +117,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(5)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(5)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(5)]"
@@ -128,7 +128,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(6)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(6)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(6)]"
@@ -139,7 +139,7 @@
                     <GameRoomPlayerItemModule :tooltipPlacement="'top'" :playerList="playerList" :tagSize="tagSize"
                         :fontSize="fontSize" :ws="ws" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(7)]"
                         :gameInfo="gameInfo" :seatIndex="calPlayersSeat(7)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(7)]"
@@ -149,7 +149,7 @@
             </div>
             <div id="game-room-box-vertical-body-table">
                 <GameRoomTableModule :playerLocRoom="playerLocRoom" @gameTextToPlayerSent="gameTextToPlayerHandler"
-                    @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                    @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                     :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(0)]"
                     :gameInfo="gameInfo" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize" :ws="ws"
                     :dialogWidth="dialogWidth" :seatIndex="calPlayersSeat(0)"
@@ -163,7 +163,7 @@
                         :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(3)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(3)]" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(3)]"
                         :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex"
                         :player="playerLocRoom.playerList[calPlayersSeat(3)]"></GameRoomPlayerItemModule>
@@ -173,7 +173,7 @@
                         :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(2)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(2)]" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(2)]"
                         :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex"
                         :player="playerLocRoom.playerList[calPlayersSeat(2)]"></GameRoomPlayerItemModule>
@@ -183,7 +183,7 @@
                         :fontSize="fontSize" :ws="ws" :seatIndex="calPlayersSeat(1)"
                         :sentGameTextToPlayer="sentGameTextToPlayerObj[calPlayersSeat(1)]" :playerLocRoom="playerLocRoom"
                         @gameTextToPlayerSent="gameTextToPlayerHandler"
-                        @typeChatMessageSent="function (seatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
+                        @typeChatMessageSent="function (seatIndex: GamePlayerSeatIndex) { sentPlayerLocRomTypeChatMessageObject[seatIndex] = {} }"
                         :sentPlayerLocRomTypeChatMessage="sentPlayerLocRomTypeChatMessageObject[calPlayersSeat(1)]"
                         :gameInfo="gameInfo" :localPlayerSeatIndex="playerSeatIndex"
                         :player="playerLocRoom.playerList[calPlayersSeat(1)]"></GameRoomPlayerItemModule>
@@ -194,35 +194,39 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import GameRoomPlayerItemModule from '@/components/gameRoom/GameRoomPlayerItemModule'
-import GameRoomTableModule from '@/components/gameRoom/GameRoomTableModule'
+import Vue, { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { WebSocketPlayer } from '@/type/player'
+import { GamePlayers, WebSocketGame } from '@/type/game'
+import { PlayerLocRomTypeChatMessageObject, WebSocketGameRoom } from '@/type/room'
+import GameRoomPlayerItemModule from '@/components/gameRoom/GameRoomPlayerItemModule.vue'
+import GameRoomTableModule from '@/components/gameRoom/GameRoomTableModule.vue'
 
 export default Vue.extend({
     data() {
         return {
-            sentPlayerLocRomTypeChatMessageObject: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, },
+            sentPlayerLocRomTypeChatMessageObject: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as { [key in GamePlayerSeatIndex]: PlayerLocRomTypeChatMessageObject | {} },
         }
     },
 
     props: {
         dialogWidth: { type: String, default: '' },
-        ws: { type: WebSocket, default: null },
-        playerLocRoom: { type: Object, default: null },
-        gameInfo: { type: Object, default: null },
-        playerList: Array,
+        ws: { type: Object as PropType<WebSocket>, default: null },
+        playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
+        gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
+        playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         tagSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: true },
         fontSize: { type: String, default: '' },
         largeFontSize: { type: String, default: '' },
-        sentGameTextToPlayerObj: { type: Object, default: null },
-        playerLocRomTypeChatMessageObject: { type: Object, default: null },
+        sentGameTextToPlayerObj: { type: Object as PropType<GamePlayers | { [key in GamePlayerSeatIndex]: {} }>, default: null },
+        playerLocRomTypeChatMessageObject: { type: Object as PropType<PlayerLocRomTypeChatMessageObject>, default: null },
     },
 
     watch: {
-        playerLocRomTypeChatMessageObject: function (newVal) {
+        playerLocRomTypeChatMessageObject: function (newVal: PlayerLocRomTypeChatMessageObject) {
             if (this.playerLocRoom === null) return
-            for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
+            for (let i = 0 as GamePlayerSeatIndex; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
                 if (this.playerLocRoom.playerList[this.calPlayersSeat(i)].id === newVal.id) {
                     this.sentPlayerLocRomTypeChatMessageObject[this.calPlayersSeat(i)] = newVal
                     break
@@ -243,14 +247,14 @@ export default Vue.extend({
     },
 
     methods: {
-        calPlayersSeat: function (n) {
+        calPlayersSeat: function (n: number): GamePlayerSeatIndex {
             if (n + this.playerSeatIndex > 7) {
-                return n + this.playerSeatIndex - 8
+                return n + this.playerSeatIndex - 8 as GamePlayerSeatIndex
             }
-            return n + this.playerSeatIndex
+            return n + this.playerSeatIndex as GamePlayerSeatIndex
         },
 
-        gameTextToPlayerHandler: function (seatIndex) {
+        gameTextToPlayerHandler: function (seatIndex: GamePlayerSeatIndex) {
             this.$emit('gameTextToPlayerSent', seatIndex)
         },
     },
