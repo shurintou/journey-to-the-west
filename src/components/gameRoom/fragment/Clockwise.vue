@@ -18,7 +18,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketGame } from '@/type/game'
+
 export default Vue.extend({
     data() {
         return {
@@ -27,7 +29,7 @@ export default Vue.extend({
     },
 
     props: {
-        gameInfo: { type: Object, default: null },
+        gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
         fontSize: { type: String, default: '' },
         isHorizontal: { type: Boolean, default: false },
     },
