@@ -28,7 +28,9 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropType } from 'vue'
+import { WebSocketGameRoom } from '@/type/room'
+
 export default Vue.extend({
     data() {
         return {
@@ -38,7 +40,7 @@ export default Vue.extend({
 
     props: {
         whichPattern: {
-            type: String,
+            type: String as PropType<'horizontal' | 'vertical'>,
             default: function () {
                 if (document.body.clientWidth < 400) {
                     return 'horizontal'
@@ -48,16 +50,16 @@ export default Vue.extend({
         },
         buttonSize: { type: String, default: '' },
         largeFontSize: { type: String, default: '' },
-        playerLocRoom: { type: Object, default: null },
-        ws: { type: WebSocket, default: null },
+        playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
+        ws: { type: Object as PropType<WebSocket>, default: null },
     },
 
     computed: {
-        isGamePlaying: function () {
+        isGamePlaying: function (): boolean {
             return this.playerLocRoom.status === 0 ? false : true
         },
 
-        isNotReady: function () {
+        isNotReady: function (): boolean {
             /* 房主的情况下 */
             if (this.playerLocRoom.owner === this.$stock.state.id) {
                 let isAllReady = true
