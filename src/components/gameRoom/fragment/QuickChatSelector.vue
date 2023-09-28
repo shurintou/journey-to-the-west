@@ -9,10 +9,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { TextToPlayer } from '@/type/setting'
+
 export default Vue.extend({
     data() {
         return {
-            gameTextToPlayer: null,
+            gameTextToPlayer: null as TextToPlayer | null,
         }
     },
 
