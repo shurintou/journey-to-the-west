@@ -101,8 +101,9 @@ import Vue, { VueConstructor } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketGameRoom, WebSocketChangeSeat, ChatTextInfo, PlayerLocRomTypeChatMessageObject, EnterRoomDto } from '@/type/room'
 import { WebSocketPlayer } from '@/type/player'
-import { GamePlayers, WebSocketGame, GameResult } from '@/type/game'
+import { WebSocketGame, GameResult } from '@/type/game'
 import { CardModuleRef } from '@/type/ref'
+import { TextToPlayerGameData } from '@/type/websocket'
 import { ElLoadingComponent } from 'element-ui/types/loading'
 import { SystemSetting } from '@/type/setting'
 import { chatRoomWebSocket } from '@/mixins/chatRoom/chatRoomWebSocket'
@@ -148,7 +149,7 @@ export default (Vue as VueConstructor<
       askChangeSeatInfo: null as WebSocketChangeSeat | null,
       gameInfo: null as WebSocketGame | null,
       gameResult: null as GameResult | null,
-      sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as GamePlayers | { [key in GamePlayerSeatIndex]: {} },
+      sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as { [key in GamePlayerSeatIndex]: {} | TextToPlayerGameData },
       loading: null as ElLoadingComponent | null,
       playerLocRomTypeChatMessageObject: null as PlayerLocRomTypeChatMessageObject | null,
     }

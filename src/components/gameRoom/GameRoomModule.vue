@@ -197,7 +197,8 @@
 import Vue, { PropType } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketPlayer } from '@/type/player'
-import { GamePlayers, WebSocketGame } from '@/type/game'
+import { TextToPlayerGameData } from '@/type/websocket'
+import { WebSocketGame } from '@/type/game'
 import { PlayerLocRomTypeChatMessageObject, WebSocketGameRoom } from '@/type/room'
 import GameRoomPlayerItemModule from '@/components/gameRoom/GameRoomPlayerItemModule.vue'
 import GameRoomTableModule from '@/components/gameRoom/GameRoomTableModule.vue'
@@ -219,7 +220,7 @@ export default Vue.extend({
         isHorizontal: { type: Boolean, default: true },
         fontSize: { type: String, default: '' },
         largeFontSize: { type: String, default: '' },
-        sentGameTextToPlayerObj: { type: Object as PropType<GamePlayers | { [key in GamePlayerSeatIndex]: {} }>, default: null },
+        sentGameTextToPlayerObj: { type: Object as PropType<{ [key in GamePlayerSeatIndex]: {} | TextToPlayerGameData }>, default: null },
         playerLocRomTypeChatMessageObject: { type: Object as PropType<PlayerLocRomTypeChatMessageObject>, default: null },
     },
 

@@ -2,11 +2,11 @@ import Vue from 'vue'
 import { playSound } from '@/utils/soundHandler'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { PlayerLocRomTypeChatMessageObject, ChatTextInfo, WebSocketGameRoom, WebSocketChangeSeat } from '@/type/room'
-import { WebSocketGame, GamePlayers, GameResult } from '@/type/game'
+import { WebSocketGame, GameResult } from '@/type/game'
 import { ElLoadingComponent } from 'element-ui/types/loading'
 import { WebSocketPlayer } from '@/type/player'
 import { ChatModuleRef } from '@/type/ref'
-import { WebSocketChangeSeatResponseJsonData, WebSocketChatResponseJsonData, WebSocketExceptionMessageResponseJsonData, WebSocketGameResponseJsonData, WebSocketGameRoomListResponseJsonData, WebSocketMessageResponseJsonData, WebSocketPlayerListResponseJsonData } from '@/type/websocket'
+import { TextToPlayerGameData, WebSocketChangeSeatResponseJsonData, WebSocketChatResponseJsonData, WebSocketExceptionMessageResponseJsonData, WebSocketGameResponseJsonData, WebSocketGameRoomListResponseJsonData, WebSocketMessageResponseJsonData, WebSocketPlayerListResponseJsonData } from '@/type/websocket'
 
 export const chatRoomWebSocket = Vue.extend({
     data: function () {
@@ -38,7 +38,7 @@ export const chatRoomWebSocket = Vue.extend({
             askChangeSeatInfo: null as WebSocketChangeSeat | null,
             playerLocRomTypeChatMessageObject: null as PlayerLocRomTypeChatMessageObject | null,
             loading: null as ElLoadingComponent | null,
-            sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as GamePlayers | { [key in GamePlayerSeatIndex]: {} },
+            sentGameTextToPlayerObj: { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, } as { [key in GamePlayerSeatIndex]: TextToPlayerGameData | {} },
             gameResultDialogVisible: false,
         }
     },
