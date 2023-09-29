@@ -572,7 +572,7 @@ export default cardList.extend({
   },
 
   mixins: [cardList],
-}
+})
 </script>
 
 <style>
