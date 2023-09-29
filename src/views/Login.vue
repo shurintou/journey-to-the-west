@@ -344,7 +344,7 @@ export default verificationLogic.extend({
 }
 
 .drawer_background {
-  background-image: url('@/assets/images/icon-select-background.png');
+  background-image: url('~@/assets/images/icon-select-background.png');
   background-size: 100% 100%;
 }
 </style>

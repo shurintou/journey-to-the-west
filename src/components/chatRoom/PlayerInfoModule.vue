@@ -308,7 +308,7 @@ export default Vue.extend({
   border-width: 5px;
   border-color: #e3e197;
   background-size: 100% 100%;
-  background-image: url('@/assets/images/icon_background-min.png');
+  background-image: url('~@/assets/images/icon_background-min.png');
 }
 
 .player-icon-box:hover {
@@ -328,7 +328,7 @@ export default Vue.extend({
   text-align: center;
   padding-top: 5%;
   font-weight: 600;
-  background-image: url('@/assets/images/icon-background-min.png');
+  background-image: url('~@/assets/images/icon-background-min.png');
   background-size: cover;
 }
 
@@ -362,12 +362,12 @@ export default Vue.extend({
 }
 
 .icon-select-box {
-  background-image: url('@/assets/images/icon-select-background.png');
+  background-image: url('~@/assets/images/icon-select-background.png');
   background-size: 100% 100%;
 }
 
 .icon-is-selected {
-  background-image: url('@/assets/images/icon-select-circle.png');
+  background-image: url('~@/assets/images/icon-select-circle.png');
   background-size: 100% 100%;
 }
 

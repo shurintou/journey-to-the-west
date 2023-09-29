@@ -173,7 +173,7 @@ export default Vue.extend({
 
 .chat-popover {
     background-size: 100% 100%;
-    background-image: url('@/assets/images/popupBackground.png');
+    background-image: url('~@/assets/images/popupBackground.png');
     color: #D3DCE6;
     font-size: 18px;
     font-weight: 500;

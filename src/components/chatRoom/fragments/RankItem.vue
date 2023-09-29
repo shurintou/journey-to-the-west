@@ -84,7 +84,7 @@ export default Vue.extend({
 
 <style scoped>
 .award-background {
-    background-image: url('@/assets/images/popupBackground.png');
+    background-image: url('~@/assets/images/popupBackground.png');
 }
 
 .high-light {

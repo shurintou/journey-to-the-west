@@ -274,7 +274,7 @@ export default Vue.extend({
     background-repeat: no-repeat;
     background-position-x: 8vw;
     background-position-y: 8vh;
-    background-image: url('@/assets/images/game-table.png');
+    background-image: url('~@/assets/images/game-table.png');
     width: 75vw;
     height: 66vh;
 }
@@ -325,7 +325,7 @@ export default Vue.extend({
     background-repeat: no-repeat;
     background-position-x: 16vw;
     background-position-y: 6vh;
-    background-image: url('@/assets/images/game-table-vertical.png');
+    background-image: url('~@/assets/images/game-table-vertical.png');
     width: 95vw;
     height: 71vh;
 }

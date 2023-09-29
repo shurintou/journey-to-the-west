@@ -116,7 +116,7 @@ export default Vue.extend({
     margin-bottom: 2%;
     background-size: 100% 100%;
     border-radius: 10px;
-    background-image: url('@/assets/images/gameroom_background.png');
+    background-image: url('~@/assets/images/gameroom_background.png');
 }
 
 .room-list-item:hover {
