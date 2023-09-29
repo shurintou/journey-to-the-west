@@ -198,7 +198,7 @@ export default verificationLogic.extend({
   beforeRouteEnter(to, from, next) {
     next(vm => {
       if (!from || from.name === null) {
-        if (vm.$stock.state.setting.playBgm) {
+        if ((vm?.$stock || vm.$store).state.setting.playBgm) {
           vm.$notify({ title: '将要播放背景音乐', type: 'warning', dangerouslyUseHTMLString: true, message: '您可点击右上角<i class="el-icon-video-pause"></i>图标关闭背景音乐', offset: 50, duration: 8000, })
         }
       }
