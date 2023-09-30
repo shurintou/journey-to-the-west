@@ -24,7 +24,7 @@ export interface WebSocketPlayerInGame {
     id: number,
     nickname: string,
     avatar_id: number,
-    cards: number
+    cards: number,
     remainCards: number[],
     maxCombo: number,
     online: boolean,
@@ -33,7 +33,7 @@ export interface WebSocketPlayerInGame {
     wukong: number,
     bajie: number,
     shaseng: number,
-    tangseng: number
+    tangseng: number,
     joker: number,
     bianshen: number,
 }
@@ -107,13 +107,13 @@ export interface PlayerRecordInGameResult {
     id: number,
     nickname: string,
     avatar_id: number,
-    cards: number
+    cards: number,
     seatIndex: GamePlayerSeatIndex,
     maxCombo: number,
     wukong: number,
     bajie: number,
     shaseng: number,
-    tangseng: number
+    tangseng: number,
     joker: number,
     bianshen: number,
 }

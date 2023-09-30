@@ -64,7 +64,7 @@ export interface Player extends DbCommon {
     wukong: number,
     bajie: number,
     shaseng: number,
-    tangseng: number
+    tangseng: number,
     joker: number,
     bianshen: number,
     accountId: number,
