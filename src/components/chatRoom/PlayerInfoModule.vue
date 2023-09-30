@@ -82,7 +82,7 @@ import { modifyAvatar, modifyNickname } from '@/api/modify'
 import PlayerInfoTabModule from '@/components/chatRoom/PlayerInfoTabModule.vue'
 import { getPlayerRecord } from '@/api/infoSearch'
 import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar.vue'
-import HelpModule from '@components/chatRoom/HelpModule.vue'
+import HelpModule from '@/components/chatRoom/HelpModule.vue'
 
 export default Vue.extend({
 
