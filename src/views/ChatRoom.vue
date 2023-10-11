@@ -50,7 +50,7 @@
             :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList"
             :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize"
             :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="invokePlayerCardRefPlayCardEmitted"
-            @gameTextToPlayerSent="function (seatIndex: GamePlayerSeatIndex) { sentGameTextToPlayerObj[seatIndex] = {} }">
+            @gameTextToPlayerSent="function (seatIndex) { sentGameTextToPlayerObj[seatIndex] = {} }">
           </GameRoomModule>
         </el-main>
         <el-footer :height="footHeight">

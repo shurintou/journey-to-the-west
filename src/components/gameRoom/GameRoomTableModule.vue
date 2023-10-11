@@ -65,7 +65,7 @@
                   '.png')
                 "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer as GamePlayerSeatIndex].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
             </p>
           </div>
         </template>
@@ -86,7 +86,7 @@
               '.png')
               "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer as GamePlayerSeatIndex].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}
             </p>
           </div>
         </template>
@@ -110,22 +110,22 @@
           <template slot="reference">
             <div id="game-room-table-horizontal-box-bottom">
               <transition leave-active-class="scale-out-top">
-                <el-tag v-show="(getGamePlayer?.remainCards?.length || 0) > 0"
+                <el-tag v-show="(getGamePlayer.remainCards.length || 0) > 0"
                   class="game-room-table-horizontal-record-item" type="success" effect="dark" :size="tagSize"
                   :style="{ 'font-size': fontSize }">
-                  {{ "手牌数： " + getGamePlayer?.remainCards.length + " 张" }}
+                  {{ "手牌数： " + getGamePlayer.remainCards.length + " 张" }}
                 </el-tag>
               </transition>
               <el-tag :class="{ 'increase-num': allCardsFlag }" class="game-room-table-horizontal-record-item" type="info"
                 effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">
                 {{ "总收牌： " }}
-                <CardsNum :value="getGamePlayer?.cards" @increased="increasedHandler('all')"></CardsNum>
+                <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum>
                 {{ " 张" }}
               </el-tag>
               <el-tag :class="{ 'increase-num': comboFlag }" class="game-room-table-horizontal-record-item" type="danger"
                 effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">
                 {{ "最大连击： " }}
-                <CardsNum :value="getGamePlayer?.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
+                <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
                 {{ " 张" }}
               </el-tag>
             </div>
@@ -204,7 +204,7 @@
                   '.png')
                 "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer as GamePlayerSeatIndex].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.currentCardPlayer].nickname }}
             </p>
           </div>
         </template>
@@ -225,7 +225,7 @@
               '.png')
               "></el-image>
             <p class="white-color-font" :style="{ 'font-size': fontSize }">
-              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer as GamePlayerSeatIndex].nickname }}
+              来自: {{ gameInfo.gamePlayer[gameInfo.jokerCardPlayer].nickname }}
             </p>
           </div>
         </template>
@@ -241,9 +241,9 @@
         </div>
         <div id="game-room-table-vertical-info-box-bottom">
           <transition leave-active-class="scale-out-top">
-            <el-tag v-show="(getGamePlayer?.remainCards?.length || 0) > 0" class="game-room-table-horizontal-record-item"
+            <el-tag v-show="(getGamePlayer.remainCards.length || 0) > 0" class="game-room-table-horizontal-record-item"
               type="success" effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "手牌数： " +
-                getGamePlayer?.remainCards.length + " 张" }}</el-tag>
+                getGamePlayer.remainCards.length + " 张" }}</el-tag>
           </transition>
         </div>
       </el-tooltip>
@@ -256,14 +256,14 @@
           <div id="game-room-table-vertical-info-box-bottom">
             <el-tag :class="{ 'increase-num': allCardsFlag }" class="game-room-table-horizontal-record-item" type="info"
               effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "总收牌： " }}
-              <CardsNum :value="getGamePlayer?.cards" @increased="increasedHandler('all')"></CardsNum>
+              <CardsNum :value="getGamePlayer.cards" @increased="increasedHandler('all')"></CardsNum>
               {{ " 张" }}
             </el-tag>
           </div>
           <div id="game-room-table-vertical-info-box-bottom">
             <el-tag :class="{ 'increase-num': comboFlag }" class="game-room-table-horizontal-record-item" type="danger"
               effect="dark" :size="tagSize" :style="{ 'font-size': fontSize }">{{ "最大连击： " }}
-              <CardsNum :value="getGamePlayer?.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
+              <CardsNum :value="getGamePlayer.maxCombo" @increased="increasedHandler('combo')"></CardsNum>
               {{ '张' }}
             </el-tag>
           </div>

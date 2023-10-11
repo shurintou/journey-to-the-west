@@ -6,7 +6,7 @@
         <el-image v-if="gameInfo === null || gameInfo.currentPlayer === -1" class="aside-icon"
           :src="getAvatarUrl($store.state.avatar_id)"></el-image>
         <AnimatedAvatar v-else :avatarClass="'aside-icon'" :avatarUrl="getAvatarUrl($store.state.avatar_id)"
-          :currentPlayerCards="getGamePlayer?.cards || 0"
+          :currentPlayerCards="getGamePlayer !== null ? getGamePlayer.cards : 0"
           :isCurrentPlayer="gameInfo.gamePlayer[gameInfo.currentPlayer].id === $store.state.id"
           :currentGameCombo="gameInfo.currentCombo"></AnimatedAvatar>
       </div>

@@ -22,7 +22,7 @@
                 <el-tooltip v-else effect="light" :content="getPlayer(player.id).nickname + (seatIndex + 1)"
                     placement="bottom">
                     <el-image class="room-list-avatar" :fit="'cover'" :src="getAvatarUrl(getPlayer(player.id).avatar_id)"
-                        @click="enterGameRoom(gameRoom, seatIndex as GamePlayerSeatIndex)"></el-image>
+                        @click="enterGameRoom(gameRoom, seatIndex)"></el-image>
                 </el-tooltip>
             </div>
         </div>
