@@ -197,7 +197,7 @@ export default Vue.extend({
                 }
             }
             else {
-                if (this?.getGamePlayer?.online) {
+                if (this.getGamePlayer?.online) {
                     return 'primary'
                 }
                 else {

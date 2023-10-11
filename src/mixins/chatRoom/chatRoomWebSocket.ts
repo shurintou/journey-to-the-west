@@ -56,12 +56,12 @@ export const chatRoomWebSocket = Vue.extend({
             this.ws = new WebSocket(url)
             this.ws.onopen = function () {
                 self.start()
-                self?.ws?.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
+                self.ws?.send(JSON.stringify({ type: 'gameRoomList', id: 0 }))
                 if (self.$stock.state.player_loc > 0) {
-                    self?.ws?.send(JSON.stringify({ type: 'playerList', action: 'get' }))
+                    self.ws?.send(JSON.stringify({ type: 'playerList', action: 'get' }))
                 }
                 else {
-                    self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: self.$stock.state.player_loc, player_status: self.$stock.state.player_status }))
+                    self.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: self.$stock.state.player_loc, player_status: self.$stock.state.player_status }))
                 }
                 self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'success', 'text': '进入游戏大厅，成功连接服务器' });
             };
@@ -147,11 +147,11 @@ export const chatRoomWebSocket = Vue.extend({
                         self.playerLocRoom = playerLocRoom
                         /* 如果玩家现在位置和上面获取到的不一样则通过playerList设置为一样，并相应设置玩家状态 */
                         if (self.$stock.state.player_loc !== playerLoc) {
-                            self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
+                            self.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: playerLoc, player_status: playerLoc === 0 ? 0 : (playerLocRoom.status === 0 ? 1 : 2) }))
                         }
                         /* 如果玩家所在房间正在游戏中且本地没有该游戏信息 */
                         if (playerLocRoom.status === 1 && self.gameInfo === null) {
-                            self?.ws?.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
+                            self.ws?.send(JSON.stringify({ type: 'game', action: 'get', id: playerLocRoom.id }))
                         }
                         /* 如果玩家所在房间游戏已结束且本地还存有游戏 */
                         if (playerLocRoom.status === 0 && self.gameInfo !== null) {
@@ -160,11 +160,11 @@ export const chatRoomWebSocket = Vue.extend({
                     }
                     /* 玩家不在任一房间 */
                     else {
-                        self?.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: 0, player_status: 0 }))
+                        self.ws?.send(JSON.stringify({ type: 'playerList', nickname: self.$stock.state.nickname, avatar_id: self.$stock.state.avatar_id, player_loc: 0, player_status: 0 }))
                     }
                     self.gameRoomList = newGameRoomList
                     self.$nextTick(() => {
-                        self?.loading?.close()
+                        self.loading?.close()
                     })
                 }
                 else if (jsonData.type === 'game') {
@@ -203,7 +203,7 @@ export const chatRoomWebSocket = Vue.extend({
                     else { // 此处 action = 'get'或'update', 'update'时对应请求动作 'play' 或 'discard'
                         let gameData: WebSocketGame = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
-                        if (gameData.version > (self?.gameInfo?.version || 0)) {
+                        if (gameData.version > (self.gameInfo?.version || 0)) {
                             self.gameInfo = gameData
                         }
                     }
@@ -252,9 +252,9 @@ export const chatRoomWebSocket = Vue.extend({
         start: function () {
             const self = this
             this.timeoutId = setInterval(function () {
-                self?.ws?.send(JSON.stringify({ type: 'ping' }));
+                self.ws?.send(JSON.stringify({ type: 'ping' }));
                 self.serverTimeoutId = setTimeout(function () {
-                    self?.ws?.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
+                    self.ws?.close();//如果onclose会执行reconnect，我们执行ws.close()就行了.如果直接执行reconnect 会触发onclose导致重连两次
                 }, self.timeout)
             }, this.timeout)
         },
@@ -274,7 +274,7 @@ export const chatRoomWebSocket = Vue.extend({
                     else {
                         self.$message.error('已与游戏大厅断开连接');
                         self.sendMessageToChatRoom({ 'id': 0, name: '【系统消息】', type: 'error', text: '已与游戏大厅断开连接' });
-                        self?.loading?.close()
+                        self.loading?.close()
                         clearInterval(self.timeoutId);
                         clearTimeout(self.serverTimeoutId);
                         clearTimeout(self.reconnectTimeoutId);
@@ -315,7 +315,7 @@ export const chatRoomWebSocket = Vue.extend({
         clearTimeout(this.serverTimeoutId);
         clearTimeout(this.reconnectTimeoutId);
         this.$nextTick(() => {
-            this?.ws?.close()
+            this.ws?.close()
         })
     }
 })

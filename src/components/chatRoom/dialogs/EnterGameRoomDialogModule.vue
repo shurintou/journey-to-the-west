@@ -73,7 +73,7 @@ export default Vue.extend({
             const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
             gameRoomValidateFormRef.validate(valid => {
                 if (valid) {
-                    this?.ws?.send(JSON.stringify({
+                    this.ws?.send(JSON.stringify({
                         type: 'gameRoomList',
                         id: this.enterRoomDto.id,
                         seatIndex: this.enterRoomDto.seatIndex,

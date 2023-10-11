@@ -225,11 +225,11 @@ export default verificationLogic.extend({
                 this.$stock.dispatch('initialization', res.account)
               }
               else {
-                this?.loading?.close()
+                this.loading?.close()
               }
             })
             .catch(() => {
-              this?.loading?.close()
+              this.loading?.close()
             })
             .finally(() => {
               this.duplicateLoginFlag = false

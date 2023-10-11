@@ -72,7 +72,7 @@ export default cardList.extend({
         'gameInfo.version': {
             immediate: true,
             handler: function (newVal: number) {
-                if (this.gameInfo === null || this?.getGamePlayer?.online === false || this.gameInfo.currentPlayer === -1) return
+                if (this.gameInfo === null || this.getGamePlayer?.online === false || this.gameInfo.currentPlayer === -1) return
                 if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer].id === this.$stock.state.id) {
                     this.time = 100
                     this.metamorphoseMode = false
@@ -227,7 +227,7 @@ export default cardList.extend({
         },
 
         playCardEmittedByRef: function () {
-            if (this?.getGamePlayer?.online === false) {
+            if (this.getGamePlayer?.online === false) {
                 this.$message.warning('请先取消托管')
                 playSound('click')
                 return
@@ -380,7 +380,7 @@ export default cardList.extend({
                 id: this.gameInfo.id,
                 seatIndex: this.getSeatIndex,
                 playCard: playCardListValue,
-                remainCards: this?.getGamePlayer?.remainCards
+                remainCards: this.getGamePlayer?.remainCards
             }))
             this.destroyTimer()
         },
@@ -421,7 +421,7 @@ export default cardList.extend({
                 this.$message.warning('请先选择原形牌')
                 return
             }
-            const unSelectedCardIndexList = this?.sortCardList?.filter((val, index) => {
+            const unSelectedCardIndexList = this.sortCardList?.filter((val, index) => {
                 return !this.selectCard.includes(index)
             })
             const hasMetamorphoseCard = unSelectedCardIndexList?.some(val => val >= 100)

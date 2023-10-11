@@ -165,7 +165,7 @@ export default Vue.extend({
         },
 
         echartResizeLogic: function () {
-            this?.myChart?.resize()
+            this.myChart?.resize()
         },
 
         changeEchartSelected: function (type: '' | 'all' | 'max' | 'func') {
@@ -191,7 +191,7 @@ export default Vue.extend({
                     '总收牌': false, '最大连击': false, '使用悟空': true, '使用八戒': true, '使用沙僧': true, '使用唐僧': true, '使用反弹': true, '使用变身': true
                 }
             }
-            this?.myChart?.setOption({
+            this.myChart?.setOption({
                 legend: {
                     selected: selectedArray
                 },

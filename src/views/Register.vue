@@ -115,7 +115,7 @@ export default verificationLogic.extend({
             .catch()
             .finally(() => {
               this.duplicateRegisterFlag = false
-              this?.loading?.close()
+              this.loading?.close()
             })
         }
         else {
