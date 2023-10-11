@@ -139,7 +139,7 @@ export default Vue.extend({
     dialogWidth: { type: String, default: '' },
     playerInfoDialogWidth: { type: String, default: '' },
     playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
-    ws: { type: Object as PropType<WebSocket>, default: null },
+    ws: { type: WebSocket, default: null },
     isHorizontal: { type: Boolean, default: false },
     buttonSize: { type: String, default: '' },
     avatarSize: { type: Number, default: 20 },
@@ -180,7 +180,7 @@ export default Vue.extend({
             if (res.code === 200) {
               this.$stock.dispatch('mutateAvatarId', this.temAvatarId)
                 .then(() => {
-                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
+                  this.ws?.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
                 })
               this.$message.success('成功修改头像')
             }
@@ -219,7 +219,7 @@ export default Vue.extend({
             .then((res) => {
               if (res.code === 200) {
                 this.$stock.dispatch('mutateNickname', this.nicknameForm.name).then(() => {
-                  this.ws.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
+                  this.ws?.send(JSON.stringify({ type: 'playerList', nickname: this.$stock.state.nickname, avatar_id: this.$stock.state.avatar_id, player_loc: this.$stock.state.player_loc, player_status: this.$stock.state.player_status }))
                   this.nicknameForm.name = this.$stock.state.nickname
                 })
                 this.$message.success('成功修改昵称')

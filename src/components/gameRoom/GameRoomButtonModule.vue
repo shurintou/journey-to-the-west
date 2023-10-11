@@ -51,7 +51,7 @@ export default Vue.extend({
         buttonSize: { type: String, default: '' },
         largeFontSize: { type: String, default: '' },
         playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
     },
 
     computed: {
@@ -105,7 +105,7 @@ export default Vue.extend({
         },
 
         emitReadyToStartGame: function () {
-            this.ws.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
                 type: 'gameRoomList',
                 id: this.playerLocRoom.id,
                 action: 'ready',
@@ -113,7 +113,7 @@ export default Vue.extend({
         },
 
         emitStartGame: function () {
-            this.ws.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
                 type: 'game',
                 id: this.playerLocRoom.id,
                 action: 'initialize',

@@ -25,7 +25,7 @@ export default Vue.extend({
     props: {
         leaveRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
         playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
 
     },
@@ -43,7 +43,7 @@ export default Vue.extend({
                     break
                 }
             }
-            this?.ws?.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$stock.state.nickname, seatIndex: seatIndex }))
+            this.ws?.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, nickname: this.$stock.state.nickname, seatIndex: seatIndex }))
             this.$emit('leaveRoomDialogVisible', false)
         }
 

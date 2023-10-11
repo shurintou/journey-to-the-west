@@ -120,7 +120,7 @@ export default Vue.extend({
         fontSize: { type: String, default: '' },
         isItemHorizontal: { type: Boolean, default: false },
         playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
         seatIndex: { type: Number as PropType<GamePlayerSeatIndex> },
         gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
         localPlayerSeatIndex: { type: Number as PropType<GamePlayerSeatIndex> },
@@ -234,18 +234,18 @@ export default Vue.extend({
                 this.isPopoverVisible = false
                 return
             }
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, seatIndex: this.seatIndex }))
+            this.ws?.send(JSON.stringify({ type: 'gameRoomList', id: -1 * this.playerLocRoom.id, seatIndex: this.seatIndex }))
             this.isPopoverVisible = false
         },
 
         changeSeat: function () {
-            this.ws.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$stock.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex, confirm: false }))
+            this.ws?.send(JSON.stringify({ type: 'gameRoomList', action: 'changeSeat', id: this.playerLocRoom.id, targetId: this.player.id, sourceId: this.$stock.state.id, targetSeatIndex: this.seatIndex, sourceSeatIndex: this.localPlayerSeatIndex, confirm: false }))
             this.isPopoverVisible = false
         },
 
         sentSelectedTextToPlayer: function (item: TextToPlayer) {
             this.isPopoverVisible = false
-            this.ws.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$stock.state.id, text: item.text, soundSrc: item.music }))
+            this.ws?.send(JSON.stringify({ type: 'game', action: 'textToPlayer', id: this.gameInfo.id, source: this.localPlayerSeatIndex, target: this.seatIndex, targetId: this.player.id, sourceId: this.$stock.state.id, text: item.text, soundSrc: item.music }))
         },
 
         increasedHandler: function (whichFlag: 'all' | 'combo') {

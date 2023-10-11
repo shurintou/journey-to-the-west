@@ -212,7 +212,7 @@ export default Vue.extend({
 
     props: {
         dialogWidth: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
         playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
         gameInfo: { type: Object as PropType<WebSocketGame>, default: null },
         playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },

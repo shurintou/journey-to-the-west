@@ -47,7 +47,7 @@ export default Vue.extend({
         gameRoomItemWidth: { type: Number, default: 90 },
         gameRoomList: { type: Array as PropType<WebSocketGameRoom[]>, default: [] },
         largeFontSize: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
     },
 
     methods: {
@@ -93,7 +93,7 @@ export default Vue.extend({
                 this.$emit('enterRoomDto', { id: gameRoom.id, seatIndex: seatIndex })
             }
             else {
-                this.ws.send(JSON.stringify({
+                this.ws?.send(JSON.stringify({
                     type: 'gameRoomList',
                     id: gameRoom.id,
                     seatIndex: seatIndex,

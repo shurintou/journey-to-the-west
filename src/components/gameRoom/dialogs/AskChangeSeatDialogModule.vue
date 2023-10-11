@@ -28,7 +28,7 @@ export default Vue.extend({
         playerList: { type: Array as PropType<WebSocketPlayer[]>, default: [] },
         fontSize: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
     },
 
     methods: {
@@ -50,12 +50,12 @@ export default Vue.extend({
         agreeChangeSeat: function () {
             let agreeChangeSeatDto = this.askChangeSeatInfo
             agreeChangeSeatDto.confirm = true
-            this?.ws?.send(JSON.stringify(agreeChangeSeatDto))
+            this.ws?.send(JSON.stringify(agreeChangeSeatDto))
             this.$emit('askChangeSeatDialogVisible', false)
         },
 
         disagreeChangeSeat: function () {
-            this?.ws?.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$stock.state.nickname }))
+            this.ws?.send(JSON.stringify({ type: 'gameRoomList', action: 'disagreeChangeSeat', id: this.askChangeSeatInfo.id, playerId: this.askChangeSeatInfo.sourceId, refusePlayerNickname: this.$stock.state.nickname }))
             this.$emit('askChangeSeatDialogVisible', false)
         }
 

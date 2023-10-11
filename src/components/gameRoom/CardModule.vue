@@ -65,7 +65,7 @@ export default cardList.extend({
         horizontalBackground: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
         fontSize: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
     },
 
     watch: {
@@ -374,7 +374,7 @@ export default cardList.extend({
                 return this.getIndexOfCardList(a).suit - this.getIndexOfCardList(b).suit
             })
             this.selectCard = []
-            this.ws.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
                 type: 'game',
                 action: 'play',
                 id: this.gameInfo.id,
@@ -392,7 +392,7 @@ export default cardList.extend({
                 return
             }
             this.selectCard = []
-            this.ws.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
                 type: 'game',
                 action: 'discard',
                 id: this.gameInfo.id,
@@ -403,7 +403,7 @@ export default cardList.extend({
 
         shiftOnline: function () {
             playSound('click')
-            this.ws.send(JSON.stringify({
+            this.ws?.send(JSON.stringify({
                 type: 'game',
                 action: 'shiftOnline',
                 id: this.gameInfo.id,

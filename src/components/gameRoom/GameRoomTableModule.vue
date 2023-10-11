@@ -347,7 +347,7 @@ export default cardList.extend({
       type: Number as PropType<GamePlayerSeatIndex>,
     },
     ws: {
-      type: Object as PropType<WebSocket>,
+      type: WebSocket,
       default: null,
     },
     sentGameTextToPlayer: {
@@ -527,7 +527,7 @@ export default cardList.extend({
   methods: {
     sentSelectedTextToPlayer: function (item: TextToPlayer) {
       this.isPopoverVisible = false
-      this.ws.send(
+      this.ws?.send(
         JSON.stringify({
           type: "game",
           action: "textToPlayer",

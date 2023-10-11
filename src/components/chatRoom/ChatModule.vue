@@ -28,7 +28,7 @@ export default Vue.extend({
         chatText: { type: Array as PropType<ChatTextInfo[]>, default: [] },
         horizontalBackground: { type: String, default: '' },
         buttonSize: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
     },
 
     methods: {
@@ -38,7 +38,7 @@ export default Vue.extend({
 
         sendTextToServe: function () {
             if (this.inputText.length > 0) {
-                this.ws.send(JSON.stringify({ type: 'chat', nickname: this.$stock.state.nickname, text: this.inputText, player_loc: this.$stock.state.player_loc }))
+                this.ws?.send(JSON.stringify({ type: 'chat', nickname: this.$stock.state.nickname, text: this.inputText, player_loc: this.$stock.state.player_loc }))
                 this.inputText = ""
             }
         },

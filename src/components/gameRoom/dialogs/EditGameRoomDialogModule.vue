@@ -74,7 +74,7 @@ export default Vue.extend({
     props: {
         editGameRoomDialogVisible: { type: Boolean, default: false },
         dialogWidth: { type: String, default: '' },
-        ws: { type: Object as PropType<WebSocket>, default: null },
+        ws: { type: WebSocket, default: null },
         playerLocRoom: { type: Object as PropType<WebSocketGameRoom>, default: null },
         fontSize: { type: String, default: '' },
     },
@@ -115,7 +115,7 @@ export default Vue.extend({
                         this.closeEditGameRoomDialog()
                         return
                     }
-                    this?.ws?.send(JSON.stringify({
+                    this.ws?.send(JSON.stringify({
                         type: 'gameRoomList',
                         action: 'edit',
                         id: this.playerLocRoom.id,
