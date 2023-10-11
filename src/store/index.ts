@@ -1,8 +1,9 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { Store }  from 'vuex'
 import { SystemSetting } from '@/type/setting'
 import { Account } from '@/type/player'
 import { PlayerStatus } from '@/type/index'
+import { State } from '@/type/plugin'
 
 Vue.use(Vuex)
 let isMobile = false
@@ -110,5 +111,15 @@ export default new Vuex.Store({
     },
   },
   modules: {
+  }
+})
+
+/** 
+ * @see https://github.com/vuejs/vuex/issues/994#issuecomment-604897329
+ * 因为直接通过this.$store获取不到类型提示，所以使用这个workaround：以$stock代替$store
+ *  */
+Object.defineProperty(Vue.prototype, "$stock", {
+  get(): Store<State> {
+      return this.$store
   }
 })

@@ -26,15 +26,6 @@ type State = {
     setting: SystemSetting,
 }
 
-/** 
- * @see https://github.com/vuejs/vuex/issues/994#issuecomment-604897329
- * 因为直接通过this.$store获取不到类型提示，所以使用这个workaround：以$stock代替$store
- *  */
-Object.defineProperty(Vue.prototype, "$stock", {
-    get(): Store<State> {
-        return this.$store
-    }
-})
 
 declare module 'vue/types/vue' {
     interface Vue {
