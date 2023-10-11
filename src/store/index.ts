@@ -19,7 +19,7 @@ let localSetting: SystemSetting
 if (localSettingStr === null) {
   localSetting = {
     playSound: true,
-    playBgm: true,
+    playBgm: false,
     bgmVolume: 100,
     soundVolume: 100,
     youTurnVoice: false,
