@@ -21,6 +21,7 @@
             </p>
             <p :style="{ 'font-size': fontSize }">如连续5人打出3张牌，倍乘从3开始起计，则连击数计为： 3, 12(3+3*3), 24(12+4*3), 39(24+5*3),
                 57(39+6*3)。 </p>
+            <p :style="{ 'font-size': fontSize }">倍乘的部分会从玩家的收牌数中扣除。如连击数为6(2+2*2)时，从玩家收牌数中扣除2*2=4张。</p>
             <h2 :style="{ 'font-size': fontSize }">补牌：</h2>
             <p :style="{ 'font-size': fontSize }">每次玩家出完牌后，若剩余牌堆里还有牌，则将手牌补到5张。</p>
             <h2 :style="{ 'font-size': fontSize }">收牌：</h2>
