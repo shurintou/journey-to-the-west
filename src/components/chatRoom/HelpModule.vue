@@ -23,7 +23,7 @@
                 57(39+6*3)。 </p>
             <p :style="{ 'font-size': fontSize }">倍乘的部分会从玩家的收牌数中扣除。如连击数为6(2+2*2)时，从玩家收牌数中扣除2*2=4张。</p>
             <h2 :style="{ 'font-size': fontSize }">补牌：</h2>
-            <p :style="{ 'font-size': fontSize }">每次玩家出完牌后，若剩余牌堆里还有牌，则将手牌补到5张。</p>
+            <p :style="{ 'font-size': fontSize }">每次玩家出完牌后，若剩余牌堆里还有牌，则将手牌补到5张。若剩余牌堆里已无牌，则每次出牌的连击数+1，并把玩家的收牌数扣除1。</p>
             <h2 :style="{ 'font-size': fontSize }">收牌：</h2>
             <p :style="{ 'font-size': fontSize }">当玩家打不出“大于”牌时，则放弃出牌并收下所有连击牌池中的牌，计入自己的收牌数，然后重新开始出牌。</p>
             <h2 :style="{ 'font-size': fontSize }">结算：</h2>
