@@ -46,7 +46,9 @@ import { playSound } from '@/utils/soundHandler'
 export default cardList.extend({
     data() {
         return {
+            /** 玩家所选择牌在玩家现有牌中的序数数组，值为0~4 */
             selectCard: [] as number[],
+            /** 玩家所选择变身牌在玩家现有牌中的序数数组，值为:0~4 */
             selectMetamorphoseCard: [] as number[],
             timer: null as number | null,
             time: 100,
