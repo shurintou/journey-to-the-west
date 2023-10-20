@@ -365,8 +365,8 @@ export default cardList.extend({
                         }
                     }
             })
-            for (let i = 0; i < originLength; i++) {//对原形牌处理，大于100则减100
-                if (playCardListValue[i] >= 100) {
+            for (let i = 0; i < originLength; i++) {
+                if (playCardListValue[i] >= 100) {//对变身牌处理，大于等于100则减100作为原形牌
                     playCardListValue[i] = playCardListValue[i] - 100
                 }
             }
