@@ -345,6 +345,10 @@ export default cardList.extend({
         },
 
         sendPlayCard: function () {
+            /** 
+             *  打出牌的牌序数的数组，序数为该牌在{@link cardList}中的index。 
+             *  数组中所有牌的num应相等，按suit从小到大排序。
+             */
             let playCardListValue: number[] = []
             this.selectCard.forEach(n => { if (this.sortCardList !== null) playCardListValue.push(this.sortCardList[n]) })
             let originLength = playCardListValue.length //原形牌长度
@@ -366,7 +370,7 @@ export default cardList.extend({
                     playCardListValue[i] = playCardListValue[i] - 100
                 }
             }
-            for (let j = originLength; j < playCardListValue.length; j++) {//对变身牌处理，小于100则+100
+            for (let j = originLength; j < playCardListValue.length; j++) {//对变身牌处理，小于100则+100，牌面变为与原形牌相同
                 playCardListValue[j] = originIndex + this.getIndexOfCardList(originIndex).suit - this.getIndexOfCardList(playCardListValue[j]).suit
                 if (playCardListValue[j] < 100) {
                     playCardListValue[j] = playCardListValue[j] + 100
