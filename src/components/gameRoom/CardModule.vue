@@ -366,11 +366,11 @@ export default cardList.extend({
                     }
             })
             for (let i = 0; i < originLength; i++) {
-                if (playCardListValue[i] >= 100) {//对变身牌处理，大于等于100则减100作为原形牌
+                if (playCardListValue[i] >= 100) {//对作为原形牌的变身牌进行处理，减100
                     playCardListValue[i] = playCardListValue[i] - 100
                 }
             }
-            for (let j = originLength; j < playCardListValue.length; j++) {//对变身牌处理，小于100则+100，牌面变为与原形牌相同
+            for (let j = originLength; j < playCardListValue.length; j++) {//对变身牌进行处理，牌面变为与原形牌相同，再加回100以示为变身牌
                 playCardListValue[j] = originIndex + this.getIndexOfCardList(originIndex).suit - this.getIndexOfCardList(playCardListValue[j]).suit
                 if (playCardListValue[j] < 100) {
                     playCardListValue[j] = playCardListValue[j] + 100
