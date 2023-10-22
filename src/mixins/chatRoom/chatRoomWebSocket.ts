@@ -135,7 +135,7 @@ export const chatRoomWebSocket = Vue.extend({
                         newGameRoomList.push(room)
                         /* 获取玩家自身在哪个房间 */
                         for (let j = 0; j < Object.keys(room.playerList).length; j++) {
-                            if (self.$stock.state.id === room.playerList[j].id) {
+                            if (self.$stock.state.id === room.playerList[j as GamePlayerSeatIndex].id) {
                                 playerLoc = room.id
                                 playerLocRoom = room
                                 break

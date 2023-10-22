@@ -13,6 +13,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketGameRoom } from '@/type/room'
 
 export default Vue.extend({
@@ -38,7 +39,7 @@ export default Vue.extend({
         leaveRoom: function () {
             let seatIndex = 0
             for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                if (this.playerLocRoom.playerList[i].id === this.$stock.state.id) {
+                if (this.playerLocRoom.playerList[i as GamePlayerSeatIndex].id === this.$stock.state.id) {
                     seatIndex = i
                     break
                 }

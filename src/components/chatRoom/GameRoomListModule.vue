@@ -33,7 +33,7 @@
 import Vue, { PropType } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketPlayer } from '@/type/player'
-import { WebSocketGameRoom, WebSocketPlayerInRoom } from '@/type/room'
+import { WebSocketGameRoom, RoomPlayers } from '@/type/room'
 
 export default Vue.extend({
     data() {
@@ -64,10 +64,10 @@ export default Vue.extend({
             return require("@/assets/images/avatar/avatar_" + avatarId + "-min.png")
         },
 
-        isRoomFull: function (playerList: WebSocketPlayerInRoom[]): boolean {
+        isRoomFull: function (playerList: RoomPlayers): boolean {
             let flag = true
             for (let i = 0; i < Object.keys(playerList).length; i++) {
-                if (playerList[i].id === 0) {
+                if (playerList[i as GamePlayerSeatIndex].id === 0) {
                     flag = false
                     break
                 }

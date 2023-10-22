@@ -29,6 +29,7 @@
 
 <script lang="ts">
 import Vue, { PropType } from 'vue'
+import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketGameRoom } from '@/type/room'
 
 export default Vue.extend({
@@ -66,7 +67,7 @@ export default Vue.extend({
                 /* 至少两人才能开游戏 */
                 let playerNum = 0
                 for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                    if (this.playerLocRoom.playerList[i].id === 0) {
+                    if (this.playerLocRoom.playerList[i as GamePlayerSeatIndex].id === 0) {
                         continue
                     }
                     else {
@@ -78,10 +79,10 @@ export default Vue.extend({
                 }
                 /* 除房主之外的人都已准备好 */
                 for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                    if (this.playerLocRoom.playerList[i].id === 0) {
+                    if (this.playerLocRoom.playerList[i as GamePlayerSeatIndex].id === 0) {
                         continue
                     }
-                    else if (this.playerLocRoom.playerList[i].id !== this.$stock.state.id && this.playerLocRoom.playerList[i].ready === false) {
+                    else if (this.playerLocRoom.playerList[i as GamePlayerSeatIndex].id !== this.$stock.state.id && this.playerLocRoom.playerList[i as GamePlayerSeatIndex].ready === false) {
                         isAllReady = false
                         break
                     }
@@ -90,8 +91,8 @@ export default Vue.extend({
             }
             else {
                 for (let i = 0; i < Object.keys(this.playerLocRoom.playerList).length; i++) {
-                    if (this.playerLocRoom.playerList[i].id === this.$stock.state.id) {
-                        return this.playerLocRoom.playerList[i].ready ? false : true
+                    if (this.playerLocRoom.playerList[i as GamePlayerSeatIndex].id === this.$stock.state.id) {
+                        return this.playerLocRoom.playerList[i as GamePlayerSeatIndex].ready ? false : true
                     }
                 }
                 return false
