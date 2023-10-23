@@ -164,7 +164,7 @@ export default aiPlayer.extend({
             })
         },
 
-        gameInfo: function (newVal) {
+        gameInfo: function (newVal: WebSocketGame) {
             if (newVal === null) return
             if (newVal.currentPlayer === this.seatIndex) {
                 this.showColorChanging = false
