@@ -35,10 +35,11 @@
 
 
 <script lang="ts">
+import Vue from 'vue'
 import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
 import { RoomPlayers, WebSocketGameRoom } from '@/type/room'
 import { GamePlayerSeatIndex } from '@/type/index'
-import { aiPlayer } from '@/mixins/gameRoom/aiPlayer'
+import { aiPlayerMetaData } from '@/mixins/gameRoom/aiPlayer'
 
 const checkPassword: ExecuteValidator = (rule, value, callback) => {
     if (value === '') {
@@ -55,7 +56,7 @@ const checkPassword: ExecuteValidator = (rule, value, callback) => {
         callback();
     }
 }
-export default aiPlayer.extend({
+export default Vue.extend({
     data() {
         return {
             gameRoomValidateForm: {
@@ -103,7 +104,7 @@ export default aiPlayer.extend({
                             7: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
                     }
                     if (this.gameRoomValidateForm.aiNum > 0) { // 添加电脑玩家
-                        const aiPlayerLength = this.aiPlayerList.length
+                        const aiPlayerLength = aiPlayerMetaData.length
                         const randomPickNums: number[] = []
                         for (let n = 0; n < aiPlayerLength; n++) {
                             randomPickNums.push(-1 * (n + 1))
@@ -148,6 +149,5 @@ export default aiPlayer.extend({
         },
     },
 
-    mixins: [aiPlayer],
 })
 </script>

@@ -88,7 +88,7 @@
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue'
+import Vue, { PropType } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketPlayer } from '@/type/player'
 import { TextToPlayer } from '@/type/setting'
@@ -99,9 +99,9 @@ import CardsNum from '@/components/gameRoom/fragment/CardsNum.vue'
 import AnimatedAvatar from '@/components/gameRoom/fragment/AnimatedAvatar.vue'
 import QuickChatSelector from '@/components/gameRoom/fragment/QuickChatSelector.vue'
 import { playSound } from '@/utils/soundHandler'
-import { aiPlayer } from '@/mixins/gameRoom/aiPlayer'
+import { aiPlayerMetaData } from '@/mixins/gameRoom/aiPlayer'
 
-export default aiPlayer.extend({
+export default Vue.extend({
     data() {
         return {
             isTooltipShow: false,
@@ -219,7 +219,7 @@ export default aiPlayer.extend({
     methods: {
         getPlayer: function (): WebSocketPlayer | { nickname: string, avatar_id: number } {
             if (this.player.id < 0) { // id小于0为电脑玩家
-                return this.aiPlayerList[-1 * this.player.id]
+                return aiPlayerMetaData[-1 * this.player.id]
             }
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === this.player.id) {
@@ -279,7 +279,6 @@ export default aiPlayer.extend({
         QuickChatSelector,
     },
 
-    mixins: [aiPlayer],
 })
 </script>
 

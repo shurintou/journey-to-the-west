@@ -30,13 +30,13 @@
 </template>
 
 <script lang="ts">
-import { PropType } from 'vue'
+import Vue, { PropType } from 'vue'
 import { GamePlayerSeatIndex } from '@/type/index'
 import { WebSocketPlayer } from '@/type/player'
 import { WebSocketGameRoom, RoomPlayers } from '@/type/room'
-import { aiPlayer } from '@/mixins/gameRoom/aiPlayer'
+import { aiPlayerMetaData } from '@/mixins/gameRoom/aiPlayer'
 
-export default aiPlayer.extend({
+export default Vue.extend({
     data() {
         return {
 
@@ -54,7 +54,7 @@ export default aiPlayer.extend({
     methods: {
         getPlayer: function (n: number): WebSocketPlayer | { nickname: '空位', avatar_id: 0 } {
             if (n < 0) { // id小于0为电脑玩家
-                return this.aiPlayerList[-1 * n]
+                return aiPlayerMetaData[-1 * n]
             }
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === n) {
@@ -107,7 +107,6 @@ export default aiPlayer.extend({
         },
     },
 
-    mixins: [aiPlayer],
 })
 </script>
 
