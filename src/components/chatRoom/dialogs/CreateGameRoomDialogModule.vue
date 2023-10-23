@@ -21,6 +21,11 @@
             <el-slider v-model="gameRoomValidateForm.metamorphoseNum" :min="0" :max="10" :step="2"
                 :show-tooltip="false"></el-slider>
         </div>
+        <div>
+            <span>机器人数：{{ gameRoomValidateForm.aiNum }}个</span>
+            <el-slider v-model="gameRoomValidateForm.aiNum" :min="0" :max="7" :step="1"
+                :show-tooltip="false"></el-slider>
+        </div>
         <div slot="footer">
             <el-button @click="closeCreateGameRoomDialog" style="margin-right:10%">取消</el-button>
             <el-button type="success" @click="createGameRoom">创建</el-button>
@@ -30,8 +35,10 @@
 
 
 <script lang="ts">
-import Vue from 'vue'
 import { ExecuteValidator, ExecuteValidate } from '@/type/validator'
+import { RoomPlayers, WebSocketGameRoom } from '@/type/room'
+import { GamePlayerSeatIndex } from '@/type/index'
+import { aiPlayer } from '@/mixins/gameRoom/aiPlayer'
 
 const checkPassword: ExecuteValidator = (rule, value, callback) => {
     if (value === '') {
@@ -48,7 +55,7 @@ const checkPassword: ExecuteValidator = (rule, value, callback) => {
         callback();
     }
 }
-export default Vue.extend({
+export default aiPlayer.extend({
     data() {
         return {
             gameRoomValidateForm: {
@@ -56,6 +63,7 @@ export default Vue.extend({
                 password: '',
                 cardNum: 2,
                 metamorphoseNum: 4,
+                aiNum: 0,
             },
             checkPassword: checkPassword,
         }
@@ -84,8 +92,30 @@ export default Vue.extend({
             const gameRoomValidateFormRef = this.$refs.gameRoomValidateForm as Element & ExecuteValidate
             gameRoomValidateFormRef.validate(valid => {
                 if (valid) {
-                    this.ws?.send(JSON.stringify({
-                        type: 'gameRoomList',
+                    const playerList: RoomPlayers = {
+                            0: { id: this.$stock.state.id, cards: 0, win: 0, loss: 0, ready: false },
+                            1: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            2: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            3: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            4: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            5: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            6: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                            7: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
+                    }
+                    if (this.gameRoomValidateForm.aiNum > 0) { // 添加电脑玩家
+                        const aiPlayerLength = this.aiPlayerList.length
+                        const randomPickNums: number[] = []
+                        for (let n = 0; n < aiPlayerLength; n++) {
+                            randomPickNums.push(-1 * (n + 1))
+                        }
+                        for (let i = 0; i < this.gameRoomValidateForm.aiNum; i++) {
+                            const seatIndex = i + 1 as GamePlayerSeatIndex
+                            const randomPickNum = randomPickNums.splice(Math.floor(Math.random()*randomPickNums.length), 1)
+                            playerList[seatIndex].id = randomPickNum[0]
+                            playerList[seatIndex].ready = true
+                        }
+                    }
+                    const createGameRoomDto: WebSocketGameRoom = {
                         id: NaN,
                         name: this.gameRoomValidateForm.roomName,
                         status: 0,
@@ -95,16 +125,11 @@ export default Vue.extend({
                         metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
                         owner: this.$stock.state.id,
                         lastLoser: 0,
-                        playerList: {
-                            0: { id: this.$stock.state.id, cards: 0, win: 0, loss: 0, ready: false },
-                            1: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            2: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            3: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            4: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            5: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            6: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                            7: { id: 0, cards: 0, win: 0, loss: 0, ready: false },
-                        }
+                        playerList: playerList
+                    }
+                    this.ws?.send(JSON.stringify({
+                        type: 'gameRoomList',
+                        ...createGameRoomDto,
                     }))
                     this.closeCreateGameRoomDialog()
                 }
@@ -119,7 +144,10 @@ export default Vue.extend({
             this.gameRoomValidateForm.password = ''
             this.gameRoomValidateForm.cardNum = 2
             this.gameRoomValidateForm.metamorphoseNum = 4
+            this.gameRoomValidateForm.aiNum = 0
         },
-    }
+    },
+
+    mixins: [aiPlayer],
 })
 </script>
