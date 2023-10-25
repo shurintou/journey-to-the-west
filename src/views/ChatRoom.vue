@@ -50,6 +50,7 @@
             :sentGameTextToPlayerObj="sentGameTextToPlayerObj" :playerLocRoom="playerLocRoom" :playerList="playerList"
             :isHorizontal="asideWidth !== '0px'" :tagSize="tagSize" :fontSize="fontSize" :largeFontSize="largeFontSize"
             :dialogWidth="dialogWidth" :ws="ws" :gameInfo="gameInfo" @playCard="invokePlayerCardRefPlayCardEmitted"
+            @addAiPlayerSeatIndex="function (seatIndex) { addAiPlayerSeatIndex = seatIndex }"
             @gameTextToPlayerSent="function (seatIndex) { sentGameTextToPlayerObj[seatIndex] = {} }">
           </GameRoomModule>
         </el-main>
@@ -93,6 +94,9 @@
     <AnnounceDialogModule :announceDialogVisible="announceDialogVisible" :dialogWidth="dialogWidth"
       :avatarSize="avatarSize" :fontSize="largeFontSize" @announceDialogVisible="announceViewHandler">
     </AnnounceDialogModule>
+    <AddAIDialogModule :addAiPlayerSeatIndex="addAiPlayerSeatIndex" :dialogWidth="dialogWidth"
+      :ws="ws" :playerLocRoom="playerLocRoom" @addAiPlayerSeatIndex="function (value) { addAiPlayerSeatIndex = value }">
+    </AddAIDialogModule>
   </div>
 </template>
 
@@ -122,6 +126,7 @@ import GameRoomModule from '@/components/gameRoom/GameRoomModule.vue'
 import AskChangeSeatDialogModule from '@/components/gameRoom/dialogs/AskChangeSeatDialogModule.vue'
 import GameResultDialogModule from '@/components/gameRoom/dialogs/GameResultDialogModule.vue'
 import AnnounceDialogModule from '@/components/chatRoom/dialogs/AnnounceDialogModule.vue'
+import AddAIDialogModule from '@/components/gameRoom/dialogs/AddAIDialogModule.vue'
 import CardModule from '@/components/gameRoom/CardModule.vue'
 
 export default (Vue as VueConstructor<
@@ -141,6 +146,7 @@ export default (Vue as VueConstructor<
       askChangeSeatDialogVisible: false,
       gameResultDialogVisible: false,
       announceDialogVisible: false,
+      addAiPlayerSeatIndex: -1,
       announceVersionId: 1, //每次更新公告须修改此处, +1
       playerList: [] as WebSocketPlayer[],
       gameRoomList: [] as WebSocketGameRoom[],
@@ -213,6 +219,7 @@ export default (Vue as VueConstructor<
     CardModule,
     GameResultDialogModule,
     AnnounceDialogModule,
+    AddAIDialogModule,
   },
 })
 </script>

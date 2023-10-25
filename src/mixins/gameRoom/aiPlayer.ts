@@ -21,7 +21,7 @@ export const aiPlayerMetaData : WebSocketPlayer[] = [
     { id: -17, username: '', nickname: '美猴王(AI)', player_loc: 0, player_status: 1, avatar_id: 17 },
     { id: -18, username: '', nickname: '如来(AI)', player_loc: 0, player_status: 1, avatar_id: 18 },
     { id: -19, username: '', nickname: '天蓬元帅(AI)', player_loc: 0, player_status: 1, avatar_id: 19 },
-    { id: -20, username: '', nickname: '唐三藏(AI)', player_loc: 0, player_status: 1, avatar_id: 20 },
+    { id: -20, username: '', nickname: '玄奘(AI)', player_loc: 0, player_status: 1, avatar_id: 20 },
     { id: -21, username: '', nickname: '持国天王(AI)', player_loc: 0, player_status: 1, avatar_id: 21 },
     { id: -22, username: '', nickname: '白虎精(AI)', player_loc: 0, player_status: 1, avatar_id: 22 },
     { id: -23, username: '', nickname: '土地(AI)', player_loc: 0, player_status: 1, avatar_id: 23 },
@@ -31,7 +31,7 @@ export const aiPlayerMetaData : WebSocketPlayer[] = [
     { id: -27, username: '', nickname: '猪妖(AI)', player_loc: 0, player_status: 1, avatar_id: 27 },
     { id: -28, username: '', nickname: '托塔天王(AI)', player_loc: 0, player_status: 1, avatar_id: 28 },
     { id: -29, username: '', nickname: '齐天大圣(AI)', player_loc: 0, player_status: 1, avatar_id: 29 },
-    { id: -30, username: '', nickname: '玄奘(AI)', player_loc: 0, player_status: 1, avatar_id: 30 },
+    { id: -30, username: '', nickname: '唐三藏(AI)', player_loc: 0, player_status: 1, avatar_id: 30 },
     { id: -31, username: '', nickname: '铁扇公主(AI)', player_loc: 0, player_status: 1, avatar_id: 31 },
     { id: -32, username: '', nickname: '牛魔王(AI)', player_loc: 0, player_status: 1, avatar_id: 32 },
     { id: -33, username: '', nickname: '紫霞仙子(AI)', player_loc: 0, player_status: 1, avatar_id: 33 },
@@ -43,6 +43,7 @@ export const aiPlayer = Vue.extend({
     data: function () {
         return {
             aiPlayerList: aiPlayerMetaData,
+            currentAiPlayerIndexList: [] as number[],
         }
     },
 

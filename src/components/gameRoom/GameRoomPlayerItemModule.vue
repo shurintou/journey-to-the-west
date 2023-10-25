@@ -6,15 +6,18 @@
                 <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
             </div>
             <el-popover placement="top" width="160" v-model="isPopoverVisible"
-                :disabled="playerLocRoom.status === 0 && player.ready === true">
+                :disabled="player.id > 0 && playerLocRoom.status === 0 && player.ready === true">
                 <div style="margin: 0"
                     :style="{ 'margin-left': playerLocRoom.owner === $store.state.id || playerLocRoom.status === 1 ? '0' : '25%' }">
-                    <template v-if="playerLocRoom.status === 0 && player.ready === false">
+                    <template v-if="player.id < 0 || ( playerLocRoom.status === 0 && player.ready === false )">
                         <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini"
                             @click="changeSeat"
                             :disabled="playerLocRoom.playerList[localPlayerSeatIndex].ready === true">换位</el-button>
                         <el-button v-if="playerLocRoom.owner === $store.state.id" type="danger" size="mini"
                             @click="kickPlayerOff">踢出</el-button>
+                        <el-button style="margin-left: 25%; margin-top: 5%" 
+                            v-if="playerLocRoom.owner === $store.state.id && player.id === 0" type="success" size="mini"
+                            @click="$emit('addAiPlayer', seatIndex)">加入电脑</el-button>
                     </template>
                     <template v-if="playerLocRoom.status === 1">
                         <QuickChatSelector :labelMessage="'向该玩家发言'" @emitSelectedTextToPlayer="sentSelectedTextToPlayer">
@@ -219,7 +222,7 @@ export default Vue.extend({
     methods: {
         getPlayer: function (): WebSocketPlayer | { nickname: string, avatar_id: number } {
             if (this.player.id < 0) { // id小于0为电脑玩家
-                return aiPlayerMetaData[-1 * this.player.id]
+                return aiPlayerMetaData[-1 * (this.player.id + 1)]
             }
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === this.player.id) {

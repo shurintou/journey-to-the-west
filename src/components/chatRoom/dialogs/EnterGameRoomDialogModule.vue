@@ -78,6 +78,7 @@ export default Vue.extend({
                         id: this.enterRoomDto.id,
                         seatIndex: this.enterRoomDto.seatIndex,
                         password: this.gameRoomValidateForm.password,
+                        aiPlayerId: 0,
                         action: 'enter',
                     }))
                     this.closeEnterGameRoomDialog()

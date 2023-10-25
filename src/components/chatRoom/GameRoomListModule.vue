@@ -54,7 +54,7 @@ export default Vue.extend({
     methods: {
         getPlayer: function (n: number): WebSocketPlayer | { nickname: '空位', avatar_id: 0 } {
             if (n < 0) { // id小于0为电脑玩家
-                return aiPlayerMetaData[-1 * n]
+                return aiPlayerMetaData[-1 * (n + 1)]
             }
             for (let i = 0; i < this.playerList.length; i++) {
                 if (this.playerList[i].id === n) {
@@ -101,6 +101,7 @@ export default Vue.extend({
                     type: 'gameRoomList',
                     id: gameRoom.id,
                     seatIndex: seatIndex,
+                    aiPlayerId: 0,
                     action: 'enter',
                 }))
             }
