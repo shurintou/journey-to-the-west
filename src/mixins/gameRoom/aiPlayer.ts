@@ -12,7 +12,7 @@ export const aiPlayerMetaData : WebSocketPlayer[] = [
     { id: -8, username: '', nickname: '唐僧(AI)', player_loc: 0, player_status: 1, avatar_id: 8 },
     { id: -9, username: '', nickname: '金身罗汉(AI)', player_loc: 0, player_status: 1, avatar_id: 9 },
     { id: -10, username: '', nickname: '行者(AI)', player_loc: 0, player_status: 1, avatar_id: 10 },
-    { id: -11, username: '', nickname: '斗战胜佛AI)', player_loc: 0, player_status: 1, avatar_id: 11 },
+    { id: -11, username: '', nickname: '斗战胜佛(AI)', player_loc: 0, player_status: 1, avatar_id: 11 },
     { id: -12, username: '', nickname: '六耳猕猴(AI)', player_loc: 0, player_status: 1, avatar_id: 12 },
     { id: -13, username: '', nickname: '沙和尚(AI)', player_loc: 0, player_status: 1, avatar_id: 13 },
     { id: -14, username: '', nickname: '南极仙翁(AI)', player_loc: 0, player_status: 1, avatar_id: 14 },
