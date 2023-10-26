@@ -517,7 +517,7 @@ export default cardList.extend({
 
     getGamePlayer: function () {
       if (this.gameInfo === null) return null
-      if (this.gameInfo.gamePlayer[this.seatIndex].id > 0) {
+      if (this.gameInfo.gamePlayer[this.seatIndex].id !== 0) {
         return this.gameInfo.gamePlayer[this.seatIndex]
       }
       return null
