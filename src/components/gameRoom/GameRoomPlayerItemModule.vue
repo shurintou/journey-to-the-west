@@ -6,10 +6,10 @@
                 <p v-for="(item, index) in gameTextFromPlayer" :key="index + '' + item">{{ item }}</p>
             </div>
             <el-popover placement="top" width="160" v-model="isPopoverVisible"
-                :disabled="playerLocRoom.status === 1 || (player.id > 0 && playerLocRoom.status === 0 && player.ready === true)">
+                :disabled="player.id > 0 && playerLocRoom.status === 0 && player.ready === true">
                 <div style="margin: 0"
                     :style="{ 'margin-left': playerLocRoom.owner === $store.state.id || playerLocRoom.status === 1 ? '0' : '25%' }">
-                    <template v-if="player.id < 0 || ( playerLocRoom.status === 0 && player.ready === false )">
+                    <template v-if="playerLocRoom.status === 0 && (player.id < 0 || player.ready === false) ">
                         <el-button style="margin-left: 10%; margin-right: 10%" type="primary" size="mini"
                             @click="changeSeat"
                             :disabled="playerLocRoom.playerList[localPlayerSeatIndex].ready === true">换位</el-button>
