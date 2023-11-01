@@ -14,6 +14,7 @@ if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobi
 
 const localSettingStr = localStorage.getItem('setting')
 let localSetting: SystemSetting
+let needSetLocal = false
 if (localSettingStr === null) {
   localSetting = {
     playSound: true,
@@ -35,10 +36,10 @@ if (localSettingStr === null) {
       ],
     announceId: 0,
   }
+  needSetLocal = true
 }
 else {
   localSetting = JSON.parse(localSettingStr)
-  let needSetLocal = false
   //同步本地设置，如果有缺省项目的话则补充设置
   if (localSetting.announceId === undefined) {
     localSetting.announceId = 0
@@ -48,9 +49,9 @@ else {
     localSetting.bianshenBorder = true
     needSetLocal = true
   }
-  if (needSetLocal) {
-    localStorage.setItem('setting', JSON.stringify(localSetting))
-  }
+}
+if (needSetLocal) {
+  localStorage.setItem('setting', JSON.stringify(localSetting))
 }
 
 export default new Vuex.Store({
