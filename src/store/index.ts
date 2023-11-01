@@ -10,9 +10,7 @@ let isMobile = false
 if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
   isMobile = true
 }
-else {
-  isMobile = false
-}
+
 
 const localSettingStr = localStorage.getItem('setting')
 let localSetting: SystemSetting
