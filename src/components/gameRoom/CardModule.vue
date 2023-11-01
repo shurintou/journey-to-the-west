@@ -1,7 +1,7 @@
 <template>
     <el-main class="hide-scroll-bar" :style="{ backgroundImage: 'url(' + horizontalBackground + ')' }">
         <div id="card-module-text">
-            <el-progress v-show="timer !== null" :percentage="time" :color="customColors" :show-text="false"></el-progress>
+            <el-progress v-show="timer !== null && getGamePlayer.remainCards.length > 0" :percentage="time" :color="customColors" :show-text="false"></el-progress>
         </div>
         <div id="card-module-top" v-if="getGamePlayer !== null">
             <div v-for="(cardIndex, n) in sortCardList" :key="cardIndex + '' + n" class="poker-card-item"
@@ -85,7 +85,7 @@ export default cardList.extend({
                     }
                     this.$nextTick(function () {
                         if (this.$stock.state.setting.youTurnVoice) {
-                            if (this.gameInfo.currentCard.length > 0 || newVal === 0) {
+                            if (this.gameInfo.gamePlayer[this.gameInfo.currentPlayer as GamePlayerSeatIndex ].remainCards.length > 0 && (this.gameInfo.currentCard.length > 0 || newVal === 0)) {
                                 setTimeout(function () {
                                     playSound('youturn')
                                 }, 1000)
