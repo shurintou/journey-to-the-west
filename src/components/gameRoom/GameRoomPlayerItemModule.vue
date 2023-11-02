@@ -151,6 +151,12 @@ export default Vue.extend({
             this.$nextTick(function () {
                 if (this.gameTextFromPlayer.length > 0) {
                     this.isTooltipShow = true
+                    setTimeout(() => {
+                        this.gameTextFromPlayer.shift()
+                        if (this.gameTextFromPlayer.length === 0) {
+                            this.isTooltipShow = false
+                        }
+                    }, 6000)
                 }
             })
         },
@@ -163,6 +169,12 @@ export default Vue.extend({
             this.$nextTick(function () {
                 if (this.gameTextFromPlayer.length > 0) {
                     this.isTooltipShow = true
+                    setTimeout(() => {
+                        this.gameTextFromPlayer.shift()
+                        if (this.gameTextFromPlayer.length === 0) {
+                            this.isTooltipShow = false
+                        }
+                    }, 6000)
                 }
             })
         },
