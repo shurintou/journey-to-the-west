@@ -19,13 +19,13 @@
             <el-input placeholder="请输入密码" v-model="validateForm.password" show-password></el-input>
           </el-form-item>
 
-          <el-form-item class="shortMargin" label="验证码" prop="vertificationCode"
+          <el-form-item v-if="!isDevelopEnv" class="shortMargin" label="验证码" prop="vertificationCode"
             :rules="[{ required: true, trigger: 'blur', validator: vertificationCode }]">
             <el-input v-model="validateForm.vertificationCode" type="text" placeholder="请输入验证码"
               autocomplete="off"></el-input>
           </el-form-item>
 
-          <el-form-item class="shortMargin">
+          <el-form-item v-if="!isDevelopEnv" class="shortMargin">
             <el-collapse-transition>
               <div v-show="vertificationCodeCorrect">
                 <el-alert title="验证成功" type="success" center show-icon :closable="false"></el-alert>
@@ -33,7 +33,7 @@
             </el-collapse-transition>
           </el-form-item>
 
-          <el-form-item class="shortMargin">
+          <el-form-item v-if="!isDevelopEnv" class="shortMargin">
             <div class="shortHeight">
               <VerificationCodeModule :identifyCode="identifyCode"></VerificationCodeModule>
               <el-button @click="refreshCode" type='text'>看不清，换一张</el-button>
@@ -193,6 +193,12 @@ export default verificationLogic.extend({
       checkName: checkName,
       loading: null as ElLoadingComponent | null,
     }
+  },
+
+  computed: {
+    isDevelopEnv: function () {
+      return process.env.NODE_ENV === 'development'
+    },
   },
 
   beforeRouteEnter(to, from, next) {
