@@ -302,7 +302,6 @@ export default cardList.extend({
       gameTableTexts: [] as string[],
       gameTextFromPlayer: [] as string[],
       timer: 0,
-      gameTextFromPlayerTimer: 0,
       isPopoverVisible: false,
       textFontSize: "",
       allCardsFlag: false,
@@ -437,7 +436,7 @@ export default cardList.extend({
         this.$nextTick(function () {
           if (this.gameTextFromPlayer.length > 0) {
             this.isTooltipShow = true
-            this.gameTextFromPlayerTimer = setTimeout(() => {
+            setTimeout(() => {
               this.gameTextFromPlayer.shift()
               if (this.gameTextFromPlayer.length === 0) {
                 this.isTooltipShow = false
@@ -463,7 +462,7 @@ export default cardList.extend({
       this.$nextTick(function () {
         if (this.gameTextFromPlayer.length > 0) {
           this.isTooltipShow = true
-          this.gameTextFromPlayerTimer = setTimeout(() => {
+          setTimeout(() => {
             this.gameTextFromPlayer.shift()
             if (this.gameTextFromPlayer.length === 0) {
               this.isTooltipShow = false
