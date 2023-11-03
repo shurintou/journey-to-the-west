@@ -40,7 +40,7 @@ export default Vue.extend({
 
 	methods: {
 		registerEffectAudio: function () {
-			let audios = document.querySelectorAll('.audio_pool') as NodeListOf<HTMLAudioElement>
+			const audios = document.querySelectorAll('.audio_pool') as NodeListOf<HTMLAudioElement>
 			audios.forEach(audio => audio.play())
 			playBgm()
 			window.removeEventListener("click", this.registerEffectAudio)

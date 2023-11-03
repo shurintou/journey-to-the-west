@@ -67,7 +67,7 @@ export const chatRoomWebSocket = Vue.extend({
             };
 
             this.ws.onmessage = function (data) {
-                let jsonData: WebSocketChangeSeatResponseJsonData | WebSocketChatResponseJsonData | WebSocketExceptionMessageResponseJsonData | WebSocketGameResponseJsonData | WebSocketGameRoomListResponseJsonData | WebSocketMessageResponseJsonData | WebSocketPlayerListResponseJsonData = JSON.parse(data.data)
+                const jsonData: WebSocketChangeSeatResponseJsonData | WebSocketChatResponseJsonData | WebSocketExceptionMessageResponseJsonData | WebSocketGameResponseJsonData | WebSocketGameRoomListResponseJsonData | WebSocketMessageResponseJsonData | WebSocketPlayerListResponseJsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if (jsonData.type === 'chat') {
                     if (jsonData.player_loc === self.$stock.state.player_loc) {
@@ -98,7 +98,7 @@ export const chatRoomWebSocket = Vue.extend({
                     self.askChangeSeatInfo = jsonData.data
                 }
                 else if (jsonData.type === 'playerList') {
-                    let newPlayerList: WebSocketPlayer[] = []
+                    const newPlayerList: WebSocketPlayer[] = []
                     let playerLoc = 0
                     let playerStatus = 0
                     for (let i = 0; i < jsonData.data.length; i++) {
@@ -127,7 +127,7 @@ export const chatRoomWebSocket = Vue.extend({
                     self.playerList = newPlayerList
                 }
                 else if (jsonData.type === 'gameRoomList') {
-                    let newGameRoomList: WebSocketGameRoom[] = []
+                    const newGameRoomList: WebSocketGameRoom[] = []
                     let playerLoc = 0 //gameRoomList中玩家所在房间id
                     let playerLocRoom: WebSocketGameRoom | null = null //gameRoomList中玩家所在房间
                     for (let i = 0; i < jsonData.data.length; i++) {
@@ -201,7 +201,7 @@ export const chatRoomWebSocket = Vue.extend({
                         }
                     }
                     else { // 此处 action = 'get'或'update', 'update'时对应请求动作 'play' 或 'discard'
-                        let gameData: WebSocketGame = JSON.parse(jsonData.data)
+                        const gameData: WebSocketGame = JSON.parse(jsonData.data)
                         /* 获取到的游戏数据版本高于本地的才接收 */
                         if (gameData.version > (self.gameInfo?.version || 0)) {
                             self.gameInfo = gameData

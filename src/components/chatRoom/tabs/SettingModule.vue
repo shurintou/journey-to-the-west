@@ -119,7 +119,7 @@ export default Vue.extend({
 
     computed: {
         isIphoneOrIpad: function () {
-            let u = navigator.userAgent
+            const u = navigator.userAgent
             return u.indexOf('iPhone') > -1 || u.indexOf('iPad') > -1
         },
 
@@ -128,7 +128,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.playBgm
             },
             set(value: boolean): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.playBgm = value
                 this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
@@ -142,7 +142,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.playSound
             },
             set(value: boolean): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.playSound = value
                 if (value === false) {
                     setting.youTurnVoice = value
@@ -156,7 +156,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.bgmVolume
             },
             set(value: number): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.bgmVolume = value
                 this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
@@ -170,7 +170,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.soundVolume
             },
             set(value: number): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.soundVolume = value
                 this.$stock.dispatch('mutateSetting', setting)
                     .then(() => {
@@ -184,7 +184,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.youTurnVoice
             },
             set(value: boolean): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.youTurnVoice = value
                 this.$stock.dispatch('mutateSetting', setting)
             }
@@ -195,7 +195,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.textToPlayer
             },
             set(value: TextToPlayer[]): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.textToPlayer = value
                 this.$stock.dispatch('mutateSetting', setting)
             }
@@ -206,7 +206,7 @@ export default Vue.extend({
                 return this.$stock.state.setting.bianshenBorder
             },
             set(value: boolean): void {
-                let setting = this.$stock.state.setting
+                const setting = this.$stock.state.setting
                 setting.bianshenBorder = value
                 this.$stock.dispatch('mutateSetting', setting)
             }

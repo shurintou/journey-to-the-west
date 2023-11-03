@@ -48,7 +48,7 @@ export default Vue.extend({
         },
 
         agreeChangeSeat: function () {
-            let agreeChangeSeatDto = this.askChangeSeatInfo
+            const agreeChangeSeatDto = this.askChangeSeatInfo
             agreeChangeSeatDto.confirm = true
             this.ws?.send(JSON.stringify(agreeChangeSeatDto))
             this.$emit('askChangeSeatDialogVisible', false)

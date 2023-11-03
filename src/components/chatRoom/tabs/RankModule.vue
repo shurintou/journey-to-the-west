@@ -203,7 +203,7 @@ export default Vue.extend({
         },
 
         calLevel: function (exp: number) {
-            let result = calExperience(exp)
+            const result = calExperience(exp)
             return result.level
         }
     },

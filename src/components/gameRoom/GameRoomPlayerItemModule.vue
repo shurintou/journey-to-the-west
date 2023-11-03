@@ -268,7 +268,7 @@ export default Vue.extend({
         },
 
         increasedHandler: function (whichFlag: 'all' | 'combo') {
-            let vm = this
+            const vm = this
             if (whichFlag === 'all') {
                 this.allCardsFlag = false
                 window.requestAnimationFrame(function () {

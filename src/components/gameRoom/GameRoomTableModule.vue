@@ -465,12 +465,12 @@ export default cardList.extend({
 		},
 
 		largeFontSize: {
-		immediate: true,
-		handler: function (newVal: string) {
-			let str = newVal.split("px")[0]
-			let i = parseInt(str)
-			this.textFontSize = i + 2 + "" + "px"
-		},
+			immediate: true,
+			handler: function (newVal: string) {
+				const str = newVal.split("px")[0]
+				const i = parseInt(str)
+				this.textFontSize = i + 2 + "" + "px"
+			},
 		},
 	},
 
@@ -523,7 +523,7 @@ export default cardList.extend({
 		},
 
 		increasedHandler: function (whichFlag: 'all' | 'combo') {
-			let vm = this
+			const vm = this
 			if (whichFlag === "all") {
 				this.allCardsFlag = false
 				window.requestAnimationFrame(function () {

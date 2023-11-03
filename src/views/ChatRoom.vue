@@ -166,7 +166,7 @@ export default (Vue as VueConstructor<
 	methods: {
 		announceViewHandler: function (value: boolean) {
 			this.announceDialogVisible = value
-			let setting = this.$stock.state.setting
+			const setting = this.$stock.state.setting
 			setting.announceId = this.announceVersionId
 			this.$stock.dispatch('mutateSetting', setting)
 		},
@@ -187,8 +187,8 @@ export default (Vue as VueConstructor<
 	},
 
 	mounted: function () {
-		let setting: SystemSetting = JSON.parse(localStorage.getItem('setting') || '')
-		let announceId = setting?.announceId === undefined ? 0 : setting.announceId
+		const setting: SystemSetting = JSON.parse(localStorage.getItem('setting') || '')
+		const announceId = setting?.announceId === undefined ? 0 : setting.announceId
 		if (announceId < this.announceVersionId) {
 			this.announceDialogVisible = true
 		}

@@ -129,7 +129,7 @@ export default cardList.extend({
 
         sortCardList: function (): number[] | null {
             if (this.getGamePlayer === null) return null
-            let sortedList = this.getGamePlayer.remainCards
+            const sortedList = this.getGamePlayer.remainCards
             return sortedList.sort((a, b) => {
                 if (this.getIndexOfCardList(a).num === this.getIndexOfCardList(b).num) {
                     return this.getIndexOfCardList(a).suit - this.getIndexOfCardList(b).suit
@@ -272,19 +272,19 @@ export default cardList.extend({
             }
             /* 出的牌号数一样，则比较花色suit大小 */
             if (this.sortCardList !== null && this.getIndexOfCardList(this.sortCardList[this.selectCard[0]]).num === this.getIndexOfCardList(this.gameInfo.currentCard[0]).num) {
-                let currentCardList = this.gameInfo.currentCard
-                let playCardList: number[] = []
+                const currentCardList = this.gameInfo.currentCard
+                const playCardList: number[] = []
                 this.selectCard.forEach(item => { if (this.sortCardList !== null) playCardList.push(this.sortCardList[item]) })
                 if (this.metamorphoseMode) {
                     this.selectMetamorphoseCard.forEach(item => { if (this.sortCardList !== null) playCardList.push(this.sortCardList[item]) })
                 }
                 if (currentCardList.length > 1) {
-                    currentCardList = currentCardList.sort((a, b) => {
+                    currentCardList.sort((a, b) => {
                         return (this.getIndexOfCardList(a).suit) - (this.getIndexOfCardList(b).suit)
                     })
                 }
                 if (playCardList.length > 1) {
-                    playCardList = playCardList.sort((a, b) => {
+                    playCardList.sort((a, b) => {
                         return (this.getIndexOfCardList(a).suit) - (this.getIndexOfCardList(b).suit)
                     })
                 }
@@ -349,10 +349,10 @@ export default cardList.extend({
              *  打出牌的牌序数的数组，序数为该牌在{@link cardList}中的index。 
              *  数组中所有牌的num应相等，按suit从小到大排序。
              */
-            let playCardListValue: number[] = []
+            const playCardListValue: number[] = []
             this.selectCard.forEach(n => { if (this.sortCardList !== null) playCardListValue.push(this.sortCardList[n]) })
-            let originLength = playCardListValue.length //原形牌长度
-            let originIndex = playCardListValue[0]//原形牌牌面
+            const originLength = playCardListValue.length //原形牌长度
+            const originIndex = playCardListValue[0]//原形牌牌面
             if (this.metamorphoseMode) {
                 this.selectMetamorphoseCard.forEach(n => { if (this.sortCardList !== null) playCardListValue.push(this.sortCardList[n]) })
             }

@@ -22,7 +22,7 @@ export default Vue.extend({
             if (newValue > oldValue && newValue > 0) {
                 this.$emit('increased')
             }
-            let diff = Math.abs(newValue - oldValue)
+            const diff = Math.abs(newValue - oldValue)
             if (diff > 1) {
                 this.tween(oldValue, newValue)
             }

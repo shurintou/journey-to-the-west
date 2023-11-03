@@ -92,8 +92,8 @@ export default Vue.extend({
 
     computed: {
         customDialogWidth: function () {
-            let str = this.largeDialogWidth.split('%')[0]
-            let i = parseInt(str)
+            const str = this.largeDialogWidth.split('%')[0]
+            const i = parseInt(str)
             if (i < 80) {
                 return '80%'
             }
@@ -101,7 +101,7 @@ export default Vue.extend({
         },
 
         gamePlayerList: function () {
-            let list: PlayerRecordInGameResult[] = []
+            const list: PlayerRecordInGameResult[] = []
             this.gameResult.gameResultList.forEach(gamePlayer => {
                 list.push(gamePlayer)
             })
@@ -169,31 +169,31 @@ export default Vue.extend({
         },
 
         changeEchartSelected: function (type: '' | 'all' | 'max' | 'func') {
-            let selectedArray = null
+            let selectedShowItem = null
             this.selectedLegend = type
             if (type === '') {
-                selectedArray = {
+                selectedShowItem = {
                     '总收牌': true, '最大连击': true, '使用悟空': true, '使用八戒': true, '使用沙僧': true, '使用唐僧': true, '使用反弹': true, '使用变身': true
                 }
             }
             else if (type === 'all') {
-                selectedArray = {
+                selectedShowItem = {
                     '总收牌': true, '最大连击': false, '使用悟空': false, '使用八戒': false, '使用沙僧': false, '使用唐僧': false, '使用反弹': false, '使用变身': false
                 }
             }
             else if (type === 'max') {
-                selectedArray = {
+                selectedShowItem = {
                     '总收牌': false, '最大连击': true, '使用悟空': false, '使用八戒': false, '使用沙僧': false, '使用唐僧': false, '使用反弹': false, '使用变身': false
                 }
             }
             else if (type === 'func') {
-                selectedArray = {
+                selectedShowItem = {
                     '总收牌': false, '最大连击': false, '使用悟空': true, '使用八戒': true, '使用沙僧': true, '使用唐僧': true, '使用反弹': true, '使用变身': true
                 }
             }
             this.myChart?.setOption({
                 legend: {
-                    selected: selectedArray
+                    selected: selectedShowItem
                 },
             })
         },
@@ -205,7 +205,7 @@ export default Vue.extend({
                 const chartDom = document.getElementById('main')
                 this.myChart = echarts.init(chartDom)
                 window.addEventListener("resize", this.echartResizeLogic, false)
-                let seriesLabelStyle = {
+                const seriesLabelStyle = {
                     show: true,
                     fontWeight: 'bold',
                     fontSize: parseInt(this.largeFontSize.split('px')[0])

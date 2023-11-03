@@ -30,8 +30,8 @@ export default Vue.extend({
     watch: {
         currentPlayerCards: function (newVal: number, oldVal: number | null) {
             if (oldVal === null) return
-            let vm = this
-            let diffVal = newVal - oldVal
+            const vm = this
+            const diffVal = newVal - oldVal
             this.vibrateFlag = false
             this.heartbeatFlag = false
             this.heartbeatSlowFlag = false
