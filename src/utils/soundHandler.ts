@@ -27,19 +27,8 @@ export function playSound(path: string) {
     }
 }
 
-export function playBgm(isFirst?: boolean) {
-    let bgm = document.querySelector('#bgm') as HTMLAudioElement
-    if (isFirst !== undefined && isFirst === true) {
-        //第一次播放，如果vuex是flase则暂停
-        bgm.load()
-        bgm.play()
-            .then(() => {
-                if (!vuex.state.setting.playBgm) {
-                    bgm.pause()
-                }
-            })
-        return
-    }
+export function playBgm() {
+    const bgm = document.querySelector('#bgm') as HTMLAudioElement
     if (vuex.state.setting.playBgm) {
         bgm.play()
     }
