@@ -70,10 +70,14 @@ export const chatRoomWebSocket = Vue.extend({
                 const jsonData: WebSocketChangeSeatResponseJsonData | WebSocketChatResponseJsonData | WebSocketExceptionMessageResponseJsonData | WebSocketGameResponseJsonData | WebSocketGameRoomListResponseJsonData | WebSocketMessageResponseJsonData | WebSocketPlayerListResponseJsonData = JSON.parse(data.data)
                 self.reconnectTimes = 0
                 if (jsonData.type === 'chat') {
-                    if (jsonData.player_loc === self.$stock.state.player_loc) {
-                        self.sendMessageToChatRoom({ 'id': 0, name: jsonData.userId === self.$stock.state.id ? '你' : jsonData.nickname, type: 'info', 'text': jsonData.text })
-                        if (jsonData.player_loc > 0) {
-                            self.playerLocRomTypeChatMessageObject = { id: jsonData.userId, nickname: jsonData.nickname, text: jsonData.text }
+                    const { player_loc } = jsonData
+                    if (player_loc === self.$stock.state.player_loc) {
+                        const { userId, nickname, text } = jsonData
+                        if (userId > 0) { // 如果是玩家发言则推入聊天框数组
+                            self.sendMessageToChatRoom({ 'id': 0, name: userId === self.$stock.state.id ? '你' : nickname, type: 'info', 'text': text })
+                        }
+                        if (player_loc > 0) {
+                            self.playerLocRomTypeChatMessageObject = { id: userId, nickname: nickname, text: text }
                         }
                     }
                 }

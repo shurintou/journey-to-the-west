@@ -126,6 +126,7 @@ export default Vue.extend({
                         metamorphoseNum: this.gameRoomValidateForm.metamorphoseNum,
                         owner: this.$stock.state.id,
                         lastLoser: 0,
+                        lastWinner: 0,
                         playerList: playerList
                     }
                     this.ws?.send(JSON.stringify({
