@@ -514,7 +514,7 @@ export default cardList.extend({
 				id: this.gameInfo.id,
 				source: this.seatIndex,
 				target: -1,
-				targetId: -1,
+				targetId: 0,
 				sourceId: this.$stock.state.id,
 				text: item.text,
 				soundSrc: item.music,

@@ -138,7 +138,7 @@ export default Vue.extend({
             if (newVal.source === undefined || newVal.text === undefined || newVal.target === undefined) return
             if (this.gameInfo.gamePlayer[newVal.source] === undefined) return
             this.$emit('gameTextToPlayerSent', this.seatIndex)
-            if (newVal.targetId === -1) {
+            if (newVal.targetId === 0) {
                 this.gameTextFromPlayer.push(this.gameInfo.gamePlayer[newVal.source].nickname + ' 说: ' + newVal.text)
             }
             else if (newVal.targetId === this.$stock.state.id) {
