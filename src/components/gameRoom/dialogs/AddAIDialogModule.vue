@@ -2,7 +2,7 @@
     <el-dialog title="加入电脑" :visible.sync="addAiPlayerDialogModuleVisible" center :width="dialogWidth" :modal="false">
 		<el-divider></el-divider>
 		<div class="icon-select-box">
-			<div class="icon-block" :class="{ 'icon-is-selected': temAIPlayerIndex === index, 'ai-cannot-select': isAiAlreadyExist(index) }" v-for="(aiPlayer, index) in aiPlayerList" :key="index"
+			<div class="icon-block" :class="{ 'icon-is-selected': temAIPlayerIndex === index}" v-for="(aiPlayer, index) in aiPlayerList" :key="index"
 			@click="clickHandler(index)">
                 <el-tooltip effect="light" :content="aiPlayerList[index].nickname" placement="bottom">
 					<el-image :src="getAvatarUrl(index + 1)" :fit="'fill'" :class="{ 'exist-ai': isAiAlreadyExist(index) }"></el-image>
