@@ -19,18 +19,18 @@ npm install
 ```
 
 ### 启动项目
-打开配置文件`.env.development`，将其中的`VUE_APP_API_URL`和`VUE_APP_WS_URL`的对应字段改为你的IP地址。
-改好后输入以下命令启动项目。
+打开配置文件`.env.development`，将其中的`SERVER_APP_PORT`和`API_ROOT`的值改为与你的后端配置对应的内容。
+然后在项目根目录下输入下列指令以启动项目。
 ```
 npm run serve
 ```
 
-之后便可以在本地访问到前端项目了，建议使用`本地IP地址 + 端口`的路径访问，这样可以在局域网中实现联网。
+之后便可以在本地访问到前端项目了，项目会在`本地IP地址 + 端口`(如:http://xxx.xxx.xx.xx:8080)的路径启动，访问该路径可以实现在局域网中与其他设备进行联网对战。
 
 要开启后端项目，[请参考](https://github.com/shurintou/server-of-jttw#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83)。
 
 ## 生产环境
-要在生产环境下部署该项目，首先请根据需求修改配置文件`.env.production`。
+要在生产环境下部署该项目，首先请根据需求修改配置文件`.env.production`（主要是VUE_APP_API_URL和VUE_APP_WS_URL）。
 
 然后输入以下指令将项目打包。
 ```
