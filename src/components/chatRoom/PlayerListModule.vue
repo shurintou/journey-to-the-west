@@ -1,6 +1,6 @@
 <template>
     <div v-if="playerList !== null && playerList.length > 0">
-        <el-table v-loading="loading" :height="isHorizontal ? '70vh' : null" :data="playerList" style="width: 100%"
+        <el-table v-loading="loading" :height="isHorizontal ? '68vh' : null" :data="playerList" style="width: 100%"
             :row-class-name="tableRowClassName" :row-style="rowStyle" :header-row-style="rowStyle"
             @row-click="getRowPlayerInfo">
             <el-table-column prop="avatar_id" label="头像" min-width="30" v-slot="scope">

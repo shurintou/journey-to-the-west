@@ -252,9 +252,9 @@ export default (Vue as VueConstructor<
 }
 
 .el-container {
-  padding: 0px;
-  margin: 0px;
-  height: 100vh;
+  padding: 0px !important;
+  margin: 0px !important;
+  height: 97vh;
 }
 
 .el-avatar {
