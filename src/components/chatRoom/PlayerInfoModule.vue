@@ -23,12 +23,14 @@
 			@click="openHelpModule">帮助</el-button>
 		</div>
 
-		<el-dialog title="修改头像" :visible.sync="avatarDialogVisible" center :width="dialogWidth" :modal="false">
+		<el-dialog title="修改头像" top="2vh" :visible.sync="avatarDialogVisible" center :width="dialogWidth" :modal="false">
 		<el-divider></el-divider>
-		<div class="icon-select-box">
-			<div class="icon-block" :class="{ 'icon-is-selected': temAvatarId === n }" v-for="n in iconNum" :key="n"
-			@click="temAvatarId = n">
-			<el-image :src="getAvatarUrl(n)" :fit="'fill'"></el-image>
+		<div style="overflow:auto; height: 60vh">
+			<div class="icon-select-box">
+				<div class="icon-block" :class="{ 'icon-is-selected': temAvatarId === n }" v-for="n in iconNum" :key="n"
+				@click="temAvatarId = n">
+				<el-image :src="getAvatarUrl(n)" :fit="'fill'"></el-image>
+				</div>
 			</div>
 		</div>
 		<span slot="footer">
@@ -52,17 +54,22 @@
 		</div>
 		</el-dialog>
 
-		<el-dialog title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
-		<PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible"
-			@sendGameResultToPlayerInfo="function (value) { $emit('sendGameResultToChatRoom', value) }"></PlayerInfoTabModule>
+		<el-dialog top="2vh" title="查看" :visible.sync="viewModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
+		<div style="overflow:auto; height: 72vh">
+			<PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="viewModuleDialogVisible"
+			@sendGameResultToPlayerInfo="function (value) { $emit('sendGameResultToChatRoom', value) }">
+			</PlayerInfoTabModule>
+		</div>
 		<span slot="footer" class="dialog-footer">
 			<el-button type="danger" @click="viewModuleDialogVisible = false" :style="{ 'font-size': fontSize }"
 			:size="buttonSize">关闭</el-button>
 		</span>
 		</el-dialog>
 
-		<el-dialog title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
-		<HelpModule :isShowing="helpModuleDialogVisible" :fontSize="fontSize" :avatarSize="avatarSize"></HelpModule>
+		<el-dialog top="2vh" title="帮助" :visible.sync="helpModuleDialogVisible" center :width="playerInfoDialogWidth" :modal="false">
+		<div style="overflow:auto; height: 72vh">
+			<HelpModule :isShowing="helpModuleDialogVisible" :fontSize="fontSize" :avatarSize="avatarSize"></HelpModule>
+		</div>
 		<span slot="footer" class="dialog-footer">
 			<el-button type="danger" @click="helpModuleDialogVisible = false" :style="{ 'font-size': fontSize }"
 			:size="buttonSize">关闭</el-button>

@@ -75,7 +75,7 @@
 		</el-row>
 
 		<el-row type="flex" justify="center">
-		<el-dialog title="联系作者" :visible.sync="mailDialogVisible" center width="50%">
+		<el-dialog top="5vh" title="联系作者" :visible.sync="mailDialogVisible" center width="50%">
 			<span>请发送邮件至</span><i class="el-icon-s-promotion"></i>
 			<el-link type="info" href="mailto:shurintou@gmail.com?subject = Hello">shurintou@gmail.com</el-link>
 			<el-divider></el-divider>

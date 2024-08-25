@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="创建房间" :visible.sync="createGameRoomDialogVisible" :width="dialogWidth" center :modal="false"
+    <el-dialog title="创建房间" top="10vh" :visible.sync="createGameRoomDialogVisible" :width="dialogWidth" center :modal="false"
         :close-on-click-modal="false" :before-close="closeCreateGameRoomDialog">
         <el-form :model="gameRoomValidateForm" ref="gameRoomValidateForm">
             <el-form-item label="房间名" prop="roomName" :rules="[{ required: true, message: '请输入房间名', trigger: 'blur' }]">

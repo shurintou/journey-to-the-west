@@ -1,69 +1,71 @@
 <template>
-    <el-dialog title="游戏战绩" :visible.sync="gameResultDialogVisible" :width="customDialogWidth" :modal-append-to-body=false
+    <el-dialog title="游戏战绩" top="2vh" :visible.sync="gameResultDialogVisible" :width="customDialogWidth" :modal-append-to-body=false
         center :modal="false" :before-close="closeGameResultDialog">
-        <el-tabs v-if="gameResult !== null" type="border-card" v-model="activeGameResultModuleTabName"
-            @tab-click="handleGameResultModuleTabClick">
-            <el-tab-pane label="表格数据" name="gameRecord">
-                <div style="width: 100%">
-                    <div>
-                        <el-tag :size="tagSize" type="success" effect="dark" :style="{ 'font-size': largeFontSize }">吃鸡玩家:
-                            {{ gameResult.winnerNickname }}</el-tag>
-                        <el-tag :size="tagSize" type="success" effect="light" :style="{ 'font-size': largeFontSize }"
-                            style="margin-right: 2vw">收牌数: {{ gameResult.winnerCards }}</el-tag>
-                        <el-tag :size="tagSize" type="danger" effect="dark" :style="{ 'font-size': largeFontSize }">拉跨玩家:
-                            {{ gameResult.loserNickname }}</el-tag>
-                        <el-tag :size="tagSize" type="danger" effect="light" :style="{ 'font-size': largeFontSize }"
-                            style="margin-right: 2vw">收牌数: {{ gameResult.loserCards }}</el-tag>
-                        <el-tag :size="tagSize" type="warning" effect="dark" :style="{ 'font-size': largeFontSize }">最大连击玩家:
-                            {{ gameResult.maxComboPlayer }}</el-tag>
-                        <el-tag :size="tagSize" type="warning" effect="light" :style="{ 'font-size': largeFontSize }"
-                            style="margin-right: 2vw">连击数: {{ gameResult.maxCombo }}</el-tag>
-                        <el-tag :size="tagSize" type="info" effect="dark" :style="{ 'font-size': largeFontSize }">使用牌数:
-                            {{ gameResult.cardsNum }}副</el-tag>
-                        <el-tag :size="tagSize" type="info" effect="light" :style="{ 'font-size': largeFontSize }">玩家数:
-                            {{ gameResult.playersNum }}</el-tag>
+		<div style="overflow:auto; height: 72vh">
+            <el-tabs v-if="gameResult !== null" type="border-card" v-model="activeGameResultModuleTabName"
+                @tab-click="handleGameResultModuleTabClick">
+                <el-tab-pane label="表格数据" name="gameRecord">
+                    <div style="width: 100%">
+                        <div>
+                            <el-tag :size="tagSize" type="success" effect="dark" :style="{ 'font-size': largeFontSize }">吃鸡玩家:
+                                {{ gameResult.winnerNickname }}</el-tag>
+                            <el-tag :size="tagSize" type="success" effect="light" :style="{ 'font-size': largeFontSize }"
+                                style="margin-right: 2vw">收牌数: {{ gameResult.winnerCards }}</el-tag>
+                            <el-tag :size="tagSize" type="danger" effect="dark" :style="{ 'font-size': largeFontSize }">拉跨玩家:
+                                {{ gameResult.loserNickname }}</el-tag>
+                            <el-tag :size="tagSize" type="danger" effect="light" :style="{ 'font-size': largeFontSize }"
+                                style="margin-right: 2vw">收牌数: {{ gameResult.loserCards }}</el-tag>
+                            <el-tag :size="tagSize" type="warning" effect="dark" :style="{ 'font-size': largeFontSize }">最大连击玩家:
+                                {{ gameResult.maxComboPlayer }}</el-tag>
+                            <el-tag :size="tagSize" type="warning" effect="light" :style="{ 'font-size': largeFontSize }"
+                                style="margin-right: 2vw">连击数: {{ gameResult.maxCombo }}</el-tag>
+                            <el-tag :size="tagSize" type="info" effect="dark" :style="{ 'font-size': largeFontSize }">使用牌数:
+                                {{ gameResult.cardsNum }}副</el-tag>
+                            <el-tag :size="tagSize" type="info" effect="light" :style="{ 'font-size': largeFontSize }">玩家数:
+                                {{ gameResult.playersNum }}</el-tag>
+                        </div>
+                        <el-divider></el-divider>
+                        <el-table v-loading="loading" :default-sort="{ prop: 'seatIndex', order: 'ascending' }"
+                            :data="gameResult.gameResultList" style="width: 100%" :row-style="{ 'font-size': largeFontSize }"
+                            :header-row-style="{ 'font-size': fontSize }">
+                            <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60" v-slot="scope">
+                                <el-avatar shape="square" :size="avatarSize"
+                                    :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
+                            </el-table-column>
+                            <el-table-column align="center" fixed prop="nickname" label="昵称" min-width="80"></el-table-column>
+                            <el-table-column align="center" sortable prop="seatIndex" label="座位号" min-width="60" v-slot="scope">
+                                <span>{{ scope.row.seatIndex + 1 }}</span>
+                            </el-table-column>
+                            <el-table-column align="center" sortable prop="cards" label="总收牌" min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="maxCombo" label="最大连击"
+                                min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="wukong" label="使用悟空"
+                                min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="bajie" label="使用八戒" min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="shaseng" label="使用沙僧"
+                                min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="tangseng" label="使用唐僧"
+                                min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="joker" label="使用反弹" min-width="60"></el-table-column>
+                            <el-table-column align="center" sortable prop="bianshen" label="使用变身"
+                                min-width="60"></el-table-column>
+                        </el-table>
                     </div>
+                </el-tab-pane>
+                <el-tab-pane label="图形数据" name="visualData">
+                    <el-button type="primary" :size="buttonSize" round @click="changeEchartSelected('')"
+                        style="margin-right: 1vw" :disabled="selectedLegend === ''">综合</el-button>
+                    <el-button type="danger" :size="buttonSize" round @click="changeEchartSelected('all')"
+                        style="margin-right: 1vw" :disabled="selectedLegend === 'all'">总收牌</el-button>
+                    <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')"
+                        style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大连击</el-button>
+                    <el-button type="success" :size="buttonSize" round @click="changeEchartSelected('func')"
+                        :disabled="selectedLegend === 'func'">功能牌</el-button>
                     <el-divider></el-divider>
-                    <el-table v-loading="loading" :default-sort="{ prop: 'seatIndex', order: 'ascending' }"
-                        :data="gameResult.gameResultList" style="width: 100%" :row-style="{ 'font-size': largeFontSize }"
-                        :header-row-style="{ 'font-size': fontSize }">
-                        <el-table-column align="center" fixed prop="avatar_id" label="头像" min-width="60" v-slot="scope">
-                            <el-avatar shape="square" :size="avatarSize"
-                                :src="getAvatarUrl(scope.row.avatar_id)"></el-avatar>
-                        </el-table-column>
-                        <el-table-column align="center" fixed prop="nickname" label="昵称" min-width="80"></el-table-column>
-                        <el-table-column align="center" sortable prop="seatIndex" label="座位号" min-width="60" v-slot="scope">
-                            <span>{{ scope.row.seatIndex + 1 }}</span>
-                        </el-table-column>
-                        <el-table-column align="center" sortable prop="cards" label="总收牌" min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="maxCombo" label="最大连击"
-                            min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="wukong" label="使用悟空"
-                            min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="bajie" label="使用八戒" min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="shaseng" label="使用沙僧"
-                            min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="tangseng" label="使用唐僧"
-                            min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="joker" label="使用反弹" min-width="60"></el-table-column>
-                        <el-table-column align="center" sortable prop="bianshen" label="使用变身"
-                            min-width="60"></el-table-column>
-                    </el-table>
-                </div>
-            </el-tab-pane>
-            <el-tab-pane label="图形数据" name="visualData">
-                <el-button type="primary" :size="buttonSize" round @click="changeEchartSelected('')"
-                    style="margin-right: 1vw" :disabled="selectedLegend === ''">综合</el-button>
-                <el-button type="danger" :size="buttonSize" round @click="changeEchartSelected('all')"
-                    style="margin-right: 1vw" :disabled="selectedLegend === 'all'">总收牌</el-button>
-                <el-button type="warning" :size="buttonSize" round @click="changeEchartSelected('max')"
-                    style="margin-right: 1vw" :disabled="selectedLegend === 'max'">最大连击</el-button>
-                <el-button type="success" :size="buttonSize" round @click="changeEchartSelected('func')"
-                    :disabled="selectedLegend === 'func'">功能牌</el-button>
-                <el-divider></el-divider>
-                <div id="main" style="width: 80vw; height: 90vh;"></div>
-            </el-tab-pane>
-        </el-tabs>
+                    <div id="main" style="width: 80vw; height: 90vh;"></div>
+                </el-tab-pane>
+            </el-tabs>
+		</div>
         <span slot="footer">
             <el-button type="danger" :size="buttonSize" @click="closeGameResultDialog">关闭</el-button>
         </span>

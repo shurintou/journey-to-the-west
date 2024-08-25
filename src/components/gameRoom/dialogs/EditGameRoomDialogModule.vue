@@ -1,5 +1,5 @@
 <template>
-    <el-dialog :title="(!notEditableFlag ? '修改' : '查看') + '设置'" :visible.sync="editGameRoomDialogVisible"
+    <el-dialog top="10vh" :title="(!notEditableFlag ? '修改' : '查看') + '设置'" :visible.sync="editGameRoomDialogVisible"
         :width="dialogWidth" center :modal="false" :close-on-click-modal="notEditableFlag"
         :before-close="closeEditGameRoomDialog">
         <el-alert v-if="notEditableFlag" :closable="false" center title="只有房主才能修改设置" :style="{ 'font-size': fontSize }"

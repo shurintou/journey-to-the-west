@@ -15,12 +15,14 @@
                 </div>
             </el-table-column>
         </el-table>
-        <el-dialog :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth"
+        <el-dialog top="2vh" :title="playerProfile.nickname" :visible.sync="playerInfoDialogVisible" :width="playerInfoDialogWidth"
             :modal-append-to-body=false center :modal="false">
-            <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible"
-                :isHorizontal="isHorizontal"
-                @sendGameResultToPlayerInfo="function (value) { $emit('sendGameResultToChatRoom', value) }">
-            </PlayerInfoTabModule>
+		    <div style="overflow:auto; height: 70vh">
+                <PlayerInfoTabModule :playerProfile="playerProfile" :fontSize="fontSize" :isShowing="playerInfoDialogVisible"
+                    :isHorizontal="isHorizontal"
+                    @sendGameResultToPlayerInfo="function (value) { $emit('sendGameResultToChatRoom', value) }">
+                </PlayerInfoTabModule>
+            </div>
             <span slot="footer" class="dialog-footer">
                 <el-button type="danger" @click="playerInfoDialogVisible = false" :style="{ 'font-size': fontSize }"
                     :size="buttonSize">关闭</el-button>
