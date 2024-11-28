@@ -5,6 +5,7 @@
   "scripts": {
     "update-env": "node updateEnv.js",
     "serve": "npm run update-env && vue-cli-service serve",
+    "prebuild": "npm run update-env && vue-cli-service build --mode development",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },

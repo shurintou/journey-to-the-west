@@ -55,4 +55,9 @@ npm run build
 ```
 最后将打包好的`dist`文件夹整个拷贝到后端项目的根目录下，前端部分的部署完成。
 
+如想将开发环境下的代码打包并部署到后端，可执行下列指令。
+```
+npm run prebuild
+```
+
 后端部分的部署 [请参考](https://github.com/shurintou/server-of-jttw#%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83)。
